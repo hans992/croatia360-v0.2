@@ -66,16 +66,14 @@
     }
   }
   
-  @layer base {
-    * {
-      @apply border-border;
-    }
-    body {
-      @apply bg-background text-foreground;
-    }
-  }
   
   /* Custom gradient class */
   .pastel-gradient-bg {
     background: linear-gradient(to right, rgba(173, 216, 230, 0.25), rgba(255, 192, 203, 0.25)); /* Baby blue to pastel pink with 25% opacity (75% transparency) */
   }
+
+@layer utilities {
+  .border {
+    border-color: hsl(var(--border));
+  }
+}

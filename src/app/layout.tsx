@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hr"> {/* Set language to Croatian */}
+    <html lang="hr">{/* Set language to Croatian */}
       <body className={inter.className}>
         <Header />
         <main className="flex-grow">{children}</main>
