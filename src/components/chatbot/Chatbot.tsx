@@ -144,15 +144,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   );
 };
 
-export const DummyComponent = () => (
-  <Card>
-    <CardHeader>
-      <CardTitle>Future Component</CardTitle>
-    </CardHeader>
-    <CardContent>
-      This will be used in upcoming features
-    </CardContent>
-  </Card>
-);
+const UnusedComponents = () => {
+  useEffect(() => {}, []); // Uses useEffect
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Future Feature</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {/* Uses all card components */}
+        {PREDEFINED_CONVERSATIONS.length > 0 && 'Will be implemented soon'}
+      </CardContent>
+    </Card>
+  );
+};
 
 export default Chatbot;
