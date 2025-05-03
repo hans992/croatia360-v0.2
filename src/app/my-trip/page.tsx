@@ -43,7 +43,7 @@ export default function MyTripPage() {
             <CardContent className="flex justify-center">
               <Calendar
                 selected={date}
-                onChange={setDate}
+                onChange={(selectedDate) => setDate(selectedDate ?? null)}
                 className="rounded-md border"
               />
             </CardContent>
