@@ -61,7 +61,7 @@ export default function HomePage() {
       {/* Content Section - Inspiration Cards */}
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-900">Inspiracija za Vaše Putovanje</h2>
-        <p className="text-center text-gray-600 mb-8">Isprobajte neke od ovih upita i pustite da inspiracija za odmor krene.</p>
+        <p className="text-center text-gray-600 mb-8">Provjerite neke od ovih destinacija i neka inspiracija za odmor dođe sama.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
            {/* Example Inspiration Cards */}
@@ -89,23 +89,44 @@ export default function HomePage() {
 
             <Card>
               <CardHeader>
-                {/* Using Sibenik image as placeholder for Dubrovnik */}
-                <Image src="/images/Sibenik_tfortress.jpg" alt="Dubrovnik" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
-                <CardTitle className="mt-4">Biser Jadrana - Dubrovnik</CardTitle>
+                <Image src="/images/Sibenik_tfortress.jpg" alt="Šibenik" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
+                <CardTitle className="mt-4">Grad kamene ljepote - Šibenik</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>Prošetajte svjetski poznatim zidinama, istražite staru gradsku jezgru i uživajte u pogledu s Srđa.</CardDescription>
+                <CardDescription>Otkrijte prvi hrvatski grad s katedralom na UNESCO-voj listi, prošetajte uskim kamenim ulicama staroga grada, posjetite srednjovjekovne tvrđave s panoramskim pogledom i osjetite autentičnu dalmatinsku atmosferu na obali Jadranskoga mora.</CardDescription>
                 <Button variant="link" className="p-0 mt-2 text-red-500 hover:text-red-600">Saznaj više</Button>
               </CardContent>
             </Card>
 
              <Card>
               <CardHeader>
-                <Image src="/images/suncokreti.jpg" alt="Slavonija" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
-                <CardTitle className="mt-4">Zlatna Slavonija</CardTitle>
+                <Image src="/images/Pozega_Grad.jpg" alt="Pozega_Centar" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
+                <CardTitle className="mt-4">Slavonski dragulj - Požega</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>Otkrijte bogatu kulturnu baštinu, tradicionalnu kuhinju i gostoljubivost Slavonije i Baranje.</CardDescription>
+                <CardDescription>Otkrijte raskošni barokni trg, uživajte u vrhunskim vinima lokalnih vinograda, istražite bogatu povijest i doživite autentičnu slavonsku gostoljubivost u jednom od najstarijih gradova kontinentalne Hrvatske.</CardDescription>
+                <Button variant="link" className="p-0 mt-2 text-red-500 hover:text-red-600">Saznaj više</Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Image src="/images/Zagreb_Trg_kralja_Tomislava.jpg" alt="Zagreb Trg kralja Tomislava" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
+                <CardTitle className="mt-4">Zelena metropola - Zagreb</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>Istražite živahni glavni grad gdje se spajaju srednjivjekovna baština Gornjeg grada s elegancijom austrougarskih trgova Donjeg grada, prošetajte parkovima, uživajte u kavama na terasama i otkrijte bogat kulturni život europske metropole prepune muzeja i galerija.</CardDescription>
+                <Button variant="link" className="p-0 mt-2 text-red-500 hover:text-red-600">Saznaj više</Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Image src="/images/senj.jpg" alt="Senj" width={400} height={200} className="rounded-t-lg object-cover w-full h-48" />
+                <CardTitle className="mt-4">Grad bure i uskoka - Senj</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>Istražite tisućljetnu povijest u sjeni moćne tvrđave Nehaj, otkrijte gdje se planina Velebit dramatično susreće s Jadranskim morem, doživite snagu bure koja oblikuje karakter grada i osjetite ponosni duh uskočke tradicije.</CardDescription>
                 <Button variant="link" className="p-0 mt-2 text-red-500 hover:text-red-600">Saznaj više</Button>
               </CardContent>
             </Card>

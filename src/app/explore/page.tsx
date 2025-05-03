@@ -13,18 +13,18 @@ export default function ExplorePage() {
   // Placeholder data - replace with actual data fetching and filtering later
   const popularDestinations = [
     {
-      name: "Dubrovnik",
+      name: "Šibenik",
       region: "Dalmacija",
-      description: "Opasan zidinama uz more",
+      description: "Okružen povijesnim utvrdama i prekrasnim plažama",
       rating: 4.9,
       reviews: 2450,
       image: "/images/Sibenik_tfortress.jpg",
       featured: true,
     },
     {
-      name: "Split",
+      name: "Trogir",
       region: "Dalmacija",
-      description: "Rimske ruševine i živahni noćni život",
+      description: "Srednjovjekovni grad otok s UNESCO-ovom baštinom",
       rating: 4.8,
       reviews: 1890,
       image: "/images/Trogir_grad.jpg",
@@ -56,14 +56,14 @@ export default function ExplorePage() {
     },
     {
       type: "Restoran",
-      name: "Bistro s Tartufima",
-      location: "Motovun, Istra",
-      description: "Specijaliziran za jela s tartufima sa sezonskim istarskim sastojcima.",
+      name: "Kulen tour",
+      location: "Osijek, Slavonija",
+      description: "Posjetite obiteljska gospodarstva i uživajte u domaćim specijalitetima.",
       rating: 4.9,
       reviews: 189,
-      price: null,
-      priceCategory: "€€€",
-      tags: ["Tartufi", "Gourmet", "Lokalno"],
+      price: "35€ / osoba",
+      priceCategory: "€€",
+      tags: ["Kulen", "Gourmet", "Lokalno"],
       image: "/images/food_istria.jpg",
     },
      {
@@ -136,8 +136,8 @@ export default function ExplorePage() {
             <Image 
               src="/images/croatia_map.svg" 
               alt="Karta Hrvatske po regijama" 
-              width={800} // Adjust width as needed
-              height={600} // Adjust height as needed
+              width={400} // Adjust width as needed
+              height={300} // Adjust height as needed
               className="max-w-full h-auto object-contain" 
             />
          </div>

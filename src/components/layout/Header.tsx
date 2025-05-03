@@ -23,6 +23,7 @@ const Header = () => {
           <Link href="/explore" className="transition-colors hover:text-foreground/80 text-foreground/60">Istraži</Link>
           <Link href="/" className="transition-colors hover:text-foreground/80 text-foreground">SARA AI</Link>
           <Link href="/my-trip" className="transition-colors hover:text-foreground/80 text-foreground/60">Moje putovanje</Link>
+          <Link href="/community" className="transition-colors hover:text-foreground/80 text-foreground/60">Zajednica</Link>
           {/* <Link href="/about" className="transition-colors hover:text-foreground/80 text-foreground/60">About</Link> */}
         </nav>
 

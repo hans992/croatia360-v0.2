@@ -18,6 +18,7 @@ const Footer = () => {
             <li><Link href="/explore" className="hover:text-white">Destinacije</Link></li>
             <li><Link href="/" className="hover:text-white">SARA AI Planer</Link></li>
             <li><Link href="/my-trip" className="hover:text-white">Moje putovanje</Link></li>
+            <li><Link href="/community" className="hover:text-white">Zajednica</Link></li>
             {/* Add other relevant links */}
           </ul>
         </div>
