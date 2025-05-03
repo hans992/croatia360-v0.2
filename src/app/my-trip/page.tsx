@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Sun, Cloud, CloudRain, MapPin, CalendarDays, Euro } from "lucide-react";
 
 export default function MyTripPage() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = React.useState<Date | null>(new Date());
 
   // Placeholder weather data
   const weatherForecast = [
@@ -42,9 +42,8 @@ export default function MyTripPage() {
             </CardHeader>
             <CardContent className="flex justify-center">
               <Calendar
-                mode="single"
                 selected={date}
-                onSelect={setDate}
+                onChange={setDate}
                 className="rounded-md border"
               />
             </CardContent>
