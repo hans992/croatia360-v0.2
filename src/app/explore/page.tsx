@@ -84,7 +84,7 @@ export default function ExplorePage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-2 text-blue-900">Istraži Hrvatsku</h1> {/* Color updated */}
       <p className="text-gray-600 mb-6">Otkrijte destinacije, pronađite smještaj, restorane, iskustva i još mnogo toga.</p>
-
+    
       {/* Search and Filters Section */}
       <div className="mb-8 p-4 border rounded-lg bg-white shadow-sm">
         <div className="flex flex-col md:flex-row gap-4 items-center">

@@ -38,7 +38,7 @@ export default function HomePage() {
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section Text */}
       <div className="text-center pt-10 pb-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">Hej, ja sam SARA, tvoj osobni planer putovanja</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">Hej, ja sam SARA AI, tvoj osobni planer putovanja</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">Reci mi što želiš, a ja ću se pobrinuti za ostalo: letove, hotele, itinerere, u sekundi. Zamisli me kao svog prijatelja upućenog u putovanja... koji te stvarno razumije.</p>
       </div>
 

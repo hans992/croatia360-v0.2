@@ -1,6 +1,7 @@
 "use client"; // Needed for client-side interactivity
 
 import React, { useState, useEffect } from 'react';
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,7 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([
-    { role: 'assistant', content: "Bok! Ja sam SARA, tvoj Croatia360 asistent za putovanja. 👋 Reci mi što tražiš za svoju hrvatsku avanturu, a ja ću ti pomoći isplanirati savršeno putovanje!" }
+    { role: 'assistant', content: "Bok! Ja sam SARA AI, tvoj asistent za putovanja. 👋 Reci mi što tražiš za svoju hrvatsku avanturu, a ja ću ti pomoći isplanirati savršeno putovanje!" }
   ]);
 
   const handleSendMessage = () => {
@@ -56,7 +57,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   return (
     <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
       <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
-        {isSticky && <div className="text-lg font-semibold text-blue-900">SARA AI</div>}
+        {isSticky && <Image src="/images/kuna.png" alt="SARA AI Logo" width={90}  height={40} />}
         <div className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
           {/* Added neon border/shadow styles */}
           <Input
@@ -76,12 +77,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
-        {isSticky && (
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm" className="text-sm bg-white/30 border-white/50 hover:bg-white/50">Istraži</Button>
-            <Button variant="outline" size="sm" className="text-sm bg-white/30 border-white/50 hover:bg-white/50">Moje putovanje</Button>
-          </div>
-        )}
+        {isSticky }
       </div>
 
       {!isSticky && (

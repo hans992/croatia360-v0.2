@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Footer = () => {
   return (
@@ -6,7 +7,9 @@ const Footer = () => {
       <div className="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Section 1: Brand */}
         <div className="mb-6 sm:mb-0">
-          <h3 className="text-lg font-semibold text-white mb-4">CROATIA360</h3>
+        <Link href="/" className="flex items-center space-x-2">
+          <Image src="/images/logo-croatia360.png" alt="Croatia360 Logo" width={200} height={40} priority />
+        </Link>          
           <p className="text-sm">Istraži Hrvatsku, na svoj način — Sve na jednom mjestu.</p>
           {/* Add social media icons if needed */}
         </div>
@@ -37,18 +40,18 @@ const Footer = () => {
         </div>
 
         {/* Section 4: Newsletter */}
-        <div>
+        <div className="max-w-sm">
           <h4 className="text-md font-semibold text-white mb-4">Pretplatite se za savjete</h4>
           <p className="text-sm mb-4">Primajte najnovije savjete o putovanjima i ekskluzivne ponude.</p>
           <form className="flex flex-col sm:flex-row">
             <input 
               type="email" 
               placeholder="Vaša email adresa" 
-              className="flex-grow p-2 rounded-t sm:rounded-l sm:rounded-tr-none text-gray-800 mb-2 sm:mb-0 sm:mr-0" 
+              className="flex-grow p-1.5 rounded-t sm:rounded-l sm:rounded-tr-none text-gray-800 mb-2 sm:mb-0 sm:mr-0 min-w-0" 
             />
             <button 
               type="submit" 
-              className="bg-red-500 text-white p-2 rounded-b sm:rounded-r sm:rounded-bl-none hover:bg-red-600 whitespace-nowrap"
+              className="bg-red-500 text-white p-1.5 rounded-b sm:rounded-r sm:rounded-bl-none hover:bg-red-600 whitespace-nowrap"
             >
               Pretplati se
             </button>
@@ -80,6 +83,11 @@ const Footer = () => {
     </footer>
   );
 };
+
+const birthdayMode = true;  
+if (birthdayMode) {  
+  console.log("🚀 Damir's 33rd Year: Code, Freedom, Empire");  
+}  
 
 export default Footer;
 
