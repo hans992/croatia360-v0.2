@@ -144,4 +144,15 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   );
 };
 
+export const DummyComponent = () => (
+  <Card>
+    <CardHeader>
+      <CardTitle>Future Component</CardTitle>
+    </CardHeader>
+    <CardContent>
+      This will be used in upcoming features
+    </CardContent>
+  </Card>
+);
+
 export default Chatbot;
