@@ -20,7 +20,7 @@ const PREDEFINED_CONVERSATIONS = [
 ];
 
 interface ChatbotProps {
-  isSticky?: boolean;
+  isSticky?: boolean; // Prop to control internal layout changes
 }
 
 const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
@@ -40,9 +40,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
 
     // Simulate AI response (in a real app, this would call an API)
     setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "Hvala na upitu! Trenutno sam demonstracijska verzija, ali uskoro ću moći odgovoriti na sva tvoja pitanja o Hrvatskoj. Možeš isprobati neke od predloženih upita ispod chatbota." 
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: "Hvala na upitu! Trenutno sam demonstracijska verzija, ali uskoro ću moći odgovoriti na sva tvoja pitanja o Hrvatskoj. Možeš isprobati neke od predloženih upita ispod chatbota."
       }]);
     }, 1000);
   };
@@ -55,21 +55,23 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   };
 
   return (
+    // This outer div changes padding based on isSticky, but doesn't scale/translate
     <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
       <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
+        {/* Logo shown only when sticky */}
         {isSticky && <Image src="/images/kuna.png" alt="SARA AI Logo" width={90}  height={40} />}
         <div className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
-          {/* Added neon border/shadow styles */}
+          {/* Input styling */}
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Pitaj me bilo što o Hrvatskoj..."
-            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-gray-800 placeholder-gray-500 
-                       focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF] 
-                       focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300"
+            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-gray-800 placeholder-gray-500
+                       focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF]
+                       focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300" // Note: transition-all here affects focus styling, not positioning/scaling
           />
-          <Button 
+          <Button
             onClick={handleSendMessage}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-red-500 hover:bg-red-600 text-white"
             size="icon"
@@ -77,18 +79,20 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
+        {/* Empty placeholder for potential elements when sticky */}
         {isSticky }
       </div>
 
+      {/* Messages and prompts hidden when sticky */}
       {!isSticky && (
         <>
-          {/* Removed Card wrapper for chat messages to fit the glassmorphism style */}
+          {/* Chat messages area */}
           <div className="mt-4 max-h-[300px] overflow-y-auto bg-white/10 p-4 rounded-lg">
             <div className="space-y-4">
               {messages.map((message, index) => (
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
-                    message.role === 'user' 
+                    message.role === 'user'
                       ? 'bg-blue-500 text-white rounded-tr-none'
                       : 'bg-gray-50/80 text-gray-800 rounded-tl-none'
                   }`}>
@@ -101,33 +105,34 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
 
           {/* Predefined prompts */}
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            {/* Buttons for predefined prompts */}
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setInput("Želim plaže")}
               className="border-blue-200/50 bg-white/20 hover:bg-blue-50/30 text-blue-700"
             >
               Želim plaže
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setInput("Pokaži vinske destinacije")}
               className="border-red-200/50 bg-white/20 hover:bg-red-50/30 text-red-700"
             >
               Pokaži vinske destinacije
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setInput("Planiraj s €1500")}
               className="border-green-200/50 bg-white/20 hover:bg-green-50/30 text-green-700"
             >
               Planiraj s €1500
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setInput("Najbolje prirodne ljepote")}
               className="border-amber-200/50 bg-white/20 hover:bg-amber-50/30 text-amber-700"
             >
@@ -140,6 +145,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   );
 };
 
+// Unused component (kept as in your original code)
 const UnusedComponents = () => {
   useEffect(() => {}, []); // Uses useEffect
   return (
@@ -148,7 +154,6 @@ const UnusedComponents = () => {
         <CardTitle>Future Feature</CardTitle>
       </CardHeader>
       <CardContent>
-        {/* Uses all card components */}
         {PREDEFINED_CONVERSATIONS.length > 0 && 'Will be implemented soon'}
       </CardContent>
     </Card>
