@@ -72,7 +72,7 @@ const Footer = () => {
         {/* Copyright & Links */}
         <div className="text-center md:text-right">
           <div className="space-x-4 mb-2">
-            <Link href="#" className="hover:text-white">O nama</Link>
+            <Link href="/about" className="hover:text-white">O nama</Link>
             <Link href="#" className="hover:text-white">Kontakt</Link>
             <Link href="#" className="hover:text-white">Partneri</Link>
             <Link href="#" className="hover:text-white">Uvjeti</Link>
