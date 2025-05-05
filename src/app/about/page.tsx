@@ -1,25 +1,63 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 export default function About() {
   const [formData, setFormData] = useState({
     ime: '',
     prezime: '',
     email: '',
-    poruka: ''
+    poruka: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form data:', formData);
-    setSubmitted(true);
+
+    // Frontend validacija
+    if (!formData.ime.trim()) {
+      setError('Ime je obavezno.');
+      return;
+    }
+    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Unesite ispravan email.');
+      return;
+    }
+    if (!formData.poruka.trim()) {
+      setError('Poruka je obavezna.');
+      return;
+    }
+
+    setError(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSuccess('Poruka je uspješno poslana!');
+        setFormData({ ime: '', prezime: '', email: '', poruka: '' });
+      } else {
+        setError(data.error || 'Došlo je do greške pri slanju.');
+      }
+    } catch (err) {
+      setError('Greška u mreži. Pokušajte ponovno.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,66 +102,69 @@ export default function About() {
           Imate pitanja ili prijedloge? Voljeli bismo čuti vaše mišljenje!
         </p>
 
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto border p-6 rounded-lg shadow-lg">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Ime *</label>
-              <input
-                type="text"
-                name="ime"
-                value={formData.ime}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
-              />
-            </div>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 max-w-md mx-auto border p-6 rounded-lg shadow-lg bg-white"
+        >
+          {error && <div className="bg-red-100 text-red-700 p-2 rounded">{error}</div>}
+          {success && <div className="bg-green-100 text-green-700 p-2 rounded">{success}</div>}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Prezime</label>
-              <input
-                type="text"
-                name="prezime"
-                value={formData.prezime}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Ime *</label>
+            <input
+              type="text"
+              name="ime"
+              value={formData.ime}
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">E-mail *</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Prezime</label>
+            <input
+              type="text"
+              name="prezime"
+              value={formData.prezime}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Poruka *</label>
-              <textarea
-                name="poruka"
-                value={formData.poruka}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
-              ></textarea>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">E-mail *</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
+            />
+          </div>
 
-            <button
-              type="submit"
-              className="bg-[#1E4B6D] text-white px-4 py-2 rounded-md hover:bg-[#163a57] transition"
-            >
-              Pošalji
-            </button>
-          </form>
-        ) : (
-          <p className="text-green-600 font-semibold text-center">Hvala na poruci! Javit ćemo vam se uskoro.</p>
-        )}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Poruka *</label>
+            <textarea
+              name="poruka"
+              value={formData.poruka}
+              onChange={handleChange}
+              required
+              rows={4}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1E4B6D] focus:ring-[#1E4B6D] sm:text-sm"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-[#1E4B6D] text-white px-4 py-2 rounded-md hover:bg-[#163a57] transition w-full"
+          >
+            {loading ? 'Šaljem...' : 'Pošalji poruku'}
+          </button>
+        </form>
       </div>
     </div>
-  )
+  );
 }
