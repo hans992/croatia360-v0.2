@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
 
   try {
     await transporter.sendMail({
-      from: `"Croatia360" <${process.env.EMAIL_USER}>`,
+      from: `"Croatia360 Obavijesti" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_RECEIVER,
-      subject: `Nova poruka od ${ime} ${prezime || ''}`,
+      subject: `Nova poruka - Croatia360 od ${ime} ${prezime || ''}`,
       text: `
         Ime: ${ime}
         Prezime: ${prezime}
