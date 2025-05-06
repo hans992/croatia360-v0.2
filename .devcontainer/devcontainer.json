@@ -1,0 +1,39 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "Croatia360 Dev Container",
+  // Use a generic base image
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+
+  // Forward the PostgreSQL port
+  "forwardPorts": [5432],
+
+  // Add features: Node.js, Google Cloud CLI, Common Utils
+  "features": {
+    // Node feature - installs Node.js version 16
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "16"
+    },
+    // Google Cloud CLI feature
+    "ghcr.io/devcontainers/features/google-cloud-cli:1": {},
+    // Common Utils feature (install Zsh)
+    "ghcr.io/devcontainers/features/common-utils:2": {
+         "installZsh": "true",
+         "configureZshAsDefaultShell": "true"
+    }
+  },
+
+  // Post-creation/start commands and customizations
+  "updateContentCommand": "echo 'Updating content...'",
+  "postCreateCommand": "echo 'Container created!'",
+  "postStartCommand": "bash ./.devcontainer/post-start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Prisma.prisma",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}
