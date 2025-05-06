@@ -136,7 +136,7 @@ const Footer = (): JSX.Element => {
             <Link href="/about" className="hover:text-white">O nama</Link>          
             <Link href="#" className="hover:text-white">Kontakt</Link>
             <Link href="#" className="hover:text-white">Partneri</Link>
-            <Link href="#" className="hover:text-white">Uvjeti</Link>
+            <Link href="/terms" className="hover:text-white">Uvjeti</Link>
           </div>
           <p>&copy; {new Date().getFullYear()} Croatia360. Sva prava pridržana.</p>
         </div>
