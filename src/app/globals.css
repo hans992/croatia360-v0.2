@@ -3,74 +3,73 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
-  
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-  
-      --popover: 0 0% 100%;
-      --popover-foreground: 222.2 84% 4.9%;
-  
-      --primary: 222.2 47.4% 11.2%;
-      --primary-foreground: 210 40% 98%;
-  
-      --secondary: 210 40% 96.1%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-  
-      --muted: 210 40% 96.1%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-  
-      --accent: 210 40% 96.1%;
-      --accent-foreground: 222.2 47.4% 11.2%;
-  
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
-  
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --ring: 222.2 84% 4.9%;
-  
-      --radius: 0.5rem;
-    }
-  
-    .dark {
-      --background: 222.2 84% 4.9%;
-      --foreground: 210 40% 98%;
-  
-      --card: 222.2 84% 4.9%;
-      --card-foreground: 210 40% 98%;
-  
-      --popover: 222.2 84% 4.9%;
-      --popover-foreground: 210 40% 98%;
-  
-      --primary: 210 40% 98%;
-      --primary-foreground: 222.2 47.4% 11.2%;
-  
-      --secondary: 217.2 32.6% 17.5%;
-      --secondary-foreground: 210 40% 98%;
-  
-      --muted: 217.2 32.6% 17.5%;
-      --muted-foreground: 215 20.2% 65.1%;
-  
-      --accent: 217.2 32.6% 17.5%;
-      --accent-foreground: 210 40% 98%;
-  
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 40% 98%;
-  
-      --border: 217.2 32.6% 17.5%;
-      --input: 217.2 32.6% 17.5%;
-      --ring: 212.7 26.8% 83.9%;
-    }
+  :root {
+    --background: 240 100% 99%; /* #F8F8FF Ghost White (Boja Kamena Lightest) */
+    --foreground: 0 0% 13%;    /* #212121 Neutral Dark */
+
+    --card: 60 56% 94%;        /* #F5F5DC Beige (Boja Kamena) */
+    --card-foreground: 0 0% 13%; /* #212121 Neutral Dark */
+
+    --popover: 240 100% 99%;   /* #F8F8FF Ghost White */
+    --popover-foreground: 0 0% 13%; /* #212121 Neutral Dark */
+
+    --primary: 210 100% 31%;   /* #00509E Jadransko Plava (Darker) */
+    --primary-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --secondary: 82 39% 30%;   /* #556B2F Maslinasto Zelena */
+    --secondary-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --muted: 0 0% 88%;         /* #E0E0E0 Neutral Light Grey */
+    --muted-foreground: 0 0% 46%; /* #757575 Neutral Medium Grey */
+
+    --accent: 14 70% 62%;      /* #E07A5F Terakota */
+    --accent-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --destructive: 0 84.2% 60.2%; /* Original destructive, seems fine */
+    --destructive-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --border: 0 0% 88%;        /* #E0E0E0 Neutral Light Grey */
+    --input: 0 0% 83%;         /* #D3D3D3 LightGray (for input bg) */
+    --ring: 210 100% 50%;      /* #007FFF Jadransko Plava (Azure for focus) */
+
+    --radius: 0.5rem; /* Keep existing radius or adjust if needed by design */
   }
-  
-  
-  /* Custom gradient class */
-  .pastel-gradient-bg {
-    background: linear-gradient(to right, rgba(173, 200, 230, 0.45), rgba(255, 192, 192, 0.45)); /* Baby blue to pastel pink with 45% opacity (55% transparency) */
+
+  .dark {
+    --background: 0 0% 7%;     /* #121212 Very Dark Neutral */
+    --foreground: 240 100% 99%;/* #F8F8FF Boja Kamena (Lightest) */
+
+    --card: 0 0% 12%;          /* #1E1E1E Dark Neutral (Slightly Lighter) */
+    --card-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --popover: 0 0% 12%;       /* #1E1E1E Dark Neutral */
+    --popover-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --primary: 210 100% 50%;   /* #007FFF Jadransko Plava (Azure) */
+    --primary-foreground: 0 0% 13%; /* #212121 Neutral Dark (for text on light blue) */
+
+    --secondary: 80 60% 35%;  /* #6B8E23 Maslinasto Zelena (Lighter for dark) */
+    --secondary-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --muted: 0 0% 20%;         /* #333333 Neutral Dark (Medium) */
+    --muted-foreground: 0 0% 63%; /* #A0A0A0 Neutral Light Grey (for muted text) */
+
+    --accent: 14 100% 63%;     /* #FF7043 Terakota (Brighter for dark) */
+    --accent-foreground: 0 0% 13%; /* #212121 Neutral Dark (for text on Terakota) */
+
+    --destructive: 0 100% 66%; /* #FF5252 Lighter Red for dark theme */
+    --destructive-foreground: 240 100% 99%; /* #F8F8FF Boja Kamena (Lightest) */
+
+    --border: 0 0% 20%;        /* #333333 Neutral Dark (Medium) */
+    --input: 0 0% 16%;         /* #2A2A2A Dark Neutral (for input bg) */
+    --ring: 210 100% 50%;      /* #007FFF Jadransko Plava (Azure for focus) */
   }
+}
+
+ /* Custom gradient class */
+ .pastel-gradient-bg {
+  background: linear-gradient(to right, rgba(173, 200, 230, 0.45), rgba(255, 192, 192, 0.45)); /* Baby blue to pastel pink with 45% opacity (55% transparency) */
+}
 
 @layer utilities {
   .border {
