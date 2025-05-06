@@ -66,7 +66,9 @@ const Header = () => {
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           <Link href="/explore" className="transition-colors hover:text-gray-900/80 text-gray-700">Istraži</Link>
           <Link href="/" className="transition-colors hover:text-gray-900/80 text-gray-900 font-semibold">SARA AI</Link>
-          <Link href="/my-trip" className="transition-colors hover:text-gray-900/80 text-gray-700">Moje putovanje</Link>
+          {user && (
+            <Link href="/my-trip" className="transition-colors hover:text-gray-900/80 text-gray-700">Moje putovanje</Link>
+          )}
           <Link href="/community" className="transition-colors hover:text-gray-900/80 text-gray-700">Zajednica</Link>
         </nav>
 
@@ -77,11 +79,10 @@ const Header = () => {
             <span className="ml-1 text-sm">HR</span>
           </Button>
           {user ? (
-            <div className="flex items-center space-x-2">
-              {avatar && (
-                <Image src={avatar} alt="Avatar" width={28} height={28} className="rounded-full" />
-              )}
-              <span className="text-sm font-medium">{displayName}</span>
+            <div className="flex items-center space-x-2">              
+              <Link href="/my-trip" className="text-sm font-medium hover:underline">
+                 {displayName}
+              </Link>
               <Button
                 variant="ghost"
                 size="sm"
@@ -122,7 +123,9 @@ const Header = () => {
                 <nav className="flex flex-col space-y-4 p-4 text-lg">
                   <SheetClose asChild><Link href="/explore" className="transition-colors hover:text-gray-900 text-gray-700">Istraži</Link></SheetClose>
                   <SheetClose asChild><Link href="/" className="transition-colors hover:text-gray-900 text-gray-800 font-semibold">SARA AI</Link></SheetClose>
-                  <SheetClose asChild><Link href="/my-trip" className="transition-colors hover:text-gray-900 text-gray-700">Moje putovanje</Link></SheetClose>
+                  {user && (
+                    <SheetClose asChild><Link href="/my-trip" className="transition-colors hover:text-gray-900 text-gray-700">Moje putovanje</Link></SheetClose>
+                  )}
                   <SheetClose asChild><Link href="/community" className="transition-colors hover:text-gray-900 text-gray-700">Zajednica</Link></SheetClose>
                 </nav>
                 <div className="mt-auto p-4 border-t">
@@ -133,10 +136,7 @@ const Header = () => {
                     </Button>
                     {user ? (
                       <SheetClose asChild>
-                        <div className="flex items-center space-x-2">
-                          {avatar && (
-                            <Image src={avatar} alt="Avatar" width={28} height={28} className="rounded-full" />
-                          )}
+                        <div className="flex items-center space-x-2">                          
                           <span className="text-sm font-medium">{displayName}</span>
                           <Button
                             variant="ghost"
