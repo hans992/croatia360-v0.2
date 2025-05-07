@@ -160,7 +160,7 @@
   "explore_discover_more_button": "Scopri di Più",
   "explore_find_section_title": "Trova il tuo soggiorno, pasto o avventura",
   "explore_discover_now_button": "Scopri Ora",
-  "reviews_suffix": "recensione",
+  "reviews_suffix": "recensione", 
 
   "filter_category_label": "Categoria",
   "filter_category_placeholder": "Tutte le categorie",
@@ -183,11 +183,11 @@
   "filter_price_3": "€€€ (Costoso)",
   "filter_price_4": "€€€€ (Lusso)",
 
-  "destination_sibenik_name": "Sebenico",
+  "destination_sibenik_name": "Sebenico", 
   "destination_sibenik_description": "Circondata da fortezze storiche e bellissime spiagge",
-  "destination_trogir_name": "Traù",
+  "destination_trogir_name": "Traù", 
   "destination_trogir_description": "Cittadina insulare medievale patrimonio dell'UNESCO",
-  "destination_opatija_name": "Abbazia",
+  "destination_opatija_name": "Abbazia", 
   "destination_opatija_description": "Elegante riviera con ville asburgiche",
 
   "recommendation_type_accommodation": "Alloggio",
@@ -214,5 +214,114 @@
   "tag_waterfalls": "Cascate",
   "tag_hiking": "Escursionismo",
 
-  "alt_croatia_map": "Mappa della Croazia per regioni"
+  "alt_croatia_map": "Mappa della Croazia per regioni",
+
+  "cookie_consent_banner": {
+    "message": "Questo sito web utilizza i cookie per migliorare la tua esperienza utente e analizzare l'utilizzo del sito. Cliccando su 'Accetta tutto', acconsenti al nostro utilizzo dei cookie per queste finalità.",
+    "learn_more_link_text": "Scopri di più",
+    "accept_button": "Accetta tutto",
+    "decline_button": "Rifiuta analitici",
+    "policy_link_url": "/it/politica-sulla-privacy"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Politica sulla Privacy e Termini di Utilizzo per la Tua Guida Turistica AI",
+    "sections": {
+      "intro": {
+        "title": "1. Disposizioni Introduttive",
+        "p1": "Benvenuto nella Tua Guida Turistica AI! La presente Politica sulla Privacy e Termini di Utilizzo (di seguito: \"Politica\") spiegano come il nostro sistema AI (di seguito: \"Applicazione\") raccoglie, utilizza, elabora e protegge i tuoi dati personali. Il nostro obiettivo è fornirti raccomandazioni e informazioni personalizzate nel rispetto della tua privacy.",
+        "p2": "Utilizzando questa Applicazione, confermi di aver letto, compreso e accettato questi Termini e acconsenti alla raccolta e al trattamento dei tuoi dati personali in conformità con questa Politica. Se non sei d'accordo con questa Politica, ti preghiamo di non utilizzare l'Applicazione."
+      },
+      "dataCollection": {
+        "title": "2. Quali dati raccogliamo e come li utilizziamo",
+        "p1": "Affinché la Tua Guida Turistica AI possa funzionare efficacemente e fornirti informazioni pertinenti, raccogliamo i seguenti tipi di dati:",
+        "list": {
+          "item1_label": "Dati forniti direttamente da te:",
+          "item1_text": "Le tue domande, preferenze di viaggio, interessi (es. 'ristoranti con vista', 'monumenti storici'), nome (se lo fornisci per la personalizzazione) e informazioni fornite tramite il nostro modulo di contatto.",
+          "item2_label": "Dati sulla tua interazione con l'Applicazione:",
+          "item2_text": "Informazioni su come utilizzi l'Applicazione, quali raccomandazioni visualizzi, quali selezioni e il feedback che ci fornisci.",
+          "item3_label": "Dati tecnici (tramite cookie):",
+          "item3_text": "Dati anonimizzati sul tuo dispositivo, tipo di browser, posizione approssimativa (se la abiliti per raccomandazioni migliori) e informazioni raccolte tramite cookie esclusivamente per finalità analitiche e per migliorare le prestazioni dell'Applicazione (dettagli nella Sezione 5)."
+        },
+        "purposeSubheading": "Finalità della raccolta e del trattamento dei dati:",
+        "purposeP1": "I tuoi dati personali vengono utilizzati esclusivamente per:",
+        "purposeList": {
+          "item1": "Fornire raccomandazioni turistiche personalizzate e risposte alle tue domande.",
+          "item2": "Migliorare l'esperienza utente e le funzionalità dell'Applicazione.",
+          "item3": "Analizzare l'utilizzo dell'Applicazione per ottimizzare i nostri modelli AI e servizi (sempre in forma anonima ove possibile).",
+          "item4": "Garantire la sicurezza e l'integrità dell'Applicazione."
+        }
+      },
+      "dataSharing": {
+        "title": "3. Con chi condividiamo i tuoi dati",
+        "p1": "La tua privacy è estremamente importante per noi. Non venderemo, noleggeremo o divulgheremo in altro modo i tuoi dati personali a terzi per scopi di marketing.",
+        "p2": "Possiamo condividere i dati solo con partner fidati (Responsabili del trattamento) che ci assistono nel funzionamento dell'Applicazione, ed esclusivamente per le finalità indicate:",
+        "servicesList": {
+          "item1_label": "Piattaforma AI (es. Gemini API):",
+          "item1_text": "Per elaborare le tue domande e generare risposte intelligenti. I dati vengono inviati alla piattaforma in conformità con le loro politiche sulla privacy, che ti consigliamo di consultare.",
+          "item2_label": "Servizi di analisi (es. Google Analytics):",
+          "item2_text": "Per l'analisi anonima dell'utilizzo dell'Applicazione per aiutarci a migliorarla. Garantiamo che le impostazioni sulla privacy (come l'anonimizzazione dell'IP) siano applicate al massimo.",
+          "item3_label": "Servizi di comunicazione (es. Zapier per l'elaborazione dei dati del modulo di contatto):",
+          "item3_text": "Per inoltrare le tue richieste dal modulo di contatto all'indirizzo interno appropriato o al sistema di supporto."
+        },
+        "p3": "Tutti i nostri partner sono obbligati a rispettare la riservatezza e la sicurezza dei tuoi dati e possono utilizzarli solo per le finalità concordate, in conformità con il regolamento GDPR.",
+        "p4": "Ci impegneremo sempre a ridurre al minimo la quantità di dati che condividiamo."
+      },
+      "yourRights": {
+        "title": "4. I tuoi diritti come utente (GDPR)",
+        "p1": "Ai sensi del Regolamento Generale sulla Protezione dei Dati (GDPR), hai diversi diritti riguardo ai tuoi dati personali:",
+        "rightsList": {
+          "item1_label": "Diritto di accesso:",
+          "item1_text": "Puoi richiedere informazioni su quali tuoi dati personali trattiamo e come.",
+          "item2_label": "Diritto di rettifica:",
+          "item2_text": "Se i tuoi dati sono inesatti o incompleti, hai il diritto di farli correggere.",
+          "item3_label": "Diritto alla cancellazione ('diritto all'oblio'):",
+          "item3_text": "A determinate condizioni, puoi richiedere la cancellazione dei tuoi dati personali.",
+          "item4_label": "Diritto di limitazione del trattamento:",
+          "item4_text": "Puoi richiedere che limitiamo temporaneamente il trattamento dei tuoi dati.",
+          "item5_label": "Diritto alla portabilità dei dati:",
+          "item5_text": "Hai il diritto di ricevere i tuoi dati in un formato strutturato, di uso comune e leggibile da dispositivo automatico.",
+          "item6_label": "Diritto di opposizione:",
+          "item6_text": "Puoi opporti a determinati tipi di trattamento dei tuoi dati.",
+          "item7_label": "Diritto di revoca del consenso:",
+          "item7_text": "Se il trattamento si basa sul consenso, puoi revocarlo in qualsiasi momento."
+        },
+        "contactP1": "Per esercitare questi diritti, o per qualsiasi domanda riguardante la tua privacy, ti preghiamo di utilizzare il modulo di contatto disponibile sulla nostra Applicazione.",
+        "complaintP1": "Hai anche il diritto di proporre reclamo all'autorità di controllo (in Italia, il Garante per la protezione dei dati personali) se ritieni che i tuoi diritti siano stati violati."
+      },
+      "cookies": {
+        "title": "5. Cookie e Analisi",
+        "p1": "La nostra Applicazione utilizza i cookie. Si tratta di piccoli file di testo memorizzati sul tuo dispositivo per aiutarci a migliorare la tua esperienza.",
+        "purposeSubheading": "Perché utilizziamo i cookie?",
+        "purposeP1": "Li utilizziamo esclusivamente per:",
+        "cookiesList": {
+          "item1_label": "Migliorare la funzionalità:",
+          "item1_text": "Alcuni cookie sono necessari per il funzionamento di base dell'Applicazione, ad esempio per ricordare le preferenze della sessione in modo da non dover reinserire costantemente le stesse informazioni.",
+          "item2_label": "Analisi dell'utilizzo:",
+          "item2_text": "Utilizziamo cookie analitici anonimi (ad es. tramite Google Analytics con anonimizzazione IP abilitata) per capire come utilizzi l'Applicazione – quali funzionalità ti sono più utili, dove incontri difficoltà. Questo ci aiuta a migliorare continuamente l'Applicazione."
+        },
+        "noMarketingP1": "Importante: Non utilizziamo cookie di marketing o cookie di terze parti per tracciare le tue attività su altri siti web a fini di profilazione o pubblicità mirata.",
+        "managementSubheading": "Come puoi gestire i cookie?",
+        "managementP1": "Alla tua prima visita all'Applicazione, ti informeremo sull'uso dei cookie e, ove richiesto dalla legge, chiederemo il tuo consenso per i cookie analitici. Puoi gestire i cookie tramite le impostazioni del tuo browser web – puoi bloccarli o eliminarli. Tieni presente che la disabilitazione dei cookie analitici non dovrebbe influire sulla funzionalità di base dell'Applicazione, mentre la disabilitazione dei cookie strettamente necessari (se il tuo browser ne consente il blocco) potrebbe farlo."
+      },
+      "dataSecurity": {
+        "title": "6. Sicurezza dei tuoi dati",
+        "p1": "Investiamo sforzi significativi per proteggere i tuoi dati personali. Applichiamo misure tecniche e organizzative appropriate (come la crittografia ove possibile, server sicuri e controlli di sicurezza regolari) per prevenire accessi non autorizzati, alterazioni, divulgazioni o distruzioni.",
+        "p2": "Sebbene puntiamo alla sicurezza al 100%, è importante sapere che nessun sistema è invulnerabile. In caso di incidente di sicurezza che possa compromettere i tuoi dati, informeremo te e le autorità competenti in conformità con gli obblighi di legge."
+      },
+      "minors": {
+        "title": "7. Privacy dei minori",
+        "p1": "La nostra Guida Turistica AI non è destinata a persone di età inferiore ai 16 anni (o altra età pertinente secondo le leggi locali sulla protezione dei dati). Non raccogliamo consapevolmente dati personali da minori. Se vieni a conoscenza del fatto che un minore ci ha fornito dati personali senza il consenso dei genitori, ti preghiamo di contattarci immediatamente affinché possiamo prendere le misure appropriate."
+      },
+      "policyChanges": {
+        "title": "8. Modifiche a questa Politica",
+        "p1": "Il mondo della tecnologia e le leggi cambiano, quindi potremmo occasionalmente dover aggiornare questa Politica. Tutte le modifiche saranno pubblicate su questa pagina, con una chiara indicazione della data dell'ultimo aggiornamento. Ti consigliamo di consultare regolarmente questa pagina.",
+        "p2": "Il tuo uso continuato dell'Applicazione dopo la pubblicazione delle modifiche sarà considerato come accettazione della nuova Politica.",
+        "lastUpdatedP1": "Ultimo aggiornamento: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Hai domande o dubbi? Siamo qui per te. Si prega di utilizzare il modulo di contatto disponibile sulla nostra Applicazione."
+      }
+    }
+  }
 }

@@ -1,73 +1,163 @@
 // app/privacy-policy/page.tsx
-export default function PrivacyPolicy() {
+"use client"; // Necessary for components using client-side hooks like useTranslation.
+
+import { useTranslation } from 'react-i18next'; // Or your chosen i18n library hook.
+// Ensure your i18n setup (e.g., i18n.js, next-i18next.config.js) is correctly configured
+// to load translations from your 'common' namespace (or whichever namespace you use).
+
+/**
+ * PrivacyPolicyPage Component
+ *
+ * Renders the privacy policy content for the AI Tourist Guide application.
+ * Content is fetched using an i18n translation hook, allowing for multilingual support.
+ * The styling assumes Tailwind CSS with the Typography plugin for prose content.
+ */
+export default function PrivacyPolicyPage() {
+    // Initialize the translation hook, targeting the 'common' namespace
+    // where privacy policy and other shared translations are stored.
+    const { t } = useTranslation('common');
+
+    // Dynamically generate the current date for the "Last Updated" section.
+    // Format according to Croatian locale conventions.
+    const currentDate = new Date().toLocaleDateString('hr-HR', {
+        day: 'numeric', month: 'long', year: 'numeric'
+    });
+
     return (
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-6">Uvjeti korištenja i Politika privatnosti</h1>
-  
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">1. Općenito</h2>
-          <p>
-            Ova stranica koristi usluge umjetne inteligencije (AI) putem Gemini API sustava za pružanje personaliziranih
-            odgovora i preporuka. Korištenjem ove stranice prihvaćate ove uvjete i suglasni ste s obradom vaših podataka
-            u skladu s ovim pravilima.
-          </p>
-        </section>
-  
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">2. Prikupljanje i obrada podataka</h2>
-          <p>
-            Prikupljamo osnovne informacije koje dobrovoljno dajete, kao što su vaše ime, email adresa, poruke poslane
-            putem kontakt forme i eventualne informacije unesene u chatbot.
-          </p>
-          <p>
-            Ovi podaci mogu se koristiti za: </p>
-            <ul className="list-disc ml-6">
-              <li>odgovaranje na vaše upite,</li>
-              <li>unaprjeđenje korisničkog iskustva,</li>
-              <li>analizu i poboljšanje usluge.</li>
+      // Main container for the privacy policy page, centered and with responsive padding.
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <header className="mb-10 sm:mb-12 lg:mb-16 text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
+            {/* Page title, fetched from translations. */}
+            {t('privacyPolicy.pageTitle')}
+          </h1>
+        </header>
+
+        {/* Article container using Tailwind Typography plugin for rich text formatting. */}
+        <article className="prose prose-slate lg:prose-lg max-w-none dark:prose-invert">
+          {/* Introduction Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.intro.title')}</h2>
+            <p>{t('privacyPolicy.sections.intro.p1')}</p>
+            <p>{t('privacyPolicy.sections.intro.p2')}</p>
+          </section>
+
+          {/* Data Collection Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.dataCollection.title')}</h2>
+            <p>{t('privacyPolicy.sections.dataCollection.p1')}</p>
+            <ul>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataCollection.list.item1_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataCollection.list.item1_text')}
+              </li>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataCollection.list.item2_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataCollection.list.item2_text')}
+              </li>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataCollection.list.item3_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataCollection.list.item3_text')}
+              </li>
             </ul>
-          
-        </section>
-  
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">3. Dijeljenje podataka</h2>
-          <p>
-            Vaši podaci neće biti prodani trećim stranama. Podaci mogu biti dijeljeni s vanjskim servisima samo u svrhu
-            funkcioniranja aplikacije, kao što su: </p>
-            <ul className="list-disc ml-6">
-              <li>Gemini AI API (za obradu unosa i generiranje odgovora)</li>
-              <li>Zapier (za slanje podataka u Google Sheets)</li>
-              <li>Mail server (za slanje emailova)</li>
+            <h3>{t('privacyPolicy.sections.dataCollection.purposeSubheading')}</h3>
+            <p>{t('privacyPolicy.sections.dataCollection.purposeP1')}</p>
+            <ul>
+              <li>{t('privacyPolicy.sections.dataCollection.purposeList.item1')}</li>
+              <li>{t('privacyPolicy.sections.dataCollection.purposeList.item2')}</li>
+              <li>{t('privacyPolicy.sections.dataCollection.purposeList.item3')}</li>
+              <li>{t('privacyPolicy.sections.dataCollection.purposeList.item4')}</li>
             </ul>
-            <p>
-              Ovi servisi imaju vlastite politike privatnosti i sigurnosti podataka. Preporučujemo da ih pročitate.
-            Svi podaci šalju se sigurnim putem i u skladu su s GDPR regulacijom.
-          </p>
-        </section>
-  
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">4. Vaša prava</h2>
-          <p>
-            Imate pravo pristupa svojim podacima, ispravka netočnih podataka, brisanja podataka te pravo na prigovor.
-            Za ostvarivanje svojih prava, kontaktirajte nas putem kontakt forme.
-          </p>
-        </section>
-  
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">5. Kolačići</h2>
-          <p>
-            Stranica može koristiti kolačiće (cookies) za osnovnu funkcionalnost. Ne koristimo kolačiće za oglašavanje ili praćenje korisnika u marketinške svrhe.
-          </p>
-        </section>
-  
-        <section>
-          <h2 className="text-2xl font-semibold mb-2">6. Promjene</h2>
-          <p>
-            Zadržavamo pravo izmjene ovih uvjeta. Promjene će biti objavljene na ovoj stranici i stupaju na snagu
-            objavom.
-          </p>
-        </section>
+          </section>
+
+          {/* Data Sharing Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.dataSharing.title')}</h2>
+            <p>{t('privacyPolicy.sections.dataSharing.p1')}</p>
+            <p>{t('privacyPolicy.sections.dataSharing.p2')}</p>
+            <ul>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataSharing.servicesList.item1_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataSharing.servicesList.item1_text')}
+              </li>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataSharing.servicesList.item2_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataSharing.servicesList.item2_text')}
+              </li>
+              <li>
+                <strong>{t('privacyPolicy.sections.dataSharing.servicesList.item3_label')}</strong>{' '}
+                {t('privacyPolicy.sections.dataSharing.servicesList.item3_text')}
+              </li>
+            </ul>
+            <p>{t('privacyPolicy.sections.dataSharing.p3')}</p>
+            <p>{t('privacyPolicy.sections.dataSharing.p4')}</p>
+          </section>
+
+          {/* User Rights Section (GDPR) */}
+          <section>
+            <h2>{t('privacyPolicy.sections.yourRights.title')}</h2>
+            <p>{t('privacyPolicy.sections.yourRights.p1')}</p>
+            <ul>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item1_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item1_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item2_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item2_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item3_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item3_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item4_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item4_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item5_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item5_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item6_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item6_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.yourRights.rightsList.item7_label')}</strong> {t('privacyPolicy.sections.yourRights.rightsList.item7_text')}</li>
+            </ul>
+            {/* Contact instructions now point to a contact form, not a direct email. */}
+            <p>{t('privacyPolicy.sections.yourRights.contactP1')}</p>
+            <p>{t('privacyPolicy.sections.yourRights.complaintP1')}</p>
+          </section>
+
+          {/* Cookies and Analytics Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.cookies.title')}</h2>
+            <p>{t('privacyPolicy.sections.cookies.p1')}</p>
+            <h3>{t('privacyPolicy.sections.cookies.purposeSubheading')}</h3>
+            <p>{t('privacyPolicy.sections.cookies.purposeP1')}</p>
+            <ul>
+              <li><strong>{t('privacyPolicy.sections.cookies.cookiesList.item1_label')}</strong> {t('privacyPolicy.sections.cookies.cookiesList.item1_text')}</li>
+              <li><strong>{t('privacyPolicy.sections.cookies.cookiesList.item2_label')}</strong> {t('privacyPolicy.sections.cookies.cookiesList.item2_text')}</li>
+            </ul>
+            {/* Explicitly states no marketing cookies are used. */}
+            <p className="font-semibold">{t('privacyPolicy.sections.cookies.noMarketingP1')}</p>
+            <h3>{t('privacyPolicy.sections.cookies.managementSubheading')}</h3>
+            <p>{t('privacyPolicy.sections.cookies.managementP1')}</p>
+          </section>
+
+          {/* Data Security Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.dataSecurity.title')}</h2>
+            <p>{t('privacyPolicy.sections.dataSecurity.p1')}</p>
+            <p>{t('privacyPolicy.sections.dataSecurity.p2')}</p>
+          </section>
+
+          {/* Minors/Children's Privacy Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.minors.title')}</h2>
+            <p>{t('privacyPolicy.sections.minors.p1')}</p>
+          </section>
+
+          {/* Policy Changes Section */}
+          <section>
+            <h2>{t('privacyPolicy.sections.policyChanges.title')}</h2>
+            <p>{t('privacyPolicy.sections.policyChanges.p1')}</p>
+            <p>{t('privacyPolicy.sections.policyChanges.p2')}</p>
+            {/* Dynamically injects the current date into the translated string. */}
+            <p className="italic">
+                {t('privacyPolicy.sections.policyChanges.lastUpdatedP1', { currentDate: currentDate })}
+            </p>
+          </section>
+
+          {/* Footer contact information */}
+          <footer className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700 text-center">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+                {t('privacyPolicy.contactFooter.p1')}
+            </p>
+          </footer>
+        </article>
       </div>
     );
   }
-  

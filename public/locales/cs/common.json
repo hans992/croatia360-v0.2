@@ -214,5 +214,114 @@
   "tag_waterfalls": "Vodopády",
   "tag_hiking": "Turistika",
 
-  "alt_croatia_map": "Mapa Chorvatska podle regionů"
+  "alt_croatia_map": "Mapa Chorvatska podle regionů",
+
+  "cookie_consent_banner": {
+    "message": "Tato webová stránka používá soubory cookie k vylepšení Vašeho uživatelského zážitku a analýze provozu. Kliknutím na 'Přijmout vše' souhlasíte s naším používáním souborů cookie pro tyto účely.",
+    "learn_more_link_text": "Zjistit více",
+    "accept_button": "Přijmout vše",
+    "decline_button": "Odmítnout analytické",
+    "policy_link_url": "/cs/zasady-ochrany-osobnich-udaju"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Zásady ochrany osobních údajů a Podmínky použití Vašeho AI Turistického Průvodce",
+    "sections": {
+      "intro": {
+        "title": "1. Úvodní ustanovení",
+        "p1": "Vítejte ve Vašem AI Turistickém Průvodci! Tyto Zásady ochrany osobních údajů a Podmínky použití (dále jen „Zásady“) vysvětlují, jak náš AI systém (dále jen „Aplikace“) shromažďuje, používá, zpracovává a chrání Vaše osobní údaje. Naším cílem je poskytovat Vám personalizovaná doporučení a informace při respektování Vašeho soukromí.",
+        "p2": "Používáním této Aplikace potvrzujete, že jste si přečetli tyto Podmínky, porozuměli jim a přijali je, a že souhlasíte se shromažďováním a zpracováním Vašich osobních údajů v souladu s těmito Zásadami. Pokud s těmito Zásadami nesouhlasíte, prosím, nepoužívejte Aplikaci."
+      },
+      "dataCollection": {
+        "title": "2. Jaké údaje shromažďujeme a jak je používáme",
+        "p1": "Aby Váš AI Turistický Průvodce mohl efektivně fungovat a poskytovat Vám relevantní informace, shromažďujeme následující typy údajů:",
+        "list": {
+          "item1_label": "Údaje, které přímo poskytujete:",
+          "item1_text": "Vaše dotazy, cestovní preference, zájmy (např. 'restaurace s výhledem', 'historické památky'), jméno (pokud ho zadáte pro personalizaci) a informace, které poskytnete prostřednictvím našeho kontaktního formuláře.",
+          "item2_label": "Údaje o Vaší interakci s Aplikací:",
+          "item2_text": "Informace o tom, jak používáte Aplikaci, která doporučení si prohlížíte, která vybíráte, a zpětná vazba, kterou nám poskytujete.",
+          "item3_label": "Technické údaje (prostřednictvím souborů cookie):",
+          "item3_text": "Anonymizované údaje o Vašem zařízení, typu prohlížeče, přibližné poloze (pokud ji povolíte pro lepší doporučení) a informace shromážděné prostřednictvím souborů cookie výhradně pro analytické účely a pro zlepšení výkonu Aplikace (podrobnosti v Oddíle 5)."
+        },
+        "purposeSubheading": "Účel shromažďování a zpracování údajů:",
+        "purposeP1": "Vaše osobní údaje se používají výhradně k tomu, abychom:",
+        "purposeList": {
+          "item1": "Poskytovali personalizovaná turistická doporučení a odpovědi na Vaše dotazy.",
+          "item2": "Zlepšovali uživatelský zážitek a funkcionality Aplikace.",
+          "item3": "Analyzovali používání Aplikace za účelem optimalizace našich AI modelů a služeb (vždy anonymizovaně, kde je to možné).",
+          "item4": "Zajistili bezpečnost a integritu Aplikace."
+        }
+      },
+      "dataSharing": {
+        "title": "3. S kým sdílíme Vaše údaje",
+        "p1": "Vaše soukromí je pro nás nesmírně důležité. Vaše osobní údaje nebudeme prodávat, pronajímat ani jinak zpřístupňovat třetím stranám pro marketingové účely.",
+        "p2": "Údaje můžeme sdílet pouze s důvěryhodnými partnery (Zpracovateli údajů), kteří nám pomáhají v provozu Aplikace, a to výhradně pro uvedené účely:",
+        "servicesList": {
+          "item1_label": "AI Platforma (např. Gemini API):",
+          "item1_text": "Pro zpracování Vašich dotazů a generování inteligentních odpovědí. Údaje jsou platformě zasílány v souladu s jejich zásadami ochrany osobních údajů, které Vám doporučujeme si projít.",
+          "item2_label": "Analytické služby (např. Google Analytics):",
+          "item2_text": "Pro anonymní analýzu používání Aplikace, abychom ji mohli vylepšovat. Zajišťujeme, aby nastavení ochrany soukromí (jako je anonymizace IP adresy) byla maximálně vynucena.",
+          "item3_label": "Komunikační služby (např. Zapier pro zpracování údajů z kontaktního formuláře):",
+          "item3_text": "Pro přeposílání Vašich dotazů z kontaktního formuláře na příslušnou interní adresu nebo systém podpory."
+        },
+        "p3": "Všichni naši partneři jsou povinni respektovat důvěrnost a bezpečnost Vašich údajů a mohou je používat pouze pro dohodnuté účely, v souladu s nařízením GDPR.",
+        "p4": "Vždy se budeme snažit minimalizovat množství údajů, které sdílíme."
+      },
+      "yourRights": {
+        "title": "4. Vaše práva jako uživatele (GDPR)",
+        "p1": "Podle Obecného nařízení o ochraně osobních údajů (GDPR) máte několik práv týkajících se Vašich osobních údajů:",
+        "rightsList": {
+          "item1_label": "Právo na přístup:",
+          "item1_text": "Můžete požadovat informace o tom, jaké Vaše osobní údaje zpracováváme a jak.",
+          "item2_label": "Právo na opravu:",
+          "item2_text": "Pokud jsou Vaše údaje nepřesné nebo neúplné, máte právo na jejich opravu.",
+          "item3_label": "Právo na výmaz („právo být zapomenut“):",
+          "item3_text": "Za určitých podmínek můžete požadovat výmaz Vašich osobních údajů.",
+          "item4_label": "Právo na omezení zpracování:",
+          "item4_text": "Můžete požadovat, abychom dočasně omezili zpracování Vašich údajů.",
+          "item5_label": "Právo na přenositelnost údajů:",
+          "item5_text": "Máte právo obdržet své údaje ve strukturovaném, strojově čitelném formátu.",
+          "item6_label": "Právo vznést námitku:",
+          "item6_text": "Můžete vznést námitku proti určitým typům zpracování Vašich údajů.",
+          "item7_label": "Právo odvolat souhlas:",
+          "item7_text": "Pokud je zpracování založeno na souhlasu, můžete jej kdykoli odvolat."
+        },
+        "contactP1": "Pro uplatnění těchto práv, nebo pro jakékoli dotazy týkající se Vašeho soukromí, prosím, použijte kontaktní formulář dostupný v naší Aplikaci.",
+        "complaintP1": "Máte také právo podat stížnost u dozorového úřadu (např. Úřad pro ochranu osobních údajů) pokud se domníváte, že byla Vaše práva porušena."
+      },
+      "cookies": {
+        "title": "5. Soubory cookie a Analytika",
+        "p1": "Naše Aplikace používá soubory cookie. Jsou to malé textové soubory uložené na Vašem zařízení, které nám pomáhají vylepšit Váš zážitek.",
+        "purposeSubheading": "Proč používáme soubory cookie?",
+        "purposeP1": "Používáme je výhradně pro:",
+        "cookiesList": {
+          "item1_label": "Vylepšení funkčnosti:",
+          "item1_text": "Některé soubory cookie jsou nezbytné pro základní provoz Aplikace, např. zapamatování Vašich preferencí relace, abyste nemuseli neustále znovu zadávat stejné informace.",
+          "item2_label": "Analýzu používání:",
+          "item2_text": "Používáme anonymní analytické soubory cookie (např. prostřednictvím Google Analytics s povolenou anonymizací IP adresy), abychom porozuměli, jak používáte Aplikaci – které funkce jsou pro Vás nejužitečnější, kde narážíte na potíže. To nám pomáhá neustále vylepšovat Aplikaci."
+        },
+        "noMarketingP1": "Důležité: Nepoužíváme marketingové soubory cookie ani soubory cookie třetích stran ke sledování Vašich aktivit na jiných webových stránkách za účelem profilování nebo cílené reklamy.",
+        "managementSubheading": "Jak můžete spravovat soubory cookie?",
+        "managementP1": "Při Vaší první návštěvě Aplikace Vás budeme informovat o používání souborů cookie a, kde je to zákonem vyžadováno, požádáme Vás o souhlas s analytickými soubory cookie. Soubory cookie můžete spravovat prostřednictvím nastavení svého webového prohlížeče – můžete je blokovat nebo mazat. Vezměte prosím na vědomí, že zakázání analytických souborů cookie by nemělo ovlivnit základní funkčnost Aplikace, zatímco zakázání striktně nezbytných souborů cookie (pokud Váš prohlížeč jejich blokování umožňuje) může."
+      },
+      "dataSecurity": {
+        "title": "6. Bezpečnost Vašich údajů",
+        "p1": "Vynakládáme značné úsilí na ochranu Vašich osobních údajů. Uplatňujeme vhodná technická a organizační opatření (jako je šifrování tam, kde je to možné, zabezpečené servery a pravidelné bezpečnostní audity), abychom zabránili neoprávněnému přístupu, změně, zveřejnění nebo zničení.",
+        "p2": "Ačkoli usilujeme o 100% bezpečnost, je důležité vědět, že žádný systém není nezranitelný. V případě jakéhokoli bezpečnostního incidentu, který by mohl ohrozit Vaše údaje, Vás budeme informovat, stejně jako příslušné orgány, v souladu se zákonnými povinnostmi."
+      },
+      "minors": {
+        "title": "7. Soukromí dětí",
+        "p1": "Náš AI Turistický Průvodce není určen pro osoby mladší 16 let (nebo jiného relevantního věku podle místních zákonů o ochraně údajů). Vědomě neshromažďujeme osobní údaje od dětí. Pokud zjistíte, že nám dítě poskytlo osobní údaje bez souhlasu rodičů, prosím, neprodleně nás kontaktujte, abychom mohli podniknout příslušné kroky."
+      },
+      "policyChanges": {
+        "title": "8. Změny těchto Zásad",
+        "p1": "Svět technologií a zákony se mění, takže možná budeme muset čas od času aktualizovat tyto Zásady. Všechny změny budou zveřejněny na této stránce s jasným uvedením data poslední úpravy. Doporučujeme Vám pravidelně kontrolovat tuto stránku.",
+        "p2": "Vaše další používání Aplikace po zveřejnění změn bude považováno za přijetí nových Zásad.",
+        "lastUpdatedP1": "Poslední aktualizace: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Máte dotazy nebo obavy? Jsme tu pro Vás. Prosím, použijte kontaktní formulář dostupný v naší Aplikaci."
+      }
+    }
+  }
 }

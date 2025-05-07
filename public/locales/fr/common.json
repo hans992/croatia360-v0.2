@@ -214,5 +214,114 @@
   "tag_waterfalls": "Cascades",
   "tag_hiking": "Randonnée",
 
-  "alt_croatia_map": "Carte de la Croatie par régions"
+  "alt_croatia_map": "Carte de la Croatie par régions",
+
+  "cookie_consent_banner": {
+    "message": "Ce site web utilise des cookies pour améliorer votre expérience utilisateur et analyser l'utilisation du site. En cliquant sur 'Tout accepter', vous acceptez notre utilisation des cookies à ces fins.",
+    "learn_more_link_text": "En savoir plus",
+    "accept_button": "Tout accepter",
+    "decline_button": "Refuser les cookies analytiques",
+    "policy_link_url": "/fr/politique-de-confidentialite"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Politique de Confidentialité et Conditions d'Utilisation de Votre Guide Touristique IA",
+    "sections": {
+      "intro": {
+        "title": "1. Dispositions Introductives",
+        "p1": "Bienvenue sur Votre Guide Touristique IA ! Cette Politique de Confidentialité et ces Conditions d'Utilisation (ci-après : « Politique ») expliquent comment notre système d'IA (ci-après : « Application ») collecte, utilise, traite et protège vos données personnelles. Notre objectif est de vous fournir des recommandations et des informations personnalisées tout en respectant votre vie privée.",
+        "p2": "En utilisant cette Application, vous confirmez avoir lu, compris et accepté ces Conditions et consentez à la collecte et au traitement de vos données personnelles conformément à cette Politique. Si vous n'êtes pas d'accord avec cette Politique, veuillez ne pas utiliser l'Application."
+      },
+      "dataCollection": {
+        "title": "2. Quelles données collectons-nous et comment les utilisons-nous",
+        "p1": "Pour que Votre Guide Touristique IA fonctionne efficacement et vous fournisse des informations pertinentes, nous collectons les types de données suivants :",
+        "list": {
+          "item1_label": "Données que vous fournissez directement :",
+          "item1_text": "Vos requêtes, préférences de voyage, centres d'intérêt (par ex. 'restaurants avec vue', 'monuments historiques'), nom (si vous le fournissez pour la personnalisation) et les informations que vous communiquez via notre formulaire de contact.",
+          "item2_label": "Données sur votre interaction avec l'Application :",
+          "item2_text": "Informations sur la manière dont vous utilisez l'Application, quelles recommandations vous consultez, lesquelles vous sélectionnez, et les commentaires que vous nous faites parvenir.",
+          "item3_label": "Données techniques (via les cookies) :",
+          "item3_text": "Données anonymisées sur votre appareil, type de navigateur, localisation approximative (si vous l'activez pour de meilleures recommandations) et informations collectées via les cookies uniquement à des fins analytiques et pour améliorer les performances de l'Application (détails à la Section 5)."
+        },
+        "purposeSubheading": "Finalité de la collecte et du traitement des données :",
+        "purposeP1": "Vos données personnelles sont utilisées exclusivement pour :",
+        "purposeList": {
+          "item1": "Fournir des recommandations touristiques personnalisées et des réponses à vos requêtes.",
+          "item2": "Améliorer l'expérience utilisateur et les fonctionnalités de l'Application.",
+          "item3": "Analyser l'utilisation de l'Application afin d'optimiser nos modèles d'IA et nos services (toujours de manière anonymisée lorsque cela est possible).",
+          "item4": "Assurer la sécurité et intégrité de l'Application."
+        }
+      },
+      "dataSharing": {
+        "title": "3. Avec qui partageons-nous vos données",
+        "p1": "Votre vie privée est extrêmement importante pour nous. Nous ne vendrons, ne louerons, ni ne divulguerons d'aucune autre manière vos données personnelles à des tiers à des fins de marketing.",
+        "p2": "Nous pouvons partager des données uniquement avec des partenaires de confiance (Sous-traitants) qui nous aident à exploiter l'Application, et ce, uniquement aux fins indiquées :",
+        "servicesList": {
+          "item1_label": "Plateforme d'IA (par ex. Gemini API) :",
+          "item1_text": "Pour le traitement de vos requêtes et la génération de réponses intelligentes. Les données sont envoyées à la plateforme conformément à leurs politiques de confidentialité, que nous vous recommandons de consulter.",
+          "item2_label": "Services d'analyse (par ex. Google Analytics) :",
+          "item2_text": "Pour l'analyse anonyme de l'utilisation de l'Application afin de nous aider à l'améliorer. Nous veillons à ce que les paramètres de confidentialité (comme l'anonymisation de l'adresse IP) soient appliqués au maximum.",
+          "item3_label": "Services de communication (par ex. Zapier pour le traitement des données du formulaire de contact) :",
+          "item3_text": "Pour transmettre vos demandes issues du formulaire de contact à l'adresse interne appropriée ou au système de support."
+        },
+        "p3": "Tous nos partenaires sont tenus de respecter la confidentialité et la sécurité de vos données et ne peuvent les utiliser qu'aux fins convenues, conformément à la réglementation RGPD.",
+        "p4": "Nous nous efforcerons toujours de minimiser la quantité de données que nous partageons."
+      },
+      "yourRights": {
+        "title": "4. Vos droits en tant qu'utilisateur (RGPD)",
+        "p1": "Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez de plusieurs droits concernant vos données personnelles :",
+        "rightsList": {
+          "item1_label": "Droit d'accès :",
+          "item1_text": "Vous pouvez demander des informations sur les données personnelles vous concernant que nous traitons et comment nous les traitons.",
+          "item2_label": "Droit de rectification :",
+          "item2_text": "Si vos données sont inexactes ou incomplètes, vous avez le droit de les faire corriger.",
+          "item3_label": "Droit à l'effacement (« droit à l'oubli ») :",
+          "item3_text": "Sous certaines conditions, vous pouvez demander la suppression de vos données personnelles.",
+          "item4_label": "Droit à la limitation du traitement :",
+          "item4_text": "Vous pouvez demander que nous limitions temporairement le traitement de vos données.",
+          "item5_label": "Droit à la portabilité des données :",
+          "item5_text": "Vous avez le droit de recevoir vos données dans un format structuré, couramment utilisé et lisible par machine.",
+          "item6_label": "Droit d'opposition :",
+          "item6_text": "Vous pouvez vous opposer à certains types de traitement de vos données.",
+          "item7_label": "Droit de retirer votre consentement :",
+          "item7_text": "Si le traitement est basé sur le consentement, vous pouvez le retirer à tout moment."
+        },
+        "contactP1": "Pour exercer ces droits, ou pour toute question relative à votre vie privée, veuillez utiliser le formulaire de contact disponible sur notre Application.",
+        "complaintP1": "Vous avez également le droit d'introduire une réclamation auprès de l'autorité de contrôle (par ex. la CNIL en France, ou votre autorité locale de protection des données) si vous estimez que vos droits ont été violés."
+      },
+      "cookies": {
+        "title": "5. Cookies et Analyses",
+        "p1": "Notre Application utilise des cookies. Ce sont de petits fichiers texte stockés sur votre appareil pour nous aider à améliorer votre expérience.",
+        "purposeSubheading": "Pourquoi utilisons-nous des cookies ?",
+        "purposeP1": "Nous les utilisons exclusivement pour :",
+        "cookiesList": {
+          "item1_label": "Améliorer la fonctionnalité :",
+          "item1_text": "Certains cookies sont nécessaires au fonctionnement de base de l'Application, par exemple pour mémoriser vos préférences de session afin que vous n'ayez pas à saisir constamment les mêmes informations.",
+          "item2_label": "Analyse d'utilisation :",
+          "item2_text": "Nous utilisons des cookies analytiques anonymes (par ex. via Google Analytics avec anonymisation de l'IP activée) pour comprendre comment vous utilisez l'Application – quelles fonctionnalités vous sont les plus utiles, où vous rencontrez des difficultés. Cela nous aide à améliorer continuellement l'Application."
+        },
+        "noMarketingP1": "Important : Nous n'utilisons pas de cookies marketing ni de cookies tiers pour suivre vos activités sur d'autres sites web à des fins de profilage ou de publicité ciblée.",
+        "managementSubheading": "Comment pouvez-vous gérer les cookies ?",
+        "managementP1": "Lors de votre première visite sur l'Application, nous vous informerons de l'utilisation des cookies et, lorsque la loi l'exige, nous vous demanderons votre consentement pour les cookies analytiques. Vous pouvez gérer les cookies via les paramètres de votre navigateur web – vous pouvez les bloquer ou les supprimer. Veuillez noter que la désactivation des cookies analytiques ne devrait pas affecter la fonctionnalité de base de l'Application, tandis que la désactivation des cookies strictement nécessaires (si votre navigateur permet leur blocage) pourrait le faire."
+      },
+      "dataSecurity": {
+        "title": "6. Sécurité de vos données",
+        "p1": "Nous investissons des efforts considérables pour protéger vos données personnelles. Nous appliquons des mesures techniques et organisationnelles appropriées (telles que le cryptage lorsque cela est possible, des serveurs sécurisés et des audits de sécurité réguliers) pour empêcher tout accès, modification, divulgation ou destruction non autorisés.",
+        "p2": "Bien que nous visions une sécurité à 100 %, il est important de savoir qu'aucun système n'est invulnérable. En cas d'incident de sécurité susceptible de compromettre vos données, nous vous en informerons ainsi que les autorités compétentes, conformément aux obligations légales."
+      },
+      "minors": {
+        "title": "7. Vie privée des enfants",
+        "p1": "Notre Guide Touristique IA n'est pas destiné aux personnes de moins de 16 ans (ou tout autre âge pertinent selon les lois locales sur la protection des données). Nous ne collectons pas sciemment de données personnelles auprès des enfants. Si vous apprenez qu'un enfant nous a fourni des données personnelles sans le consentement de ses parents, veuillez nous contacter immédiatement afin que nous puissions prendre les mesures appropriées.",
+        "policyChanges": {
+          "title": "8. Modifications de cette Politique",
+          "p1": "Le monde de la technologie et les lois évoluent, nous pourrions donc avoir besoin de mettre à jour occasionnellement cette Politique. Toutes les modifications seront publiées sur cette page, avec une indication claire de la date de la dernière modification. Nous vous recommandons de consulter régulièrement cette page.",
+          "p2": "Votre utilisation continue de l'Application après la publication des modifications sera considérée comme une acceptation de la nouvelle Politique.",
+          "lastUpdatedP1": "Dernière mise à jour : {{currentDate}}"
+        },
+        "contactFooter": {
+          "p1": "Vous avez des questions ou des préoccupations ? Nous sommes là pour vous. Veuillez utiliser le formulaire de contact disponible sur notre Application."
+        }
+      }
+    }
+  }
 }

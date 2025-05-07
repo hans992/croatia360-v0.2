@@ -160,7 +160,7 @@
   "explore_discover_more_button": "Odkryj Więcej",
   "explore_find_section_title": "Znajdź swój pobyt, posiłek lub przygodę",
   "explore_discover_now_button": "Odkryj Teraz",
-  "reviews_suffix": "opinia",
+  "reviews_suffix": "opinia", 
 
   "filter_category_label": "Kategoria",
   "filter_category_placeholder": "Wszystkie kategorie",
@@ -214,5 +214,114 @@
   "tag_waterfalls": "Wodospady",
   "tag_hiking": "Piesze wycieczki",
 
-  "alt_croatia_map": "Mapa Chorwacji według regionów"
+  "alt_croatia_map": "Mapa Chorwacji według regionów",
+
+  "cookie_consent_banner": {
+    "message": "Ta strona internetowa wykorzystuje pliki cookie w celu poprawy doświadczeń użytkownika oraz analizy ruchu na stronie. Klikając 'Akceptuj wszystko', zgadzasz się na używanie przez nas plików cookie w tych celach.",
+    "learn_more_link_text": "Dowiedz się więcej",
+    "accept_button": "Akceptuj wszystko",
+    "decline_button": "Odrzuć analityczne",
+    "policy_link_url": "/pl/polityka-prywatnosci"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Polityka Prywatności i Warunki Korzystania z Twojego Przewodnika Turystycznego AI",
+    "sections": {
+      "intro": {
+        "title": "1. Postanowienia Wstępne",
+        "p1": "Witamy w Twoim Przewodniku Turystycznym AI! Niniejsza Polityka Prywatności i Warunki Korzystania (zwane dalej: „Polityką”) wyjaśniają, w jaki sposób nasz system AI (zwany dalej: „Aplikacją”) gromadzi, wykorzystuje, przetwarza i chroni Twoje dane osobowe. Naszym celem jest dostarczanie Ci spersonalizowanych rekomendacji i informacji przy jednoczesnym poszanowaniu Twojej prywatności.",
+        "p2": "Korzystając z tej Aplikacji, potwierdzasz, że przeczytałeś, zrozumiałeś i zaakceptowałeś niniejsze Warunki oraz wyrażasz zgodę na gromadzenie i przetwarzanie Twoich danych osobowych zgodnie z niniejszą Polityką. Jeśli nie zgadzasz się z niniejszą Polityką, prosimy o niekorzystanie z Aplikacji."
+      },
+      "dataCollection": {
+        "title": "2. Jakie dane gromadzimy i jak je wykorzystujemy",
+        "p1": "Aby Twój Przewodnik Turystyczny AI mógł skutecznie działać i dostarczać Ci odpowiednich informacji, gromadzimy następujące rodzaje danych:",
+        "list": {
+          "item1_label": "Dane podane bezpośrednio przez Ciebie:",
+          "item1_text": "Twoje zapytania, preferencje podróży, zainteresowania (np. 'restauracje z widokiem', 'zabytki historyczne'), imię (jeśli je podasz w celu personalizacji) oraz informacje przekazane za pośrednictwem naszego formularza kontaktowego.",
+          "item2_label": "Dane dotyczące Twojej interakcji z Aplikacją:",
+          "item2_text": "Informacje o tym, jak korzystasz z Aplikacji, jakie rekomendacje przeglądasz, które wybierasz oraz opinie, które nam przekazujesz.",
+          "item3_label": "Dane techniczne (za pomocą plików cookie):",
+          "item3_text": "Zanonimizowane dane dotyczące Twojego urządzenia, typu przeglądarki, przybliżonej lokalizacji (jeśli ją włączysz w celu uzyskania lepszych rekomendacji) oraz informacje gromadzone za pomocą plików cookie wyłącznie w celach analitycznych i w celu poprawy wydajności Aplikacji (szczegóły w Sekcji 5)."
+        },
+        "purposeSubheading": "Cel gromadzenia i przetwarzania danych:",
+        "purposeP1": "Twoje dane osobowe są wykorzystywane wyłącznie w celu:",
+        "purposeList": {
+          "item1": "Dostarczania spersonalizowanych rekomendacji turystycznych i odpowiedzi na Twoje zapytania.",
+          "item2": "Poprawy doświadczeń użytkownika i funkcjonalności Aplikacji.",
+          "item3": "Analizy korzystania z Aplikacji w celu optymalizacji naszych modeli AI i usług (zawsze w miarę możliwości w formie zanonimizowanej).",
+          "item4": "Zapewnienia bezpieczeństwa i integralności Aplikacji."
+        }
+      },
+      "dataSharing": {
+        "title": "3. Komu udostępniamy Twoje dane",
+        "p1": "Twoja prywatność jest dla nas niezwykle ważna. Nie będziemy sprzedawać, wynajmować ani w żaden inny sposób udostępniać Twoich danych osobowych stronom trzecim w celach marketingowych.",
+        "p2": "Możemy udostępniać dane wyłącznie zaufanym partnerom (Podmiotom przetwarzającym dane), którzy pomagają nam w obsłudze Aplikacji, i wyłącznie we wskazanych celach:",
+        "servicesList": {
+          "item1_label": "Platforma AI (np. Gemini API):",
+          "item1_text": "Do przetwarzania Twoich zapytań i generowania inteligentnych odpowiedzi. Dane są wysyłane do platformy zgodnie z ich politykami prywatności, z którymi zalecamy się zapoznać.",
+          "item2_label": "Usługi analityczne (np. Google Analytics):",
+          "item2_text": "Do anonimowej analizy korzystania z Aplikacji, aby pomóc nam ją ulepszyć. Zapewniamy, że ustawienia prywatności (takie jak anonimizacja adresu IP) są maksymalnie egzekwowane.",
+          "item3_label": "Usługi komunikacyjne (np. Zapier do przetwarzania danych z formularza kontaktowego):",
+          "item3_text": "Do przekazywania Twoich zapytań z formularza kontaktowego na odpowiedni adres wewnętrzny lub do systemu wsparcia."
+        },
+        "p3": "Wszyscy nasi partnerzy są zobowiązani do poszanowania poufności i bezpieczeństwa Twoich danych i mogą je wykorzystywać wyłącznie w uzgodnionych celach, zgodnie z przepisami RODO.",
+        "p4": "Zawsze będziemy dążyć do minimalizacji ilości udostępnianych przez nas danych."
+      },
+      "yourRights": {
+        "title": "4. Twoje prawa jako użytkownika (RODO)",
+        "p1": "Zgodnie z Ogólnym Rozporządzeniem o Ochronie Danych (RODO), przysługuje Ci szereg praw dotyczących Twoich danych osobowych:",
+        "rightsList": {
+          "item1_label": "Prawo dostępu do danych:",
+          "item1_text": "Możesz zażądać informacji o tym, jakie Twoje dane osobowe przetwarzamy i w jaki sposób.",
+          "item2_label": "Prawo do sprostowania danych:",
+          "item2_text": "Jeśli Twoje dane są niedokładne lub niekompletne, masz prawo do ich poprawienia.",
+          "item3_label": "Prawo do usunięcia danych („prawo do bycia zapomnianym”):",
+          "item3_text": "W określonych warunkach możesz zażądać usunięcia swoich danych osobowych.",
+          "item4_label": "Prawo do ograniczenia przetwarzania:",
+          "item4_text": "Możesz zażądać, abyśmy tymczasowo ograniczyli przetwarzanie Twoich danych.",
+          "item5_label": "Prawo do przenoszenia danych:",
+          "item5_text": "Masz prawo otrzymać swoje dane w ustrukturyzowanym, powszechnie używanym formacie nadającym się do odczytu maszynowego.",
+          "item6_label": "Prawo do sprzeciwu:",
+          "item6_text": "Możesz wnieść sprzeciw wobec określonych rodzajów przetwarzania Twoich danych.",
+          "item7_label": "Prawo do wycofania zgody:",
+          "item7_text": "Jeśli przetwarzanie odbywa się na podstawie zgody, możesz ją wycofać w dowolnym momencie."
+        },
+        "contactP1": "Aby skorzystać z tych praw lub w przypadku jakichkolwiek pytań dotyczących Twojej prywatności, prosimy o skorzystanie z formularza kontaktowego dostępnego w naszej Aplikacji.",
+        "complaintP1": "Masz również prawo wnieść skargę do organu nadzorczego (w Polsce jest to Prezes Urzędu Ochrony Danych Osobowych - UODO), jeśli uważasz, że Twoje prawa zostały naruszone."
+      },
+      "cookies": {
+        "title": "5. Pliki cookie i Analityka",
+        "p1": "Nasza Aplikacja wykorzystuje pliki cookie. Są to małe pliki tekstowe przechowywane na Twoim urządzeniu, które pomagają nam ulepszyć Twoje doświadczenia.",
+        "purposeSubheading": "Dlaczego używamy plików cookie?",
+        "purposeP1": "Używamy ich wyłącznie w celu:",
+        "cookiesList": {
+          "item1_label": "Poprawy funkcjonalności:",
+          "item1_text": "Niektóre pliki cookie są niezbędne do podstawowego działania Aplikacji, np. zapamiętywania preferencji sesji, abyś nie musiał ciągle wprowadzać tych samych informacji.",
+          "item2_label": "Analityki użytkowania:",
+          "item2_text": "Używamy anonimowych analitycznych plików cookie (np. za pośrednictwem Google Analytics z włączoną anonimizacją IP), aby zrozumieć, jak korzystasz z Aplikacji – które funkcje są dla Ciebie najbardziej przydatne, gdzie napotykasz trudności. Pomaga nam to ciągle ulepszać Aplikację."
+        },
+        "noMarketingP1": "Ważne: Nie używamy marketingowych plików cookie ani plików cookie stron trzecich do śledzenia Twojej aktywności na innych stronach internetowych w celach profilowania lub ukierunkowanej reklamy.",
+        "managementSubheading": "Jak możesz zarządzać plikami cookie?",
+        "managementP1": "Podczas Twojej pierwszej wizyty w Aplikacji poinformujemy Cię o używaniu plików cookie i, tam gdzie jest to prawnie wymagane, poprosimy o Twoją zgodę na analityczne pliki cookie. Możesz zarządzać plikami cookie za pomocą ustawień swojej przeglądarki internetowej – możesz je blokować lub usuwać. Pamiętaj, że wyłączenie analitycznych plików cookie nie powinno wpłynąć na podstawową funkcjonalność Aplikacji, natomiast wyłączenie ściśle niezbędnych plików cookie (jeśli Twoja przeglądarka pozwala na ich blokowanie) może to zrobić."
+      },
+      "dataSecurity": {
+        "title": "6. Bezpieczeństwo Twoich danych",
+        "p1": "Podejmujemy znaczące wysiłki w celu ochrony Twoich danych osobowych. Stosujemy odpowiednie środki techniczne i organizacyjne (takie jak szyfrowanie tam, gdzie jest to wykonalne, bezpieczne serwery i regularne audyty bezpieczeństwa), aby zapobiec nieautoryzowanemu dostępowi, zmianie, ujawnieniu lub zniszczeniu.",
+        "p2": "Chociaż dążymy do 100% bezpieczeństwa, ważne jest, aby wiedzieć, że żaden system nie jest odporny na ataki. W przypadku jakiegokolwiek incydentu bezpieczeństwa, który mógłby zagrozić Twoim danym, powiadomimy Ciebie oraz odpowiednie organy zgodnie z obowiązkami prawnymi."
+      },
+      "minors": {
+        "title": "7. Prywatność dzieci",
+        "p1": "Nasz Przewodnik Turystyczny AI nie jest przeznaczony dla osób poniżej 16 roku życia (lub innego odpowiedniego wieku zgodnie z lokalnymi przepisami o ochronie danych). Świadomie nie gromadzimy danych osobowych od dzieci. Jeśli dowiesz się, że dziecko przekazało nam dane osobowe bez zgody rodziców, prosimy o natychmiastowy kontakt, abyśmy mogli podjąć odpowiednie kroki."
+      },
+      "policyChanges": {
+        "title": "8. Zmiany w niniejszej Polityce",
+        "p1": "Świat technologii i prawa się zmieniają, dlatego możemy od czasu do czasu potrzebować aktualizacji niniejszej Polityki. Wszelkie zmiany zostaną opublikowane na tej stronie, z wyraźnym wskazaniem daty ostatniej modyfikacji. Zalecamy regularne sprawdzanie tej strony.",
+        "p2": "Dalsze korzystanie z Aplikacji po opublikowaniu zmian będzie uznane za akceptację nowej Polityki.",
+        "lastUpdatedP1": "Ostatnia aktualizacja: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Masz pytania lub wątpliwości? Jesteśmy tu dla Ciebie. Prosimy o skorzystanie z formularza kontaktowego dostępnego w naszej Aplikacji."
+      }
+    }
+  }
 }

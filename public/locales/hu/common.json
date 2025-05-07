@@ -214,5 +214,114 @@
   "tag_waterfalls": "Vízesések",
   "tag_hiking": "Túrázás",
 
-  "alt_croatia_map": "Horvátország térképe régiók szerint"
+  "alt_croatia_map": "Horvátország térképe régiók szerint",
+
+  "cookie_consent_banner": {
+    "message": "Ez a weboldal sütiket (cookies) használ a felhasználói élmény javítása és a webhelyforgalom elemzése céljából. Az 'Összes elfogadása' gombra kattintva Ön hozzájárul ahhoz, hogy ezen célokból sütiket használjunk.",
+    "learn_more_link_text": "Tudjon meg többet",
+    "accept_button": "Összes elfogadása",
+    "decline_button": "Analitikai sütik elutasítása",
+    "policy_link_url": "/hu/adatvedelmi-iranyelvek"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Adatvédelmi Irányelvek és Felhasználási Feltételek az Ön MI Turisztikai Útikalauzához",
+    "sections": {
+      "intro": {
+        "title": "1. Bevezető rendelkezések",
+        "p1": "Üdvözöljük az Ön MI Turisztikai Útikalauzában! Jelen Adatvédelmi Irányelvek és Felhasználási Feltételek (a továbbiakban: „Irányelvek”) ismertetik, hogy MI rendszerünk (a továbbiakban: „Alkalmazás”) hogyan gyűjti, használja fel, dolgozza fel és védi az Ön személyes adatait. Célunk, hogy személyre szabott ajánlásokat és információkat nyújtsunk Önnek, tiszteletben tartva az Ön magánéletét.",
+        "p2": "Az Alkalmazás használatával Ön megerősíti, hogy elolvasta, megértette és elfogadta ezeket a Feltételeket, valamint hozzájárul személyes adatainak gyűjtéséhez és feldolgozásához a jelen Irányelveknek megfelelően. Amennyiben nem ért egyet ezekkel az Irányelvekkel, kérjük, ne használja az Alkalmazást."
+      },
+      "dataCollection": {
+        "title": "2. Milyen adatokat gyűjtünk és hogyan használjuk fel azokat",
+        "p1": "Annak érdekében, hogy az Ön MI Turisztikai Útikalauza hatékonyan működhessen és releváns információkat nyújthasson Önnek, a következő típusú adatokat gyűjtjük:",
+        "list": {
+          "item1_label": "Közvetlenül Ön által megadott adatok:",
+          "item1_text": "Kérdései, utazási preferenciái, érdeklődési körei (pl. 'éttermek kilátással', 'történelmi nevezetességek'), neve (ha megadja a személyre szabáshoz) és a kapcsolatfelvételi űrlapunkon keresztül megadott információk.",
+          "item2_label": "Az Alkalmazással való interakciójára vonatkozó adatok:",
+          "item2_text": "Információk arról, hogyan használja az Alkalmazást, milyen ajánlásokat tekint meg, melyeket választja ki, és az Ön által adott visszajelzések.",
+          "item3_label": "Technikai adatok (sütiken keresztül):",
+          "item3_text": "Anonimizált adatok az Ön eszközéről, böngészőjének típusáról, hozzávetőleges tartózkodási helyéről (ha engedélyezi a jobb ajánlások érdekében), valamint a sütiken keresztül gyűjtött információk kizárólag analitikai célokra és az Alkalmazás teljesítményének javítására (részletek az 5. szakaszban)."
+        },
+        "purposeSubheading": "Az adatgyűjtés és -feldolgozás célja:",
+        "purposeP1": "Személyes adatait kizárólag az alábbi célokra használjuk fel:",
+        "purposeList": {
+          "item1": "Személyre szabott turisztikai ajánlások és válaszok nyújtása az Ön kérdéseire.",
+          "item2": "A felhasználói élmény és az Alkalmazás funkcionalitásának javítása.",
+          "item3": "Az Alkalmazás használatának elemzése MI modelljeink és szolgáltatásaink optimalizálása érdekében (ahol lehetséges, mindig anonimizált formában).",
+          "item4": "Az Alkalmazás biztonságának és integritásának biztosítása."
+        }
+      },
+      "dataSharing": {
+        "title": "3. Kivel osztjuk meg az Ön adatait",
+        "p1": "Az Ön magánélete rendkívül fontos számunkra. Személyes adatait nem adjuk el, nem adjuk bérbe, és semmilyen más módon nem adjuk át harmadik feleknek marketing célokra.",
+        "p2": "Az adatokat kizárólag megbízható partnerekkel (Adatfeldolgozókkal) oszthatjuk meg, akik segítenek nekünk az Alkalmazás működtetésében, és kizárólag a megadott célokra:",
+        "servicesList": {
+          "item1_label": "MI Platform (pl. Gemini API):",
+          "item1_text": "Kérdéseinek feldolgozására és intelligens válaszok generálására. Az adatokat a platform adatvédelmi irányelveinek megfelelően küldjük el, amelyeket javasoljuk áttekinteni.",
+          "item2_label": "Analitikai szolgáltatások (pl. Google Analytics):",
+          "item2_text": "Az Alkalmazás használatának anonim elemzésére, hogy segítsen nekünk annak javításában. Biztosítjuk, hogy az adatvédelmi beállítások (mint például az IP-cím anonimizálása) maximálisan érvényesüljenek.",
+          "item3_label": "Kommunikációs szolgáltatások (pl. Zapier a kapcsolatfelvételi űrlap adatainak feldolgozásához):",
+          "item3_text": "Kérdéseinek továbbítására a kapcsolatfelvételi űrlapról a megfelelő belső címre vagy támogatási rendszerbe."
+        },
+        "p3": "Minden partnerünk köteles tiszteletben tartani az Ön adatainak bizalmas kezelését és biztonságát, és azokat kizárólag a megállapodás szerinti célokra használhatják fel, a GDPR előírásainak megfelelően.",
+        "p4": "Mindig törekedni fogunk arra, hogy minimalizáljuk a megosztott adatok mennyiségét."
+      },
+      "yourRights": {
+        "title": "4. Az Ön jogai felhasználóként (GDPR)",
+        "p1": "Az Általános Adatvédelmi Rendelet (GDPR) értelmében Ön számos joggal rendelkezik személyes adataival kapcsolatban:",
+        "rightsList": {
+          "item1_label": "Hozzáférési jog:",
+          "item1_text": "Tájékoztatást kérhet arról, hogy milyen személyes adatait és hogyan kezeljük.",
+          "item2_label": "Helyesbítéshez való jog:",
+          "item2_text": "Ha adatai pontatlanok vagy hiányosak, joga van azok helyesbítéséhez.",
+          "item3_label": "Törléshez való jog („elfeledtetéshez való jog”):",
+          "item3_text": "Bizonyos feltételek mellett kérheti személyes adatainak törlését.",
+          "item4_label": "Adatkezelés korlátozásához való jog:",
+          "item4_text": "Kérheti, hogy ideiglenesen korlátozzuk adatainak kezelését.",
+          "item5_label": "Adathordozhatósághoz való jog:",
+          "item5_text": "Joga van megkapni adatait strukturált, géppel olvasható formátumban.",
+          "item6_label": "Tiltakozáshoz való jog:",
+          "item6_text": "Tiltakozhat adatai bizonyos típusú kezelése ellen.",
+          "item7_label": "Hozzájárulás visszavonásához való jog:",
+          "item7_text": "Ha az adatkezelés hozzájáruláson alapul, azt bármikor visszavonhatja."
+        },
+        "contactP1": "E jogok gyakorlásához, vagy bármilyen, a magánéletével kapcsolatos kérdés esetén, kérjük, használja az Alkalmazásunkban elérhető kapcsolatfelvételi űrlapot.",
+        "complaintP1": "Önnek joga van panaszt tenni a felügyeleti hatóságnál (Magyarországon a Nemzeti Adatvédelmi és Információszabadság Hatóságnál - NAIH) is, ha úgy véli, hogy jogai sérültek."
+      },
+      "cookies": {
+        "title": "5. Sütik (Cookies) és Analitika",
+        "p1": "Alkalmazásunk sütiket használ. Ezek kis szöveges fájlok, amelyeket az Ön eszköze tárol, hogy segítsenek javítani az Ön élményét.",
+        "purposeSubheading": "Miért használunk sütiket?",
+        "purposeP1": "Kizárólag az alábbi célokra használjuk őket:",
+        "cookiesList": {
+          "item1_label": "Funkcionalitás javítása:",
+          "item1_text": "Néhány süti szükséges az Alkalmazás alapvető működéséhez, pl. a munkamenet preferenciáinak megjegyzéséhez, hogy ne kelljen folyamatosan ugyanazokat az információkat újra megadnia.",
+          "item2_label": "Használati analitika:",
+          "item2_text": "Anonim analitikai sütiket használunk (pl. Google Analytics-en keresztül, bekapcsolt IP-anonimizálással) annak megértésére, hogyan használja az Alkalmazást – mely funkciók a leghasznosabbak Önnek, hol ütközik nehézségekbe. Ez segít nekünk folyamatosan javítani az Alkalmazást."
+        },
+        "noMarketingP1": "Fontos: Nem használunk marketing sütiket vagy harmadik féltől származó sütiket az Ön tevékenységeinek nyomon követésére más webhelyeken profilalkotás vagy célzott hirdetés céljából.",
+        "managementSubheading": "Hogyan kezelheti a sütiket?",
+        "managementP1": "Az Alkalmazás első látogatásakor tájékoztatjuk Önt a sütik használatáról, és ahol ezt törvény előírja, hozzájárulását kérjük az analitikai sütikhez. A sütiket webböngészője beállításaiban kezelheti – letilthatja vagy törölheti őket. Kérjük, vegye figyelembe, hogy az analitikai sütik letiltása nem befolyásolhatja az Alkalmazás alapvető funkcionalitását, míg a feltétlenül szükséges sütik letiltása (ha böngészője lehetővé teszi azok blokkolását) igen."
+      },
+      "dataSecurity": {
+        "title": "6. Az Ön adatainak biztonsága",
+        "p1": "Jelentős erőfeszítéseket teszünk személyes adatainak védelme érdekében. Megfelelő technikai és szervezési intézkedéseket alkalmazunk (például titkosítást, ahol lehetséges, biztonságos szervereket és rendszeres biztonsági ellenőrzéseket) a jogosulatlan hozzáférés, módosítás, nyilvánosságra hozatal vagy megsemmisítés megakadályozása érdekében.",
+        "p2": "Bár 100%-os biztonságra törekszünk, fontos tudni, hogy egyetlen rendszer sem sebezhetetlen. Bármilyen biztonsági incidens esetén, amely veszélyeztethetné az Ön adatait, értesítjük Önt és az illetékes hatóságokat a jogszabályi kötelezettségeknek megfelelően."
+      },
+      "minors": {
+        "title": "7. Gyermekek adatainak védelme",
+        "p1": "MI Turisztikai Útikalauzunk nem 16 éven aluli személyeknek (vagy a helyi adatvédelmi törvények szerinti egyéb releváns korhatárnak) készült. Tudatosan nem gyűjtünk személyes adatokat gyermekektől. Ha tudomására jut, hogy egy gyermek szülői hozzájárulás nélkül adott meg nekünk személyes adatokat, kérjük, haladéktalanul lépjen kapcsolatba velünk, hogy megtehessük a megfelelő lépéseket."
+      },
+      "policyChanges": {
+        "title": "8. Jelen Irányelvek módosításai",
+        "p1": "A technológia világa és a törvények változnak, ezért előfordulhat, hogy időnként frissítenünk kell ezeket az Irányelveket. Minden módosítást ezen az oldalon teszünk közzé, az utolsó módosítás dátumának egyértelmű feltüntetésével. Javasoljuk, hogy rendszeresen ellenőrizze ezt az oldalt.",
+        "p2": "Az Alkalmazás további használata a módosítások közzététele után az új Irányelvek elfogadásának minősül.",
+        "lastUpdatedP1": "Utoljára frissítve: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Kérdései vagy aggályai vannak? Azért vagyunk itt, hogy segítsünk. Kérjük, használja az Alkalmazásunkban elérhető kapcsolatfelvételi űrlapot."
+      }
+    }
+  }
 }

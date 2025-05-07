@@ -214,5 +214,114 @@
   "tag_waterfalls": "Waterfalls",
   "tag_hiking": "Hiking",
 
-  "alt_croatia_map": "Map of Croatia by regions"
+  "alt_croatia_map": "Map of Croatia by regions",
+
+  "cookie_consent_banner": {
+    "message": "This website uses cookies to enhance your user experience and analyze site usage. By clicking 'Accept All', you agree to our use of cookies for these purposes.",
+    "learn_more_link_text": "Learn More",
+    "accept_button": "Accept All",
+    "decline_button": "Reject analytical",
+    "policy_link_url": "/en/privacy-policy"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Privacy Policy and Terms of Use for Your AI Tourist Guide",
+    "sections": {
+      "intro": {
+        "title": "1. Introductory Provisions",
+        "p1": "Welcome to Your AI Tourist Guide! These Privacy Policy and Terms of Use (hereinafter: \"Policy\") explain how our AI system (hereinafter: \"Application\") collects, uses, processes, and protects your personal data. Our goal is to provide you with personalized recommendations and information while respecting your privacy.",
+        "p2": "By using this Application, you confirm that you have read, understood, and accepted these Terms and that you consent to the collection and processing of your personal data in accordance with this Policy. If you do not agree with this Policy, please do not use the Application."
+      },
+      "dataCollection": {
+        "title": "2. What Data We Collect and How We Use It",
+        "p1": "For Your AI Tourist Guide to operate effectively and provide you with relevant information, we collect the following types of data:",
+        "list": {
+          "item1_label": "Data you directly provide:",
+          "item1_text": "Your queries, travel preferences, interests (e.g., 'restaurants with a view', 'historical landmarks'), name (if you provide it for personalization), and information you provide via our contact form.",
+          "item2_label": "Data about your interaction with the Application:",
+          "item2_text": "Information on how you use the Application, which recommendations you view, which ones you select, and feedback you provide.",
+          "item3_label": "Technical data (via cookies):",
+          "item3_text": "Anonymized data about your device, browser type, approximate location (if you enable it for better recommendations), and information collected via cookies solely for analytical purposes and to improve the Application's performance (details in Section 5)."
+        },
+        "purposeSubheading": "Purpose of data collection and processing:",
+        "purposeP1": "Your personal data is used exclusively to:",
+        "purposeList": {
+          "item1": "Provide personalized tourist recommendations and answers to your queries.",
+          "item2": "Improve user experience and Application functionalities.",
+          "item3": "Analyze Application usage to optimize our AI models and services (always anonymized wherever possible).",
+          "item4": "Ensure the security and integrity of the Application."
+        }
+      },
+      "dataSharing": {
+        "title": "3. Who We Share Your Data With",
+        "p1": "Your privacy is extremely important to us. We will not sell, rent, or otherwise disclose your personal data to third parties for marketing purposes.",
+        "p2": "We may share data only with trusted partners (Data Processors) who assist us in operating the Application, and solely for the stated purposes:",
+        "servicesList": {
+          "item1_label": "AI Platform (e.g., Gemini API):",
+          "item1_text": "For processing your queries and generating intelligent responses. Data is sent to the platform in accordance with their privacy policies, which we recommend you review.",
+          "item2_label": "Analytical services (e.g., Google Analytics):",
+          "item2_text": "For anonymous analysis of Application usage to help us improve it. We ensure privacy settings (like IP anonymization) are maximally enforced.",
+          "item3_label": "Communication services (e.g., Zapier for processing contact form data):",
+          "item3_text": "For forwarding your inquiries from the contact form to the appropriate internal address or support system."
+        },
+        "p3": "All our partners are obligated to respect the confidentiality and security of your data and may use it only for the agreed-upon purposes, in compliance with GDPR regulations.",
+        "p4": "We will always strive to minimize the amount of data we share."
+      },
+      "yourRights": {
+        "title": "4. Your Rights as a User (GDPR)",
+        "p1": "Under the General Data Protection Regulation (GDPR), you have several rights regarding your personal data:",
+        "rightsList": {
+          "item1_label": "Right to access:",
+          "item1_text": "You can request information about what personal data of yours we process and how.",
+          "item2_label": "Right to rectification:",
+          "item2_text": "If your data is inaccurate or incomplete, you have the right to have it corrected.",
+          "item3_label": "Right to erasure ('right to be forgotten'):",
+          "item3_text": "Under certain conditions, you can request the deletion of your personal data.",
+          "item4_label": "Right to restriction of processing:",
+          "item4_text": "You can request that we temporarily restrict the processing of your data.",
+          "item5_label": "Right to data portability:",
+          "item5_text": "You have the right to receive your data in a structured, machine-readable format.",
+          "item6_label": "Right to object:",
+          "item6_text": "You can object to certain types of processing of your data.",
+          "item7_label": "Right to withdraw consent:",
+          "item7_text": "If processing is based on consent, you can withdraw it at any time."
+        },
+        "contactP1": "To exercise these rights, or for any questions regarding your privacy, please use the contact form available on our Application.",
+        "complaintP1": "You also have the right to lodge a complaint with the supervisory authority (e.g., your local Data Protection Authority) if you believe your rights have been violated."
+      },
+      "cookies": {
+        "title": "5. Cookies and Analytics",
+        "p1": "Our Application uses cookies. These are small text files stored on your device to help us improve your experience.",
+        "purposeSubheading": "Why do we use cookies?",
+        "purposeP1": "We use them exclusively for:",
+        "cookiesList": {
+          "item1_label": "Improving functionality:",
+          "item1_text": "Some cookies are necessary for the basic operation of the Application, e.g., remembering your session preferences so you don't have to constantly re-enter information.",
+          "item2_label": "Usage analytics:",
+          "item2_text": "We use anonymous analytical cookies (e.g., via Google Analytics with IP anonymization enabled) to understand how you use the Application – which features are most useful to you, where you encounter difficulties. This helps us continuously improve the Application."
+        },
+        "noMarketingP1": "Important: We do not use marketing cookies or third-party cookies to track your activities on other websites for profiling or targeted advertising purposes.",
+        "managementSubheading": "How can you manage cookies?",
+        "managementP1": "Upon your first visit to the Application, we will inform you about the use of cookies and, where legally required, ask for your consent for analytical cookies. You can manage cookies through your web browser settings – you can block or delete them. Please note that disabling analytical cookies should not affect the basic functionality of the Application, while disabling strictly necessary cookies (if your browser allows blocking them) might."
+      },
+      "dataSecurity": {
+        "title": "6. Security of Your Data",
+        "p1": "We invest significant effort in protecting your personal data. We apply appropriate technical and organizational measures (such as encryption where feasible, secure servers, and regular security audits) to prevent unauthorized access, alteration, disclosure, or destruction.",
+        "p2": "While we strive for 100% security, it's important to know that no system is invulnerable. In the event of any security incident that could compromise your data, we will notify you and the relevant authorities in accordance with legal obligations."
+      },
+      "minors": {
+        "title": "7. Children's Privacy",
+        "p1": "Our AI Tourist Guide is not intended for individuals under the age of 16 (or other relevant age as per local data protection laws). We do not knowingly collect personal data from children. If you become aware that a child has provided us with personal data without parental consent, please contact us immediately so we can take appropriate action."
+      },
+      "policyChanges": {
+        "title": "8. Changes to this Policy",
+        "p1": "The world of technology and laws changes, so we may occasionally need to update this Policy. All changes will be published on this page, with a clear indication of the last modification date. We recommend you review this page regularly.",
+        "p2": "Your continued use of the Application after changes are posted will be considered acceptance of the new Policy.",
+        "lastUpdatedP1": "Last updated: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Have questions or concerns? We're here for you. Please use the contact form available on our Application."
+      }
+    }
+  }
 }

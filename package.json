@@ -58,6 +58,7 @@
     "nodemailer": "^7.0.2",
     "pg": "^8.15.6",
     "react": "^19.0.0",
+    "react-cookie-consent": "^9.0.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.1",

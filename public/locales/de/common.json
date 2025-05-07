@@ -214,5 +214,114 @@
   "tag_waterfalls": "Wasserfälle",
   "tag_hiking": "Wandern",
 
-  "alt_croatia_map": "Karte von Kroatien nach Regionen"
+  "alt_croatia_map": "Karte von Kroatien nach Regionen",
+
+  "cookie_consent_banner": {
+    "message": "Diese Webseite verwendet Cookies, um Ihre Benutzererfahrung zu verbessern und die Webseitennutzung zu analysieren. Indem Sie auf 'Alle akzeptieren' klicken, stimmen Sie unserer Verwendung von Cookies für diese Zwecke zu.",
+    "learn_more_link_text": "Mehr erfahren",
+    "accept_button": "Alle akzeptieren",
+    "decline_button": "Analytische ablehnen",
+    "policy_link_url": "/de/datenschutzrichtlinie"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Datenschutzrichtlinie und Nutzungsbedingungen für Ihren KI-Reiseführer",
+    "sections": {
+      "intro": {
+        "title": "1. Einleitende Bestimmungen",
+        "p1": "Willkommen bei Ihrem KI-Reiseführer! Diese Datenschutzrichtlinie und Nutzungsbedingungen (im Folgenden: „Richtlinie“) erläutern, wie unser KI-System (im Folgenden: „Anwendung“) Ihre personenbezogenen Daten erhebt, verwendet, verarbeitet und schützt. Unser Ziel ist es, Ihnen personalisierte Empfehlungen und Informationen unter Wahrung Ihrer Privatsphäre bereitzustellen.",
+        "p2": "Durch die Nutzung dieser Anwendung bestätigen Sie, dass Sie diese Bedingungen gelesen, verstanden und akzeptiert haben und dass Sie der Erhebung und Verarbeitung Ihrer personenbezogenen Daten gemäß dieser Richtlinie zustimmen. Wenn Sie dieser Richtlinie nicht zustimmen, verwenden Sie die Anwendung bitte nicht."
+      },
+      "dataCollection": {
+        "title": "2. Welche Daten wir erheben und wie wir sie verwenden",
+        "p1": "Damit Ihr KI-Reiseführer effektiv arbeiten und Ihnen relevante Informationen liefern kann, erheben wir folgende Datenarten:",
+        "list": {
+          "item1_label": "Daten, die Sie direkt bereitstellen:",
+          "item1_text": "Ihre Anfragen, Reisevorlieben, Interessen (z. B. 'Restaurants mit Aussicht', 'historische Sehenswürdigkeiten'), Name (falls Sie ihn zur Personalisierung angeben) und Informationen, die Sie über unser Kontaktformular bereitstellen.",
+          "item2_label": "Daten über Ihre Interaktion mit der Anwendung:",
+          "item2_text": "Informationen darüber, wie Sie die Anwendung nutzen, welche Empfehlungen Sie ansehen, welche Sie auswählen, und Feedback, das Sie uns geben.",
+          "item3_label": "Technische Daten (über Cookies):",
+          "item3_text": "Anonymisierte Daten über Ihr Gerät, Browsertyp, ungefähre Standort (wenn Sie dies für bessere Empfehlungen aktivieren) und Informationen, die über Cookies ausschließlich zu analytischen Zwecken und zur Verbesserung der Leistung der Anwendung erhoben werden (Details in Abschnitt 5)."
+        },
+        "purposeSubheading": "Zweck der Datenerhebung und -verarbeitung:",
+        "purposeP1": "Ihre personenbezogenen Daten werden ausschließlich verwendet, um:",
+        "purposeList": {
+          "item1": "Personalisierte touristische Empfehlungen und Antworten auf Ihre Anfragen bereitzustellen.",
+          "item2": "Die Benutzererfahrung und die Funktionalitäten der Anwendung zu verbessern.",
+          "item3": "Die Nutzung der Anwendung zu analysieren, um unsere KI-Modelle und Dienste zu optimieren (wo immer möglich, stets anonymisiert).",
+          "item4": "Die Sicherheit und Integrität der Anwendung zu gewährleisten."
+        }
+      },
+      "dataSharing": {
+        "title": "3. An wen wir Ihre Daten weitergeben",
+        "p1": "Ihre Privatsphäre ist uns außerordentlich wichtig. Wir werden Ihre personenbezogenen Daten nicht zu Marketingzwecken an Dritte verkaufen, vermieten oder anderweitig weitergeben.",
+        "p2": "Wir können Daten nur an vertrauenswürdige Partner (Auftragsverarbeiter) weitergeben, die uns beim Betrieb der Anwendung unterstützen, und zwar ausschließlich für die angegebenen Zwecke:",
+        "servicesList": {
+          "item1_label": "KI-Plattform (z. B. Gemini API):",
+          "item1_text": "Zur Verarbeitung Ihrer Anfragen und Generierung intelligenter Antworten. Daten werden gemäß deren Datenschutzrichtlinien an die Plattform gesendet, deren Lektüre wir Ihnen empfehlen.",
+          "item2_label": "Analysedienste (z. B. Google Analytics):",
+          "item2_text": "Zur anonymen Analyse der Anwendungsnutzung, um uns bei der Verbesserung zu helfen. Wir stellen sicher, dass Datenschutzeinstellungen (wie IP-Anonymisierung) maximal durchgesetzt werden.",
+          "item3_label": "Kommunikationsdienste (z. B. Zapier zur Verarbeitung von Kontaktformulardaten):",
+          "item3_text": "Zur Weiterleitung Ihrer Anfragen aus dem Kontaktformular an die entsprechende interne Adresse oder das Support-System."
+        },
+        "p3": "Alle unsere Partner sind verpflichtet, die Vertraulichkeit und Sicherheit Ihrer Daten zu wahren und dürfen diese nur für die vereinbarten Zwecke gemäß den DSGVO-Bestimmungen verwenden.",
+        "p4": "Wir werden stets bemüht sein, die Menge der von uns weitergegebenen Daten zu minimieren."
+      },
+      "yourRights": {
+        "title": "4. Ihre Rechte als Nutzer (DSGVO)",
+        "p1": "Gemäß der Datenschutz-Grundverordnung (DSGVO) haben Sie mehrere Rechte bezüglich Ihrer personenbezogenen Daten:",
+        "rightsList": {
+          "item1_label": "Auskunftsrecht:",
+          "item1_text": "Sie können Auskunft darüber verlangen, welche Ihrer personenbezogenen Daten wir wie verarbeiten.",
+          "item2_label": "Recht auf Berichtigung:",
+          "item2_text": "Sind Ihre Daten unrichtig oder unvollständig, haben Sie das Recht auf deren Berichtigung.",
+          "item3_label": "Recht auf Löschung („Recht auf Vergessenwerden“):",
+          "item3_text": "Unter bestimmten Voraussetzungen können Sie die Löschung Ihrer personenbezogenen Daten verlangen.",
+          "item4_label": "Recht auf Einschränkung der Verarbeitung:",
+          "item4_text": "Sie können verlangen, dass wir die Verarbeitung Ihrer Daten vorübergehend einschränken.",
+          "item5_label": "Recht auf Datenübertragbarkeit:",
+          "item5_text": "Sie haben das Recht, Ihre Daten in einem strukturierten, maschinenlesbaren Format zu erhalten.",
+          "item6_label": "Widerspruchsrecht:",
+          "item6_text": "Sie können bestimmten Arten der Verarbeitung Ihrer Daten widersprechen.",
+          "item7_label": "Recht auf Widerruf der Einwilligung:",
+          "item7_text": "Basiert die Verarbeitung auf einer Einwilligung, können Sie diese jederzeit widerrufen."
+        },
+        "contactP1": "Zur Ausübung dieser Rechte oder bei Fragen zu Ihrer Privatsphäre nutzen Sie bitte das Kontaktformular, das in unserer Anwendung verfügbar ist.",
+        "complaintP1": "Sie haben auch das Recht, eine Beschwerde bei der Aufsichtsbehörde (z. B. Ihrer lokalen Datenschutzbehörde) einzureichen, wenn Sie der Ansicht sind, dass Ihre Rechte verletzt wurden."
+      },
+      "cookies": {
+        "title": "5. Cookies und Analytik",
+        "p1": "Unsere Anwendung verwendet Cookies. Dies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden, um uns zu helfen, Ihre Erfahrung zu verbessern.",
+        "purposeSubheading": "Warum verwenden wir Cookies?",
+        "purposeP1": "Wir verwenden sie ausschließlich für:",
+        "cookiesList": {
+          "item1_label": "Verbesserung der Funktionalität:",
+          "item1_text": "Einige Cookies sind für den grundlegenden Betrieb der Anwendung notwendig, z. B. um Ihre Sitzungspräferenzen zu speichern, damit Sie nicht ständig dieselben Informationen neu eingeben müssen.",
+          "item2_label": "Nutzungsanalytik:",
+          "item2_text": "Wir verwenden anonyme analytische Cookies (z. B. über Google Analytics mit aktivierter IP-Anonymisierung), um zu verstehen, wie Sie die Anwendung nutzen – welche Funktionen für Sie am nützlichsten sind, wo Sie auf Schwierigkeiten stoßen. Dies hilft uns, die Anwendung kontinuierlich zu verbessern."
+        },
+        "noMarketingP1": "Wichtig: Wir verwenden keine Marketing-Cookies oder Cookies von Drittanbietern, um Ihre Aktivitäten auf anderen Webseiten zum Zwecke der Profilerstellung oder gezielten Werbung zu verfolgen.",
+        "managementSubheading": "Wie können Sie Cookies verwalten?",
+        "managementP1": "Bei Ihrem ersten Besuch der Anwendung werden wir Sie über die Verwendung von Cookies informieren und, wo gesetzlich vorgeschrieben, um Ihre Zustimmung für analytische Cookies bitten. Sie können Cookies über die Einstellungen Ihres Webbrowsers verwalten – Sie können sie blockieren oder löschen. Bitte beachten Sie, dass die Deaktivierung von analytischen Cookies die grundlegende Funktionalität der Anwendung nicht beeinträchtigen sollte, während die Deaktivierung unbedingt erforderlicher Cookies (sofern Ihr Browser deren Blockierung zulässt) dies tun kann."
+      },
+      "dataSecurity": {
+        "title": "6. Sicherheit Ihrer Daten",
+        "p1": "Wir unternehmen erhebliche Anstrengungen, um Ihre personenbezogenen Daten zu schützen. Wir wenden geeignete technische und organisatorische Maßnahmen an (wie z. B. Verschlüsselung, wo möglich, sichere Server und regelmäßige Sicherheitsüberprüfungen), um unbefugten Zugriff, Änderung, Offenlegung oder Zerstörung zu verhindern.",
+        "p2": "Obwohl wir uns um 100%ige Sicherheit bemühen, ist es wichtig zu wissen, dass kein System unverwundbar ist. Im Falle eines Sicherheitsvorfalls, der Ihre Daten gefährden könnte, werden wir Sie und die zuständigen Behörden gemäß den gesetzlichen Verpflichtungen benachrichtigen."
+      },
+      "minors": {
+        "title": "7. Datenschutz von Kindern",
+        "p1": "Unser KI-Reiseführer ist nicht für Personen unter 16 Jahren (oder einem anderen relevanten Alter gemäß den lokalen Datenschutzgesetzen) bestimmt. Wir erheben nicht wissentlich personenbezogene Daten von Kindern. Wenn Sie feststellen, dass uns ein Kind ohne Zustimmung der Eltern personenbezogene Daten zur Verfügung gestellt hat, kontaktieren Sie uns bitte umgehend, damit wir entsprechende Maßnahmen ergreifen können."
+      },
+      "policyChanges": {
+        "title": "8. Änderungen dieser Richtlinie",
+        "p1": "Die Welt der Technologie und die Gesetze ändern sich, daher müssen wir diese Richtlinie möglicherweise gelegentlich aktualisieren. Alle Änderungen werden auf dieser Seite veröffentlicht, mit einer deutlichen Angabe des Datums der letzten Änderung. Wir empfehlen Ihnen, diese Seite regelmäßig zu überprüfen.",
+        "p2": "Ihre fortgesetzte Nutzung der Anwendung nach Veröffentlichung von Änderungen gilt als Annahme der neuen Richtlinie.",
+        "lastUpdatedP1": "Zuletzt aktualisiert: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Haben Sie Fragen oder Bedenken? Wir sind für Sie da. Bitte nutzen Sie das Kontaktformular, das in unserer Anwendung verfügbar ist."
+      }
+    }
+  }
 }

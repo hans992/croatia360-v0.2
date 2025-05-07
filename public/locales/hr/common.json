@@ -214,5 +214,114 @@
   "tag_waterfalls": "Slapovi",
   "tag_hiking": "Pješačenje",
 
-  "alt_croatia_map": "Karta Hrvatske po regijama"
+  "alt_croatia_map": "Karta Hrvatske po regijama",
+
+  "cookie_consent_banner": {
+    "message": "Ova web stranica koristi kolačiće kako bi poboljšala Vaše korisničko iskustvo i analizirala promet. Klikom na 'Prihvati sve', slažete se s našom upotrebom kolačića u navedene svrhe.",
+    "learn_more_link_text": "Saznaj više",
+    "accept_button": "Prihvati sve",
+    "decline_button": "Odbij analitičke",
+    "policy_link_url": "/politika-privatnosti"
+  },
+
+  "privacyPolicy": {
+    "pageTitle": "Pravila Privatnosti i Uvjeti Korištenja Vašeg AI Turističkog Vodiča",
+    "sections": {
+      "intro": {
+        "title": "1. Uvodne Odredbe",
+        "p1": "Dobrodošli u Vašeg AI Turističkog Vodiča! Ova Pravila privatnosti i Uvjeti korištenja (dalje u tekstu: \"Pravila\") objašnjavaju kako naš AI sustav (dalje u tekstu: \"Aplikacija\") prikuplja, koristi, obrađuje i štiti Vaše osobne podatke. Naš cilj je pružiti Vam personalizirane preporuke i informacije, poštujući Vašu privatnost.",
+        "p2": "Korištenjem Aplikacije potvrđujete da ste pročitali, razumjeli i prihvatili ove Uvjete te da ste suglasni s prikupljanjem i obradom Vaših osobnih podataka u skladu s ovim Pravilima. Ako se ne slažete s ovim Pravilima, molimo Vas da ne koristite Aplikaciju."
+      },
+      "dataCollection": {
+        "title": "2. Koje Podatke Prikupljamo i Kako Ih Koristimo",
+        "p1": "Kako bi Vaš AI Turistički Vodič mogao učinkovito raditi i pružati Vam relevantne informacije, prikupljamo sljedeće vrste podataka:",
+        "list": {
+          "item1_label": "Podaci koje direktno dajete:",
+          "item1_text": "Vaši upiti, preferencije putovanja, interesi (npr. 'restorani s pogledom', 'povijesne znamenitosti'), ime (ako ga unesete radi personalizacije) i informacije koje pružite putem naše kontaktne forme.",
+          "item2_label": "Podaci o interakciji s Aplikacijom:",
+          "item2_text": "Informacije o tome kako koristite Aplikaciju, koje preporuke pregledavate, koje odabirete, te povratne informacije koje nam dajete.",
+          "item3_label": "Tehnički podaci (putem kolačića):",
+          "item3_text": "Anonimizirani podaci o Vašem uređaju, vrsti preglednika, približnoj lokaciji (ako je omogućite radi boljih preporuka) te informacije prikupljene putem kolačića isključivo u analitičke svrhe i za poboljšanje rada Aplikacije (detaljnije u Točki 5)."
+        },
+        "purposeSubheading": "Svrha prikupljanja i obrade podataka:",
+        "purposeP1": "Vaši osobni podaci koriste se isključivo kako bismo:",
+        "purposeList": {
+          "item1": "Pružili personalizirane turističke preporuke i odgovore na Vaše upite.",
+          "item2": "Poboljšali korisničko iskustvo i funkcionalnosti Aplikacije.",
+          "item3": "Analizirali korištenje Aplikacije radi optimizacije naših AI modela i usluga (uvijek anonimizirano gdje je god moguće).",
+          "item4": "Osigurali sigurnost i integritet Aplikacije."
+        }
+      },
+      "dataSharing": {
+        "title": "3. S Kim Dijelimo Vaše Podatke",
+        "p1": "Vaša privatnost nam je izuzetno važna. Vaše osobne podatke nećemo prodavati, iznajmljivati niti ustupati trećim stranama u marketinške svrhe.",
+        "p2": "Podatke možemo dijeliti samo s pouzdanim partnerima (Obrađivačima podataka) koji nam pomažu u radu Aplikacije, i to isključivo za navedene svrhe:",
+        "servicesList": {
+          "item1_label": "AI Platforma (npr. Gemini API):",
+          "item1_text": "Za obradu Vaših upita i generiranje inteligentnih odgovora. Podaci se šalju platformi u skladu s njihovim pravilima privatnosti, koja Vam preporučujemo proučiti.",
+          "item2_label": "Analitički servisi (npr. Google Analytics):",
+          "item2_text": "Za anonimnu analizu korištenja Aplikacije kako bismo je poboljšali. Osiguravamo da su postavke privatnosti (poput anonimizacije IP adrese) maksimalno pooštrene.",
+          "item3_label": "Komunikacijski servisi (npr. Zapier za obradu podataka iz kontakt forme):",
+          "item3_text": "Za prosljeđivanje Vaših upita iz kontaktne forme na odgovarajuću internu adresu ili sustav za podršku."
+        },
+        "p3": "Svi naši partneri obvezni su poštivati povjerljivost i sigurnost Vaših podataka te ih smiju koristiti isključivo za dogovorene svrhe, u skladu s GDPR regulativom.",
+        "p4": "Uvijek ćemo nastojati minimizirati količinu podataka koju dijelimo."
+      },
+      "yourRights": {
+        "title": "4. Vaša Prava Kao Korisnika",
+        "p1": "Prema Općoj uredbi o zaštiti podataka (GDPR), imate niz prava vezanih uz Vaše osobne podatke:",
+        "rightsList": {
+          "item1_label": "Pravo na pristup:",
+          "item1_text": "Možete zatražiti informaciju o tome koje Vaše podatke obrađujemo i kako.",
+          "item2_label": "Pravo na ispravak:",
+          "item2_text": "Ako su Vaši podaci netočni ili nepotpuni, imate pravo na njihov ispravak.",
+          "item3_label": "Pravo na brisanje ('pravo na zaborav'):",
+          "item3_text": "Pod određenim uvjetima, možete zatražiti brisanje Vaših osobnih podataka.",
+          "item4_label": "Pravo na ograničenje obrade:",
+          "item4_text": "Možete zatražiti da privremeno ograničimo obradu Vaših podataka.",
+          "item5_label": "Pravo na prenosivost podataka:",
+          "item5_text": "Imate pravo dobiti svoje podatke u strukturiranom, strojno čitljivom formatu.",
+          "item6_label": "Pravo na prigovor:",
+          "item6_text": "Možete uložiti prigovor na određene vrste obrade Vaših podataka.",
+          "item7_label": "Pravo na povlačenje privole:",
+          "item7_text": "Ako se obrada temelji na privoli, možete je povući u bilo kojem trenutku."
+        },
+        "contactP1": "Za ostvarivanje ovih prava, ili za bilo kakva pitanja vezana uz Vašu privatnost, molimo Vas da koristite kontaktnu formu dostupnu na našoj Aplikaciji.",
+        "complaintP1": "Također, imate pravo podnijeti pritužbu Agenciji za zaštitu osobnih podataka (AZOP) ako smatrate da su Vaša prava povrijeđena."
+      },
+      "cookies": {
+        "title": "5. Kolačići (Cookies) i Analitika",
+        "p1": "Naša Aplikacija koristi kolačiće. To su male tekstualne datoteke koje se pohranjuju na Vaš uređaj kako bi nam pomogle da poboljšamo Vaše iskustvo.",
+        "purposeSubheading": "Zašto koristimo kolačiće?",
+        "purposeP1": "Koristimo ih isključivo za:",
+        "cookiesList": {
+          "item1_label": "Poboljšanje funkcionalnosti:",
+          "item1_text": "Neki kolačići su nužni za osnovni rad Aplikacije, npr. pamćenje Vaših preferencija sesije kako ne biste morali stalno unositi iste informacije.",
+          "item2_label": "Analitiku korištenja:",
+          "item2_text": "Koristimo anonimne analitičke kolačiće (npr. putem Google Analytics s uključenom IP anonimizacijom) kako bismo razumjeli kako koristite Aplikaciju – koje su Vam funkcije najkorisnije, gdje nailazite na poteškoće. To nam pomaže da kontinuirano unapređujemo Aplikaciju."
+        },
+        "noMarketingP1": "Važno: Ne koristimo marketinške kolačiće niti kolačiće trećih strana za praćenje Vaših aktivnosti na drugim web stranicama u svrhu profiliranja ili ciljanog oglašavanja.",
+        "managementSubheading": "Kako možete upravljati kolačićima?",
+        "managementP1": "Prilikom prvog posjeta Aplikaciji, informirat ćemo Vas o korištenju kolačića i, gdje je to zakonski potrebno, zatražiti Vašu privolu za analitičke kolačiće. Postavkama svog web preglednika možete upravljati kolačićima – možete ih blokirati ili brisati. Imajte na umu da onemogućavanje analitičkih kolačića ne bi trebalo utjecati na osnovnu funkcionalnost Aplikacije, dok onemogućavanje strogo nužnih kolačića (ako ih Vaš preglednik dopušta blokirati) može."
+      },
+      "dataSecurity": {
+        "title": "6. Sigurnost Vaših Podataka",
+        "p1": "Ulažemo značajne napore u zaštitu Vaših osobnih podataka. Primjenjujemo odgovarajuće tehničke i organizacijske mjere (poput enkripcije gdje je to moguće, sigurnih servera i redovitih sigurnosnih provjera) kako bismo spriječili neovlašteni pristup, izmjenu, otkrivanje ili uništenje.",
+        "p2": "Iako težimo stopostotnoj sigurnosti, važno je znati da nijedan sustav nije neranjiv. U slučaju bilo kakvog sigurnosnog incidenta koji bi mogao ugroziti Vaše podatke, obavijestit ćemo Vas i nadležna tijela u skladu sa zakonskim obvezama."
+      },
+      "minors": {
+        "title": "7. Privatnost Djece",
+        "p1": "Naš AI Turistički Vodič nije namijenjen osobama mlađim od 16 godina (ili druge relevantne dobi prema lokalnim zakonima). Ne prikupljamo svjesno osobne podatke od djece. Ako saznate da nam je dijete dalo osobne podatke bez pristanka roditelja, molimo Vas da nas odmah kontaktirate kako bismo mogli poduzeti odgovarajuće korake."
+      },
+      "policyChanges": {
+        "title": "8. Izmjene ovih Pravila",
+        "p1": "Svijet tehnologije i zakoni se mijenjaju, pa ćemo povremeno možda morati ažurirati ova Pravila. Sve izmjene bit će objavljene na ovoj stranici, uz jasno naznačen datum zadnje izmjene. Preporučujemo Vam da redovito provjeravate ovu stranicu.",
+        "p2": "Vaš nastavak korištenja Aplikacije nakon objave izmjena smatrat će se prihvaćanjem novih Pravila.",
+        "lastUpdatedP1": "Datum zadnje izmjene: {{currentDate}}"
+      },
+      "contactFooter": {
+        "p1": "Imate pitanja ili nedoumica? Tu smo za Vas. Molimo koristite kontaktnu formu dostupnu na našoj Aplikaciji."
+      }
+    }
+  }
 }
