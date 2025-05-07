@@ -1,5 +1,5 @@
 // src/app/[locale]/explore/page.tsx
-"use client"; // Ostaje klijentska komponenta
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,10 +9,11 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from 'react-i18next';
-import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings'; // Importiraj i locales kao polje za provjeru
-import { useParams, notFound } from 'next/navigation'; // <--- Import useParams i notFound
+import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
+import { useParams, notFound } from 'next/navigation';
 
-// Definicije sučelja Destination i Recommendation ostaju iste
+// --- Interfaces ---
+
 interface Destination {
   id: string;
   nameKey: string;
@@ -41,29 +42,29 @@ interface Recommendation {
   slug: string;
 }
 
-// Komponenta sada ne mora definirati ExplorePageProps za params ako koristi useParams
-export default function ExplorePage() {
-  const params = useParams();
-  // useParams može vratiti string | string[] za svaki parametar.
-  // Za [locale] rutu, očekujemo string.
-  const localeParam = params.locale;
+// --- Component ---
 
+export default function ExplorePage() {
+  // --- Hooks ---
+  // NOTE: Hooks must be called at the top level before any returns or conditions.
+  const params = useParams();
+  const { t } = useTranslation(defaultNS);
+
+  // --- Locale Validation ---
+  const localeParam = params.locale;
   let locale: Locale;
 
   if (typeof localeParam === 'string' && validLocalesArray.includes(localeParam as Locale)) {
     locale = localeParam as Locale;
   } else {
-    // Ako locale nije validan ili nije string, preusmjeri na 404 ili default locale.
-    // Za sada ćemo pozvati notFound() što će prikazati 404 stranicu.
-    // Možeš implementirati i fallback na default locale ako želiš.
+    // Invalid locale parameter found in URL, render 404 page.
     return notFound();
   }
 
-  const { t } = useTranslation(defaultNS); // Inicijaliziraj hook za prijevod
-
-  // Ostatak tvoje postojeće logike komponente...
+  // --- Component Data & Options ---
   const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
+  // TODO: Replace static data with API calls
   const popularDestinations: Destination[] = [
     {
       id: "sibenik",
@@ -109,7 +110,7 @@ export default function ExplorePage() {
       descriptionKey: "recommendation_opatija_hotel_description",
       rating: 4.9,
       reviews: 320,
-      priceRaw: "€250 / noć", 
+      priceRaw: "€250 / noć",
       priceCategory: "€€€€",
       tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"],
       imageUrl: `${gcsBaseUrl}Opatija.jpg`,
@@ -117,7 +118,7 @@ export default function ExplorePage() {
     },
     {
       id: "kulen_tour_osijek",
-      typeKey: "recommendation_type_restaurant", 
+      typeKey: "recommendation_type_restaurant",
       nameKey: "recommendation_kulen_tour_name",
       locationKey: "recommendation_kulen_tour_location",
       descriptionKey: "recommendation_kulen_tour_description",
@@ -126,7 +127,7 @@ export default function ExplorePage() {
       priceRaw: "35€ / osoba",
       priceCategory: "€€",
       tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"],
-      imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, 
+      imageUrl: `${gcsBaseUrl}food_slavonia.jpg`,
       slug: "kulen-tour-osijek",
     },
      {
@@ -145,6 +146,7 @@ export default function ExplorePage() {
     },
   ];
 
+  // --- Filter Options ---
   const categoryOptions = [
     { value: "all", labelKey: "filter_category_all" },
     { value: "accommodation", labelKey: "filter_category_accommodation" },
@@ -172,23 +174,23 @@ export default function ExplorePage() {
     { value: "€€€€", labelKey: "filter_price_4" },
   ];
 
-  // JSX ostaje isti kao prije, samo pazi da koristiš 'locale' varijablu
-  // koja je sada dohvaćena i validirana iz useParams.
+  // --- Render ---
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Page Header */}
       <h1 className="text-3xl font-bold mb-2 text-primary">
         {t('explore_page_title')}
       </h1>
       <p className="text-muted-foreground mb-6">
         {t('explore_page_subtitle')}
       </p>
-    
-      {/* Search and Filters Section */}
+
+      {/* Search & Filters Section */}
       <div className="mb-8 p-4 border rounded-lg bg-card shadow-sm">
         <div className="flex flex-col md:flex-row gap-4 items-center">
-          <Input 
-            placeholder={t('explore_search_placeholder')!} 
-            className="flex-grow" 
+          <Input
+            placeholder={t('explore_search_placeholder')!}
+            className="flex-grow"
             aria-label={t('explore_search_aria_label')}
           />
           <Select defaultValue="all">
@@ -225,17 +227,19 @@ export default function ExplorePage() {
             {t('explore_search_button')}
           </Button>
         </div>
+        {/* Croatia Map SVG */}
          <div className="mt-6 p-4 border rounded bg-muted/50 text-center flex items-center justify-center overflow-hidden">
-            <Image 
-              src={`${gcsBaseUrl}croatia_map.svg`} 
-              alt={t('alt_croatia_map') || "Karta Hrvatske po regijama"} 
-              width={400} 
-              height={300} 
-              className="max-w-full h-auto object-contain" 
+            <Image
+              src={`${gcsBaseUrl}croatia_map.svg`}
+              alt={t('alt_croatia_map') || "Map of Croatia by regions"} // Basic fallback alt text
+              width={400}
+              height={300}
+              className="max-w-full h-auto object-contain"
             />
          </div>
       </div>
 
+      {/* Popular Destinations Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6 text-primary/90">
           {t('explore_popular_destinations_title')}
@@ -244,12 +248,12 @@ export default function ExplorePage() {
           {popularDestinations.map((dest) => (
             <Card key={dest.id} className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
               <CardHeader className="p-0 relative">
-                <Image 
-                  src={dest.imageUrl} 
-                  alt={t(dest.nameKey)} 
-                  width={400} 
-                  height={200} 
-                  className="w-full h-48 object-cover" 
+                <Image
+                  src={dest.imageUrl}
+                  alt={t(dest.nameKey)}
+                  width={400}
+                  height={200}
+                  className="w-full h-48 object-cover"
                 />
                 {dest.featured && (
                   <div className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded">
@@ -269,6 +273,7 @@ export default function ExplorePage() {
               </CardContent>
               <CardFooter className="p-4 pt-0">
                  <Button asChild variant="link" className="p-0 text-destructive hover:text-destructive/80">
+                    {/* Use the validated 'locale' variable for dynamic links */}
                     <Link href={`/${locale}/explore/${dest.slug}`}>{t('explore_discover_more_button')}</Link>
                  </Button>
               </CardFooter>
@@ -277,22 +282,24 @@ export default function ExplorePage() {
         </div>
       </section>
 
+      {/* Recommendations Section */}
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-primary/90">
             {t('explore_find_section_title')}
           </h2>
+          {/* View toggle could be added here */}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {recommendations.map((rec) => (
             <Card key={rec.id} className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
               <CardHeader className="p-0 relative">
-                <Image 
-                  src={rec.imageUrl} 
-                  alt={t(rec.nameKey)} 
-                  width={400} 
-                  height={200} 
-                  className="w-full h-48 object-cover" 
+                <Image
+                  src={rec.imageUrl}
+                  alt={t(rec.nameKey)}
+                  width={400}
+                  height={200}
+                  className="w-full h-48 object-cover"
                 />
                  {rec.priceCategory && (
                   <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded">
@@ -322,7 +329,8 @@ export default function ExplorePage() {
               </CardContent>
               <CardFooter className="p-4 pt-0 flex justify-between items-center">
                 {rec.priceRaw && <span className="text-lg font-semibold text-foreground">{rec.priceRaw}</span>}
-                {!rec.priceRaw && rec.priceCategory && <span className="text-lg font-semibold text-foreground">{rec.priceCategory}</span>}
+                {!rec.priceRaw && rec.priceCategory && <span className="text-lg font-semibold text-foreground">{t(rec.priceKey || '') || rec.priceCategory}</span>}
+                {/* Use the validated 'locale' variable for dynamic links */}
                 <Button asChild variant="link" className="p-0 text-destructive hover:text-destructive/80">
                     <Link href={`/${locale}/explore/${rec.slug}`}>{t('explore_discover_now_button')}</Link>
                 </Button>
