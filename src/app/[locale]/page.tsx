@@ -1,25 +1,29 @@
 // src/app/[locale]/page.tsx
 import Image from "next/image";
-import { Button } from "@/components/ui/button"; 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"; // Provjerite putanju
-import StickyChatbotSection from '@/components/StickyChatbotSection'; 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import StickyChatbotSection from '@/components/StickyChatbotSection';
+// Footer se renderira u RootLayout-u, pa ga ne treba importirati ovdje
+// import Footer from '@/components/layout/Footer';
 import { useTranslation as useServerTranslation } from '@/lib/i18n/server';
-import { locales, fallbackLng, defaultNS } from '@/lib/i18n/settings';
+import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 
 interface HomePagePropsInternal {
   params: { locale: string };
 }
 
 export default async function HomePage(props: HomePagePropsInternal) {
-  const params = await props.params; // Čekamo params ako je Promise
+  const params = await props.params;
+  let effectiveLocale: Locale;
 
-  if (!params || typeof params.locale !== 'string') {
-    console.error('[page.tsx] HomePage - Neispravni params ili locale:', params);
-    return <div>Greška: Neispravan locale parametar u HomePage. Params: {JSON.stringify(params)}</div>;
+  if (params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) {
+    effectiveLocale = params.locale as Locale;
+  } else {
+    console.warn(`[page.tsx] HomePage - Neispravan ili nepodržan locale '${params?.locale}'. Koristi se fallback: ${fallbackLng}`);
+    effectiveLocale = fallbackLng;
+    // Možete odlučiti prikazati specifičnu poruku o grešci ili se osloniti na poruku iz RootLayout-a
   }
 
-  const locale = params.locale;
-  const effectiveLocale = locales.includes(locale) ? locale : fallbackLng;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { t } = await useServerTranslation(effectiveLocale, defaultNS);
 
@@ -32,6 +36,19 @@ export default async function HomePage(props: HomePagePropsInternal) {
     { id: 'senj', image: "/images/senj.jpg", altKey: "alt_senj_city", titleKey: "card_senj_title", descriptionKey: "card_senj_description", linkTextKey: "card_learn_more_button" },
   ];
 
+  // Ako je locale bio neispravan, a želite prikazati poruku direktno na stranici
+  if (!(params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale))) {
+    return (
+        <div className="container mx-auto px-4 py-8 text-center">
+            <p className="text-red-600">
+                {t('error_invalid_locale_message', { requestedLocale: params?.locale, fallbackLocale: effectiveLocale }) || 
+                 `Traženi jezik '${params?.locale}' nije podržan. Prikazuje se ${effectiveLocale}.`}
+            </p>
+            {/* Možete dodati i ostatak stranice s fallback jezikom ako želite */}
+        </div>
+    );
+  }
+
   return (
     <>
       {/* Hero Section */}
@@ -40,7 +57,8 @@ export default async function HomePage(props: HomePagePropsInternal) {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
       </div>
 
-      <StickyChatbotSection locale={effectiveLocale} />
+      {/* Proslijeđujemo effectiveLocale koji je tipa Locale */}
+      <StickyChatbotSection /* locale={effectiveLocale} // Uklonjeno ako nije potrebno */ />
 
       {/* Content Section */}
       <div className="mt-12 container mx-auto px-4 py-8">

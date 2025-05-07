@@ -3,21 +3,21 @@
 
 import React from 'react';
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// Uklonjeni neiskorišteni Card importi
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
-import { useTranslation } from 'react-i18next'; // Import za i18n
+import { useTranslation } from 'react-i18next';
+import { defaultNS } from '@/lib/i18n/settings';
 
 interface ChatbotProps {
   isSticky?: boolean;
 }
 
-// const PREDEFINED_CONVERSATIONS = []; // Može se ukloniti ako se UnusedComponents ne koristi
-
 const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
-  const { t } = useTranslation('common'); // Inicijaliziraj i18n
+  const { t } = useTranslation(defaultNS);
 
   const {
     messages,
@@ -33,7 +33,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
       {
         id: 'sara-initial-greeting',
         role: 'assistant',
-        content: t('chatbot_initial_greeting') // Prevedena inicijalna poruka
+        content: t('chatbot_initial_greeting')
       }
     ],
   });
@@ -47,7 +47,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
           <Input
             value={input}
             onChange={handleInputChange}
-            placeholder={t('chatbot_input_placeholder')} // Prevedeni placeholder
+            placeholder={t('chatbot_input_placeholder')}
             className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-gray-800 placeholder-gray-500
                        focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF]
                        focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300 disabled:opacity-50"
@@ -64,7 +64,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             <Send className="h-4 w-4" />
           </Button>
         </form>
-        {/* {isSticky}  Ovo je vjerojatno greška, uklanjam. Ako je bio placeholder, treba ga drugačije implementirati. */}
       </div>
 
       {!isSticky && (
@@ -110,6 +109,5 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
     </div>
   );
 };
-
 
 export default Chatbot;

@@ -5,19 +5,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot";
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
+// Uklonjen 'locale' iz propsa jer Chatbot koristi useTranslation i dobiva locale iz konteksta
 interface StickyChatbotSectionProps {
-  locale: string; // Primamo locale da ga možemo proslijediti Chatbotu ako treba
+  // locale: string; // Uklonjeno ako nije potrebno direktno ovdje
 }
 
-export default function StickyChatbotSection({ locale }: StickyChatbotSectionProps) {
-  // ... vaša postojeća logika za sticky ...
+export default function StickyChatbotSection(/* { locale }: StickyChatbotSectionProps */) {
   const [isSticky, setSticky] = useState(false);
   const chatbotContainerRef = useRef<HTMLDivElement>(null);
   const headerHeight = 56;
   const scrollDirection = useScrollDirection();
   const [placeholderHeight, setPlaceholderHeight] = useState<number | undefined>(undefined);
 
-  useEffect(() => { /* ... scroll i resize listeneri ... */
+  useEffect(() => {
     const handleScroll = () => {
       if (chatbotContainerRef.current) {
         const elementTopRelativeToDocument = chatbotContainerRef.current.offsetTop;
@@ -36,11 +36,13 @@ export default function StickyChatbotSection({ locale }: StickyChatbotSectionPro
       window.removeEventListener('resize', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, [headerHeight]);
+  }, [headerHeight]); // Dodana ovisnost headerHeight ako se može mijenjati
 
-  useEffect(() => { /* ... placeholder height listener ... */
+  useEffect(() => {
     const updateHeight = () => {
-       if (chatbotContainerRef.current) { setPlaceholderHeight(chatbotContainerRef.current.offsetHeight); }
+       if (chatbotContainerRef.current) { 
+         setPlaceholderHeight(chatbotContainerRef.current.offsetHeight); 
+       }
      };
     if (chatbotContainerRef.current && placeholderHeight === undefined) {
        updateHeight();
@@ -50,7 +52,6 @@ export default function StickyChatbotSection({ locale }: StickyChatbotSectionPro
   }, [placeholderHeight]);
 
   const chatbotTopClassWhenSticky = scrollDirection === 'down' ? 'top-0' : `top-[${headerHeight}px]`;
-
 
   return (
     <>
@@ -69,7 +70,6 @@ export default function StickyChatbotSection({ locale }: StickyChatbotSectionPro
         `}
       >
         <div className="container mx-auto px-4 py-4">
-           {/* Chatbot će koristiti useTranslation iz react-i18next zahvaljujući TranslationsProvideru u layoutu */}
            <Chatbot isSticky={isSticky} />
         </div>
       </div>
