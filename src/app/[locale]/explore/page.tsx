@@ -1,5 +1,5 @@
 // src/app/[locale]/explore/page.tsx
-"use client"; // Needed for state, hooks, and potential future interactivity
+"use client"; // Ostaje klijentska komponenta
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,10 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslation } from 'react-i18next'; // Import for i18n
-import { defaultNS, type Locale } from '@/lib/i18n/settings'; // Import settings
+import { useTranslation } from 'react-i18next';
+import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings'; // Importiraj i locales kao polje za provjeru
+import { useParams, notFound } from 'next/navigation'; // <--- Import useParams i notFound
 
-// Define interfaces for structured data
+// Definicije sučelja Destination i Recommendation ostaju iste
 interface Destination {
   id: string;
   nameKey: string;
@@ -19,9 +20,9 @@ interface Destination {
   descriptionKey: string;
   rating: number;
   reviews: number;
-  imageUrl: string; // GCS URL
+  imageUrl: string;
   featured: boolean;
-  slug: string; // For linking
+  slug: string;
 }
 
 interface Recommendation {
@@ -33,24 +34,36 @@ interface Recommendation {
   rating: number;
   reviews: number;
   priceKey?: string;
-  priceRaw?: string; // Keep raw price if needed for display formatting
+  priceRaw?: string;
   priceCategory?: '€' | '€€' | '€€€' | '€€€€';
   tagsKeys: string[];
-  imageUrl: string; // GCS URL
-  slug: string; // For linking
+  imageUrl: string;
+  slug: string;
 }
 
-interface ExplorePageProps {
-   params: { locale: Locale }; // Receive locale from params
-}
+// Komponenta sada ne mora definirati ExplorePageProps za params ako koristi useParams
+export default function ExplorePage() {
+  const params = useParams();
+  // useParams može vratiti string | string[] za svaki parametar.
+  // Za [locale] rutu, očekujemo string.
+  const localeParam = params.locale;
 
-export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
-  const { t } = useTranslation(defaultNS); // Initialize translation hook
+  let locale: Locale;
 
-  // Base URL for GCS images
+  if (typeof localeParam === 'string' && validLocalesArray.includes(localeParam as Locale)) {
+    locale = localeParam as Locale;
+  } else {
+    // Ako locale nije validan ili nije string, preusmjeri na 404 ili default locale.
+    // Za sada ćemo pozvati notFound() što će prikazati 404 stranicu.
+    // Možeš implementirati i fallback na default locale ako želiš.
+    return notFound();
+  }
+
+  const { t } = useTranslation(defaultNS); // Inicijaliziraj hook za prijevod
+
+  // Ostatak tvoje postojeće logike komponente...
   const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
-  // Placeholder data using translation keys and GCS URLs
   const popularDestinations: Destination[] = [
     {
       id: "sibenik",
@@ -61,7 +74,7 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
       reviews: 2450,
       imageUrl: `${gcsBaseUrl}Sibenik_tfortress.jpg`,
       featured: true,
-      slug: "sibenik", // Example slug
+      slug: "sibenik",
     },
     {
       id: "trogir",
@@ -96,7 +109,7 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
       descriptionKey: "recommendation_opatija_hotel_description",
       rating: 4.9,
       reviews: 320,
-      priceRaw: "€250 / noć", // Keep raw for display flexibility
+      priceRaw: "€250 / noć", 
       priceCategory: "€€€€",
       tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"],
       imageUrl: `${gcsBaseUrl}Opatija.jpg`,
@@ -104,7 +117,7 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
     },
     {
       id: "kulen_tour_osijek",
-      typeKey: "recommendation_type_restaurant", // Or maybe "experience"?
+      typeKey: "recommendation_type_restaurant", 
       nameKey: "recommendation_kulen_tour_name",
       locationKey: "recommendation_kulen_tour_location",
       descriptionKey: "recommendation_kulen_tour_description",
@@ -113,7 +126,6 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
       priceRaw: "35€ / osoba",
       priceCategory: "€€",
       tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"],
-      // Use food_slavonia.jpg as requested
       imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, 
       slug: "kulen-tour-osijek",
     },
@@ -133,7 +145,6 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
     },
   ];
 
-  // Options for Select components
   const categoryOptions = [
     { value: "all", labelKey: "filter_category_all" },
     { value: "accommodation", labelKey: "filter_category_accommodation" },
@@ -161,7 +172,8 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
     { value: "€€€€", labelKey: "filter_price_4" },
   ];
 
-
+  // JSX ostaje isti kao prije, samo pazi da koristiš 'locale' varijablu
+  // koja je sada dohvaćena i validirana iz useParams.
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-2 text-primary">
@@ -213,21 +225,17 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
             {t('explore_search_button')}
           </Button>
         </div>
-         {/* SVG Map Section */}
          <div className="mt-6 p-4 border rounded bg-muted/50 text-center flex items-center justify-center overflow-hidden">
-            {/* Use GCS URL for the map SVG */}
             <Image 
               src={`${gcsBaseUrl}croatia_map.svg`} 
               alt={t('alt_croatia_map') || "Karta Hrvatske po regijama"} 
               width={400} 
               height={300} 
               className="max-w-full h-auto object-contain" 
-              // unoptimized={true} // Add if SVG optimization causes issues
             />
          </div>
       </div>
 
-      {/* Popular Destinations Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6 text-primary/90">
           {t('explore_popular_destinations_title')}
@@ -242,7 +250,6 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
                   width={400} 
                   height={200} 
                   className="w-full h-48 object-cover" 
-                  // unoptimized={true} // Add if needed
                 />
                 {dest.featured && (
                   <div className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded">
@@ -261,7 +268,6 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
                 </div>
               </CardContent>
               <CardFooter className="p-4 pt-0">
-                 {/* Ensure links are locale-aware */}
                  <Button asChild variant="link" className="p-0 text-destructive hover:text-destructive/80">
                     <Link href={`/${locale}/explore/${dest.slug}`}>{t('explore_discover_more_button')}</Link>
                  </Button>
@@ -271,18 +277,11 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
         </div>
       </section>
 
-      {/* Find Stay, Meal, Adventure Section */}
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-primary/90">
             {t('explore_find_section_title')}
           </h2>
-          {/* View toggle (Grid/List) - Placeholder */}
-          {/* Consider making this functional later */}
-          {/* <div className="flex space-x-1">
-            <Button variant="outline" size="icon" className="bg-accent border-border"><svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" /></svg></Button>
-            <Button variant="outline" size="icon" className="border-border"><svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg></Button>
-          </div> */}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {recommendations.map((rec) => (
@@ -294,18 +293,15 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
                   width={400} 
                   height={200} 
                   className="w-full h-48 object-cover" 
-                  // unoptimized={true} // Add if needed
                 />
-                 {/* Display price category if available */}
                  {rec.priceCategory && (
                   <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded">
                      {rec.priceCategory}
                   </div>
                 )}
-                 {/* Fallback to raw price if category isn't set but price is */}
                  {rec.priceRaw && !rec.priceCategory && (
                    <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs font-bold px-2 py-1 rounded">
-                    {rec.priceRaw.split(" ")[0]} {/* Show only price amount */}
+                    {rec.priceRaw.split(" ")[0]}
                   </div>
                  )}
               </CardHeader>
@@ -325,11 +321,8 @@ export default function ExplorePage({ params: { locale } }: ExplorePageProps) {
                 </div>
               </CardContent>
               <CardFooter className="p-4 pt-0 flex justify-between items-center">
-                {/* Display raw price if available */}
                 {rec.priceRaw && <span className="text-lg font-semibold text-foreground">{rec.priceRaw}</span>}
-                {/* If no raw price but category exists, show category (less common) */}
                 {!rec.priceRaw && rec.priceCategory && <span className="text-lg font-semibold text-foreground">{rec.priceCategory}</span>}
-                {/* Ensure link is locale-aware */}
                 <Button asChild variant="link" className="p-0 text-destructive hover:text-destructive/80">
                     <Link href={`/${locale}/explore/${rec.slug}`}>{t('explore_discover_now_button')}</Link>
                 </Button>
