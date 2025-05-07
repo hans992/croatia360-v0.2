@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Échec de l'envoi du message. Veuillez réessayer.",
   "about_contact_error_network": "Erreur réseau. Veuillez réessayer.",
 
-  "error_invalid_locale_message": "La langue demandée '{{requestedLocale}}' n'est pas prise en charge ou est invalide. Affichage de la langue par défaut ({{fallbackLocale}})."
+  "error_invalid_locale_message": "La langue demandée '{{requestedLocale}}' n'est pas prise en charge ou est invalide. Affichage de la langue par défaut ({{fallbackLocale}}).",
+
+  "explore_page_title": "Explorer la Croatie",
+  "explore_page_subtitle": "Découvrez des destinations, trouvez des hébergements, des restaurants, des expériences et bien plus encore.",
+  "explore_search_placeholder": "Où voulez-vous aller ? Entrez une destination, une activité...",
+  "explore_search_aria_label": "Rechercher des destinations, activités, etc.",
+  "explore_search_button": "Rechercher",
+  "explore_popular_destinations_title": "Destinations Populaires",
+  "explore_featured_badge": "En Vedette",
+  "explore_discover_more_button": "Découvrir Plus",
+  "explore_find_section_title": "Trouvez votre séjour, repas ou aventure",
+  "explore_discover_now_button": "Découvrir Maintenant",
+  "reviews_suffix": "avis",
+
+  "filter_category_label": "Catégorie",
+  "filter_category_placeholder": "Toutes les catégories",
+  "filter_category_all": "Toutes les catégories",
+  "filter_category_accommodation": "Hébergement",
+  "filter_category_food": "Nourriture",
+  "filter_category_activities": "Activités",
+  "filter_category_events": "Événements",
+  "filter_category_sights": "Sites touristiques",
+
+  "filter_region_label": "Région",
+  "filter_region_placeholder": "Toutes les régions",
+  "filter_region_all": "Toutes les régions",
+
+  "filter_price_label": "Prix",
+  "filter_price_placeholder": "Prix",
+  "filter_price_any": "Tous les prix",
+  "filter_price_1": "€ (Abordable)",
+  "filter_price_2": "€€ (Modéré)",
+  "filter_price_3": "€€€ (Cher)",
+  "filter_price_4": "€€€€ (Luxe)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Entouré de forteresses historiques et de belles plages",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Ville insulaire médiévale classée au patrimoine de l'UNESCO",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Élégante riviera avec des villas des Habsbourg",
+
+  "recommendation_type_accommodation": "Hébergement",
+  "recommendation_type_restaurant": "Restaurant",
+  "recommendation_type_activity": "Activité",
+
+  "recommendation_opatija_hotel_name": "Complexe Hôtelier de Luxe en Bord de Mer",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Élégant complexe 5 étoiles avec vue imprenable sur la mer et accès privé à la plage.",
+  "recommendation_kulen_tour_name": "Tour du Kulen",
+  "recommendation_kulen_tour_location": "Osijek, Slavonie",
+  "recommendation_kulen_tour_description": "Visitez des fermes familiales et dégustez des spécialités maison.",
+  "recommendation_krka_tour_name": "Visite du Parc National de Krka",
+  "recommendation_krka_tour_location": "Près de Šibenik, Dalmatie",
+  "recommendation_krka_tour_description": "Explorez les cascades magnifiques et la beauté naturelle du Parc National de Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Piscine",
+  "tag_restaurant": "Restaurant",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Local",
+  "tag_nature": "Nature",
+  "tag_waterfalls": "Cascades",
+  "tag_hiking": "Randonnée",
+
+  "alt_croatia_map": "Carte de la Croatie par régions"
 }

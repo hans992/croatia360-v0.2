@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Nie udało się wysłać wiadomości. Spróbuj ponownie.",
   "about_contact_error_network": "Błąd sieci. Spróbuj ponownie.",
 
-  "error_invalid_locale_message": "Żądany język '{{requestedLocale}}' nie jest obsługiwany lub jest nieprawidłowy. Wyświetlany jest język domyślny ({{fallbackLocale}})."
+  "error_invalid_locale_message": "Żądany język '{{requestedLocale}}' nie jest obsługiwany lub jest nieprawidłowy. Wyświetlany jest język domyślny ({{fallbackLocale}}).",
+
+  "explore_page_title": "Odkryj Chorwację",
+  "explore_page_subtitle": "Odkrywaj miejsca docelowe, znajduj zakwaterowanie, restauracje, atrakcje i wiele więcej.",
+  "explore_search_placeholder": "Dokąd chcesz jechać? Wpisz miejsce docelowe, aktywność...",
+  "explore_search_aria_label": "Szukaj miejsc docelowych, aktywności itp.",
+  "explore_search_button": "Szukaj",
+  "explore_popular_destinations_title": "Popularne Miejsca",
+  "explore_featured_badge": "Polecane",
+  "explore_discover_more_button": "Odkryj Więcej",
+  "explore_find_section_title": "Znajdź swój pobyt, posiłek lub przygodę",
+  "explore_discover_now_button": "Odkryj Teraz",
+  "reviews_suffix": "opinia",
+
+  "filter_category_label": "Kategoria",
+  "filter_category_placeholder": "Wszystkie kategorie",
+  "filter_category_all": "Wszystkie kategorie",
+  "filter_category_accommodation": "Zakwaterowanie",
+  "filter_category_food": "Jedzenie",
+  "filter_category_activities": "Aktywności",
+  "filter_category_events": "Wydarzenia",
+  "filter_category_sights": "Atrakcje turystyczne",
+
+  "filter_region_label": "Region",
+  "filter_region_placeholder": "Wszystkie regiony",
+  "filter_region_all": "Wszystkie regiony",
+
+  "filter_price_label": "Cena",
+  "filter_price_placeholder": "Cena",
+  "filter_price_any": "Dowolna",
+  "filter_price_1": "€ (Tanie)",
+  "filter_price_2": "€€ (Umiarkowane)",
+  "filter_price_3": "€€€ (Drogie)",
+  "filter_price_4": "€€€€ (Luksusowe)",
+
+  "destination_sibenik_name": "Szybenik",
+  "destination_sibenik_description": "Otoczony historycznymi twierdzami i pięknymi plażami",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Średniowieczne miasto wyspiarskie z dziedzictwem UNESCO",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegancka riwiera z willami habsburskimi",
+
+  "recommendation_type_accommodation": "Zakwaterowanie",
+  "recommendation_type_restaurant": "Restauracja",
+  "recommendation_type_activity": "Aktywność",
+
+  "recommendation_opatija_hotel_name": "Luksusowy Kurort Nadmorski",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegancki 5-gwiazdkowy kurort z zachwycającym widokiem na morze i prywatnym dostępem do plaży.",
+  "recommendation_kulen_tour_name": "Wycieczka Kulen",
+  "recommendation_kulen_tour_location": "Osijek, Slawonia",
+  "recommendation_kulen_tour_description": "Odwiedź rodzinne gospodarstwa i skosztuj domowych specjałów.",
+  "recommendation_krka_tour_name": "Wycieczka do Parku Narodowego Krka",
+  "recommendation_krka_tour_location": "W pobliżu Szybenika, Dalmacja",
+  "recommendation_krka_tour_description": "Odkryj zachwycające wodospady i naturalne piękno Parku Narodowego Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Basen",
+  "tag_restaurant": "Restauracja",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Smakosz",
+  "tag_local": "Lokalne",
+  "tag_nature": "Natura",
+  "tag_waterfalls": "Wodospady",
+  "tag_hiking": "Piesze wycieczki",
+
+  "alt_croatia_map": "Mapa Chorwacji według regionów"
 }

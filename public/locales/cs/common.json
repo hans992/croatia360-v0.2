@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Odeslání zprávy se nezdařilo. Zkuste to prosím znovu.",
   "about_contact_error_network": "Chyba sítě. Zkuste to prosím znovu.",
 
-  "error_invalid_locale_message": "Požadovaný jazyk '{{requestedLocale}}' není podporován nebo je neplatný. Zobrazuje se výchozí jazyk ({{fallbackLocale}})."
+  "error_invalid_locale_message": "Požadovaný jazyk '{{requestedLocale}}' není podporován nebo je neplatný. Zobrazuje se výchozí jazyk ({{fallbackLocale}}).",
+
+  "explore_page_title": "Prozkoumat Chorvatsko",
+  "explore_page_subtitle": "Objevujte destinace, najděte ubytování, restaurace, zážitky a mnoho dalšího.",
+  "explore_search_placeholder": "Kam chcete jet? Zadejte destinaci, aktivitu...",
+  "explore_search_aria_label": "Hledat destinace, aktivity atd.",
+  "explore_search_button": "Hledat",
+  "explore_popular_destinations_title": "Populární Destinace",
+  "explore_featured_badge": "Doporučeno",
+  "explore_discover_more_button": "Objevit Více",
+  "explore_find_section_title": "Najděte si pobyt, jídlo nebo dobrodružství",
+  "explore_discover_now_button": "Objevit Nyní",
+  "reviews_suffix": "recenze",
+
+  "filter_category_label": "Kategorie",
+  "filter_category_placeholder": "Všechny kategorie",
+  "filter_category_all": "Všechny kategorie",
+  "filter_category_accommodation": "Ubytování",
+  "filter_category_food": "Jídlo",
+  "filter_category_activities": "Aktivity",
+  "filter_category_events": "Události",
+  "filter_category_sights": "Památky",
+
+  "filter_region_label": "Region",
+  "filter_region_placeholder": "Všechny regiony",
+  "filter_region_all": "Všechny regiony",
+
+  "filter_price_label": "Cena",
+  "filter_price_placeholder": "Cena",
+  "filter_price_any": "Jakákoli",
+  "filter_price_1": "€ (Levné)",
+  "filter_price_2": "€€ (Střední)",
+  "filter_price_3": "€€€ (Dražší)",
+  "filter_price_4": "€€€€ (Luxusní)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Obklopen historickými pevnostmi a krásnými plážemi",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Středověké ostrovní město s dědictvím UNESCO",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegantní riviéra s habsburskými vilami",
+
+  "recommendation_type_accommodation": "Ubytování",
+  "recommendation_type_restaurant": "Restaurace",
+  "recommendation_type_activity": "Aktivita",
+
+  "recommendation_opatija_hotel_name": "Luxusní Přímořský Rezort",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegantní 5hvězdičkový rezort s úžasným výhledem na moře a soukromým přístupem na pláž.",
+  "recommendation_kulen_tour_name": "Kulen Prohlídka",
+  "recommendation_kulen_tour_location": "Osijek, Slavonie",
+  "recommendation_kulen_tour_description": "Navštivte rodinné farmy a ochutnejte domácí speciality.",
+  "recommendation_krka_tour_name": "Prohlídka Národního Parku Krka",
+  "recommendation_krka_tour_location": "Blízko Šibeniku, Dalmácie",
+  "recommendation_krka_tour_description": "Prozkoumejte úchvatné vodopády a přírodní krásy NP Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Bazén",
+  "tag_restaurant": "Restaurace",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Místní",
+  "tag_nature": "Příroda",
+  "tag_waterfalls": "Vodopády",
+  "tag_hiking": "Turistika",
+
+  "alt_croatia_map": "Mapa Chorvatska podle regionů"
 }

@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Impossibile inviare il messaggio. Per favore riprova.",
   "about_contact_error_network": "Errore di rete. Per favore riprova.",
 
-  "error_invalid_locale_message": "La lingua richiesta '{{requestedLocale}}' non è supportata o non è valida. Viene visualizzata la lingua predefinita ({{fallbackLocale}})."
+  "error_invalid_locale_message": "La lingua richiesta '{{requestedLocale}}' non è supportata o non è valida. Viene visualizzata la lingua predefinita ({{fallbackLocale}}).",
+
+  "explore_page_title": "Esplora la Croazia",
+  "explore_page_subtitle": "Scopri destinazioni, trova alloggi, ristoranti, esperienze e molto altro.",
+  "explore_search_placeholder": "Dove vuoi andare? Inserisci una destinazione, attività...",
+  "explore_search_aria_label": "Cerca destinazioni, attività, ecc.",
+  "explore_search_button": "Cerca",
+  "explore_popular_destinations_title": "Destinazioni Popolari",
+  "explore_featured_badge": "In Evidenza",
+  "explore_discover_more_button": "Scopri di Più",
+  "explore_find_section_title": "Trova il tuo soggiorno, pasto o avventura",
+  "explore_discover_now_button": "Scopri Ora",
+  "reviews_suffix": "recensione",
+
+  "filter_category_label": "Categoria",
+  "filter_category_placeholder": "Tutte le categorie",
+  "filter_category_all": "Tutte le categorie",
+  "filter_category_accommodation": "Alloggio",
+  "filter_category_food": "Cibo",
+  "filter_category_activities": "Attività",
+  "filter_category_events": "Eventi",
+  "filter_category_sights": "Attrazioni",
+
+  "filter_region_label": "Regione",
+  "filter_region_placeholder": "Tutte le regioni",
+  "filter_region_all": "Tutte le regioni",
+
+  "filter_price_label": "Prezzo",
+  "filter_price_placeholder": "Prezzo",
+  "filter_price_any": "Qualsiasi",
+  "filter_price_1": "€ (Economico)",
+  "filter_price_2": "€€ (Medio)",
+  "filter_price_3": "€€€ (Costoso)",
+  "filter_price_4": "€€€€ (Lusso)",
+
+  "destination_sibenik_name": "Sebenico",
+  "destination_sibenik_description": "Circondata da fortezze storiche e bellissime spiagge",
+  "destination_trogir_name": "Traù",
+  "destination_trogir_description": "Cittadina insulare medievale patrimonio dell'UNESCO",
+  "destination_opatija_name": "Abbazia",
+  "destination_opatija_description": "Elegante riviera con ville asburgiche",
+
+  "recommendation_type_accommodation": "Alloggio",
+  "recommendation_type_restaurant": "Ristorante",
+  "recommendation_type_activity": "Attività",
+
+  "recommendation_opatija_hotel_name": "Resort di Lusso sul Mare",
+  "recommendation_opatija_hotel_location": "Abbazia, Quarnero",
+  "recommendation_opatija_hotel_description": "Elegante resort a 5 stelle con vista mozzafiato sul mare e accesso privato alla spiaggia.",
+  "recommendation_kulen_tour_name": "Tour del Kulen",
+  "recommendation_kulen_tour_location": "Osijek, Slavonia",
+  "recommendation_kulen_tour_description": "Visita fattorie a conduzione familiare e gusta specialità fatte in casa.",
+  "recommendation_krka_tour_name": "Tour del Parco Nazionale di Krka",
+  "recommendation_krka_tour_location": "Vicino a Sebenico, Dalmazia",
+  "recommendation_krka_tour_description": "Esplora le meravigliose cascate e la bellezza naturale del Parco Nazionale di Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Piscina",
+  "tag_restaurant": "Ristorante",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Locale",
+  "tag_nature": "Natura",
+  "tag_waterfalls": "Cascate",
+  "tag_hiking": "Escursionismo",
+
+  "alt_croatia_map": "Mappa della Croazia per regioni"
 }

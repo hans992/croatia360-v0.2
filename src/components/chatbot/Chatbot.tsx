@@ -3,8 +3,6 @@
 
 import React from 'react';
 import Image from "next/image";
-// Uklonjeni neiskorišteni Card importi
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
@@ -41,7 +39,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   return (
     <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
       <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
-        {isSticky && <Image src="/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
+        {isSticky && <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
 
         <form onSubmit={handleSubmit} className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
           <Input

@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Failed to send message. Please try again.",
   "about_contact_error_network": "Network error. Please try again.",
 
-  "error_invalid_locale_message": "The requested language '{{requestedLocale}}' is not supported or invalid. Displaying the default language ({{fallbackLocale}})."
+  "error_invalid_locale_message": "The requested language '{{requestedLocale}}' is not supported or invalid. Displaying the default language ({{fallbackLocale}}).",
+
+  "explore_page_title": "Explore Croatia",
+  "explore_page_subtitle": "Discover destinations, find accommodation, restaurants, experiences, and much more.",
+  "explore_search_placeholder": "Where do you want to go? Enter a destination, activity...",
+  "explore_search_aria_label": "Search destinations, activities, etc.",
+  "explore_search_button": "Search",
+  "explore_popular_destinations_title": "Popular Destinations",
+  "explore_featured_badge": "Featured",
+  "explore_discover_more_button": "Discover More",
+  "explore_find_section_title": "Find your stay, meal, or adventure",
+  "explore_discover_now_button": "Discover Now",
+  "reviews_suffix": "review",
+
+  "filter_category_label": "Category",
+  "filter_category_placeholder": "All categories",
+  "filter_category_all": "All categories",
+  "filter_category_accommodation": "Accommodation",
+  "filter_category_food": "Food",
+  "filter_category_activities": "Activities",
+  "filter_category_events": "Events",
+  "filter_category_sights": "Sights",
+
+  "filter_region_label": "Region",
+  "filter_region_placeholder": "All regions",
+  "filter_region_all": "All regions",
+
+  "filter_price_label": "Price",
+  "filter_price_placeholder": "Price",
+  "filter_price_any": "Any",
+  "filter_price_1": "€ (Budget)",
+  "filter_price_2": "€€ (Moderate)",
+  "filter_price_3": "€€€ (Pricey)",
+  "filter_price_4": "€€€€ (Luxury)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Surrounded by historic fortresses and beautiful beaches",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Medieval island town with UNESCO heritage",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegant riviera with Habsburg villas",
+
+  "recommendation_type_accommodation": "Accommodation",
+  "recommendation_type_restaurant": "Restaurant",
+  "recommendation_type_activity": "Activity",
+
+  "recommendation_opatija_hotel_name": "Luxury Seaside Resort",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegant 5-star resort with stunning sea views and private beach access.",
+  "recommendation_kulen_tour_name": "Kulen Tour",
+  "recommendation_kulen_tour_location": "Osijek, Slavonia",
+  "recommendation_kulen_tour_description": "Visit family farms and enjoy homemade specialties.",
+  "recommendation_krka_tour_name": "Krka National Park Tour",
+  "recommendation_krka_tour_location": "Near Šibenik, Dalmatia",
+  "recommendation_krka_tour_description": "Explore the stunning waterfalls and natural beauty of Krka National Park.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Pool",
+  "tag_restaurant": "Restaurant",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Local",
+  "tag_nature": "Nature",
+  "tag_waterfalls": "Waterfalls",
+  "tag_hiking": "Hiking",
+
+  "alt_croatia_map": "Map of Croatia by regions"
 }

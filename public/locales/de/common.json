@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
   "about_contact_error_network": "Netzwerkfehler. Bitte versuchen Sie es erneut.",
 
-  "error_invalid_locale_message": "Die angeforderte Sprache '{{requestedLocale}}' wird nicht unterstützt oder ist ungültig. Die Standardsprache ({{fallbackLocale}}) wird angezeigt."
+  "error_invalid_locale_message": "Die angeforderte Sprache '{{requestedLocale}}' wird nicht unterstützt oder ist ungültig. Die Standardsprache ({{fallbackLocale}}) wird angezeigt.",
+
+  "explore_page_title": "Kroatien entdecken",
+  "explore_page_subtitle": "Entdecken Sie Reiseziele, finden Sie Unterkünfte, Restaurants, Erlebnisse und vieles mehr.",
+  "explore_search_placeholder": "Wohin möchten Sie reisen? Geben Sie ein Reiseziel, eine Aktivität ein...",
+  "explore_search_aria_label": "Reiseziele, Aktivitäten usw. suchen.",
+  "explore_search_button": "Suchen",
+  "explore_popular_destinations_title": "Beliebte Reiseziele",
+  "explore_featured_badge": "Empfohlen",
+  "explore_discover_more_button": "Mehr entdecken",
+  "explore_find_section_title": "Finden Sie Ihren Aufenthalt, Ihre Mahlzeit oder Ihr Abenteuer",
+  "explore_discover_now_button": "Jetzt entdecken",
+  "reviews_suffix": "Bewertung",
+
+  "filter_category_label": "Kategorie",
+  "filter_category_placeholder": "Alle Kategorien",
+  "filter_category_all": "Alle Kategorien",
+  "filter_category_accommodation": "Unterkunft",
+  "filter_category_food": "Essen",
+  "filter_category_activities": "Aktivitäten",
+  "filter_category_events": "Veranstaltungen",
+  "filter_category_sights": "Sehenswürdigkeiten",
+
+  "filter_region_label": "Region",
+  "filter_region_placeholder": "Alle Regionen",
+  "filter_region_all": "Alle Regionen",
+
+  "filter_price_label": "Preis",
+  "filter_price_placeholder": "Preis",
+  "filter_price_any": "Beliebig",
+  "filter_price_1": "€ (Günstig)",
+  "filter_price_2": "€€ (Mittel)",
+  "filter_price_3": "€€€ (Teuer)",
+  "filter_price_4": "€€€€ (Luxus)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Umgeben von historischen Festungen und wunderschönen Stränden",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Mittelalterliche Inselstadt mit UNESCO-Welterbe",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegante Riviera mit habsburgischen Villen",
+
+  "recommendation_type_accommodation": "Unterkunft",
+  "recommendation_type_restaurant": "Restaurant",
+  "recommendation_type_activity": "Aktivität",
+
+  "recommendation_opatija_hotel_name": "Luxuriöses Strandresort",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegantes 5-Sterne-Resort mit atemberaubendem Meerblick und privatem Strandzugang.",
+  "recommendation_kulen_tour_name": "Kulen-Tour",
+  "recommendation_kulen_tour_location": "Osijek, Slawonien",
+  "recommendation_kulen_tour_description": "Besuchen Sie Familienbauernhöfe und genießen Sie hausgemachte Spezialitäten.",
+  "recommendation_krka_tour_name": "Nationalpark Krka Tour",
+  "recommendation_krka_tour_location": "Nahe Šibenik, Dalmatien",
+  "recommendation_krka_tour_description": "Erkunden Sie die atemberaubenden Wasserfälle und die Naturschönheiten des Nationalparks Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Pool",
+  "tag_restaurant": "Restaurant",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Lokal",
+  "tag_nature": "Natur",
+  "tag_waterfalls": "Wasserfälle",
+  "tag_hiking": "Wandern",
+
+  "alt_croatia_map": "Karte von Kroatien nach Regionen"
 }

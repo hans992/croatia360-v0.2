@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Az üzenet küldése sikertelen. Kérjük, próbálja újra.",
   "about_contact_error_network": "Hálózati hiba. Kérjük, próbálja újra.",
 
-  "error_invalid_locale_message": "A kért nyelv ('{{requestedLocale}}') nem támogatott vagy érvénytelen. Az alapértelmezett nyelv ({{fallbackLocale}}) kerül megjelenítésre."
+  "error_invalid_locale_message": "A kért nyelv ('{{requestedLocale}}') nem támogatott vagy érvénytelen. Az alapértelmezett nyelv ({{fallbackLocale}}) kerül megjelenítésre.",
+
+  "explore_page_title": "Horvátország felfedezése",
+  "explore_page_subtitle": "Fedezzen fel úti célokat, találjon szállást, éttermeket, élményeket és még sok mást.",
+  "explore_search_placeholder": "Hová szeretne menni? Adjon meg egy úti célt, tevékenységet...",
+  "explore_search_aria_label": "Úti célok, tevékenységek stb. keresése.",
+  "explore_search_button": "Keresés",
+  "explore_popular_destinations_title": "Népszerű Úti Célok",
+  "explore_featured_badge": "Kiemelt",
+  "explore_discover_more_button": "Fedezzen fel többet",
+  "explore_find_section_title": "Találja meg szállását, étkezését vagy kalandját",
+  "explore_discover_now_button": "Fedezze fel most",
+  "reviews_suffix": "értékelés",
+
+  "filter_category_label": "Kategória",
+  "filter_category_placeholder": "Minden kategória",
+  "filter_category_all": "Minden kategória",
+  "filter_category_accommodation": "Szállás",
+  "filter_category_food": "Étel",
+  "filter_category_activities": "Tevékenységek",
+  "filter_category_events": "Események",
+  "filter_category_sights": "Látnivalók",
+
+  "filter_region_label": "Régió",
+  "filter_region_placeholder": "Minden régió",
+  "filter_region_all": "Minden régió",
+
+  "filter_price_label": "Ár",
+  "filter_price_placeholder": "Ár",
+  "filter_price_any": "Bármelyik",
+  "filter_price_1": "€ (Kedvező árú)",
+  "filter_price_2": "€€ (Mérsékelt)",
+  "filter_price_3": "€€€ (Drága)",
+  "filter_price_4": "€€€€ (Luxus)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Történelmi erődökkel és gyönyörű strandokkal körülvéve",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Középkori szigetváros UNESCO örökséggel",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegáns riviéra Habsburg-villákkal",
+
+  "recommendation_type_accommodation": "Szállás",
+  "recommendation_type_restaurant": "Étterem",
+  "recommendation_type_activity": "Tevékenység",
+
+  "recommendation_opatija_hotel_name": "Luxus Tengerparti Üdülőhely",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegáns 5 csillagos üdülőhely lenyűgöző tengeri kilátással és privát strand hozzáféréssel.",
+  "recommendation_kulen_tour_name": "Kulen Túra",
+  "recommendation_kulen_tour_location": "Eszék, Szlavónia",
+  "recommendation_kulen_tour_description": "Látogasson el családi gazdaságokba és kóstolja meg a házi készítésű specialitásokat.",
+  "recommendation_krka_tour_name": "Krka Nemzeti Park Túra",
+  "recommendation_krka_tour_location": "Šibenik közelében, Dalmácia",
+  "recommendation_krka_tour_description": "Fedezze fel a Krka Nemzeti Park lenyűgöző vízeséseit és természeti szépségeit.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Medence",
+  "tag_restaurant": "Étterem",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Ínyenc",
+  "tag_local": "Helyi",
+  "tag_nature": "Természet",
+  "tag_waterfalls": "Vízesések",
+  "tag_hiking": "Túrázás",
+
+  "alt_croatia_map": "Horvátország térképe régiók szerint"
 }

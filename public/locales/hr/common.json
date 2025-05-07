@@ -148,5 +148,71 @@
   "about_contact_error_send_failed": "Došlo je do greške pri slanju.",
   "about_contact_error_network": "Greška u mreži. Pokušajte ponovno.",
 
-  "error_invalid_locale_message": "Traženi jezik '{{requestedLocale}}' nije podržan ili je neispravan. Prikazuje se zadani jezik ({{fallbackLocale}})."
+  "error_invalid_locale_message": "Traženi jezik '{{requestedLocale}}' nije podržan ili je neispravan. Prikazuje se zadani jezik ({{fallbackLocale}}).",
+
+  "explore_page_title": "Istraži Hrvatsku",
+  "explore_page_subtitle": "Otkrijte destinacije, pronađite smještaj, restorane, iskustva i još mnogo toga.",
+  "explore_search_placeholder": "Gdje želiš ići? Unesi odredište, aktivnost...",
+  "explore_search_aria_label": "Pretraži destinacije, aktivnosti, itd.",
+  "explore_search_button": "Traži",
+  "explore_popular_destinations_title": "Popularne Destinacije",
+  "explore_featured_badge": "Istaknuto",
+  "explore_discover_more_button": "Otkrij Više",
+  "explore_find_section_title": "Pronađite svoj boravak, obrok ili avanturu",
+  "explore_discover_now_button": "Otkrij Sada",
+  "reviews_suffix": "recenzija",
+
+  "filter_category_label": "Kategorija",
+  "filter_category_placeholder": "Sve kategorije",
+  "filter_category_all": "Sve kategorije",
+  "filter_category_accommodation": "Smještaj",
+  "filter_category_food": "Hrana",
+  "filter_category_activities": "Aktivnosti",
+  "filter_category_events": "Događaji",
+  "filter_category_sights": "Znamenitosti",
+
+  "filter_region_label": "Regija",
+  "filter_region_placeholder": "Sve regije",
+  "filter_region_all": "Sve regije",
+
+  "filter_price_label": "Cijena",
+  "filter_price_placeholder": "Cijena",
+  "filter_price_any": "Bilo koja",
+  "filter_price_1": "€ (Povoljno)",
+  "filter_price_2": "€€ (Umjereno)",
+  "filter_price_3": "€€€ (Skuplje)",
+  "filter_price_4": "€€€€ (Luksuzno)",
+
+  "destination_sibenik_name": "Šibenik",
+  "destination_sibenik_description": "Okružen povijesnim utvrdama i prekrasnim plažama",
+  "destination_trogir_name": "Trogir",
+  "destination_trogir_description": "Srednjovjekovni grad otok s UNESCO-ovom baštinom",
+  "destination_opatija_name": "Opatija",
+  "destination_opatija_description": "Elegantna rivijera s Habsburškim vilama",
+
+  "recommendation_type_accommodation": "Smještaj",
+  "recommendation_type_restaurant": "Restoran",
+  "recommendation_type_activity": "Aktivnost",
+
+  "recommendation_opatija_hotel_name": "Luksuzni Odmaralište uz More",
+  "recommendation_opatija_hotel_location": "Opatija, Kvarner",
+  "recommendation_opatija_hotel_description": "Elegantno odmaralište s 5 zvjezdica s prekrasnim pogledom na more i privatnim pristupom plaži.",
+  "recommendation_kulen_tour_name": "Kulen tura",
+  "recommendation_kulen_tour_location": "Osijek, Slavonija",
+  "recommendation_kulen_tour_description": "Posjetite obiteljska gospodarstva i uživajte u domaćim specijalitetima.",
+  "recommendation_krka_tour_name": "Obilazak Nacionalnog Parka Krka",
+  "recommendation_krka_tour_location": "Blizu Šibenika, Dalmacija",
+  "recommendation_krka_tour_description": "Istražite zadivljujuće slapove i prirodne ljepote NP Krka.",
+
+  "tag_spa": "Spa",
+  "tag_pool": "Bazen",
+  "tag_restaurant": "Restoran",
+  "tag_kulen": "Kulen",
+  "tag_gourmet": "Gourmet",
+  "tag_local": "Lokalno",
+  "tag_nature": "Priroda",
+  "tag_waterfalls": "Slapovi",
+  "tag_hiking": "Pješačenje",
+
+  "alt_croatia_map": "Karta Hrvatske po regijama"
 }
