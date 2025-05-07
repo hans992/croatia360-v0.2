@@ -1,10 +1,10 @@
-import type { NextConfig } from "next";
+// next.config.ts
 
-const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true, // ← This disables ESLint errors during deployment
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
 
 };
 
-export default nextConfig;
+export default nextConfig; 
+

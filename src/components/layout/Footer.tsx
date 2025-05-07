@@ -1,3 +1,4 @@
+// src/components/layout/Footer.tsx
 "use client";
 
 import { useState, FormEvent, JSX } from 'react';
@@ -5,9 +6,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react'; // Added social icons
+import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; // ISPRAVAK: Import iz 'react-i18next'
+import { defaultNS } from '@/lib/i18n/settings'; // Za dohvaćanje default namespace-a
 
-const Footer = (): JSX.Element => {
+// Definiramo sučelje za props koje Footer prima
+interface FooterProps {
+  locale: string;
+}
+
+const Footer = ({ locale }: FooterProps): JSX.Element => {
+  // Koristimo defaultNS (vjerojatno 'common') koji je učitan u TranslationsProvideru
+  const { t } = useTranslation(defaultNS);
+
   const [email, setEmail] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -15,35 +26,22 @@ const Footer = (): JSX.Element => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) {
-      setMessage('Molimo unesite email adresu.');
+      setMessage(t('footer_subscribe_error_enter_email'));
       return;
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setMessage('Molimo unesite ispravnu email adresu.');
+      setMessage(t('footer_subscribe_error_invalid_email'));
       return;
     }
     setIsSubmitting(true);
     setMessage('');
     try {
-      // Mocking API call for now, replace with actual API endpoint
-      await new Promise(resolve => setTimeout(resolve, 1000)); 
-      // const response = await fetch('/api/subscribe', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email }),
-      // });
-      // const data = await response.json();
-      // if (response.ok) {
-      //   setMessage(data.message || 'Hvala na prijavi!');
-      //   setEmail('');
-      // } else {
-      //   setMessage(data.error || 'Došlo je do greške. Pokušajte ponovno.');
-      // }
-      setMessage('Hvala na prijavi! Uskoro ćete primati naše novosti.'); // Mock success
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock API poziv
+      setMessage(t('footer_subscribe_success'));
       setEmail('');
     } catch (error) {
       console.error('Greška prilikom slanja prijave:', error);
-      setMessage('Došlo je do mrežne greške. Provjerite vezu i pokušajte ponovno.');
+      setMessage(t('footer_subscribe_error_network'));
     } finally {
       setIsSubmitting(false);
     }
@@ -56,54 +54,54 @@ const Footer = (): JSX.Element => {
       <div className="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Section 1: Brand & About */}
         <div className="space-y-4">
-          <Link href="/" className="flex items-center space-x-3 mb-3">
-            {/* Using kuna.png as SARA AI logo, to be refined later if a separate Croatia360 logo is made */}
-            <Image src="/images/logo-croatia360.png" alt="Croatia360 Logo" width={150} height={150} />
+          {/* Linkovi sada uključuju 'locale' */}
+          <Link href={`/${locale}/`} className="flex items-center space-x-3 mb-3">
+            {/* Koristite alt tekst iz prijevoda ako postoji */}
+            <Image src="/images/logo-croatia360.png" alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={150} height={150} />
           </Link>
           <p className="text-sm text-muted-foreground">
-            Vaš personalizirani AI vodič za otkrivanje čuda Hrvatske. Sofisticirano, elegantno, nezaboravno.
+            {t('footer_brand_subtitle')}
           </p>
-          <Link href="/about" className="text-sm text-primary hover:underline">Saznajte više o nama</Link>
+          <Link href={`/${locale}/about`} className="text-sm text-primary hover:underline">{t('footer_learn_more')}</Link>
         </div>
 
         {/* Section 2: Quick Links */}
         <div className="">
-          <h4 className="text-lg font-semibold text-foreground mb-4">Navigacija</h4>
+          <h4 className="text-lg font-semibold text-foreground mb-4">{t('footer_navigation')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/explore" className="text-muted-foreground hover:text-primary transition-colors">Istraži destinacije</Link></li>
-            <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">SARA AI Planer</Link></li>
-            <li><Link href="/my-trip" className="text-muted-foreground hover:text-primary transition-colors">Moje putovanje</Link></li>
-            {/* <li><Link href="/community" className="text-muted-foreground hover:text-primary transition-colors">Zajednica</Link></li> */}
-            <li><Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog & Savjeti</Link></li> 
+            <li><Link href={`/${locale}/explore`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_explore_destinations')}</Link></li>
+            <li><Link href={`/${locale}/#sara-ai-planner`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_sara_ai_planner')}</Link></li>
+            <li><Link href={`/${locale}/my-trip`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_my_trip_link')}</Link></li>
+            <li><Link href={`/${locale}/blog`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_blog_tips')}</Link></li>
           </ul>
         </div>
 
         {/* Section 3: Legal & Support */}
         <div className="">
-          <h4 className="text-lg font-semibold text-foreground mb-4">Podrška</h4>
+          <h4 className="text-lg font-semibold text-foreground mb-4">{t('footer_support')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Kontaktirajte nas</Link></li>
-            <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">Česta pitanja</Link></li>
-            <li><Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">Uvjeti korištenja</Link></li>
-            <li><Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Politika privatnosti</Link></li>
+            <li><Link href={`/${locale}/contact`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_contact_us')}</Link></li>
+            <li><Link href={`/${locale}/faq`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_faq')}</Link></li>
+            <li><Link href={`/${locale}/terms`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_terms_of_use')}</Link></li>
+            <li><Link href={`/${locale}/privacy`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_privacy_policy')}</Link></li>
           </ul>
         </div>
 
         {/* Section 4: Newsletter & Social */}
         <div className="space-y-6">
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-3">Budite u toku</h4>
-            <p className="text-sm text-muted-foreground mb-3">Primajte inspiraciju i ekskluzivne ponude direktno u Vaš sandučić.</p>
+            <h4 className="text-lg font-semibold text-foreground mb-3">{t('footer_stay_updated')}</h4>
+            <p className="text-sm text-muted-foreground mb-3">{t('footer_newsletter_prompt')}</p>
             <form className="flex flex-col sm:flex-row gap-2" onSubmit={handleSubmit}>
               <Input
                 type="email"
-                placeholder="Vaša email adresa"
+                placeholder={t('footer_email_placeholder')}
                 className="flex-grow"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isSubmitting}
-                aria-label="Email adresa za newsletter"
+                aria-label={t('footer_email_placeholder')}
               />
               <Button
                 type="submit"
@@ -111,17 +109,17 @@ const Footer = (): JSX.Element => {
                 className="bg-primary hover:bg-primary/90 text-primary-foreground whitespace-nowrap"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Slanje...' : 'Pretplati se'}
+                {isSubmitting ? t('footer_subscribing_button') : t('footer_subscribe_button')}
               </Button>
             </form>
             {message && (
-              <p className={`text-xs mt-2 ${message.includes('Hvala') ? 'text-green-600' : 'text-destructive'}`}>
+              <p className={`text-xs mt-2 ${message === t('footer_subscribe_success') ? 'text-green-600' : 'text-destructive'}`}>
                 {message}
               </p>
             )}
           </div>
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-3">Pratite nas</h4>
+            <h4 className="text-lg font-semibold text-foreground mb-3">{t('footer_follow_us')}</h4>
             <div className="flex space-x-3">
               <Link href="#" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={20} /></Link>
               <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={20} /></Link>
@@ -129,20 +127,15 @@ const Footer = (): JSX.Element => {
               <Link href="#" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary transition-colors"><Linkedin size={20} /></Link>
               <Link href="#" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors"><Youtube size={20} /></Link>
             </div>
-          </div> 
+          </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="container mx-auto px-4 py-6 border-t border-border">
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>&copy; {currentYear} Croatia360 by SARA AI. Sva prava pridržana.</p>
-          {/* Language Selector - Placeholder, functionality to be implemented */}
-          <div className="flex space-x-3 mt-2 md:mt-0">
-            <span>HR</span>
-            {/* <Link href="#" className="hover:text-primary">EN</Link>
-            <Link href="#" className="hover:text-primary">DE</Link> */}
-          </div>
+          <p>{t('footer_copyright', { year: currentYear })}</p>
+          {/* Language selector je sada u Headeru, pa ga ovdje možemo ukloniti */}
         </div>
       </div>
     </footer>
@@ -150,4 +143,3 @@ const Footer = (): JSX.Element => {
 };
 
 export default Footer;
-

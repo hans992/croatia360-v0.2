@@ -1,14 +1,20 @@
+// src/components/layout/Header.tsx
 "use client";
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Globe, User, Menu, X } from 'lucide-react';
+import { User, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
-import LanguageSwitcher from './LanguageSwitcher';
+import LanguageSwitcher from './LanguageSwitcher'; // Pretpostavljam da je ovo ispravna putanja
+import ThemeSwitcher from '@/components/ThemeSwitcher'; // Provjerite putanju
+import { useTranslation } from 'react-i18next';
+// Importirajte Locale tip iz settings
+import { defaultNS, type Locale } from '@/lib/i18n/settings';
+import { usePathname } from 'next/navigation';
 
 type SupabaseUser = {
   id: string;
@@ -16,10 +22,17 @@ type SupabaseUser = {
   user_metadata?: { name?: string; avatar_url?: string };
 };
 
-const Header = () => {
+// Definiramo sučelje za props koje Header prima
+interface HeaderProps {
+  locale: Locale; // ISPRAVAK: locale je sada tipa Locale
+}
+
+const Header = ({ locale }: HeaderProps) => {
+  const { t } = useTranslation(defaultNS);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollDirection = useScrollDirection();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,54 +45,75 @@ const Header = () => {
       }
     };
     fetchUser();
-
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user as SupabaseUser | null ?? null);
     });
-
     return () => {
       authListener?.subscription.unsubscribe();
     };
   }, []);
 
-  const headerHeightClass = 'h-16'; // Slightly increased height for a more spacious feel
-  const hiddenHeaderClass = '-top-16';
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
-  const displayName = user?.user_metadata?.name || user?.email || (user ? "Korisnik" : "");
-  // const avatar = user?.user_metadata?.avatar_url; // Avatar not used in this design for now
+  const headerHeightClass = 'h-16';
+  const hiddenHeaderClass = '-top-16';
+  const displayName = user?.user_metadata?.name || user?.email || (user ? t('user_generic_name') : "");
+
+  const navLinks = [
+    { href: '/explore', labelKey: 'header_explore' },
+    { href: '/', labelKey: 'header_sara_ai', isPrimary: true },
+  ];
+  const userNavLinks = user ? [{ href: '/my-trip', labelKey: 'header_my_trip' }] : [];
 
   return (
     <header
       className={`
         sticky w-full z-50 
-        bg-background text-foreground shadow-md 
+        bg-background/80 text-foreground shadow-md backdrop-blur-md
         ${headerHeightClass}
         transition-all duration-300 ease-in-out
         ${scrollDirection === 'down' ? hiddenHeaderClass : 'top-0'}
       `}
     >
       <div className="container mx-auto flex h-full items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src="/images/logo-croatia360.png" alt="Croatia360 Logo" width={100} height={100} priority /> 
+        <Link href={`/${locale}/`} className="flex items-center space-x-2">
+          <Image src="/images/logo-croatia360.png" alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={100} height={100} priority />
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link href="/explore" className="transition-colors hover:text-primary text-foreground/80">Istraži</Link>
-          <Link href="/" className="transition-colors hover:text-primary text-primary font-semibold">SARA AI</Link>
-          {user && (
-            <Link href="/my-trip" className="transition-colors hover:text-primary text-foreground/80">Moje putovanje</Link>
-          )}
-          {/* <Link href="/community" className="transition-colors hover:text-primary text-foreground/80">Zajednica</Link> */}
+          {navLinks.map(link => (
+            <Link
+              key={link.labelKey}
+              href={`/${locale}${link.href}`}
+              className={`transition-colors hover:text-primary ${link.isPrimary ? 'text-primary font-semibold' : 'text-foreground/80'}`}
+            >
+              {t(link.labelKey)}
+            </Link>
+          ))}
+          {userNavLinks.map(link => (
+             <Link
+              key={link.labelKey}
+              href={`/${locale}${link.href}`}
+              className="transition-colors hover:text-primary text-foreground/80"
+            >
+              {t(link.labelKey)}
+            </Link>
+          ))}
         </nav>
 
-        {/* Right Section: Language & User - Desktop */}
-        <div className="hidden md:flex items-center space-x-4">
-          <LanguageSwitcher />
+        <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
+          {/* LanguageSwitcher sada prima 'locale' koji je tipa Locale */}
+          <LanguageSwitcher currentLocale={locale} />
+          <ThemeSwitcher />
           
           {user ? (
             <div className="flex items-center space-x-3">
-              <Link href="/my-trip" className="text-sm font-medium hover:text-primary">
+              <Link href={`/${locale}/my-trip`} className="text-sm font-medium hover:text-primary">
                  {displayName}
               </Link>
               <Button
@@ -88,81 +122,88 @@ const Header = () => {
                 className="border-primary text-primary hover:bg-primary/10"
                 onClick={async () => { await supabase.auth.signOut(); setUser(null); }}
               >
-                Odjava
+                {t('header_logout')}
               </Button>
             </div>
           ) : (
-            <Link href="/login">
+            <Link href={`/${locale}/login`}>
               <Button variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 <User className="h-5 w-5 mr-2" />
-                Prijava
+                {t('header_login')}
               </Button>
             </Link>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center space-x-2">
+          <LanguageSwitcher currentLocale={locale} />
+          <ThemeSwitcher />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary">
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                <span className="sr-only">Otvori izbornik</span>
+                <span className="sr-only">{isMobileMenuOpen ? t('header_close_menu') : t('header_open_menu')}</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[320px] bg-background text-foreground p-0">
-              <div className="flex flex-col h-full">
+            <SheetContent side="right" className="w-[300px] sm:w-[320px] bg-background text-foreground p-0 flex flex-col">
                 <div className="flex justify-between items-center p-4 border-b border-border">
-                  <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Image src="/images/kuna.png" alt="SARA AI Logo" width={30} height={30} />
+                  <Link href={`/${locale}/`} className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Image src="/images/kuna.png" alt={t('alt_sara_ai_logo')} width={30} height={30} />
                     <span className="font-semibold text-lg text-primary">Croatia360</span>
                   </Link>
                   <SheetClose asChild>
                     <Button variant="ghost" size="icon" className="text-muted-foreground">
                       <X className="h-6 w-6" />
-                      <span className="sr-only">Zatvori izbornik</span>
+                      <span className="sr-only">{t('header_close_menu')}</span>
                     </Button>
                   </SheetClose>
                 </div>
-                <nav className="flex flex-col space-y-1 p-4 text-base">
-                  <SheetClose asChild><Link href="/explore" className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90">Istraži</Link></SheetClose>
-                  <SheetClose asChild><Link href="/" className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-primary font-semibold">SARA AI</Link></SheetClose>
-                  {user && (
-                    <SheetClose asChild><Link href="/my-trip" className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90">Moje putovanje</Link></SheetClose>
-                  )}
-                  {/* <SheetClose asChild><Link href="/community" className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90">Zajednica</Link></SheetClose> */}
+                <nav className="flex-grow flex flex-col space-y-1 p-4 text-base">
+                  {navLinks.map(link => (
+                    <SheetClose key={link.labelKey} asChild>
+                        <Link 
+                            href={`/${locale}${link.href}`} 
+                            className={`block px-3 py-2 rounded-md hover:bg-muted transition-colors ${link.isPrimary ? 'text-primary font-semibold' : 'text-foreground/90'}`}
+                        >
+                            {t(link.labelKey)}
+                        </Link>
+                    </SheetClose>
+                  ))}
+                  {userNavLinks.map(link => (
+                     <SheetClose key={link.labelKey} asChild>
+                        <Link 
+                            href={`/${locale}${link.href}`} 
+                            className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90"
+                        >
+                            {t(link.labelKey)}
+                        </Link>
+                    </SheetClose>
+                  ))}
                 </nav>
-                <div className="mt-auto p-4 border-t border-border">
-                  <div className="flex items-center justify-between mb-4">
-                    <Button variant="ghost" className="text-foreground/80 hover:text-primary w-full justify-start">
-                      <Globe className="h-5 w-5 mr-2" />
-                      <span>Hrvatski (HR)</span>
-                    </Button>
-                   </div>
+                <div className="p-4 border-t border-border">
                   {user ? (
                       <div className="flex flex-col space-y-2">
-                        <span className="text-sm font-medium px-3 py-2 text-foreground/80">Prijavljeni kao: {displayName}</span>
+                        <span className="text-sm font-medium px-3 py-2 text-foreground/80">{t('logged_in_as') || "Prijavljeni kao:"} {displayName}</span>
                         <Button
                           variant="outline"
                           size="sm"
                           className="w-full border-destructive text-destructive hover:bg-destructive/10"
                           onClick={async () => { await supabase.auth.signOut(); setUser(null); setIsMobileMenuOpen(false); }}
                         >
-                          Odjava
+                          {t('header_logout')}
                         </Button>
                       </div>
                   ) : (
                     <SheetClose asChild>
-                      <Link href="/login" className="w-full">
+                      <Link href={`/${locale}/login`} className="w-full">
                         <Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                           <User className="h-5 w-5 mr-2" />
-                           Prijava / Registracija
+                           {t('login_register_button') || "Prijava / Registracija"}
                         </Button>
                       </Link>
                     </SheetClose>
                   )}
                 </div>
-              </div>
             </SheetContent>
           </Sheet>
         </div>
@@ -172,4 +213,3 @@ const Header = () => {
 };
 
 export default Header;
-
