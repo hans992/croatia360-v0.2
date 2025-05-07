@@ -5,7 +5,8 @@ import { ThemeProvider } from 'next-themes';
 import '../../styles/globals.css';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 import TranslationsProvider from '@/lib/i18n/TranslationsProvider';
-import { useTranslation as useServerTranslation } from '@/lib/i18n/server';
+// Updated import and function name
+import { getServerTranslations } from '@/lib/i18n/server';
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -23,8 +24,8 @@ export async function generateMetadata(props: { params: { locale: string } }): P
     localeToUse = fallbackLng;
   }
   
-  // Call useServerTranslation once at the top level of the async function's logic for this path.
-  const { t } = await useServerTranslation(localeToUse, defaultNS);
+  // Updated function call
+  const { t } = await getServerTranslations(localeToUse, defaultNS);
   return {
     title: t('site_title'),
     description: t('site_description'),
@@ -58,8 +59,8 @@ export default async function RootLayout(props: {
     effectiveLocale = fallbackLng;
   }
 
-  // Call useServerTranslation once, with the determined effectiveLocale.
-  const { i18n, t } = await useServerTranslation(effectiveLocale, defaultNS);
+  // Updated function call
+  const { i18n, t } = await getServerTranslations(effectiveLocale, defaultNS);
   const initialResources = {
     [effectiveLocale]: {
       [defaultNS]: i18n.getResourceBundle(effectiveLocale, defaultNS) || {},

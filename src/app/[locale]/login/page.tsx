@@ -1,6 +1,13 @@
+// src/app/[locale]/login/page.tsx
 'use client';
-import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { useState, FormEvent } from 'react'; // Uklonjen React jer se ne koristi direktno
+import { supabase } from '@/lib/supabaseClient'; // Provjerite putanju
+import { useTranslation } from 'react-i18next'; // Import za i18n
+import { defaultNS } from '@/lib/i18n/settings'; // Za default namespace
+import { Button } from '@/components/ui/button';
+// Pretpostavljam da ćete htjeti koristiti Link za povratak na početnu ili druge stranice
+// import Link from 'next/link'; 
+// import { type Locale } from '@/lib/i18n/settings'; // Ako trebate Locale tip
 
 type FormState = {
   email: string;
@@ -12,7 +19,14 @@ type FormState = {
   loading: boolean;
 };
 
+// interface LoginPageProps { // Ako stranica prima params, npr. locale
+//   params: { locale: Locale };
+// }
+
+// export default function LoginPage({ params: { locale } }: LoginPageProps) { // Ako primate locale
 export default function LoginPage() {
+  const { t } = useTranslation(defaultNS); // Inicijalizacija i18n
+
   const [form, setForm] = useState<FormState>({
     email: '',
     password: '',
@@ -23,10 +37,12 @@ export default function LoginPage() {
     loading: false,
   });
 
-  // Helper za izračun godina
   function getAge(dateString: string) {
+    if (!dateString) return 0; // Provjera za prazan string
     const today = new Date();
     const birthDate = new Date(dateString);
+    if (isNaN(birthDate.getTime())) return 0; // Provjera za neispravan datum
+
     let age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
@@ -35,23 +51,22 @@ export default function LoginPage() {
     return age;
   }
 
-  // Ručna registracija
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e: FormEvent<HTMLFormElement>) => { // Tipiziran event
     e.preventDefault();
     setForm(f => ({ ...f, error: '', loading: true }));
 
-    // Validacija
-    if (!form.firstName || !form.lastName || !form.birthDate) {
-      setForm(f => ({ ...f, error: 'Sva polja su obavezna.', loading: false }));
+    if (!form.firstName || !form.lastName || !form.birthDate || !form.email || !form.password) {
+      setForm(f => ({ ...f, error: t('login_error_all_fields_required'), loading: false }));
       return;
     }
     if (getAge(form.birthDate) < 18) {
-      setForm(f => ({ ...f, error: 'Morate imati najmanje 18 godina za registraciju.', loading: false }));
+      setForm(f => ({ ...f, error: t('login_error_age_restriction'), loading: false }));
       return;
     }
 
     // Supabase signup s dodatnim podacima
-    const { data, error } = await supabase.auth.signUp({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { data: _data, error } = await supabase.auth.signUp({ // data je prefiksiran s _ jer se ne koristi
       email: form.email,
       password: form.password,
       options: {
@@ -59,6 +74,8 @@ export default function LoginPage() {
           firstName: form.firstName,
           lastName: form.lastName,
           birthDate: form.birthDate,
+          // Možete dodati i 'full_name' ako ga vaš Supabase trigger očekuje
+          // full_name: `${form.firstName} ${form.lastName}`
         }
       }
     });
@@ -66,87 +83,115 @@ export default function LoginPage() {
     if (error) {
       setForm(f => ({ ...f, error: error.message, loading: false }));
     } else {
-      // Dodaj korisnika u vlastitu tablicu (npr. profiles)
-      // await supabase.from('profiles').insert({ ... })
       setForm(f => ({ ...f, error: '', loading: false }));
-      alert('Registracija uspješna! Provjerite email za potvrdu.');
+      // Bolje je koristiti neku notifikaciju umjesto alert-a
+      alert(t('login_signup_success_check_email'));
+      // Ovdje možete preusmjeriti korisnika, npr. router.push(`/${locale}/`)
     }
   };
 
-  // Google login
   const handleGoogle = async () => {
     setForm(f => ({ ...f, error: '', loading: true }));
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // redirectTo: window.location.origin + '/complete-profile', // vidi napomenu dolje
+        // redirectTo bi trebao biti apsolutni URL
+        // redirectTo: `${window.location.origin}/${locale}/auth/callback`, // Primjer
       }
     });
     if (error) setForm(f => ({ ...f, error: error.message, loading: false }));
+    // Uspješan OAuth će preusmjeriti korisnika, pa loading: false možda nije ni potrebno ovdje
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <div className="w-full max-w-md p-8 bg-white rounded shadow">
-        <h1 className="mb-6 text-2xl font-bold text-center">Prijava ili registracija</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+      <div className="w-full max-w-md p-6 sm:p-8 bg-card text-card-foreground rounded-lg shadow-xl">
+        <h1 className="mb-6 text-2xl font-bold text-center text-primary">
+          {t('login_page_title')}
+        </h1>
         <button
           onClick={handleGoogle}
-          className="w-full mb-6 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+          className="w-full mb-6 bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-md font-semibold transition-colors disabled:opacity-70"
           disabled={form.loading}
         >
-          Prijava putem Googlea
+          {t('login_google_button')}
         </button>
-        <div className="text-center text-gray-500 mb-4">ili</div>
+        <div className="relative mb-6">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">
+              {t('login_or_divider')}
+            </span>
+          </div>
+        </div>
         <form onSubmit={handleSignup} className="space-y-4">
           <input
             type="text"
-            placeholder="Ime"
-            className="w-full border px-3 py-2 rounded"
+            placeholder={t('login_placeholder_firstname')!} // Dodan ! da se izbjegne string | undefined
+            className="w-full border border-input bg-background px-3 py-2 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             value={form.firstName}
             onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
             required
+            disabled={form.loading}
           />
           <input
             type="text"
-            placeholder="Prezime"
-            className="w-full border px-3 py-2 rounded"
+            placeholder={t('login_placeholder_lastname')!}
+            className="w-full border border-input bg-background px-3 py-2 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             value={form.lastName}
             onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
             required
+            disabled={form.loading}
           />
-          <label className="block text-sm text-gray-700">Datum rođenja</label>
-          <input
-            type="date"
-            className="w-full border px-3 py-2 rounded"
-            value={form.birthDate}
-            onChange={e => setForm(f => ({ ...f, birthDate: e.target.value }))}
-            required
-          />
+          <div>
+            <label htmlFor="birthDate" className="block text-sm font-medium text-muted-foreground mb-1">
+              {t('login_label_birthdate')}
+            </label>
+            <input
+              id="birthDate"
+              type="date"
+              className="w-full border border-input bg-background px-3 py-2 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              value={form.birthDate}
+              onChange={e => setForm(f => ({ ...f, birthDate: e.target.value }))}
+              required
+              disabled={form.loading}
+            />
+          </div>
           <input
             type="email"
-            placeholder="Email"
-            className="w-full border px-3 py-2 rounded"
+            placeholder={t('login_placeholder_email')!}
+            className="w-full border border-input bg-background px-3 py-2 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             value={form.email}
             onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
             required
+            disabled={form.loading}
           />
           <input
             type="password"
-            placeholder="Lozinka"
-            className="w-full border px-3 py-2 rounded"
+            placeholder={t('login_placeholder_password')!}
+            className="w-full border border-input bg-background px-3 py-2 rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             value={form.password}
             onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
             required
+            disabled={form.loading}
           />
-          <button
+          <Button // Korištenje shadcn/ui Button komponente
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+            className="w-full" // Uklonjene specifične boje, oslanja se na default variant
             disabled={form.loading}
           >
-            Registracija
-          </button>
+            {form.loading ? t('login_button_registering') : t('login_button_register')}
+          </Button>
         </form>
-        {form.error && <div className="mt-4 text-red-600 text-center">{form.error}</div>}
+        {form.error && <div className="mt-4 text-sm text-destructive text-center">{form.error}</div>}
+        {/* Dodajte link za povratak ako je potrebno */}
+        {/* <div className="mt-6 text-center">
+          <Link href={`/${locale}/`} className="text-sm text-primary hover:underline">
+            {t('login_back_to_home')}
+          </Link>
+        </div> */}
       </div>
     </main>
   );

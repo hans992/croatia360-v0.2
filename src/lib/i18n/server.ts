@@ -10,7 +10,7 @@ const initI18next = async (lng: string, ns: string | string[]) => {
     .use(initReactI18next)
     .use(resourcesToBackend(async (language: string, namespace: string) => {
       try {
-        // Adjusted path for Vercel build
+        // Path for Vercel build (assuming src is at root of build path0)
         return await import(`../../../public/locales/${language}/${namespace}.json`);
       } catch (error) {
         console.error(`Greška pri učitavanju prijevoda za ${language}/${namespace} na serveru:`, error);
@@ -21,7 +21,8 @@ const initI18next = async (lng: string, ns: string | string[]) => {
   return i18nInstance;
 };
 
-export async function useTranslation(
+// RENAMED from useTranslation to getServerTranslations
+export async function getServerTranslations(
   lng: string,
   ns: string | string[] = defaultNS,
   options: { keyPrefix?: string } = {}

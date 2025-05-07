@@ -3,9 +3,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-// Footer se renderira u RootLayout-u
-// import Footer from '@/components/layout/Footer'; 
-import { useTranslation as useServerTranslation } from '@/lib/i18n/server';
+// Updated import and function name
+import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 
 interface HomePagePropsInternal {
@@ -13,7 +12,7 @@ interface HomePagePropsInternal {
 }
 
 export default async function HomePage(props: HomePagePropsInternal) {
-  const params = await props.params; // Čekamo params ako je Promise
+  const params = await props.params;
   let effectiveLocale: Locale;
   let isLocaleFromParamsValid = false;
 
@@ -21,12 +20,12 @@ export default async function HomePage(props: HomePagePropsInternal) {
     effectiveLocale = params.locale as Locale;
     isLocaleFromParamsValid = true;
   } else {
-    console.warn(`[page.tsx] HomePage - Neispravan ili nepodržan locale '${params?.locale}'. Koristi se fallback: ${fallbackLng}`);
+    console.warn(`[page.tsx] HomePage - Invalid or unsupported locale '${params?.locale}'. Using fallback: ${fallbackLng}`);
     effectiveLocale = fallbackLng;
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { t } = await useServerTranslation(effectiveLocale, defaultNS);
+  // Updated function call
+  const { t } = await getServerTranslations(effectiveLocale, defaultNS);
 
   const inspirationCards = [
     { id: 'istra', image: "/images/Istria_sunset.jpg", altKey: "alt_istra_sunset", titleKey: "card_istra_title", descriptionKey: "card_istra_description", linkTextKey: "card_learn_more_button" },
@@ -37,7 +36,6 @@ export default async function HomePage(props: HomePagePropsInternal) {
     { id: 'senj', image: "/images/senj.jpg", altKey: "alt_senj_city", titleKey: "card_senj_title", descriptionKey: "card_senj_description", linkTextKey: "card_learn_more_button" },
   ];
 
-  // Prikaz poruke o grešci ako originalni locale nije bio valjan
   if (!isLocaleFromParamsValid) {
     return (
         <div className="container mx-auto px-4 py-8 text-center">
@@ -45,23 +43,17 @@ export default async function HomePage(props: HomePagePropsInternal) {
                 {t('error_invalid_locale_message', { requestedLocale: params?.locale, fallbackLocale: effectiveLocale }) || 
                  `Traženi jezik '${params?.locale}' nije podržan ili je neispravan. Prikazuje se zadani jezik (${effectiveLocale}). Molimo provjerite URL.`}
             </p>
-            {/* Možete odlučiti da ne renderirate ostatak stranice ili da ga renderirate s fallback jezikom */}
         </div>
     );
   }
 
   return (
     <>
-      {/* Hero Section */}
       <div className="text-center pt-10 pb-10 container mx-auto px-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">{t('hero_title_sara_ai')}</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
       </div>
-
-      {/* StickyChatbotSection će koristiti i18n kontekst iz TranslationsProvidera */}
       <StickyChatbotSection />
-
-      {/* Content Section */}
       <div className="mt-12 container mx-auto px-4 py-8">
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-900">{t('inspiration_title')}</h2>
         <p className="text-center text-gray-600 mb-8">{t('inspiration_subtitle')}</p>
@@ -75,7 +67,7 @@ export default async function HomePage(props: HomePagePropsInternal) {
                   width={400} 
                   height={200} 
                   className="rounded-t-lg object-cover w-full h-48" 
-                  priority={['istra', 'krka', 'sibenik'].includes(card.id)} // Optimizacija za LCP
+                  priority={['istra', 'krka', 'sibenik'].includes(card.id)}
                 />
                 <CardTitle className="mt-4">{t(card.titleKey)}</CardTitle>
               </CardHeader>
@@ -89,7 +81,6 @@ export default async function HomePage(props: HomePagePropsInternal) {
           ))}
         </div>
       </div>
-      {/* Footer se sada renderira u RootLayout-u */}
     </>
   );
 }
