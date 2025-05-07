@@ -2,17 +2,16 @@
 "use client";
 
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/image'; // Vraćamo Image komponentu
 import { Button } from '@/components/ui/button';
 import { User, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
-import LanguageSwitcher from './LanguageSwitcher'; // Pretpostavljam da je ovo ispravna putanja
-import ThemeSwitcher from '@/components/ThemeSwitcher'; // Provjerite putanju
+import LanguageSwitcher from './LanguageSwitcher';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { useTranslation } from 'react-i18next';
-// Importirajte Locale tip iz settings
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
 import { usePathname } from 'next/navigation';
 
@@ -22,9 +21,8 @@ type SupabaseUser = {
   user_metadata?: { name?: string; avatar_url?: string };
 };
 
-// Definiramo sučelje za props koje Header prima
 interface HeaderProps {
-  locale: Locale; // ISPRAVAK: locale je sada tipa Locale
+  locale: Locale;
 }
 
 const Header = ({ locale }: HeaderProps) => {
@@ -32,26 +30,33 @@ const Header = ({ locale }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollDirection = useScrollDirection();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const pathname = usePathname();
 
+  // URL za logo s Google Cloud Storagea
+  const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
+  // URL za kuna logo (pretpostavljam da je i on na GCS ili ostaje lokalno?)
+  // Ako je lokalno, koristit ćemo <img> tag za njega kao workaround
+  const kunaLogoPath = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png"; 
+
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error("Error fetching user:", error);
-        setUser(null);
-      } else {
-        setUser(data.user as SupabaseUser | null);
-      }
-    };
-    fetchUser();
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user as SupabaseUser | null ?? null);
+      setAuthChecked(true);
     });
+    // Inicijalno dohvaćanje sesije da se stanje ažurira što prije
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!user) { // Postavi samo ako listener nije već postavio
+        setUser(session?.user as SupabaseUser | null ?? null);
+      }
+      setAuthChecked(true);
+    });
+
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Ovisnost uklonjena da se oslanja na mount/unmount
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -82,7 +87,16 @@ const Header = ({ locale }: HeaderProps) => {
     >
       <div className="container mx-auto flex h-full items-center justify-between px-4">
         <Link href={`/${locale}/`} className="flex items-center space-x-2">
-          <Image src="/images/logo-croatia360.png" alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={100} height={100} priority />
+          {/* Koristimo Next Image s GCS URL-om */}
+          <Image 
+            src={logoUrl} 
+            alt={t('alt_croatia360_logo') || "Croatia360 Logo"} 
+            width={100} // Originalna širina za omjer
+            height={40} // Originalna visina za omjer
+            className="h-10 w-auto" // Tailwind za stvarnu veličinu prikaza
+            priority 
+            // unoptimized={true} // Uklonjeno, neka Next.js pokuša optimizirati
+          />
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -107,11 +121,12 @@ const Header = ({ locale }: HeaderProps) => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
-          {/* LanguageSwitcher sada prima 'locale' koji je tipa Locale */}
           <LanguageSwitcher currentLocale={locale} />
           <ThemeSwitcher />
           
-          {user ? (
+          {!authChecked ? (
+             <div className="h-8 w-24 animate-pulse bg-muted rounded-md"></div> 
+          ) : user ? (
             <div className="flex items-center space-x-3">
               <Link href={`/${locale}/my-trip`} className="text-sm font-medium hover:text-primary">
                  {displayName}
@@ -135,6 +150,7 @@ const Header = ({ locale }: HeaderProps) => {
           )}
         </div>
 
+        {/* Mobile Menu */}
         <div className="md:hidden flex items-center space-x-2">
           <LanguageSwitcher currentLocale={locale} />
           <ThemeSwitcher />
@@ -148,7 +164,14 @@ const Header = ({ locale }: HeaderProps) => {
             <SheetContent side="right" className="w-[300px] sm:w-[320px] bg-background text-foreground p-0 flex flex-col">
                 <div className="flex justify-between items-center p-4 border-b border-border">
                   <Link href={`/${locale}/`} className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Image src="/images/kuna.png" alt={t('alt_sara_ai_logo')} width={30} height={30} />
+                    {/* Za kuna.png koristimo <img> tag kao workaround ako i dalje pravi probleme */}
+                    <img 
+                      src={kunaLogoPath} 
+                      alt={t('alt_sara_ai_logo')} 
+                      width={30} 
+                      height={30} 
+                      className="h-8 w-auto"
+                    />
                     <span className="font-semibold text-lg text-primary">Croatia360</span>
                   </Link>
                   <SheetClose asChild>
@@ -159,7 +182,7 @@ const Header = ({ locale }: HeaderProps) => {
                   </SheetClose>
                 </div>
                 <nav className="flex-grow flex flex-col space-y-1 p-4 text-base">
-                  {navLinks.map(link => (
+                   {navLinks.map(link => (
                     <SheetClose key={link.labelKey} asChild>
                         <Link 
                             href={`/${locale}${link.href}`} 
@@ -181,7 +204,9 @@ const Header = ({ locale }: HeaderProps) => {
                   ))}
                 </nav>
                 <div className="p-4 border-t border-border">
-                  {user ? (
+                  {!authChecked ? (
+                     <div className="h-8 w-full animate-pulse bg-muted rounded-md mb-2"></div>
+                  ) : user ? (
                       <div className="flex flex-col space-y-2">
                         <span className="text-sm font-medium px-3 py-2 text-foreground/80">{t('logged_in_as') || "Prijavljeni kao:"} {displayName}</span>
                         <Button

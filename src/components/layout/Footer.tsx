@@ -3,21 +3,22 @@
 
 import { useState, FormEvent, JSX } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/image'; // Vraćamo Image
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
-import { useTranslation } from 'react-i18next'; // ISPRAVAK: Import iz 'react-i18next'
-import { defaultNS } from '@/lib/i18n/settings'; // Za dohvaćanje default namespace-a
+import { useTranslation } from 'react-i18next';
+import { defaultNS, type Locale } from '@/lib/i18n/settings';
 
-// Definiramo sučelje za props koje Footer prima
 interface FooterProps {
-  locale: string;
+  locale: Locale;
 }
 
 const Footer = ({ locale }: FooterProps): JSX.Element => {
-  // Koristimo defaultNS (vjerojatno 'common') koji je učitan u TranslationsProvideru
   const { t } = useTranslation(defaultNS);
+
+  // URL za logo s Google Cloud Storagea
+  const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
 
   const [email, setEmail] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
     setIsSubmitting(true);
     setMessage('');
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock API poziv
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock API call
       setMessage(t('footer_subscribe_success'));
       setEmail('');
     } catch (error) {
@@ -54,10 +55,16 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
       <div className="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Section 1: Brand & About */}
         <div className="space-y-4">
-          {/* Linkovi sada uključuju 'locale' */}
           <Link href={`/${locale}/`} className="flex items-center space-x-3 mb-3">
-            {/* Koristite alt tekst iz prijevoda ako postoji */}
-            <Image src="/images/logo-croatia360.png" alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={150} height={150} />
+             {/* Koristimo Next Image s GCS URL-om */}
+            <Image 
+              src={logoUrl} 
+              alt={t('alt_croatia360_logo') || "Croatia360 Logo"} 
+              width={150} // Originalna širina
+              height={49} // Originalna visina (prilagodite ako treba)
+              className="h-auto w-auto max-w-[150px]" // Ograničenje veličine
+              // unoptimized={true} // Uklonjeno
+            />
           </Link>
           <p className="text-sm text-muted-foreground">
             {t('footer_brand_subtitle')}
@@ -135,7 +142,6 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
       <div className="container mx-auto px-4 py-6 border-t border-border">
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>{t('footer_copyright', { year: currentYear })}</p>
-          {/* Language selector je sada u Headeru, pa ga ovdje možemo ukloniti */}
         </div>
       </div>
     </footer>
