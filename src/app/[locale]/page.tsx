@@ -3,28 +3,36 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-// Updated import and function name
+// Footer se renderira u RootLayout-u
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 
-interface HomePagePropsInternal {
-  params: { locale: string };
+// Definicija tipa za params unutar propsa stranice
+interface PageParams {
+  locale: string;
 }
 
-export default async function HomePage(props: HomePagePropsInternal) {
-  const params = await props.params;
+// Definicija tipa za props koje stranica prima
+// params sada može biti Promise koji se razrješava u PageParams
+interface HomePageProps {
+  params: Promise<PageParams>; // ISPRAVAK: params je sada Promise
+  searchParams?: { [key: string]: string | string[] | undefined }; // Standardni searchParams
+}
+
+export default async function HomePage(props: HomePageProps) {
+  // Čekamo da se params Promise razriješi
+  const resolvedParams = await props.params;
   let effectiveLocale: Locale;
   let isLocaleFromParamsValid = false;
 
-  if (params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) {
-    effectiveLocale = params.locale as Locale;
+  if (resolvedParams && typeof resolvedParams.locale === 'string' && appLocalesStringArray.includes(resolvedParams.locale)) {
+    effectiveLocale = resolvedParams.locale as Locale;
     isLocaleFromParamsValid = true;
   } else {
-    console.warn(`[page.tsx] HomePage - Invalid or unsupported locale '${params?.locale}'. Using fallback: ${fallbackLng}`);
+    console.warn(`[page.tsx] HomePage - Neispravan ili nepodržan locale '${resolvedParams?.locale}'. Koristi se fallback: ${fallbackLng}`);
     effectiveLocale = fallbackLng;
   }
 
-  // Updated function call
   const { t } = await getServerTranslations(effectiveLocale, defaultNS);
 
   const inspirationCards = [
@@ -40,8 +48,8 @@ export default async function HomePage(props: HomePagePropsInternal) {
     return (
         <div className="container mx-auto px-4 py-8 text-center">
             <p className="text-red-600 bg-red-100 border border-red-400 p-4 rounded-md">
-                {t('error_invalid_locale_message', { requestedLocale: params?.locale, fallbackLocale: effectiveLocale }) || 
-                 `Traženi jezik '${params?.locale}' nije podržan ili je neispravan. Prikazuje se zadani jezik (${effectiveLocale}). Molimo provjerite URL.`}
+                {t('error_invalid_locale_message', { requestedLocale: resolvedParams?.locale, fallbackLocale: effectiveLocale }) || 
+                 `Traženi jezik '${resolvedParams?.locale}' nije podržan ili je neispravan. Prikazuje se zadani jezik (${effectiveLocale}). Molimo provjerite URL.`}
             </p>
         </div>
     );
