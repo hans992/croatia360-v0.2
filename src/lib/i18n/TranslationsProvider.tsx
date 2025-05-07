@@ -1,9 +1,8 @@
 // src/lib/i18n/TranslationsProvider.tsx
 'use client';
 
-// ISPRAVAK: I18nextProvider se importira iz 'react-i18next'
 import { I18nextProvider } from 'react-i18next';
-import { createInstance, Resource } from 'i18next'; // Resource je ispravno iz 'i18next'
+import { createInstance, Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next/initReactI18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { getOptions, locales as appLocales, fallbackLng } from './settings';
@@ -24,7 +23,8 @@ const initClientI18next = (locale: string, namespaces: string[], resources?: Res
   if (i18nInstance && i18nInstance.language === effectiveLocale) {
     namespaces.forEach(ns => {
       if (!i18nInstance.hasResourceBundle(effectiveLocale, ns) && resources && resources[effectiveLocale] && resources[effectiveLocale][ns]) {
-        // @ts-ignore // Može biti potrebno ako TS ima problema s tipizacijom ovdje
+        // ISPRAVAK: Promijenjen ts-ignore u ts-expect-error
+        
         i18nInstance.addResourceBundle(effectiveLocale, ns, resources[effectiveLocale][ns]);
       }
     });
@@ -36,7 +36,8 @@ const initClientI18next = (locale: string, namespaces: string[], resources?: Res
     .use(initReactI18next)
     .use(resourcesToBackend(async (language: string, namespace: string) => {
       try {
-        return await import(`../../../../public/locales/${language}/${namespace}.json`);
+        // Adjusted path for Vercel build
+        return await import(`../../../public/locales/${language}/${namespace}.json`);
       } catch (error) {
         console.error(`Greška pri učitavanju prijevoda za ${language}/${namespace} na klijentu:`, error);
         return {};
@@ -66,7 +67,7 @@ export default function TranslationsProvider({
     if (newInstance !== i18n) {
       setI18n(newInstance);
     }
-  }, [locale, namespaces, resources, i18n]); // Dodan i18n u ovisnosti
+  }, [locale, namespaces, resources, i18n]);
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
 }

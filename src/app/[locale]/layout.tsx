@@ -19,12 +19,12 @@ export async function generateMetadata(props: { params: { locale: string } }): P
   if (params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) {
     localeToUse = params.locale as Locale;
   } else {
-    console.warn(`[layout.tsx] generateMetadata - Neispravan ili nepodržan locale '${params?.locale}'. Koristi se fallback: ${fallbackLng}`);
+    console.warn(`[layout.tsx] generateMetadata - Invalid or unsupported locale '${params?.locale}'. Using fallback: ${fallbackLng}`);
     localeToUse = fallbackLng;
   }
   
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { t } = await useServerTranslation(localeToUse, defaultNS); // Poziv hook-a je sada na vrhu logičkog bloka
+  // Call useServerTranslation once at the top level of the async function's logic for this path.
+  const { t } = await useServerTranslation(localeToUse, defaultNS);
   return {
     title: t('site_title'),
     description: t('site_description'),
@@ -48,34 +48,23 @@ export default async function RootLayout(props: {
 }) {
   const params = await props.params;
   let effectiveLocale: Locale;
+  let isLocaleValid = false;
 
   if (params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) {
     effectiveLocale = params.locale as Locale;
+    isLocaleValid = true;
   } else {
-    console.warn(`[layout.tsx] RootLayout - Neispravan ili nepodržan locale '${params?.locale}'. Koristi se fallback: ${fallbackLng}`);
+    console.warn(`[layout.tsx] RootLayout - Invalid or unsupported locale '${params?.locale}'. Using fallback: ${fallbackLng}`);
     effectiveLocale = fallbackLng;
-    // Nećemo ovdje renderirati potpuno drugačiji HTML za grešku ako to uzrokuje probleme s hookovima.
-    // Middleware bi trebao odraditi većinu posla preusmjeravanja na ispravan locale.
-    // Ako dođe do ove točke s nevažećim locale, aplikacija će se renderirati s fallbackLng.
   }
 
-  // Pozivamo useServerTranslation jednom, bez obzira na validnost originalnog 'locale' iz params,
-  // jer smo već odredili 'effectiveLocale'.
+  // Call useServerTranslation once, with the determined effectiveLocale.
   const { i18n, t } = await useServerTranslation(effectiveLocale, defaultNS);
   const initialResources = {
     [effectiveLocale]: {
       [defaultNS]: i18n.getResourceBundle(effectiveLocale, defaultNS) || {},
     },
   };
-
-  // Provjera za grešku ako params.locale nije bio validan, ali nakon inicijalizacije i18n s fallbackom.
-  if (!(params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale))) {
-    // Možete odlučiti prikazati neku poruku unutar postojećeg layouta
-    // ili se osloniti da će middleware spriječiti dolazak do ove točke s potpuno nevažećim localeom.
-    // Za sada, renderiramo normalno s fallback jezikom.
-    // Ako želite specifičnu poruku o grešci, trebate je dodati u children ili na drugačiji način.
-    console.error(`[layout.tsx] RootLayout - Renderiranje s fallback jezikom '${effectiveLocale}' zbog neispravnog originalnog localea '${params?.locale}'.`);
-  }
 
   return (
     <html lang={effectiveLocale} suppressHydrationWarning>
@@ -91,17 +80,11 @@ export default async function RootLayout(props: {
             enableSystem
             disableTransitionOnChange
           >
-            {/* Greška za apostrof:
-                Greška: Traženi jezik '{params?.locale}' nije podržan ili je došlo do problema s URL-om. Prikazuje se zadani jezik.
-                Zamijenjeno s &apos;
-            */}
-            {/* Primjer prikaza greške ako je locale bio neispravan, ali sada koristimo fallback za renderiranje */}
-            {!(params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) && (
+            {!isLocaleValid && (
                  <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 text-center" role="alert">
                     <p>
-                        {/* Koristimo 't' funkciju koja je već inicijalizirana s fallback jezikom */}
                         {t('error_invalid_locale_message', { requestedLocale: params?.locale, fallbackLocale: effectiveLocale }) || 
-                         `Traženi jezik &apos;${params?.locale}&apos; nije podržan. Prikazuje se ${effectiveLocale}.`}
+                         `Traženi jezik '${params?.locale}' nije podržan. Prikazuje se ${effectiveLocale}.`}
                     </p>
                  </div>
             )}

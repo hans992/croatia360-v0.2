@@ -5,12 +5,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot";
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
-// Uklonjen 'locale' iz propsa jer Chatbot koristi useTranslation i dobiva locale iz konteksta
-interface StickyChatbotSectionProps {
-  // locale: string; // Uklonjeno ako nije potrebno direktno ovdje
-}
-
-export default function StickyChatbotSection(/* { locale }: StickyChatbotSectionProps */) {
+// Removed StickyChatbotSectionProps as no props are passed
+export default function StickyChatbotSection() {
   const [isSticky, setSticky] = useState(false);
   const chatbotContainerRef = useRef<HTMLDivElement>(null);
   const headerHeight = 56;
@@ -36,7 +32,7 @@ export default function StickyChatbotSection(/* { locale }: StickyChatbotSection
       window.removeEventListener('resize', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, [headerHeight]); // Dodana ovisnost headerHeight ako se može mijenjati
+  }, [headerHeight]);
 
   useEffect(() => {
     const updateHeight = () => {

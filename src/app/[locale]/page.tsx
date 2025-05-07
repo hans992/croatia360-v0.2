@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-// Footer se renderira u RootLayout-u, pa ga ne treba importirati ovdje
-// import Footer from '@/components/layout/Footer';
+// Footer se renderira u RootLayout-u
+// import Footer from '@/components/layout/Footer'; 
 import { useTranslation as useServerTranslation } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 
@@ -13,15 +13,16 @@ interface HomePagePropsInternal {
 }
 
 export default async function HomePage(props: HomePagePropsInternal) {
-  const params = await props.params;
+  const params = await props.params; // Čekamo params ako je Promise
   let effectiveLocale: Locale;
+  let isLocaleFromParamsValid = false;
 
   if (params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale)) {
     effectiveLocale = params.locale as Locale;
+    isLocaleFromParamsValid = true;
   } else {
     console.warn(`[page.tsx] HomePage - Neispravan ili nepodržan locale '${params?.locale}'. Koristi se fallback: ${fallbackLng}`);
     effectiveLocale = fallbackLng;
-    // Možete odlučiti prikazati specifičnu poruku o grešci ili se osloniti na poruku iz RootLayout-a
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -36,15 +37,15 @@ export default async function HomePage(props: HomePagePropsInternal) {
     { id: 'senj', image: "/images/senj.jpg", altKey: "alt_senj_city", titleKey: "card_senj_title", descriptionKey: "card_senj_description", linkTextKey: "card_learn_more_button" },
   ];
 
-  // Ako je locale bio neispravan, a želite prikazati poruku direktno na stranici
-  if (!(params && typeof params.locale === 'string' && appLocalesStringArray.includes(params.locale))) {
+  // Prikaz poruke o grešci ako originalni locale nije bio valjan
+  if (!isLocaleFromParamsValid) {
     return (
         <div className="container mx-auto px-4 py-8 text-center">
-            <p className="text-red-600">
+            <p className="text-red-600 bg-red-100 border border-red-400 p-4 rounded-md">
                 {t('error_invalid_locale_message', { requestedLocale: params?.locale, fallbackLocale: effectiveLocale }) || 
-                 `Traženi jezik '${params?.locale}' nije podržan. Prikazuje se ${effectiveLocale}.`}
+                 `Traženi jezik '${params?.locale}' nije podržan ili je neispravan. Prikazuje se zadani jezik (${effectiveLocale}). Molimo provjerite URL.`}
             </p>
-            {/* Možete dodati i ostatak stranice s fallback jezikom ako želite */}
+            {/* Možete odlučiti da ne renderirate ostatak stranice ili da ga renderirate s fallback jezikom */}
         </div>
     );
   }
@@ -57,8 +58,8 @@ export default async function HomePage(props: HomePagePropsInternal) {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
       </div>
 
-      {/* Proslijeđujemo effectiveLocale koji je tipa Locale */}
-      <StickyChatbotSection /* locale={effectiveLocale} // Uklonjeno ako nije potrebno */ />
+      {/* StickyChatbotSection će koristiti i18n kontekst iz TranslationsProvidera */}
+      <StickyChatbotSection />
 
       {/* Content Section */}
       <div className="mt-12 container mx-auto px-4 py-8">
@@ -74,7 +75,7 @@ export default async function HomePage(props: HomePagePropsInternal) {
                   width={400} 
                   height={200} 
                   className="rounded-t-lg object-cover w-full h-48" 
-                  priority={['istra', 'krka', 'sibenik'].includes(card.id)}
+                  priority={['istra', 'krka', 'sibenik'].includes(card.id)} // Optimizacija za LCP
                 />
                 <CardTitle className="mt-4">{t(card.titleKey)}</CardTitle>
               </CardHeader>
@@ -88,6 +89,7 @@ export default async function HomePage(props: HomePagePropsInternal) {
           ))}
         </div>
       </div>
+      {/* Footer se sada renderira u RootLayout-u */}
     </>
   );
 }
