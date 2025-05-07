@@ -323,5 +323,7 @@
         "p1": "Masz pytania lub wątpliwości? Jesteśmy tu dla Ciebie. Prosimy o skorzystanie z formularza kontaktowego dostępnego w naszej Aplikacji."
       }
     }
-  }
+  },
+  "contact_page_title": "Skontaktuj się z Nami",
+"contact_page_intro": "Masz pytanie lub potrzebujesz pomocy? Wypełnij poniższy formularz, aby skontaktować się z naszym zespołem."
 }

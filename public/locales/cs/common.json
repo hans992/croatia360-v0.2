@@ -323,5 +323,7 @@
         "p1": "Máte dotazy nebo obavy? Jsme tu pro Vás. Prosím, použijte kontaktní formulář dostupný v naší Aplikaci."
       }
     }
-  }
+  },
+  "contact_page_title": "Kontaktujte Nás",
+"contact_page_intro": "Máte dotaz nebo potřebujete pomoc? Vyplňte níže uvedený formulář a spojte se s naším týmem."
 }

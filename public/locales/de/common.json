@@ -323,5 +323,7 @@
         "p1": "Haben Sie Fragen oder Bedenken? Wir sind für Sie da. Bitte nutzen Sie das Kontaktformular, das in unserer Anwendung verfügbar ist."
       }
     }
-  }
+  },
+  "contact_page_title": "Kontaktieren Sie uns",
+"contact_page_intro": "Haben Sie eine Frage oder benötigen Sie Hilfe? Füllen Sie das nachstehende Formular aus, um mit unserem Team in Kontakt zu treten."
 }

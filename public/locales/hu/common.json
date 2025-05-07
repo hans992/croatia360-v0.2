@@ -323,5 +323,7 @@
         "p1": "Kérdései vagy aggályai vannak? Azért vagyunk itt, hogy segítsünk. Kérjük, használja az Alkalmazásunkban elérhető kapcsolatfelvételi űrlapot."
       }
     }
-  }
+  },
+  "contact_page_title": "Kapcsolatfelvétel",
+"contact_page_intro": "Kérdése van, vagy segítségre van szüksége? Töltse ki az alábbi űrlapot, hogy kapcsolatba léphessen csapatunkkal."
 }

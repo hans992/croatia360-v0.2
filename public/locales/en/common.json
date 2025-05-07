@@ -323,5 +323,7 @@
         "p1": "Have questions or concerns? We're here for you. Please use the contact form available on our Application."
       }
     }
-  }
+  },
+  "contact_page_title": "Contact Us",
+"contact_page_intro": "Have a question or need assistance? Fill out the form below to get in touch with our team."
 }
