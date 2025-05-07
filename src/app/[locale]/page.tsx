@@ -12,16 +12,24 @@ interface PageParams {
   locale: string;
 }
 
+// Definicija tipa za searchParams (query parametri)
+interface PageSearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
 // Definicija tipa za props koje stranica prima
-// params sada može biti Promise koji se razrješava u PageParams
 interface HomePageProps {
-  params: Promise<PageParams>; // ISPRAVAK: params je sada Promise
-  searchParams?: { [key: string]: string | string[] | undefined }; // Standardni searchParams
+  params: Promise<PageParams>;
+  searchParams?: Promise<PageSearchParams>; // ISPRAVAK: searchParams je sada Promise
 }
 
 export default async function HomePage(props: HomePageProps) {
-  // Čekamo da se params Promise razriješi
+  // Čekamo da se params i searchParams Promise-i razriješe
   const resolvedParams = await props.params;
+  // Ako koristite searchParams, await-ajte ih također:
+  // const resolvedSearchParams = props.searchParams ? await props.searchParams : undefined;
+  // console.log('[page.tsx] HomePage - resolvedSearchParams:', resolvedSearchParams); // Za debugiranje ako je potrebno
+
   let effectiveLocale: Locale;
   let isLocaleFromParamsValid = false;
 
