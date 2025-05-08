@@ -62,7 +62,7 @@ const regionsData: Region[] = [
     id: "slavonija",
     nameKey: "region_slavonija",
     descriptionKey: "region_slavonija_description_short",
-    imageUrl: `${gcsBaseUrl}Slavonija_zito.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/slavonija_card.jpg`,
     color1: '#FFD700', // Zlatno Žuta
     color2: '#8B4513', // Duboka Smeđa
     slug: "slavonija",
@@ -71,7 +71,7 @@ const regionsData: Region[] = [
     id: "sredisnja_hrvatska",
     nameKey: "region_sredisnja",
     descriptionKey: "region_sredisnja_description_short",
-    imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/sredisnja_card.jpg`,
     color1: '#2E8B57', // Smaragdno Zelena
     color2: '#800020', // Burgundac Crvena
     slug: "sredisnja-hrvatska",
@@ -80,7 +80,7 @@ const regionsData: Region[] = [
     id: "zagreb",
     nameKey: "region_zagreb",
     descriptionKey: "region_zagreb_description_short",
-    imageUrl: `${gcsBaseUrl}Zagreb_city.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/zagreb_card.jpg`,
     color1: '#004C99', // ZG Plava
     color2: '#D2B48C', // Topla Bež/Kamen Siva
     slug: "zagreb",
@@ -89,7 +89,7 @@ const regionsData: Region[] = [
     id: "lika_gorski_kotar",
     nameKey: "region_lika_gorski_kotar",
     descriptionKey: "region_lika_gorski_kotar_description_short",
-    imageUrl: `${gcsBaseUrl}Lika_magla.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar_card.jpg`,
     color1: '#228B22', // Duboko Zelena (Šumska)
     color2: '#40E0D0', // Kristalno Tirkizna
     slug: "lika-gorski-kotar",
@@ -98,7 +98,7 @@ const regionsData: Region[] = [
     id: "istra",
     nameKey: "region_istra",
     descriptionKey: "region_istra_description_short",
-    imageUrl: `${gcsBaseUrl}Istria_stock.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/istra_card.jpg`,
     color1: '#E07A5F', // Terakota/Istrian Crvena
     color2: '#808000', // Maslinasto Zelena
     slug: "istra",
@@ -107,7 +107,7 @@ const regionsData: Region[] = [
     id: "dalmacija",
     nameKey: "region_dalmacija",
     descriptionKey: "region_dalmacija_description_short",
-    imageUrl: `${gcsBaseUrl}Dalmacija.jpg`,
+    imageUrl: `${gcsBaseUrl}regions/dalmacija_card.jpg`,
     color1: '#007FFF', // Jadransko Plava (Azure)
     color2: '#F8F8FF', // Bijela Boja Kamena/Bjelokost
     slug: "dalmacija",
@@ -128,20 +128,17 @@ export default function ExplorePage() {
     return notFound();
   }
   
-  // Koristimo localeParam direktno umjesto da ga spremamo u novu varijablu
-  // koja se ne koristi (ovo rješava ESLint grešku)
-
   // --- Component Data & Options ---
   const popularDestinations: Destination[] = [
-    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}Sibenik_tfortress.jpg`, featured: true, slug: "sibenik" },
-    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}Trogir_grad.jpg`, featured: false, slug: "trogir" },
-    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "region_kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}Opatija.jpg`, featured: false, slug: "opatija" },
+    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}destinations/Sibenik_tfortress.jpg`, featured: true, slug: "sibenik" },
+    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}destinations/Trogir_grad.jpg`, featured: false, slug: "trogir" },
+    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "region_kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}destinations/Opatija.jpg`, featured: false, slug: "opatija" },
   ];
 
   const recommendations: Recommendation[] = [
-    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
-    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek" },
-    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}Krka.jpg`, slug: "krka-national-park-tour" },
+    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}recommendations/Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
+    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}recommendations/food_slavonia.jpg`, slug: "kulen-tour-osijek" },
+    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}recommendations/Krka.jpg`, slug: "krka-national-park-tour" },
   ];
 
   // --- Filter Options ---

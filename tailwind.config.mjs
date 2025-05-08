@@ -3,12 +3,12 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 const config = {
-  darkMode: ["class"], // Keep class-based dark mode
+  darkMode: ["class"],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/styles/**/*.css', // Add other paths if needed
+    './src/styles/**/*.css',
   ],
   theme: {
     container: {
@@ -21,6 +21,10 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        'hover-hover': {'raw': '(hover: hover)'},
+        'no-hover': {'raw': '(hover: none)'},
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
