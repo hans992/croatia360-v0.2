@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-import InspireCard from '@/components/Inspire';
+import InspireCard from '@/components/InspireCard';
 
 // Definicija inspiracijskih kartica
 const inspirationItems = [
