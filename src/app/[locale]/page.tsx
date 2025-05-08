@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-import InspireCard from '@/components/InspireCard';
+import InspireCard from '@/components/Inspire';
 
 // Definicija inspiracijskih kartica
 const inspirationItems = [
@@ -43,8 +43,12 @@ const inspirationItems = [
   }
 ];
 
-export default function HomePage({ params }: { params: { locale?: string } }) {
+// Koristimo _ prefiks za parametre koje ne koristimo direktno
+export default function HomePage(_props: { params: { locale?: string } }) {
   const { t } = useTranslation(defaultNS);
+  
+  // Potpuno uklanjamo nekorištene varijable
+  // Nema više resolvedParams, effectiveLocale, itd.
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -87,8 +91,6 @@ export default function HomePage({ params }: { params: { locale?: string } }) {
           </div>
         </div>
       </section>
-
-      {/* Ovdje možete dodati dodatne sekcije po potrebi */}
     </main>
   );
 }
