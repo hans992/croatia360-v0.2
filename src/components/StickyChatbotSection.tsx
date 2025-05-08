@@ -9,7 +9,7 @@ import { useScrollDirection } from '@/hooks/useScrollDirection';
 export default function StickyChatbotSection() {
   const [isSticky, setSticky] = useState(false);
   const chatbotContainerRef = useRef<HTMLDivElement>(null);
-  const headerHeight = 56;
+  const headerHeight = 64;
   const scrollDirection = useScrollDirection();
   const [placeholderHeight, setPlaceholderHeight] = useState<number | undefined>(undefined);
 

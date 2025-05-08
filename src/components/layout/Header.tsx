@@ -35,8 +35,7 @@ const Header = ({ locale }: HeaderProps) => {
 
   // URL za logo s Google Cloud Storagea
   const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
-  // URL za kuna logo (pretpostavljam da je i on na GCS ili ostaje lokalno?)
-  // Ako je lokalno, koristit ćemo <img> tag za njega kao workaround
+  
   const kunaLogoPath = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png"; 
 
   useEffect(() => {
