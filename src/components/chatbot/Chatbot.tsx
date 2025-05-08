@@ -1,5 +1,5 @@
 // src/components/chatbot/Chatbot.tsx
-"use client"; 
+"use client";
 
 import React from 'react';
 import Image from "next/image";
@@ -37,13 +37,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   });
 
   return (
-    <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
-      <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'} relative`}>
+    <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2 fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 shadow-md' : 'py-0'}`}>
+      <div className={`flex items-center ${isSticky ? 'justify-between px-4' : 'justify-center'}`}>
         {isSticky && <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
 
-        <div className="chatbot-container relative">
-          <div className="blurry-gradient"></div>
-          <form onSubmit={handleSubmit} className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
+        <div className={`relative ${isSticky ? 'w-full max-w-xl' : 'w-full max-w-2xl chatbot-container'}`}>
+          {!isSticky && <div className="blurry-gradient"></div>}
+          <form onSubmit={handleSubmit} className="relative w-full">
             <Input
               value={input}
               onChange={handleInputChange}
