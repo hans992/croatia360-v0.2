@@ -72,8 +72,8 @@ const regionsData: Region[] = [
     nameKey: "region_sredisnja",
     descriptionKey: "region_sredisnja_description_short",
     imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`,
-    color1: '#2E8B57', // Smaragdno Zelena
-    color2: '#800020', // Burgundac Crvena
+    color1: '#800020', // Burgundac Crvena
+    color2: '#2E8B57', // Smaragdno Zelena
     slug: "sredisnja-hrvatska",
   },
   {
