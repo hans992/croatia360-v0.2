@@ -2,21 +2,22 @@
 "use client"; 
 
 import React from 'react';
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send, Loader2 } from "lucide-react"; // Added Loader2 for loading state
+import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
-import { ScrollArea } from "@/components/ui/scroll-area"; // For scrollable messages
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatbotProps {
-  isSticky?: boolean; // We keep this prop to potentially hide messages when sticky
+  isSticky?: boolean;
 }
 
 const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   const { t } = useTranslation(defaultNS);
-  
+
   const {
     messages,
     input,
@@ -26,7 +27,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
     setInput,
     error,
   } = useChat({
-    api: '/api/chat', // Ensure this API route exists and works
+    api: '/api/chat',
     initialMessages: [
       {
         id: 'sara-initial-greeting',
@@ -34,14 +35,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
         content: t('chatbot_initial_greeting')
       }
     ],
-    // Optional: Add error handling specific to the chat hook if needed
-    // onError: (err) => {
-    //   console.error("Chat hook error:", err);
-    //   // You could potentially set a specific error message state here
-    // }
   });
 
-  // Ref for scrolling to the bottom of messages
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   // Scroll to bottom when messages change
@@ -50,110 +45,74 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   }, [messages]);
 
   return (
-    // Main container - simplified, background/shadow handled by parent when sticky
-    <div className={`w-full max-w-3xl mx-auto transition-all duration-300 ${isSticky ? 'py-1' : 'py-0'}`}> 
-      
-      {/* Input form - always visible */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
-        <Input
-          value={input}
-          onChange={handleInputChange}
-          placeholder={t('chatbot_input_placeholder')!} // Use translated placeholder
-          className="flex-grow py-3 px-4" // Adjusted padding
-          disabled={isLoading}
-          aria-label={t('chatbot_input_aria_label')}
-        />
-        <Button 
-          type="submit" 
-          size="icon" 
-          disabled={isLoading || !input.trim()} // Disable if loading or input empty
-          aria-label={t('chatbot_send_button_aria_label')}
-        >
-          {/* Show loader when loading, otherwise send icon */}
-          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-        </Button>
-      </form>
+    <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
+      <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
+        {isSticky && <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
 
-      {/* Messages and suggestions - hidden when sticky */}
+        <form onSubmit={handleSubmit} className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
+          <Input
+            value={input}
+            onChange={handleInputChange}
+            placeholder={t('chatbot_input_placeholder')}
+            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-gray-800 placeholder-gray-500
+                       focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF]
+                       focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300 disabled:opacity-50"
+            disabled={isLoading}
+            aria-label={t('chatbot_input_aria_label')}
+          />
+          <Button
+            type="submit"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-red-500 hover:bg-red-600 text-white disabled:opacity-50"
+            size="icon"
+            disabled={isLoading || !input.trim()}
+            aria-label={t('chatbot_send_button_aria_label')}
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </form>
+      </div>
+
       {!isSticky && (
-        <div className="mt-4 space-y-4">
-          {/* Message display area with ScrollArea */}
-          <ScrollArea className="h-[300px] w-full rounded-md border border-border bg-background p-4">
-            <div className="space-y-4">
+        <>
+          <div className="mt-4 max-h-[300px] overflow-y-auto bg-white/10 p-4 rounded-lg scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-white/5">
+            <ScrollArea className="h-[300px] w-full rounded-md border border-border bg-background p-4">
+              <div className="space-y-4">
               {messages.map((message: Message) => (
-                <div 
-                  key={message.id} 
-                  className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}
-                >
-                  <div className={`max-w-[85%] p-3 rounded-lg shadow-sm ${
-                    message.role === 'user' 
-                      ? 'bg-primary text-primary-foreground rounded-br-none' 
-                      : 'bg-muted text-muted-foreground rounded-bl-none'
+                <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
+                    message.role === 'user'
+                      ? 'bg-blue-500 text-white rounded-tr-none'
+                      : 'bg-gray-50/80 text-gray-800 rounded-tl-none'
                   }`}>
-                    {/* Basic Markdown support could be added here if needed */}
                     {message.content}
                   </div>
                 </div>
               ))}
-              {/* Loading indicator within messages */}
-              {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
-                <div className="flex items-start">
-                   <div className="max-w-[85%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-bl-none italic flex items-center space-x-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>{t('chatbot_thinking')}</span>
-                   </div>
-                </div>
-              )}
-              {/* Error display */}
-              {error && (
-                <div className="flex items-start">
-                  <div className="max-w-[85%] p-3 rounded-lg shadow-sm bg-destructive/10 text-destructive rounded-bl-none">
-                    {t('chatbot_error_prefix')} {error.message || t('chatbot_error_default_message')}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-gray-50/80 text-gray-800 rounded-tl-none italic">
+                    {t('chatbot_thinking')}
                   </div>
                 </div>
               )}
-              {/* Element to scroll to */}
-              <div ref={messagesEndRef} />
+              {error && (
+                 <div className="flex justify-start">
+                   <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-red-100 text-red-700 rounded-tl-none">
+                      {t('chatbot_error_prefix')} {error.message || t('chatbot_error_default_message')}
+                   </div>
+                 </div>
+              )}
             </div>
-          </ScrollArea>
-          
-          {/* Suggestion buttons */}
-          <div className="flex flex-wrap gap-2 pt-2">
-            {/* Using standard outline variant */}
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setInput(t('chatbot_button_beaches_text'))} 
-              disabled={isLoading}
-            >
-              {t('chatbot_button_beaches_label')}
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setInput(t('chatbot_button_wine_text'))} 
-              disabled={isLoading}
-            >
-              {t('chatbot_button_wine_label')}
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setInput(t('chatbot_button_budget_text'))} 
-              disabled={isLoading}
-            >
-              {t('chatbot_button_budget_label')}
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setInput(t('chatbot_button_nature_text'))} 
-              disabled={isLoading}
-            >
-              {t('chatbot_button_nature_label')}
-            </Button>
+            </ScrollArea>
           </div>
-        </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="border-blue-200/50 bg-white/20 hover:bg-blue-50/30 text-blue-700" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+            <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="border-red-200/50 bg-white/20 hover:bg-red-50/30 text-red-700" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+            <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="border-green-200/50 bg-white/20 hover:bg-green-50/30 text-green-700" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+            <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="border-amber-200/50 bg-white/20 hover:bg-amber-50/30 text-amber-700" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+          </div>
+        </>
       )}
     </div>
   );
