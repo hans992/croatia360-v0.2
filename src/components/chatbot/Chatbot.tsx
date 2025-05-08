@@ -3,13 +3,14 @@
 
 import React from 'react';
 import Image from "next/image";
+// Uklonjeni neiskorišteni Card importi
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatbotProps {
   isSticky?: boolean;
@@ -37,17 +38,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
     ],
   });
 
-  const messagesEndRef = React.useRef<HTMLDivElement>(null);
-
-  // Scroll to bottom when messages change
-  React.useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   return (
     <div className={`w-full max-w-3xl mx-auto ${isSticky ? 'py-2' : 'py-0'}`}>
       <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
-        {isSticky && <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
+        {isSticky && <Image src="/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
 
         <form onSubmit={handleSubmit} className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
           <Input
@@ -75,8 +69,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
       {!isSticky && (
         <>
           <div className="mt-4 max-h-[300px] overflow-y-auto bg-white/10 p-4 rounded-lg scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-white/5">
-            <ScrollArea className="h-[300px] w-full rounded-md border border-border bg-background p-4">
-              <div className="space-y-4">
+            <div className="space-y-4">
               {messages.map((message: Message) => (
                 <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
@@ -103,7 +96,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
                  </div>
               )}
             </div>
-            </ScrollArea>
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">

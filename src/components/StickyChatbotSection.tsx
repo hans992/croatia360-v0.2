@@ -5,9 +5,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot";
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
+// Removed StickyChatbotSectionProps as no props are passed
 export default function StickyChatbotSection() {
   const [isSticky, setSticky] = useState(false);
-  // Dodajemo tipizaciju za ref
   const chatbotContainerRef = useRef<HTMLDivElement>(null);
   const headerHeight = 56;
   const scrollDirection = useScrollDirection();
@@ -24,11 +24,9 @@ export default function StickyChatbotSection() {
         }
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
     const timeoutId = setTimeout(handleScroll, 100);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
@@ -38,38 +36,38 @@ export default function StickyChatbotSection() {
 
   useEffect(() => {
     const updateHeight = () => {
-      if (chatbotContainerRef.current) {
-        setPlaceholderHeight(chatbotContainerRef.current.offsetHeight);
-      }
-    };
-
+       if (chatbotContainerRef.current) { 
+         setPlaceholderHeight(chatbotContainerRef.current.offsetHeight); 
+       }
+     };
     if (chatbotContainerRef.current && placeholderHeight === undefined) {
-      updateHeight();
+       updateHeight();
     }
-
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
+     window.addEventListener('resize', updateHeight);
+     return () => window.removeEventListener('resize', updateHeight);
   }, [placeholderHeight]);
 
   const chatbotTopClassWhenSticky = scrollDirection === 'down' ? 'top-0' : `top-[${headerHeight}px]`;
 
   return (
     <>
-      {/* Placeholder div koji zauzima prostor kada je chatbot sticky */}
-      {isSticky && placeholderHeight && (
-        <div style={{ height: `${placeholderHeight}px` }} />
-      )}
-      
-      {/* Chatbot container */}
-      <div 
+      <div style={{ height: isSticky ? placeholderHeight : 0 }} />
+      <div
         ref={chatbotContainerRef}
-        className={`w-full transition-all duration-300 ${
-          isSticky 
-            ? `fixed ${chatbotTopClassWhenSticky} left-0 z-40` 
-            : ''
-        }`}
+        className={`
+          z-40 pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl
+          will-change-top
+          ${isSticky 
+            ? `fixed left-0 right-0 border-b border-gray-200/50 
+               transition-[top] duration-300 ease-in-out
+               ${chatbotTopClassWhenSticky}`
+            : 'relative'
+          }
+        `}
       >
-        <Chatbot isSticky={isSticky} />
+        <div className="container mx-auto px-4 py-4">
+           <Chatbot isSticky={isSticky} />
+        </div>
       </div>
     </>
   );
