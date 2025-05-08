@@ -1,18 +1,18 @@
 // src/app/[locale]/explore/page.tsx
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from 'react-i18next';
-import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings'; // Adjust path if necessary
+import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
 import { useParams, notFound } from 'next/navigation';
 
 // Import RegionalCard component
-import RegionalCard from '@/components/RegionalCard'; // Adjust path if necessary
+import RegionalCard from '@/components/RegionalCard';
 
 // --- Interfaces ---
 interface Destination {
@@ -61,15 +61,15 @@ const regionsData: Region[] = [
   {
     id: "slavonija",
     nameKey: "region_slavonija",
-    descriptionKey: "region_slavonija_description_short", // Ensure this key exists in i18n files
-    imageUrl: `${gcsBaseUrl}regions/slavonija_card.jpg`, // Example image path
+    descriptionKey: "region_slavonija_description_short",
+    imageUrl: `${gcsBaseUrl}regions/slavonija_card.jpg`,
     color1: '#FFD700', // Zlatno Žuta
     color2: '#8B4513', // Duboka Smeđa
     slug: "slavonija",
   },
   {
     id: "sredisnja_hrvatska",
-    nameKey: "region_sredisnja", // Assuming 'region_sredisnja' is key for Centralna Hrvatska
+    nameKey: "region_sredisnja",
     descriptionKey: "region_sredisnja_description_short",
     imageUrl: `${gcsBaseUrl}regions/sredisnja_card.jpg`,
     color1: '#2E8B57', // Smaragdno Zelena
@@ -87,7 +87,7 @@ const regionsData: Region[] = [
   },
   {
     id: "lika_gorski_kotar",
-    nameKey: "region_lika_gorski_kotar", // Create a new key or use an existing one
+    nameKey: "region_lika_gorski_kotar",
     descriptionKey: "region_lika_gorski_kotar_description_short",
     imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar_card.jpg`,
     color1: '#228B22', // Duboko Zelena (Šumska)
@@ -123,15 +123,15 @@ export default function ExplorePage() {
 
   // --- Locale Validation ---
   const localeParam = params.locale;
-  let locale: Locale;
-  if (typeof localeParam === 'string' && validLocalesArray.includes(localeParam as Locale)) {
-    locale = localeParam as Locale;
-  } else {
+  
+  if (typeof localeParam !== 'string' || !validLocalesArray.includes(localeParam as Locale)) {
     return notFound();
   }
+  
+  // Koristimo localeParam direktno umjesto da ga spremamo u novu varijablu
+  // koja se ne koristi (ovo rješava ESLint grešku)
 
   // --- Component Data & Options ---
-  // const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/"; // Already defined above
   const popularDestinations: Destination[] = [
     { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}destinations/Sibenik_tfortress.jpg`, featured: true, slug: "sibenik" },
     { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}destinations/Trogir_grad.jpg`, featured: false, slug: "trogir" },
@@ -157,12 +157,12 @@ export default function ExplorePage() {
   const regionOptions = [
     { value: "all", labelKey: "filter_region_all" },
     { value: "istra", labelKey: "region_istra" },
-    { value: "kvarner", labelKey: "region_kvarner" }, // Note: Kvarner is not in the 6 main regions for cards, but present in filters.
+    { value: "kvarner", labelKey: "region_kvarner" },
     { value: "dalmacija", labelKey: "region_dalmacija" },
     { value: "slavonija", labelKey: "region_slavonija" },
-    { value: "sredisnja", labelKey: "region_sredisnja" }, // Centralna Hrvatska
+    { value: "sredisnja", labelKey: "region_sredisnja" },
     { value: "zagreb", labelKey: "region_zagreb" },
-    { value: "lika_gorski_kotar", labelKey: "region_lika_gorski_kotar"} // Added for consistency
+    { value: "lika_gorski_kotar", labelKey: "region_lika_gorski_kotar"}
   ];
 
   const priceOptions = [
@@ -188,8 +188,7 @@ export default function ExplorePage() {
 
       {/* Regional Cards Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">{t('explore_page_select_region_title')}</h2> 
-        {/* You'll need to add 'explore_page_select_region_title' to your i18n files, e.g., "Istražite Regije Hrvatske" */}
+        <h2 className="text-3xl font-bold mb-8 text-center">{t('explore_page_select_region_title')}</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
           {regionsData.map((region) => (
             <RegionalCard
@@ -208,7 +207,6 @@ export default function ExplorePage() {
       {/* Search & Filters Section (Moved below regional cards) */}
       <section className="mb-12 p-6 bg-gray-50 rounded-lg shadow">
         <h3 className="text-2xl font-semibold mb-6 text-center">{t('explore_page_search_title')}</h3>
-        {/* You'll need to add 'explore_page_search_title' to your i18n files, e.g., "Pronađite Savršenu Destinaciju" */}
         <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
           <Input
             type="search"
@@ -216,14 +214,12 @@ export default function ExplorePage() {
             className="flex-grow text-base p-3 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
           />
           <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-base px-8 py-3">
-            {t('explore_search_button')} 
-            {/* Add 'explore_search_button' to i18n, e.g., "Traži" */}
+            {t('explore_search_button')}
           </Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Select>
-            <SelectTrigger className="w-full text-base p-3">{t('filter_category_label')}</SelectTrigger> 
-            {/* Add 'filter_category_label' to i18n, e.g., "Kategorija" */}
+            <SelectTrigger className="w-full text-base p-3">{t('filter_category_label')}</SelectTrigger>
             <SelectContent>
               {categoryOptions.map(option => (
                 <SelectItem key={option.value} value={option.value} className="text-base">{t(option.labelKey)}</SelectItem>
@@ -232,7 +228,6 @@ export default function ExplorePage() {
           </Select>
           <Select>
             <SelectTrigger className="w-full text-base p-3">{t('filter_region_label')}</SelectTrigger>
-            {/* Add 'filter_region_label' to i18n, e.g., "Regija" */}
             <SelectContent>
               {regionOptions.map(option => (
                 <SelectItem key={option.value} value={option.value} className="text-base">{t(option.labelKey)}</SelectItem>
@@ -241,7 +236,6 @@ export default function ExplorePage() {
           </Select>
           <Select>
             <SelectTrigger className="w-full text-base p-3">{t('filter_price_label')}</SelectTrigger>
-            {/* Add 'filter_price_label' to i18n, e.g., "Cijena" */}
             <SelectContent>
               {priceOptions.map(option => (
                 <SelectItem key={option.value} value={option.value} className="text-base">{t(option.labelKey)}</SelectItem>
@@ -254,7 +248,6 @@ export default function ExplorePage() {
       {/* Popular Destinations Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8 text-center">{t('explore_page_popular_destinations_title')}</h2>
-        {/* Add 'explore_page_popular_destinations_title' to i18n, e.g., "Popularne Destinacije" */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {popularDestinations.map((dest) => (
             <Card key={dest.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -270,8 +263,7 @@ export default function ExplorePage() {
                   <p className="text-xs text-gray-500 mb-2 line-clamp-2">{t(dest.descriptionKey)}</p>
                   <div className="flex items-center text-sm">
                     <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
-                    <span>{dest.rating.toFixed(1)} ({dest.reviews} {t('reviews_label')})</span> 
-                    {/* Add 'reviews_label' to i18n, e.g., "ocjena" */}
+                    <span>{dest.rating.toFixed(1)} ({dest.reviews} {t('reviews_label')})</span>
                   </div>
                 </CardContent>
               </Link>
@@ -283,7 +275,6 @@ export default function ExplorePage() {
       {/* Recommendations Section */}
       <section>
         <h2 className="text-3xl font-bold mb-8 text-center">{t('explore_page_recommendations_title')}</h2>
-        {/* Add 'explore_page_recommendations_title' to i18n, e.g., "Preporuke za Vas" */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {recommendations.map((rec) => (
             <Card key={rec.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
