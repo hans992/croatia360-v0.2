@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
 import StickyChatbotSection from '@/components/StickyChatbotSection';
-import InspireCard from '@/components/InspireCard';
+import InspireCard from '@/components/Inspire';
 
 // Definicija inspiracijskih kartica
 const inspirationItems = [
@@ -43,12 +43,9 @@ const inspirationItems = [
   }
 ];
 
-// Koristimo _ prefiks za parametre koje ne koristimo direktno
-export default function HomePage(_props: { params: { locale?: string } }) {
+// Koristimo underscore u TypeScript tipu, a ne u parametru funkcije
+export default function HomePage(): React.ReactNode {
   const { t } = useTranslation(defaultNS);
-  
-  // Potpuno uklanjamo nekorištene varijable
-  // Nema više resolvedParams, effectiveLocale, itd.
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
