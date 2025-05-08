@@ -1,9 +1,15 @@
+// src/components/chatbot/Chatbot.tsx
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Mic, Paperclip } from 'lucide-react';
+import { Send, Mic, Paperclip, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+
+interface ChatbotProps {
+  isSticky?: boolean;
+  onOpen?: () => void;
+}
 
 interface Message {
   id: string;
@@ -12,40 +18,71 @@ interface Message {
   timestamp: Date;
 }
 
-const Chatbot = () => {
+const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false, onOpen }) => {
   const { t } = useTranslation();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: t('chatbot_initial_greeting'),
-      isUser: false,
-      timestamp: new Date(),
-    },
-  ]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Automatski dodaj pozdravnu poruku kada se chatbot otvori prvi put
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([
+        {
+          id: '1',
+          content: t('chatbot_initial_greeting'),
+          isUser: false,
+          timestamp: new Date(),
+        },
+      ]);
+      
+      // Simuliraj prikazivanje sugestija nakon pozdrava
+      setTimeout(() => {
+        setIsTyping(false);
+      }, 1000);
+    }
+  }, [isOpen, messages.length, t]);
+
+  // Automatski scroll na dno chata kada stigne nova poruka
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  // Fokusiraj input polje kada se chatbot otvori
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
+      
+      // Obavijesti roditelja da je chatbot otvoren
+      if (onOpen) onOpen();
+    }
+  }, [isOpen, onOpen]);
+
   const handleSendMessage = () => {
     if (inputValue.trim() === '') return;
+
+    // Dodaj korisničku poruku
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
       isUser: true,
       timestamp: new Date(),
     };
+    
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
+    
+    // Simuliraj odgovor AI-a
     setIsTyping(true);
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: `Evo odgovora na tvoje pitanje o "${userMessage.content}". Hrvatska ima prekrasne destinacije koje bi te mogle zanimati!`,
+        content: `Evo odgovora na tvoje pitanje o "${inputValue}". Hrvatska ima prekrasne destinacije koje bi te mogle zanimati!`,
         isUser: false,
         timestamp: new Date(),
       };
@@ -62,143 +99,186 @@ const Chatbot = () => {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-[600px] py-12 bg-gradient-to-tr from-blue-600 via-sky-400 to-fuchsia-600 overflow-hidden">
-      {/* Glassmorphism Card */}
-      <motion.div
-        className="w-full max-w-2xl rounded-3xl shadow-2xl bg-white/60 backdrop-blur-2xl border border-white/30 p-0 md:p-8 flex flex-col"
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 60, damping: 18 }}
-      >
-        {/* Header */}
-        <div className="flex items-center gap-4 pb-4 border-b border-white/30">
-          <div className="relative">
-            <Image
-              src="/images/sara-ai-avatar.png"
-              alt="SARA AI"
-              width={56}
-              height={56}
-              className="rounded-full border-4 border-blue-400 shadow-lg"
+    <>
+      {/* Chatbot toggle button - prikazuje se samo ako je sticky */}
+      {isSticky && (
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {isOpen ? (
+            <X size={20} />
+          ) : (
+            <Image 
+              src="/images/sara-ai-avatar.png" 
+              alt="SARA AI" 
+              width={30} 
+              height={30} 
+              className="rounded-full border-2 border-white"
             />
-            {/* Pulsing border */}
-            <span className="absolute top-0 left-0 w-full h-full rounded-full border-2 border-cyan-400 animate-pulse pointer-events-none"></span>
-          </div>
-          <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 drop-shadow">SARA AI</h1>
-            <p className="text-blue-800 text-sm md:text-base font-medium">{t('hero_subtitle_sara_ai')}</p>
-          </div>
-        </div>
+          )}
+        </motion.button>
+      )}
 
-        {/* Chat area */}
-        <div className="flex-1 min-h-[260px] max-h-[320px] overflow-y-auto py-6 px-2 md:px-4 space-y-4 custom-scrollbar">
-          {messages.map((message) => (
-            <motion.div
-              key={message.id}
-              className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div
-                className={`max-w-[80%] px-5 py-3 rounded-2xl shadow-md transition-all
-                ${message.isUser
-                  ? 'bg-gradient-to-r from-fuchsia-500 to-pink-400 text-white rounded-tr-none'
-                  : 'bg-white/80 backdrop-blur-lg border border-blue-200 text-blue-900 rounded-tl-none'
-                }`}
-              >
-                <p className="whitespace-pre-line">{message.content}</p>
-                <div className={`text-xs mt-1 ${message.isUser ? 'text-pink-100' : 'text-blue-400'}`}>
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      {/* Chatbot window */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className={`${isSticky ? 'fixed right-4 z-50 w-[350px]' : 'w-full'} bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col chatbot-window`}
+            style={{
+              top: isSticky ? '80px' : 'auto', // Pozicioniranje ispod headera ako je sticky
+              height: isSticky ? 'calc(100vh - 120px)' : '600px',
+              maxHeight: isSticky ? 'calc(100vh - 120px)' : '600px',
+            }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-4 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <Image 
+                    src="/images/sara-ai-avatar.png" 
+                    alt="SARA AI" 
+                    width={40} 
+                    height={40} 
+                    className="rounded-full border-2 border-white"
+                  />
+                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold">SARA AI</h3>
+                  <p className="text-blue-100 text-xs">{t('hero_subtitle_sara_ai')}</p>
                 </div>
               </div>
-            </motion.div>
-          ))}
-          {isTyping && (
-            <motion.div
-              className="flex justify-start"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="bg-white/80 border border-blue-200 px-5 py-3 rounded-2xl rounded-tl-none max-w-[80%] flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-300 animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                <span className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                <span className="ml-2 text-blue-600 text-xs">{t('chatbot_thinking')}</span>
-              </div>
-            </motion.div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Suggestions */}
-        {messages.length === 1 && !isTyping && (
-          <div className="flex flex-wrap gap-2 mb-4 px-2 md:px-4">
-            <span className="text-sm text-blue-700 font-semibold">{t('chatbot_suggestions_title')}</span>
-            {suggestions.map((suggestion) => (
-              <motion.button
-                key={suggestion.id}
-                className="bg-gradient-to-r from-sky-400 to-fuchsia-500 text-white font-semibold rounded-full px-4 py-1.5 shadow hover:scale-105 transition-transform"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => {
-                  setInputValue(suggestion.text);
-                  setTimeout(() => handleSendMessage(), 100);
-                }}
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="text-white hover:bg-white/10 rounded-full p-1.5 transition-colors"
               >
-                {suggestion.label}
-              </motion.button>
-            ))}
-          </div>
-        )}
+                <X size={20} />
+              </button>
+            </div>
 
-        {/* Input area */}
-        <form
-          className="flex items-center gap-2 mt-2 bg-white/80 backdrop-blur-lg rounded-full px-4 py-2 shadow-lg border border-white/60"
-          onSubmit={e => {
-            e.preventDefault();
-            handleSendMessage();
-          }}
-        >
-          <button
-            type="button"
-            className="text-blue-400 hover:text-blue-600 p-2 rounded-full transition-colors"
-            aria-label="Attach file"
-            tabIndex={-1}
-          >
-            <Paperclip size={20} />
-          </button>
-          <button
-            type="button"
-            className="text-blue-400 hover:text-blue-600 p-2 rounded-full transition-colors"
-            aria-label="Voice input"
-            tabIndex={-1}
-          >
-            <Mic size={20} />
-          </button>
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder={t('chatbot_input_placeholder')}
-            className="flex-1 bg-transparent outline-none px-2 text-gray-900 placeholder-blue-400"
-            aria-label={t('chatbot_input_aria_label')}
-          />
-          <button
-            type="submit"
-            disabled={inputValue.trim() === ''}
-            className={`rounded-full p-2 transition-all shadow
-              ${inputValue.trim() === ''
-                ? 'bg-gradient-to-r from-blue-200 to-fuchsia-200 text-blue-300 cursor-not-allowed'
-                : 'bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:scale-110'
-              }`}
-            aria-label={t('chatbot_send_button_aria_label')}
-          >
-            <Send size={22} />
-          </button>
-        </form>
-      </motion.div>
-    </section>
+            {/* Messages container */}
+            <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+              <div className="space-y-4">
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div 
+                      className={`max-w-[80%] p-3 rounded-2xl ${
+                        message.isUser 
+                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-tr-none' 
+                          : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm'
+                      }`}
+                    >
+                      <p>{message.content}</p>
+                      <div className={`text-xs mt-1 ${message.isUser ? 'text-blue-100' : 'text-gray-500'}`}>
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+                
+                {isTyping && (
+                  <motion.div
+                    className="flex justify-start"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none max-w-[80%]">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 rounded-full bg-gray-300 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 rounded-full bg-gray-300 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 rounded-full bg-gray-300 animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+                
+                {messages.length === 1 && !isTyping && (
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-500 mb-2">{t('chatbot_suggestions_title')}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {suggestions.map((suggestion) => (
+                        <motion.button
+                          key={suggestion.id}
+                          className="bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50 rounded-full px-3 py-1.5 text-sm text-gray-700 transition-colors shadow-sm"
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() => {
+                            setInputValue(suggestion.text);
+                            setTimeout(() => handleSendMessage(), 100);
+                          }}
+                        >
+                          {suggestion.label}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
+              </div>
+            </div>
+
+            {/* Input area */}
+            <div className="border-t border-gray-200 p-3 bg-white">
+              <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder={t('chatbot_input_placeholder')}
+                  className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-500"
+                  aria-label={t('chatbot_input_aria_label')}
+                />
+                <div className="flex space-x-1 ml-2">
+                  <button 
+                    className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-gray-200 transition-colors"
+                    aria-label="Attach file"
+                  >
+                    <Paperclip size={18} />
+                  </button>
+                  <button 
+                    className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-gray-200 transition-colors"
+                    aria-label="Voice input"
+                  >
+                    <Mic size={18} />
+                  </button>
+                  <button 
+                    onClick={handleSendMessage}
+                    disabled={inputValue.trim() === ''}
+                    className={`p-1.5 rounded-full transition-colors ${
+                      inputValue.trim() === '' 
+                        ? 'text-gray-400 cursor-not-allowed' 
+                        : 'text-white bg-blue-500 hover:bg-blue-600'
+                    }`}
+                    aria-label={t('chatbot_send_button_aria_label')}
+                  >
+                    <Send size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
