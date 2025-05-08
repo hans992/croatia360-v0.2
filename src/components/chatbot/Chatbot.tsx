@@ -22,7 +22,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
     input,
     handleInputChange,
     handleSubmit,
-    isLoading,
+    isLoading, // Koristit ćemo ovo stanje za prikaz glowa
     setInput,
     error,
   } = useChat({
@@ -41,12 +41,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
       <div className={`flex items-center ${isSticky ? 'justify-between' : 'justify-center'}`}>
         {isSticky && <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />}
 
+        {/* Forma sada sadrži Input, Button, i uvjetno Glow efekt */}
         <form onSubmit={handleSubmit} className={`relative w-full ${isSticky ? 'max-w-xl' : 'max-w-2xl'}`}>
           <Input
             value={input}
             onChange={handleInputChange}
             placeholder={t('chatbot_input_placeholder')}
-            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-black placeholder-gray-700 {/* IZMJENA: text-black placeholder-gray-700 */}
+            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-black placeholder-gray-700
                        focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF]
                        focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300 disabled:opacity-50"
             disabled={isLoading}
@@ -61,9 +62,23 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
           >
             <Send className="h-4 w-4" />
           </Button>
+
+          {/* Glow efekt koji se prikazuje ispod forme dok je isLoading true */}
+          {isLoading && (
+            <div
+              className="absolute -bottom-1.5 left-0 right-0 mx-auto w-4/5 h-2.5 /* Pozicioniranje i veličina */
+                         bg-primary opacity-60 dark:opacity-80 /* Koristi vašu primarnu boju s prozirnošću */
+                         rounded-full blur-md /* Efekt sjaja */
+                         animate-pulse /* Tailwind animacija pulsiranja */
+                         pointer-events-none /* Da ne ometa klikove */"
+              // Možete prilagoditi '-bottom-1.5', 'w-4/5', 'h-2.5', 'opacity-60', 'blur-md'
+              // da biste dobili željeni izgled i intenzitet glowa.
+            />
+          )}
         </form>
       </div>
 
+      {/* Ostatak komponente (prikaz poruka, gumbi za prijedloge) ostaje isti */}
       {!isSticky && (
         <>
           <div className="mt-4 max-h-[300px] overflow-y-auto bg-white/10 p-4 rounded-lg scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-white/5">
@@ -73,7 +88,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
                   <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
                     message.role === 'user'
                       ? 'bg-blue-500 text-white rounded-tr-none'
-                      : 'bg-gray-50/80 text-black rounded-tl-none' // IZMJENA: text-black
+                      : 'bg-gray-50/80 text-black rounded-tl-none'
                   }`}>
                     {message.content}
                   </div>
@@ -81,7 +96,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  {/* IZMJENA: text-black */}
                   <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-gray-50/80 text-black rounded-tl-none italic">
                     {t('chatbot_thinking')}
                   </div>
@@ -97,7 +111,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             </div>
           </div>
 
-          {/* Gumbi za prijedloge vjerojatno imaju dovoljno kontrasta sa svojim specifičnim bojama teksta (text-blue-700, itd.) */}
           <div className="mt-4 flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="border-blue-200/50 bg-white/20 hover:bg-blue-50/30 text-blue-700" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
             <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="border-red-200/50 bg-white/20 hover:bg-red-50/30 text-red-700" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
