@@ -94,7 +94,7 @@ export default async function HomePage(props: HomePageProps) {
 
       <StickyChatbotSection />
 
-      <section className="py-12 bg-gray-50 w-full">
+      <section className="py-12 bg-transparent w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center text-blue-900">
             {t('inspiration_title')}
