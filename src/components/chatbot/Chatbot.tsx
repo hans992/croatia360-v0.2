@@ -3,8 +3,6 @@
 
 import React from 'react';
 import Image from "next/image";
-// Uklonjeni neiskorišteni Card importi
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
