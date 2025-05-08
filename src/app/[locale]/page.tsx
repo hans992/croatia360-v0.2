@@ -19,12 +19,13 @@ interface HomePageProps {
   searchParams?: Promise<PageSearchParams>; // Optional search parameters.
 }
 
+const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/"; 
 // Static data for inspiration cards. Could also be fetched from a CMS or API.
 const inspirationItems = [
   {
     titleKey: 'inspiration_beaches_title',
     descriptionKey: 'inspiration_beaches_description',
-    imageUrl: '/images/inspiration/beaches.jpg', // Ensure paths are relative to /public directory.
+    imageUrl: `${gcsBaseUrl}inspiring_beach.jpg`, // Ensure paths are relative to /public directory.
     color1: '#0088cc',
     color2: '#005580',
     slug: 'beaches'
@@ -32,7 +33,7 @@ const inspirationItems = [
   {
     titleKey: 'inspiration_culture_title',
     descriptionKey: 'inspiration_culture_description',
-    imageUrl: '/images/inspiration/culture.jpg',
+    imageUrl: `${gcsBaseUrl}inspiring_culture.jpg`,
     color1: '#8e44ad',
     color2: '#5b2c6f',
     slug: 'culture'
@@ -40,7 +41,7 @@ const inspirationItems = [
   {
     titleKey: 'inspiration_nature_title',
     descriptionKey: 'inspiration_nature_description',
-    imageUrl: '/images/inspiration/nature.jpg',
+    imageUrl: `${gcsBaseUrl}inspiring_nature.jpg`,
     color1: '#27ae60',
     color2: '#196f3d',
     slug: 'nature'
@@ -48,7 +49,7 @@ const inspirationItems = [
   {
     titleKey: 'inspiration_food_title',
     descriptionKey: 'inspiration_food_description',
-    imageUrl: '/images/inspiration/food.jpg',
+    imageUrl: `${gcsBaseUrl}inspiring_food.jpg`,
     color1: '#d35400',
     color2: '#a04000',
     slug: 'food'
