@@ -204,6 +204,30 @@
   "recommendation_krka_tour_location": "W pobliżu Szybenika, Dalmacja",
   "recommendation_krka_tour_description": "Odkryj zachwycające wodospady i naturalne piękno Parku Narodowego Krka.",
 
+  "region_slavonija_description_short": "Złote równiny bogatej tradycji, gościnnych ludzi i autentycznej gastronomii.",
+  
+  "region_sredisnja_description_short": "Zielone serce Chorwacji z baśniowymi zamkami, źródłami termalnymi i szlakami winiarskimi.",
+  
+  "region_zagreb_description_short": "Tętniąca życiem metropolia, gdzie historia i nowoczesność, kultura i rozrywka łączą się.",
+  
+  "region_lika_gorski_kotar_description_short": "Nietknięta dzicz parków narodowych, górskich szczytów i krystalicznie czystych rzek.",
+  
+  "region_istra_description_short": "Magiczny półwysep średniowiecznych miasteczek, gajów oliwnych i wyśmienitej kuchni.",
+  
+  "region_dalmacija_description_short": "Wybrzeże tysiąca wysp, starożytnych miast i krystalicznie czystego lazurowego morza.",
+  
+  "region_lika_gorski_kotar": "Lika i Gorski Kotar",
+  
+  "explore_page_discover_region": "Odkryj {{regionName}}",
+  
+  "explore_page_select_region_title": "Wybierz region do odkrycia",
+  
+  "explore_page_search_title": "Znajdź swoją przygodę",
+  
+  "reviews_label": "recenzji",
+  
+  "explore_page_recommendations_title": "Rekomendacje dla Ciebie",
+  
   "tag_spa": "Spa",
   "tag_pool": "Basen",
   "tag_restaurant": "Restauracja",

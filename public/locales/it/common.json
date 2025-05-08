@@ -204,6 +204,30 @@
   "recommendation_krka_tour_location": "Vicino a Sebenico, Dalmazia",
   "recommendation_krka_tour_description": "Esplora le meravigliose cascate e la bellezza naturale del Parco Nazionale di Krka.",
 
+  "region_slavonija_description_short": "Pianure dorate di ricche tradizioni, gente ospitale e gastronomia autentica.",
+  
+  "region_sredisnja_description_short": "Il cuore verde della Croazia con castelli fiabeschi, sorgenti termali e strade del vino.",
+  
+  "region_zagreb_description_short": "Una metropoli vibrante dove storia e modernità, cultura e intrattenimento si fondono.",
+  
+  "region_lika_gorski_kotar_description_short": "Natura incontaminata di parchi nazionali, vette montuose e fiumi cristallini.",
+  
+  "region_istra_description_short": "Una penisola magica di città medievali, uliveti e cucina squisita.",
+  
+  "region_dalmacija_description_short": "Una costa di mille isole, città antiche e mare azzurro cristallino.",
+  
+  "region_lika_gorski_kotar": "Lika e Gorski Kotar",
+  
+  "explore_page_discover_region": "Esplora {{regionName}}",
+  
+  "explore_page_select_region_title": "Seleziona una regione da esplorare",
+  
+  "explore_page_search_title": "Trova la tua avventura",
+  
+  "reviews_label": "recensioni",
+  
+  "explore_page_recommendations_title": "Raccomandazioni per te",
+  
   "tag_spa": "Spa",
   "tag_pool": "Piscina",
   "tag_restaurant": "Ristorante",

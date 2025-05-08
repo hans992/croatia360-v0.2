@@ -204,6 +204,30 @@
   "recommendation_krka_tour_location": "Blizu Šibenika, Dalmacija",
   "recommendation_krka_tour_description": "Istražite zadivljujuće slapove i prirodne ljepote NP Krka.",
 
+  "region_slavonija_description_short": "Zlatna ravnica bogate tradicije, gostoljubivih ljudi i autentične gastronomije.",
+  
+  "region_sredisnja_description_short": "Zeleno srce Hrvatske s bajkovitim dvorcima, termalnim izvorima i vinskim cestama.",
+  
+  "region_zagreb_description_short": "Vibrantna metropola gdje se spajaju povijest i suvremenost, kultura i zabava.",
+  
+  "region_lika_gorski_kotar_description_short": "Netaknuta divljina nacionalnih parkova, planinskih vrhova i kristalnih rijeka.",
+  
+  "region_istra_description_short": "Čarobni poluotok srednjovjekovnih gradića, maslinika i vrhunske gastronomije.",
+  
+  "region_dalmacija_description_short": "Obala tisuću otoka, antičkih gradova i kristalno čistog azurnog mora.",
+  
+  "region_lika_gorski_kotar": "Lika i Gorski kotar",
+  
+  "explore_page_discover_region": "Istraži {{regionName}}",
+  
+  "explore_page_select_region_title": "Odaberite regiju za istraživanje",
+  
+  "explore_page_search_title": "Pronađite svoju avanturu",
+  
+  "reviews_label": "recenzija",
+  
+  "explore_page_recommendations_title": "Preporuke za vas",
+
   "tag_spa": "Spa",
   "tag_pool": "Bazen",
   "tag_restaurant": "Restoran",
@@ -324,6 +348,8 @@
       }
     }
   },
+  
 "contact_page_title": "Kontaktirajte Nas",
 "contact_page_intro": "Imate pitanje ili trebate pomoć? Ispunite formu ispod kako biste stupili u kontakt s našim timom."
 }
+

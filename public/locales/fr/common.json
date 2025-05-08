@@ -204,6 +204,30 @@
   "recommendation_krka_tour_location": "Près de Šibenik, Dalmatie",
   "recommendation_krka_tour_description": "Explorez les cascades magnifiques et la beauté naturelle du Parc National de Krka.",
 
+  "region_slavonija_description_short": "Plaines dorées de traditions riches, de gens hospitaliers et de gastronomie authentique.",
+  
+  "region_sredisnja_description_short": "Le cœur vert de la Croatie avec des châteaux féeriques, des sources thermales et des routes des vins.",
+  
+  "region_zagreb_description_short": "Une métropole vibrante où se rencontrent histoire et modernité, culture et divertissement.",
+  
+  "region_lika_gorski_kotar_description_short": "Nature sauvage intacte des parcs nationaux, sommets montagneux et rivières cristallines.",
+  
+  "region_istra_description_short": "Une péninsule magique de villes médiévales, d'oliveraies et de cuisine exquise.",
+  
+  "region_dalmacija_description_short": "Un littoral de mille îles, de villes antiques et d'une mer azur cristalline.",
+  
+  "region_lika_gorski_kotar": "Lika et Gorski Kotar",
+  
+  "explore_page_discover_region": "Explorez {{regionName}}",
+  
+  "explore_page_select_region_title": "Sélectionnez une région à explorer",
+  
+  "explore_page_search_title": "Trouvez votre aventure",
+  
+  "reviews_label": "avis",
+  
+  "explore_page_recommendations_title": "Recommandations pour vous",
+  
   "tag_spa": "Spa",
   "tag_pool": "Piscine",
   "tag_restaurant": "Restaurant",

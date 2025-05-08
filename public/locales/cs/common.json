@@ -204,6 +204,30 @@
   "recommendation_krka_tour_location": "Blízko Šibeniku, Dalmácie",
   "recommendation_krka_tour_description": "Prozkoumejte úchvatné vodopády a přírodní krásy NP Krka.",
 
+  "region_slavonija_description_short": "Zlaté pláně bohaté tradice, pohostinných lidí a autentické gastronomie.",
+  
+  "region_sredisnja_description_short": "Zelené srdce Chorvatska s pohádkovými hrady, termálními prameny a vinnými stezkami.",
+  
+  "region_zagreb_description_short": "Pulzující metropole, kde se setkává historie a současnost, kultura a zábava.",
+  
+  "region_lika_gorski_kotar_description_short": "Nedotčená divočina národních parků, horských vrcholů a křišťálově čistých řek.",
+  
+  "region_istra_description_short": "Kouzelný poloostrov středověkých městeček, olivových hájů a vynikající kuchyně.",
+  
+  "region_dalmacija_description_short": "Pobřeží tisíce ostrovů, starověkých měst a křišťálově čistého azurového moře.",
+  
+  "region_lika_gorski_kotar": "Lika a Gorski Kotar",
+  
+  "explore_page_discover_region": "Prozkoumat {{regionName}}",
+  
+  "explore_page_select_region_title": "Vyberte region k prozkoumání",
+  
+  "explore_page_search_title": "Najděte své dobrodružství",
+  
+  "reviews_label": "recenzí",
+  
+  "explore_page_recommendations_title": "Doporučení pro vás",
+  
   "tag_spa": "Spa",
   "tag_pool": "Bazén",
   "tag_restaurant": "Restaurace",
