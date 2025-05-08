@@ -23,7 +23,7 @@ interface HomePageProps {
 // Base URL for images from Google Cloud Storage
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
-// Static data for inspiration cards. Could also be fetched from a CMS or API.
+// Static data for inspiration cards.
 const inspirationItems = [
   {
     titleKey: 'inspiration_beaches_title',
@@ -70,20 +70,16 @@ export default async function HomePage(props: HomePageProps) {
     effectiveLocale = resolvedParams.locale as Locale;
     isLocaleFromParamsValid = true;
   } else {
-    // Log a warning and use fallback language if the provided locale is invalid or unsupported.
     console.warn(`[page.tsx] HomePage - Invalid or unsupported locale '${resolvedParams?.locale}'. Using fallback: ${fallbackLng}`);
-    effectiveLocale = fallbackLng; // Fallback to default language if locale is invalid.
+    effectiveLocale = fallbackLng;
   }
 
-  // Fetch server-side translations for page-level content.
   const { t } = await getServerTranslations(effectiveLocale, defaultNS);
 
-  // Handle invalid locale by showing an error message instead of rendering the page.
   if (!isLocaleFromParamsValid) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <p className="text-red-600 bg-red-100 border border-red-400 p-4 rounded-md">
-          {/* Display translated error message or a default Croatian message if translation fails. */}
           {t('error_invalid_locale_message', { requestedLocale: resolvedParams?.locale, fallbackLocale: effectiveLocale }) ||
             `Traženi jezik '${resolvedParams?.locale}' nije podržan ili je neispravan. Prikazuje se zadani jezik (${effectiveLocale}). Molimo provjerite URL.`}
         </p>
@@ -91,23 +87,23 @@ export default async function HomePage(props: HomePageProps) {
     );
   }
 
-  // Render the main page content.
   return (
     <>
-      {/* Hero section with title and subtitle */}
+      {/* Hero section */}
       <div className="text-center pt-10 pb-10 container mx-auto px-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">{t('hero_title_sara_ai')}</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
       </div>
 
-      {/* Static Chatbot section */}
-      {/* Wrapper div for the Chatbot to control its spacing on the page */}
-      <div className="container mx-auto px-4 my-8 md:my-12">
+      {/* Static Chatbot section with desired styling */}
+      <div className="container mx-auto px-4 my-8 md:my-12 
+                      pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl 
+                      py-6 md:py-8"> {/* Added styling classes and vertical padding here */}
         <Chatbot />
       </div>
 
       {/* Inspiration section */}
-      <section className="py-12 bg-transparent w-full"> {/* Background is transparent as per your previous version */}
+      <section className="py-12 bg-transparent w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center text-blue-900">
             {t('inspiration_title')}
@@ -116,10 +112,8 @@ export default async function HomePage(props: HomePageProps) {
             {t('inspiration_subtitle')}
           </p>
 
-          {/* Grid for displaying inspiration cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {inspirationItems.map(item => (
-              // Each InspireCard is a client component that handles its own translation for title/description.
               <InspireCard
                 key={item.slug}
                 titleKey={item.titleKey}
