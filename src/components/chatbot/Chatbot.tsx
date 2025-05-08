@@ -1,5 +1,5 @@
-// src/components/chatbot/Chatbot.tsx
-"use client"; 
+// src/app/components/chatbot/Chatbot.tsx
+"use client";
 
 import React from 'react';
 import Image from "next/image";
@@ -46,7 +46,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             value={input}
             onChange={handleInputChange}
             placeholder={t('chatbot_input_placeholder')}
-            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-gray-800 placeholder-gray-500
+            className="pr-10 py-6 rounded-full border border-[#3ABEFF] bg-white/20 text-black placeholder-gray-700 {/* IZMJENA: text-black placeholder-gray-700 */}
                        focus:outline-none focus:ring-2 focus:ring-[#3ABEFF] focus:border-[#3ABEFF]
                        focus:shadow-[0_0_15px_#3ABEFF] transition-all duration-300 disabled:opacity-50"
             disabled={isLoading}
@@ -73,7 +73,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
                   <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
                     message.role === 'user'
                       ? 'bg-blue-500 text-white rounded-tr-none'
-                      : 'bg-gray-50/80 text-gray-800 rounded-tl-none'
+                      : 'bg-gray-50/80 text-black rounded-tl-none' // IZMJENA: text-black
                   }`}>
                     {message.content}
                   </div>
@@ -81,7 +81,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-gray-50/80 text-gray-800 rounded-tl-none italic">
+                  {/* IZMJENA: text-black */}
+                  <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-gray-50/80 text-black rounded-tl-none italic">
                     {t('chatbot_thinking')}
                   </div>
                 </div>
@@ -96,6 +97,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
             </div>
           </div>
 
+          {/* Gumbi za prijedloge vjerojatno imaju dovoljno kontrasta sa svojim specifičnim bojama teksta (text-blue-700, itd.) */}
           <div className="mt-4 flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="border-blue-200/50 bg-white/20 hover:bg-blue-50/30 text-blue-700" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
             <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="border-red-200/50 bg-white/20 hover:bg-red-50/30 text-red-700" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
