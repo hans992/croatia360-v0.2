@@ -1,7 +1,7 @@
 // src/app/components/Chatbot.tsx
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Mic, Paperclip, ThumbsUp, ThumbsDown, X } from 'lucide-react';
+import { Send, Mic, Paperclip, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
