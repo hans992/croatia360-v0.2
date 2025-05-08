@@ -1,10 +1,14 @@
-// src/app/components/Chatbot.tsx
+// src/components/chatbot/Chatbot.tsx
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Mic, Paperclip, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+
+interface ChatbotProps {
+  isSticky?: boolean;
+}
 
 interface Message {
   id: string;
@@ -13,7 +17,7 @@ interface Message {
   timestamp: Date;
 }
 
-const Chatbot = () => {
+const Chatbot: React.FC<ChatbotProps> = ({ isSticky = false }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -95,7 +99,7 @@ const Chatbot = () => {
       {/* Chatbot toggle button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl"
+        className={`fixed ${isSticky ? 'top-4' : 'bottom-6'} right-6 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
@@ -106,7 +110,7 @@ const Chatbot = () => {
           <X size={24} />
         ) : (
           <Image 
-            src="https://storage.googleapis.com/croatia360/images/kuna.png" 
+            src="/images/sara-ai-avatar.png" 
             alt="SARA AI" 
             width={40} 
             height={40} 
@@ -119,7 +123,7 @@ const Chatbot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-24 right-6 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-10rem)] bg-white rounded-2xl shadow-2xl overflow-hidden z-40 flex flex-col"
+            className={`fixed ${isSticky ? 'top-24' : 'bottom-24'} right-6 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-10rem)] bg-white rounded-2xl shadow-2xl overflow-hidden z-40 flex flex-col`}
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
