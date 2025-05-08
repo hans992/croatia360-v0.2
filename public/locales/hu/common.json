@@ -26,6 +26,16 @@
   "inspiration_title": "Inspiráció az Utazásodhoz",
   "inspiration_subtitle": "Nézz meg néhányat ezek közül az úti célok közül, és hagyd, hogy az üdülési inspiráció magától jöjjön.",
 
+  "inspiration_beaches_title": "Strandok és Tenger",
+  "inspiration_beaches_description": "Fedezze fel a rejtett öblöket, és élvezze a tenger illatát a meleg mediterrán napsütésben.",
+  "inspiration_culture_title": "Kultúra és Történelem",
+  "inspiration_culture_description": "Tapasztalja meg az évezredes hagyományok gazdag történelmét és kulturális örökségét",
+  "inspiration_nature_title": "Természet és Parkok",
+  "inspiration_nature_description": "Fedezze fel az érintetlen természetet, nemzeti parkokat és lélegzetelállító tájakat",
+  "inspiration_food_title": "Gasztronómia",
+  "inspiration_food_description": "Élvezze a horvát konyha autentikus ízeit és kiváló borait",
+  "learn_more_inspiration": "Tudjon meg többet", 
+
   "card_istra_title": "Fedezze fel Isztria varázsát",
   "card_istra_description": "Fedezze fel a festői városokat, élvezze a gasztronómiát és a strandokat.",
   "alt_istra_sunset": "Isztriai naplemente",
@@ -204,30 +214,18 @@
   "recommendation_krka_tour_location": "Šibenik közelében, Dalmácia",
   "recommendation_krka_tour_description": "Fedezze fel a Krka Nemzeti Park lenyűgöző vízeséseit és természeti szépségeit.",
 
-  "region_slavonija_description_short": "Gazdag hagyományok, vendégszerető emberek és autentikus gasztronómia arany síkságai.",
-  
-  "region_sredisnja_description_short": "Horvátország zöld szíve mesebeli kastélyokkal, termálforrásokkal és borútakkal.",
-  
-  "region_zagreb_description_short": "Egy lüktető metropolisz, ahol a történelem és a modernitás, a kultúra és a szórakozás találkozik.",
-  
-  "region_lika_gorski_kotar_description_short": "Nemzeti parkok, hegycsúcsok és kristálytiszta folyók érintetlen vadonja.",
-  
-  "region_istra_description_short": "Középkori városok, olajfaligetek és kiváló konyha varázslatos félszigete.",
-  
-  "region_dalmacija_description_short": "Ezer sziget, ókori városok és kristálytiszta azúrkék tenger partvidéke.",
-  
-  "region_lika_gorski_kotar": "Lika és Gorski Kotar",
-  
-  "explore_page_discover_region": "Fedezze fel {{regionName}}-t",
-  
-  "explore_page_select_region_title": "Válasszon felfedezendő régiót",
-  
-  "explore_page_search_title": "Találja meg kalandját",
-  
-  "reviews_label": "értékelés",
-  
+  "region_slavonija_description_short": "Gazdag hagyományok, vendégszerető emberek és autentikus gasztronómia arany síkságai.",  
+  "region_sredisnja_description_short": "Horvátország zöld szíve mesebeli kastélyokkal, termálforrásokkal és borútakkal.",  
+  "region_zagreb_description_short": "Egy lüktető metropolisz, ahol a történelem és a modernitás, a kultúra és a szórakozás találkozik.",  
+  "region_lika_gorski_kotar_description_short": "Nemzeti parkok, hegycsúcsok és kristálytiszta folyók érintetlen vadonja.",  
+  "region_istra_description_short": "Középkori városok, olajfaligetek és kiváló konyha varázslatos félszigete.",  
+  "region_dalmacija_description_short": "Ezer sziget, ókori városok és kristálytiszta azúrkék tenger partvidéke.",  
+  "region_lika_gorski_kotar": "Lika és Gorski Kotar",  
+  "explore_page_discover_region": "Fedezze fel {{regionName}}-t",  
+  "explore_page_select_region_title": "Válasszon felfedezendő régiót",  
+  "explore_page_search_title": "Találja meg kalandját",  
+  "reviews_label": "értékelés",  
   "explore_page_recommendations_title": "Ajánlatok Önnek",
-
   "explore_page_popular_destinations_title": "Népszerű úti célok",
   
   "tag_spa": "Spa",

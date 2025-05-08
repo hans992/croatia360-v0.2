@@ -26,6 +26,16 @@
   "inspiration_title": "Inspiracija za Vaše Putovanje",
   "inspiration_subtitle": "Provjerite neke od ovih destinacija i neka inspiracija za odmor dođe sama.",
 
+  "inspiration_beaches_title": "Plaže i more",
+  "inspiration_beaches_description": "Otkrijte skrivene uvale i uživajte u mirisu mora pod toplim mediteranskim suncem.",
+  "inspiration_culture_title": "Kultura i povijest",
+  "inspiration_culture_description": "Doživite bogatu povijest i kulturnu baštinu tisućljetne tradicije",
+  "inspiration_nature_title": "Priroda i parkovi",
+  "inspiration_nature_description": "Otkrijte netaknutu prirodu, nacionalne parkove i zadivljujuće krajolike",
+  "inspiration_food_title": "Gastronomija",
+  "inspiration_food_description": "Uživajte u autentičnim okusima hrvatske kuhinje i vrhunskim vinima",
+  "learn_more_inspiration": "Saznajte više",
+
   "card_istra_title": "Otkrijte čari Istre",
   "card_istra_description": "Istražite slikovite gradove, uživajte u gastronomiji i plažama.",
   "alt_istra_sunset": "Istra zalazak sunca",
@@ -205,29 +215,17 @@
   "recommendation_krka_tour_description": "Istražite zadivljujuće slapove i prirodne ljepote NP Krka.",
 
   "region_slavonija_description_short": "Zlatna ravnica bogate tradicije, gostoljubivih ljudi i autentične gastronomije.",
-  
-  "region_sredisnja_description_short": "Zeleno srce Hrvatske s bajkovitim dvorcima, termalnim izvorima i vinskim cestama.",
-  
-  "region_zagreb_description_short": "Vibrantna metropola gdje se spajaju povijest i suvremenost, kultura i zabava.",
-  
-  "region_lika_gorski_kotar_description_short": "Netaknuta divljina nacionalnih parkova, planinskih vrhova i kristalnih rijeka.",
-  
-  "region_istra_description_short": "Čarobni poluotok srednjovjekovnih gradića, maslinika i vrhunske gastronomije.",
-  
-  "region_dalmacija_description_short": "Obala tisuću otoka, antičkih gradova i kristalno čistog azurnog mora.",
-  
-  "region_lika_gorski_kotar": "Lika i Gorski kotar",
-  
-  "explore_page_discover_region": "Istraži {{regionName}}",
-  
-  "explore_page_select_region_title": "Odaberite regiju za istraživanje",
-  
-  "explore_page_search_title": "Pronađite svoju avanturu",
-  
-  "reviews_label": "recenzija",
-  
+  "region_sredisnja_description_short": "Zeleno srce Hrvatske s bajkovitim dvorcima, termalnim izvorima i vinskim cestama.",  
+  "region_zagreb_description_short": "Vibrantna metropola gdje se spajaju povijest i suvremenost, kultura i zabava.",  
+  "region_lika_gorski_kotar_description_short": "Netaknuta divljina nacionalnih parkova, planinskih vrhova i kristalnih rijeka.",  
+  "region_istra_description_short": "Čarobni poluotok srednjovjekovnih gradića, maslinika i vrhunske gastronomije.",  
+  "region_dalmacija_description_short": "Obala tisuću otoka, antičkih gradova i kristalno čistog azurnog mora.",  
+  "region_lika_gorski_kotar": "Lika i Gorski kotar",  
+  "explore_page_discover_region": "Istraži {{regionName}}",  
+  "explore_page_select_region_title": "Odaberite regiju za istraživanje",  
+  "explore_page_search_title": "Pronađite svoju avanturu",  
+  "reviews_label": "recenzija", 
   "explore_page_recommendations_title": "Preporuke za vas",
-
   "explore_page_popular_destinations_title": "Popularne destinacije",
 
   "tag_spa": "Spa",

@@ -26,6 +26,16 @@
   "inspiration_title": "Inspiration for Your Journey",
   "inspiration_subtitle": "Check out some of these destinations and let the holiday inspiration come to you.",
 
+  "inspiration_beaches_title": "Beaches & Sea",
+  "inspiration_beaches_description": "Discover hidden coves and enjoy the scent of the sea under the warm Mediterranean sun.",
+  "inspiration_culture_title": "Culture & History",
+  "inspiration_culture_description": "Experience rich history and cultural heritage of thousand-year traditions",
+  "inspiration_nature_title": "Nature & Parks",
+  "inspiration_nature_description": "Discover pristine nature, national parks and breathtaking landscapes",
+  "inspiration_food_title": "Gastronomy",
+  "inspiration_food_description": "Enjoy authentic flavors of Croatian cuisine and premium wines",
+  "learn_more_inspiration": "Learn more",
+  
   "card_istra_title": "Discover the Charms of Istria",
   "card_istra_description": "Explore picturesque towns, enjoy gastronomy and beaches.",
   "alt_istra_sunset": "Istria sunset",
@@ -204,30 +214,18 @@
   "recommendation_krka_tour_location": "Near Šibenik, Dalmatia",
   "recommendation_krka_tour_description": "Explore the stunning waterfalls and natural beauty of Krka National Park.",
 
-  "region_slavonija_description_short": "Golden plains of rich tradition, hospitable people, and authentic gastronomy.",
-  
-  "region_sredisnja_description_short": "The green heart of Croatia with fairy-tale castles, thermal springs, and wine routes.",
-  
-  "region_zagreb_description_short": "A vibrant metropolis where history and modernity, culture and entertainment merge.",
-  
-  "region_lika_gorski_kotar_description_short": "Untouched wilderness of national parks, mountain peaks, and crystal-clear rivers.",
-  
-  "region_istra_description_short": "A magical peninsula of medieval towns, olive groves, and exquisite cuisine.",
-  
-  "region_dalmacija_description_short": "A coastline of a thousand islands, ancient cities, and crystal-clear azure sea.",
-  
-  "region_lika_gorski_kotar": "Lika and Gorski Kotar",
-  
-  "explore_page_discover_region": "Explore {{regionName}}",
-  
-  "explore_page_select_region_title": "Select a region to explore",
-  
-  "explore_page_search_title": "Find your adventure",
-  
-  "reviews_label": "reviews",
-  
+  "region_slavonija_description_short": "Golden plains of rich tradition, hospitable people, and authentic gastronomy.",  
+  "region_sredisnja_description_short": "The green heart of Croatia with fairy-tale castles, thermal springs, and wine routes.",  
+  "region_zagreb_description_short": "A vibrant metropolis where history and modernity, culture and entertainment merge.",  
+  "region_lika_gorski_kotar_description_short": "Untouched wilderness of national parks, mountain peaks, and crystal-clear rivers.",  
+  "region_istra_description_short": "A magical peninsula of medieval towns, olive groves, and exquisite cuisine.",  
+  "region_dalmacija_description_short": "A coastline of a thousand islands, ancient cities, and crystal-clear azure sea.",  
+  "region_lika_gorski_kotar": "Lika and Gorski Kotar",  
+  "explore_page_discover_region": "Explore {{regionName}}",  
+  "explore_page_select_region_title": "Select a region to explore",  
+  "explore_page_search_title": "Find your adventure",  
+  "reviews_label": "reviews",  
   "explore_page_recommendations_title": "Recommendations for you",
-
   "explore_page_popular_destinations_title": "Popular destinations",
   
   "tag_spa": "Spa",

@@ -26,6 +26,16 @@
   "inspiration_title": "Inspirace pro Vaši Cestu",
   "inspiration_subtitle": "Podívejte se na některé z těchto destinací a nechte inspiraci pro dovolenou přijít sama.",
 
+  "inspiration_beaches_title": "Pláže a Moře",
+  "inspiration_beaches_description": "Objevte skryté zátoky a užijte si vůni moře pod teplým středomořským sluncem.",
+  "inspiration_culture_title": "Kultura a Historie",
+  "inspiration_culture_description": "Zažijte bohatou historii a kulturní dědictví tisícileté tradice",
+  "inspiration_nature_title": "Příroda a Parky",
+  "inspiration_nature_description": "Objevte nedotčenou přírodu, národní parky a dechberoucí krajiny",
+  "inspiration_food_title": "Gastronomie",
+  "inspiration_food_description": "Vychutnejte si autentické chutě chorvatské kuchyně a prvotřídní vína",
+  "learn_more_inspiration": "Zjistit více",
+
   "card_istra_title": "Objevte kouzlo Istrie",
   "card_istra_description": "Prozkoumejte malebná města, užijte si gastronomii a pláže.",
   "alt_istra_sunset": "Istrie západ slunce",
@@ -204,30 +214,18 @@
   "recommendation_krka_tour_location": "Blízko Šibeniku, Dalmácie",
   "recommendation_krka_tour_description": "Prozkoumejte úchvatné vodopády a přírodní krásy NP Krka.",
 
-  "region_slavonija_description_short": "Zlaté pláně bohaté tradice, pohostinných lidí a autentické gastronomie.",
-  
-  "region_sredisnja_description_short": "Zelené srdce Chorvatska s pohádkovými hrady, termálními prameny a vinnými stezkami.",
-  
-  "region_zagreb_description_short": "Pulzující metropole, kde se setkává historie a současnost, kultura a zábava.",
-  
-  "region_lika_gorski_kotar_description_short": "Nedotčená divočina národních parků, horských vrcholů a křišťálově čistých řek.",
-  
-  "region_istra_description_short": "Kouzelný poloostrov středověkých městeček, olivových hájů a vynikající kuchyně.",
-  
-  "region_dalmacija_description_short": "Pobřeží tisíce ostrovů, starověkých měst a křišťálově čistého azurového moře.",
-  
-  "region_lika_gorski_kotar": "Lika a Gorski Kotar",
-  
-  "explore_page_discover_region": "Prozkoumat {{regionName}}",
-  
-  "explore_page_select_region_title": "Vyberte region k prozkoumání",
-  
-  "explore_page_search_title": "Najděte své dobrodružství",
-  
-  "reviews_label": "recenzí",
-  
+  "region_slavonija_description_short": "Zlaté pláně bohaté tradice, pohostinných lidí a autentické gastronomie.",  
+  "region_sredisnja_description_short": "Zelené srdce Chorvatska s pohádkovými hrady, termálními prameny a vinnými stezkami.",  
+  "region_zagreb_description_short": "Pulzující metropole, kde se setkává historie a současnost, kultura a zábava.",  
+  "region_lika_gorski_kotar_description_short": "Nedotčená divočina národních parků, horských vrcholů a křišťálově čistých řek.",  
+  "region_istra_description_short": "Kouzelný poloostrov středověkých městeček, olivových hájů a vynikající kuchyně.",  
+  "region_dalmacija_description_short": "Pobřeží tisíce ostrovů, starověkých měst a křišťálově čistého azurového moře.",  
+  "region_lika_gorski_kotar": "Lika a Gorski Kotar",  
+  "explore_page_discover_region": "Prozkoumat {{regionName}}",  
+  "explore_page_select_region_title": "Vyberte region k prozkoumání",  
+  "explore_page_search_title": "Najděte své dobrodružství",  
+  "reviews_label": "recenzí",  
   "explore_page_recommendations_title": "Doporučení pro vás",
-
   "explore_page_popular_destinations_title": "Oblíbené destinace",
   
   "tag_spa": "Spa",
