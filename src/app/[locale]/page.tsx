@@ -45,7 +45,6 @@ const inspirationItems = [
 
 export default function HomePage({ params }: { params: { locale?: string } }) {
   const { t } = useTranslation(defaultNS);
-  const resolvedParams = params;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
