@@ -202,7 +202,7 @@ export default function ExplorePage() {
       </section>
 
       {/* Search & Filters Section (Moved below regional cards) */}
-      <section className="mb-12 p-6 bg-gray-50 rounded-lg shadow">
+      <section className="mb-12 p-6 bg-transparent rounded-lg shadow">
         <h3 className="text-2xl font-semibold mb-6 text-center">{t('explore_page_search_title')}</h3>
         <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
           <Input
