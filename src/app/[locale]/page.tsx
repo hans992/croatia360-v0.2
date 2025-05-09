@@ -2,8 +2,8 @@
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 
-// Import the standard Chatbot component
-import Chatbot from '@/components/chatbot/Chatbot';
+// Import StickyChatbotSection which will handle the chatbot's display and stickiness
+import StickyChatbotSection from '@/components/StickyChatbotSection'; // Ensure this path is correct
 // The InspireCard is a Client Component, imported into this Server Component.
 import InspireCard from '@/components/InspireCard';
 
@@ -95,12 +95,12 @@ export default async function HomePage(props: HomePageProps) {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
       </div>
 
-      {/* Static Chatbot section with desired styling */}
-      <div className="container mx-auto px-4 my-8 md:my-12 
-                      pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl 
-                      py-6 md:py-8"> {/* Added styling classes and vertical padding here */}
-        <Chatbot redirectOnSubmitUrl="/chat" />
-      </div>
+      {/* The StickyChatbotSection will now manage the display of the Chatbot.
+        It handles the normal view (styled block) and the compact sticky view.
+        The pastel-gradient-bg, backdrop-blur, etc., are now defined within StickyChatbotSection
+        for its non-sticky state.
+      */}
+      <StickyChatbotSection />
 
       {/* Inspiration section */}
       <section className="py-12 bg-transparent w-full">
