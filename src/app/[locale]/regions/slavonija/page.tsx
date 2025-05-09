@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getServerTranslations } from '@/lib/i18n/server';
 import { defaultNS, fallbackLng, type Locale, locales as appLocalesStringArray } from '@/lib/i18n/settings';
-import type { Metadata, ResolvingMetadata } from 'next'; // Import Metadata types if using generateMetadata
+import type { Metadata, ResolvingMetadata } from 'next';
 
 interface RegionData {
   id: string;
@@ -38,18 +38,17 @@ async function getRegionData(slug: string, locale: Locale): Promise<RegionData |
   return null;
 }
 
-// Define props for the page component directly as expected by Next.js
 interface PageProps {
   params: { locale: string; slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// --- Region Page Server Component ---
-// Explicitly type the props according to Next.js App Router conventions
-export default async function RegionPage({ params, searchParams }: PageProps) {
-  const { locale: localeParamFromParams, slug } = params; // Renamed to avoid conflict if searchParams also had 'locale'
+export default async function RegionPage({ params, searchParams: _searchParams }: PageProps) { // MODIFIED: _searchParams
+  const { locale: localeParamFromParams, slug } = params;
+  // Log _searchParams to "use" it if needed, or remove if truly unused
+  // console.log('Search Params:', _searchParams);
 
-  // Validate locale
+
   let effectiveLocale: Locale;
   if (localeParamFromParams && appLocalesStringArray.includes(localeParamFromParams as Locale)) {
     effectiveLocale = localeParamFromParams as Locale;
@@ -65,16 +64,14 @@ export default async function RegionPage({ params, searchParams }: PageProps) {
     notFound();
   }
 
-  // --- Render Page ---
   return (
     <div className="animate-fadeIn">
-      {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] md:h-[70vh] text-white">
         <Image
           src={regionData.heroImageUrl}
           alt={t(regionData.nameKey)}
-          fill // Changed layout="fill" to fill shorthand for Next 13+
-          style={{ objectFit: 'cover' }} // style objectFit with fill
+          fill
+          style={{ objectFit: 'cover' }}
           priority
           className="brightness-75"
         />
@@ -88,7 +85,6 @@ export default async function RegionPage({ params, searchParams }: PageProps) {
         </div>
       </section>
 
-      {/* Main Content Section */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {regionData.longDescriptionKey && (
           <section aria-labelledby="about-region-heading" className="mb-12">
@@ -158,22 +154,22 @@ export default async function RegionPage({ params, searchParams }: PageProps) {
   );
 }
 
-
-// --- Optional: Metadata Generation ---
-// Props for generateMetadata should also match Next.js expectations
 interface MetadataProps {
   params: { locale: string; slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateMetadata(
-  { params, searchParams }: MetadataProps, // Use the same PageProps structure for consistency
-  parent: ResolvingMetadata
+  { params, searchParams: _searchParams }: MetadataProps, // MODIFIED: _searchParams
+  _parent: ResolvingMetadata // MODIFIED: _parent
 ): Promise<Metadata> {
   const { locale: localeParam, slug } = params;
+  // Log _searchParams & _parent to "use" them if needed, or remove if truly unused.
+  // console.log('Metadata Search Params:', _searchParams);
+  // console.log('Parent Metadata Promise:', _parent); // _parent is a promise
+
   const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
 
-  // Await data fetching
   const regionData = await getRegionData(slug, effectiveLocale);
   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
 
@@ -185,7 +181,7 @@ export async function generateMetadata(
 
   const title = t(regionData.titleKey, { defaultValue: t(regionData.nameKey) });
   const description = t(regionData.descriptionKey);
-  const siteName = t('site_name', { ns: defaultNS, defaultValue: 'Croatia360' }); // Assuming you have a site_name in your defaultNS
+  const siteName = t('site_name', { ns: defaultNS, defaultValue: 'Croatia360' });
 
   return {
     title: `${title} | ${siteName}`,
@@ -201,17 +197,16 @@ export async function generateMetadata(
           alt: title,
         },
       ],
-      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, // Replace with your actual domain
+      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`,
       type: 'article',
       siteName: siteName,
     },
   };
 }
 
-// --- Optional: Static Site Generation (SSG) for Regions ---
 export async function generateStaticParams(): Promise<Array<{ locale: string; slug: string }>> {
   const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar'];
-  const locales = appLocalesStringArray as readonly string[]; // Cast to readonly string[] if needed
+  const locales = appLocalesStringArray as readonly string[];
 
   return locales.flatMap(locale =>
     regionSlugs.map(slug => ({
