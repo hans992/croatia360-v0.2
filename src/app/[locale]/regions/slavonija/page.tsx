@@ -37,6 +37,10 @@ const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 // This function simulates fetching data for a specific region
 // TODO: Replace with actual data fetching logic (CMS, Database, API)
 async function getRegionData(slug: string, locale: Locale): Promise<RegionData | null> {
+  // Using the 'locale' parameter to avoid ESLint error, e.g., by logging it.
+  // In a real scenario, 'locale' would be used to fetch localized content.
+  console.log(`[getRegionData] Fetching data for slug: '${slug}', locale: '${locale}'`);
+
   // Simulating data for Slavonija
   if (slug === 'slavonija') {
     return {
@@ -45,11 +49,11 @@ async function getRegionData(slug: string, locale: Locale): Promise<RegionData |
       titleKey: 'region_slavonija_page_title', // e.g., "Otkrijte Slavoniju"
       descriptionKey: 'region_slavonija_description_detailed', // Placeholder for a more detailed description
       longDescriptionKey: 'region_slavonija_long_description', // Even more details
-      heroImageUrl: `${gcsBaseUrl}Slavonija_Hero.jpg`, // Replace with an actual hero image for Slavonija
+      heroImageUrl: `${gcsBaseUrl}regions/slavonija/Slavonija_Hero.jpg`, // Example: specific path for region hero images
       galleryImageUrls: [
-        `${gcsBaseUrl}Slavonija_Gallery_1.jpg`,
-        `${gcsBaseUrl}Slavonija_Gallery_2.jpg`,
-        `${gcsBaseUrl}Slavonija_Gallery_3.jpg`,
+        `${gcsBaseUrl}regions/slavonija/Slavonija_Gallery_1.jpg`,
+        `${gcsBaseUrl}regions/slavonija/Slavonija_Gallery_2.jpg`,
+        `${gcsBaseUrl}regions/slavonija/Slavonija_Gallery_3.jpg`,
         // Add more gallery images
       ],
       // pointsOfInterest: [
@@ -69,7 +73,7 @@ export default async function RegionPage({ params }: RegionPageProps) {
 
   // Validate locale
   let effectiveLocale: Locale;
-  if (localeParam && appLocalesStringArray.includes(localeParam)) {
+  if (localeParam && appLocalesStringArray.includes(localeParam as Locale)) {
     effectiveLocale = localeParam as Locale;
   } else {
     console.warn(`[regions/${slug}/page.tsx] - Invalid or unsupported locale '${localeParam}'. Using fallback: ${fallbackLng}`);
@@ -79,9 +83,10 @@ export default async function RegionPage({ params }: RegionPageProps) {
   }
 
   // Fetch translations
-  const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']); // Add 'regions' namespace if you plan to have region-specific translations
+  // Ensure you have a 'regions.json' (and for other locales) in your public/locales/<locale>/ folder
+  const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
 
-  // Fetch data for the region
+  // Fetch data for the region, now passing 'effectiveLocale' which will be used in getRegionData
   const regionData = await getRegionData(slug, effectiveLocale);
 
   // If no data is found for the slug, return a 404 page
@@ -102,11 +107,11 @@ export default async function RegionPage({ params }: RegionPageProps) {
           priority // Prioritize loading of the hero image
           className="brightness-75" // Adjust brightness for text readability
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 p-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 p-4 md:p-8 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 tracking-tight leading-tight">
             {t(regionData.titleKey, { defaultValue: t(regionData.nameKey) })}
           </h1>
-          <p className="text-lg md:text-2xl max-w-3xl">
+          <p className="text-lg md:text-xl lg:text-2xl max-w-3xl">
             {t(regionData.descriptionKey)}
           </p>
         </div>
@@ -120,10 +125,10 @@ export default async function RegionPage({ params }: RegionPageProps) {
             <h2 id="about-region-heading" className="text-3xl font-bold text-primary mb-6">
               {t('region_about_title', { regionName: t(regionData.nameKey) })}
             </h2>
-            <div className="prose prose-lg max-w-none text-foreground/90"> {/* Tailwind Typography for nice text styling */}
-              {/* Split by newlines if your translation string contains them */}
+            <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90"> {/* Tailwind Typography for nice text styling */}
+              {/* Split by newlines if your translation string contains them, or use a dedicated component for rich text */}
               {t(regionData.longDescriptionKey).split('\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
+                <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
               ))}
             </div>
           </section>
@@ -137,15 +142,15 @@ export default async function RegionPage({ params }: RegionPageProps) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {regionData.galleryImageUrls.map((imageUrl, index) => (
-                <div key={index} className="relative aspect-video overflow-hidden rounded-lg shadow-lg group">
+                <div key={index} className="relative aspect-[16/10] overflow-hidden rounded-lg shadow-lg group"> {/* Changed aspect ratio slightly */}
                   <Image
                     src={imageUrl}
-                    alt={`${t(regionData.nameKey)} - ${t('gallery_image_alt_text_prefix')} ${index + 1}`}
+                    alt={`${t(regionData.nameKey)} - ${t('gallery_image_alt_text_prefix', { index: index + 1 })}`}
                     layout="fill"
                     objectFit="cover"
                     className="transform transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Example sizes for optimization
                   />
-                  {/* Optional: Add a subtle overlay or icon on hover */}
                 </div>
               ))}
             </div>
@@ -154,33 +159,32 @@ export default async function RegionPage({ params }: RegionPageProps) {
 
         {/* Placeholder for Points of Interest, Activities, Gastronomy etc. */}
         {/* These would likely be separate components or sections */}
-        <section className="mb-12">
-          <h3 className="text-2xl font-semibold text-secondary mb-6">
+        <section aria-labelledby="discover-more-heading" className="mb-12">
+          <h2 id="discover-more-heading" className="text-3xl font-bold text-primary mb-8 text-center">
             {t('region_discover_more_title')}
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Example Card - TODO: Create a reusable Card component for these items */}
-            <div className="bg-card p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow">
-              <h4 className="font-bold text-lg mb-2 text-card-foreground">{t('region_poi_title_example')}</h4>
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow duration-300">
+              <h3 className="font-bold text-xl mb-2">{t('region_poi_title_example')}</h3>
               <p className="text-sm text-muted-foreground">{t('region_poi_description_example')}</p>
             </div>
-            <div className="bg-card p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow">
-              <h4 className="font-bold text-lg mb-2 text-card-foreground">{t('region_gastronomy_title_example')}</h4>
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow duration-300">
+              <h3 className="font-bold text-xl mb-2">{t('region_gastronomy_title_example')}</h3>
               <p className="text-sm text-muted-foreground">{t('region_gastronomy_description_example')}</p>
             </div>
-            <div className="bg-card p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow">
-              <h4 className="font-bold text-lg mb-2 text-card-foreground">{t('region_activities_title_example')}</h4>
-              <p className
-="text-sm text-muted-foreground">{t('region_activities_description_example')}</p>
+            <div className="bg-card text-card-foreground p-6 rounded-lg shadow-card hover:shadow-xl transition-shadow duration-300">
+              <h3 className="font-bold text-xl mb-2">{t('region_activities_title_example')}</h3>
+              <p className="text-sm text-muted-foreground">{t('region_activities_description_example')}</p>
             </div>
           </div>
         </section>
 
         {/* Call to action or link back to explore page */}
         <section className="text-center mt-12 py-8">
-           <a
+           <a // Using <a> tag for simplicity, could be <Link> from next/link as well
             href={`/${effectiveLocale}/explore`}
-            className="inline-block bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-3 px-8 rounded-lg shadow-button transition-colors"
+            className="inline-block bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 font-semibold py-3 px-8 rounded-lg shadow-button transition-colors"
           >
             {t('region_back_to_explore_button')}
           </a>
@@ -191,55 +195,60 @@ export default async function RegionPage({ params }: RegionPageProps) {
 }
 
 // --- Optional: Metadata Generation ---
-// You can generate dynamic metadata for SEO based on the region
+// (Keep this commented out or implement fully if needed)
 // import type { Metadata, ResolvingMetadata } from 'next';
-
+//
 // export async function generateMetadata(
 //   { params }: RegionPageProps,
 //   parent: ResolvingMetadata
 // ): Promise<Metadata> {
-//   const { locale, slug } = params;
-//   const regionData = await getRegionData(slug, locale as Locale); // Cast locale safely after validation
-//   const { t } = await getServerTranslations(locale as Locale, [defaultNS, 'regions']);
+//   const { locale: localeParam, slug } = params;
+//   const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
+//   const regionData = await getRegionData(slug, effectiveLocale);
+//   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
 
 //   if (!regionData) {
 //     return {
-//       title: t('common_not_found_title'), // Generic not found title
+//       title: t('common_not_found_title', { ns: defaultNS }),
 //     };
 //   }
 
 //   const title = t(regionData.titleKey, { defaultValue: t(regionData.nameKey) });
 //   const description = t(regionData.descriptionKey);
-
-//   // Optionally fetch and merge parent metadata (e.g., site name)
-//   // const previousImages = (await parent).openGraph?.images || []
+//   const siteName = t('site_name', { ns: defaultNS }); // Assuming you have a site_name in your defaultNS
 
 //   return {
-//     title: `${title} | Croatia360`,
+//     title: `${title} | ${siteName}`,
 //     description: description,
 //     openGraph: {
-//       title: title,
+//       title: `${title} | ${siteName}`,
 //       description: description,
 //       images: [
 //         {
 //           url: regionData.heroImageUrl,
-//           width: 1200, // Specify image dimensions
+//           width: 1200,
 //           height: 630,
 //           alt: title,
 //         },
-//         // ...previousImages, // If you want to include parent images
 //       ],
-//       url: `https://www.croatia360.hr/${locale}/regions/${slug}`, // Replace with your actual domain
-//       type: 'article', // or 'website'
+//       url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, // Replace with your actual domain
+//       type: 'article',
+//       siteName: siteName,
 //     },
-//     // Add other metadata like keywords, canonical URL, etc.
+//     // twitter: { // Example for Twitter Card
+//     //   card: 'summary_large_image',
+//     //   title: `${title} | ${siteName}`,
+//     //   description: description,
+//     //   images: [regionData.heroImageUrl],
+//     // },
 //   };
 // }
 
 // --- Optional: Static Site Generation (SSG) for Regions ---
-// If your regions don't change often, you can pre-render them at build time.
+// (Keep this commented out or implement if needed)
 // export async function generateStaticParams() {
-//   const regionSlugs = ['slavonija', 'dalmacija', 'istra']; // Add all your region slugs here
+//   // Example: Define slugs for regions you want to pre-render
+//   const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar'];
 //   const locales = appLocalesStringArray;
 
 //   return locales.flatMap(locale =>
