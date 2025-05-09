@@ -1,4 +1,4 @@
-// src/app/[locale]/regions/slavonija/page.tsx
+// src/app/[locale]/regions/[slug]/page.tsx
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -6,6 +6,7 @@ import { getServerTranslations } from '@/lib/i18n/server';
 import { defaultNS, fallbackLng, type Locale, locales as appLocalesStringArray } from '@/lib/i18n/settings';
 import type { Metadata, ResolvingMetadata } from 'next';
 
+// Interface for the data structure of a region
 interface RegionData {
   id: string;
   nameKey: string;
@@ -14,12 +15,15 @@ interface RegionData {
   longDescriptionKey?: string;
   heroImageUrl: string;
   galleryImageUrls?: string[];
+  // Future additions:
+  // pointsOfInterest: Array<{ nameKey: string; descriptionKey: string; imageUrl?: string; slug: string; }>;
+  // events: Array<{ nameKey: string; date: string; descriptionKey: string; slug: string; }>;
 }
 
-// Define the structure of resolved params and searchParams
+// Define the structure of resolved params for this dynamic page
 interface ResolvedPageParams {
   locale: string;
-  slug: string;
+  slug: string; // slug is now a dynamic part of the path
 }
 
 interface ResolvedSearchParams {
@@ -28,8 +32,13 @@ interface ResolvedSearchParams {
 
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
-async function getRegionData(slug: string, locale: Locale): Promise<RegionData | null> {
-  console.log(`[getRegionData] Fetching data for slug: '${slug}', locale: '${locale}'`);
+// --- Mock Data Fetching Function for a REGION based on SLUG ---
+// TODO: Replace with actual data fetching logic (CMS, Database, API)
+async function getRegionDataBySlug(slug: string, locale: Locale): Promise<RegionData | null> {
+  console.log(`[getRegionDataBySlug] Fetching data for dynamic slug: '${slug}', locale: '${locale}'`);
+
+  // Simulating data based on slug
+  // In a real app, this would query your data source
   if (slug === 'slavonija') {
     return {
       id: 'slavonija',
@@ -45,7 +54,22 @@ async function getRegionData(slug: string, locale: Locale): Promise<RegionData |
       ],
     };
   }
-  return null;
+  if (slug === 'dalmacija') { // Example for another region
+    return {
+      id: 'dalmacija',
+      nameKey: 'region_dalmacija',
+      titleKey: 'region_dalmacija_page_title',
+      descriptionKey: 'region_dalmacija_description_detailed',
+      longDescriptionKey: 'region_dalmacija_long_description',
+      heroImageUrl: `${gcsBaseUrl}regions/dalmacija/Dalmacija_Hero.jpg`, // Ensure these images exist
+      galleryImageUrls: [`${gcsBaseUrl}regions/dalmacija/Dalmacija_Gallery_1.jpg`],
+    };
+  }
+  // Add other regions here...
+  // if (slug === 'istra') { ... }
+
+  console.warn(`[getRegionDataBySlug] No data found for slug: '${slug}'`);
+  return null; // Region not found for the given slug
 }
 
 // Props for the Page component, with params and searchParams as Promises
@@ -54,10 +78,14 @@ interface PageAsyncProps {
   searchParams?: Promise<ResolvedSearchParams>;
 }
 
-export default async function RegionPage(props: PageAsyncProps) {
+export default async function RegionSlugPage(props: PageAsyncProps) {
   const resolvedParams = await props.params;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedSearchParams = props.searchParams ? await props.searchParams : {};
+  const resolvedSearchParams = props.searchParams ? await props.searchParams : {}; // Await and provide default
+
+  // To satisfy ESLint if not used immediately:
+  if (Object.keys(resolvedSearchParams).length > 0) {
+    console.log('Search Params:', resolvedSearchParams);
+  }
 
   const { locale: localeParamFromParams, slug } = resolvedParams;
 
@@ -69,10 +97,11 @@ export default async function RegionPage(props: PageAsyncProps) {
     effectiveLocale = fallbackLng;
   }
 
-  const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
-  const regionData = await getRegionData(slug, effectiveLocale);
+  const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']); // Assuming 'regions' namespace for specific texts
+  const regionData = await getRegionDataBySlug(slug, effectiveLocale);
 
   if (!regionData) {
+    console.error(`[regions/${slug}/page.tsx] No data returned by getRegionDataBySlug for slug '${slug}'. Rendering 404.`);
     notFound();
   }
 
@@ -166,28 +195,34 @@ export default async function RegionPage(props: PageAsyncProps) {
   );
 }
 
-// Props for generateMetadata, also expecting Promises for params and searchParams to match the constraint
+// Props for generateMetadata, also expecting Promises for params and searchParams
 interface MetadataAsyncProps {
   params: Promise<ResolvedPageParams>;
   searchParams?: Promise<ResolvedSearchParams>;
 }
 
 export async function generateMetadata(
-  props: MetadataAsyncProps, // Use MetadataAsyncProps
+  props: MetadataAsyncProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // Await the promises for params and searchParams
   const resolvedParams = await props.params;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedSearchParams = props.searchParams ? await props.searchParams : {};
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedParent = await parent; // Await parent metadata as it's a Promise
+  const resolvedSearchParams = props.searchParams ? await props.searchParams : {};
+  const resolvedParent = await parent; // Await parent metadata
+
+  // "Use" searchParams and parent to satisfy ESLint if not actively used for logic
+  if (Object.keys(resolvedSearchParams).length > 0) {
+    console.log('Metadata Search Params:', resolvedSearchParams);
+  }
+  if (resolvedParent) { // Check if resolvedParent has value before logging
+    console.log('Parent Metadata (resolved):', Object.keys(resolvedParent).length > 0 ? 'Has keys' : 'Empty or default');
+  }
+
 
   const { locale: localeParam, slug } = resolvedParams;
 
   const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
 
-  const regionData = await getRegionData(slug, effectiveLocale);
+  const regionData = await getRegionDataBySlug(slug, effectiveLocale);
   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
 
   if (!regionData) {
@@ -213,17 +248,18 @@ export async function generateMetadata(
           height: 630,
           alt: title,
         },
-        // ...(_resolvedParent.openGraph?.images || []), // Example of using parent metadata
+        // ... (resolvedParent.openGraph?.images || []), // Example for merging images
       ],
-      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`,
+      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, // Replace with your domain
       type: 'article',
       siteName: siteName,
     },
   };
 }
 
-export async function generateStaticParams(): Promise<Array<{ locale: string; slug: string }>> {
-  const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar'];
+// generateStaticParams for all your region slugs and locales
+export async function generateStaticParams(): Promise<Array<ResolvedPageParams>> {
+  const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar']; // Add all your region slugs
   const locales = appLocalesStringArray as readonly string[];
 
   return locales.flatMap(locale =>
