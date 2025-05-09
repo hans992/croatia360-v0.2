@@ -1,7 +1,7 @@
 // src/app/[locale]/page.tsx
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
-
+import Image from "next/image";
 // Import StickyChatbotSection which will handle the chatbot's display and stickiness
 import StickyChatbotSection from '@/components/StickyChatbotSection'; // Ensure this path is correct
 // The InspireCard is a Client Component, imported into this Server Component.
@@ -91,8 +91,13 @@ export default async function HomePage(props: HomePageProps) {
     <>
       {/* Hero section */}
       <div className="text-center pt-10 pb-10 container mx-auto px-4">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">{t('hero_title_sara_ai')}</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('hero_subtitle_sara_ai')}</p>
+      <Image
+        src="${gcsBaseUrl}kuna.png"
+        alt="SARA AI Logo" 
+        width={500} 
+        height={300} 
+        layout="responsive"
+      />
       </div>
 
       {/* The StickyChatbotSection will now manage the display of the Chatbot.
