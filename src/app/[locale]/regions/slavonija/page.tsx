@@ -43,10 +43,11 @@ interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function RegionPage({ params, searchParams: _searchParams }: PageProps) { // MODIFIED: _searchParams
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default async function RegionPage({ params, searchParams }: PageProps) {
   const { locale: localeParamFromParams, slug } = params;
-  // Log _searchParams to "use" it if needed, or remove if truly unused
-  // console.log('Search Params:', _searchParams);
+  // Ako želiš eksplicitno "koristiti" searchParams da ESLint ne javlja grešku, možeš ga logirati:
+  // console.log('Search Params from Page:', searchParams);
 
 
   let effectiveLocale: Locale;
@@ -159,14 +160,17 @@ interface MetadataProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function generateMetadata(
-  { params, searchParams: _searchParams }: MetadataProps, // MODIFIED: _searchParams
-  _parent: ResolvingMetadata // MODIFIED: _parent
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  { params, searchParams }: MetadataProps,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale: localeParam, slug } = params;
-  // Log _searchParams & _parent to "use" them if needed, or remove if truly unused.
-  // console.log('Metadata Search Params:', _searchParams);
-  // console.log('Parent Metadata Promise:', _parent); // _parent is a promise
+  // Ako želiš eksplicitno "koristiti" searchParams i parent:
+  // console.log('Metadata Search Params:', searchParams);
+  // console.log('Parent Metadata Promise:', parent);
 
   const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
 
