@@ -94,8 +94,8 @@ export default async function HomePage(props: HomePageProps) {
       <Image
         src="https://storage.googleapis.com/croatia360/images/kuna.png"
         alt="SARA AI Logo" 
-        width={500} 
-        height={300} 
+        width={250} 
+        height={150} 
         layout="responsive"
       />
       </div>
