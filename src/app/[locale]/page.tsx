@@ -90,15 +90,7 @@ export default async function HomePage(props: HomePageProps) {
   return (
     <>
       {/* Hero section */}
-      <div className="text-center pt-10 pb-10 container mx-auto px-4">
-      <Image
-        src="https://storage.googleapis.com/croatia360/images/kuna.png"
-        alt="SARA AI Logo" 
-        width={125} 
-        height={75} 
-        layout="responsive"
-      />
-      </div>
+
 
       {/* The StickyChatbotSection will now manage the display of the Chatbot.
         It handles the normal view (styled block) and the compact sticky view.
