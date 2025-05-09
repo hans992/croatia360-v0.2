@@ -16,17 +16,15 @@ interface RegionData {
   galleryImageUrls?: string[];
 }
 
-// Define the structure of resolved params
+// Define the structure of resolved params and searchParams
 interface ResolvedPageParams {
   locale: string;
   slug: string;
 }
 
-// Define the structure of resolved searchParams (can be more specific if needed)
 interface ResolvedSearchParams {
   [key: string]: string | string[] | undefined;
 }
-
 
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
@@ -53,14 +51,13 @@ async function getRegionData(slug: string, locale: Locale): Promise<RegionData |
 // Props for the Page component, with params and searchParams as Promises
 interface PageAsyncProps {
   params: Promise<ResolvedPageParams>;
-  searchParams?: Promise<ResolvedSearchParams>; // Optional searchParams
+  searchParams?: Promise<ResolvedSearchParams>;
 }
 
 export default async function RegionPage(props: PageAsyncProps) {
-  // Await the promises to get the actual params and searchParams
   const resolvedParams = await props.params;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedSearchParams = props.searchParams ? await props.searchParams : {}; // Handle optional searchParams
+  const _resolvedSearchParams = props.searchParams ? await props.searchParams : {};
 
   const { locale: localeParamFromParams, slug } = resolvedParams;
 
@@ -169,22 +166,24 @@ export default async function RegionPage(props: PageAsyncProps) {
   );
 }
 
-// Props for generateMetadata should also reflect params as potentially unresolved
-interface MetadataProps {
-  params: ResolvedPageParams; // For metadata, Next.js usually provides resolved params
-  searchParams: ResolvedSearchParams;
+// Props for generateMetadata, also expecting Promises for params and searchParams to match the constraint
+interface MetadataAsyncProps {
+  params: Promise<ResolvedPageParams>;
+  searchParams?: Promise<ResolvedSearchParams>;
 }
 
 export async function generateMetadata(
-  { params, searchParams }: MetadataProps,
-  parent: ResolvingMetadata // parent is already a Promise<Metadata>
+  props: MetadataAsyncProps, // Use MetadataAsyncProps
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { locale: localeParam, slug } = params; // params are resolved here
+  // Await the promises for params and searchParams
+  const resolvedParams = await props.params;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _resolvedSearchParams = props.searchParams ? await props.searchParams : {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _resolvedParent = await parent; // Await parent metadata as it's a Promise
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedSearchParams = searchParams; // "Use" searchParams
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _resolvedParent = await parent; // "Use" parent by awaiting it
+  const { locale: localeParam, slug } = resolvedParams;
 
   const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
 
@@ -214,7 +213,7 @@ export async function generateMetadata(
           height: 630,
           alt: title,
         },
-        // ..._resolvedParent.openGraph?.images || [], // Example of using parent metadata
+        // ...(_resolvedParent.openGraph?.images || []), // Example of using parent metadata
       ],
       url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`,
       type: 'article',
