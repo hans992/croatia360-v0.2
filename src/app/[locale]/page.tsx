@@ -99,7 +99,7 @@ export default async function HomePage(props: HomePageProps) {
       <div className="container mx-auto px-4 my-8 md:my-12 
                       pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl 
                       py-6 md:py-8"> {/* Added styling classes and vertical padding here */}
-        <Chatbot />
+        <Chatbot redirectOnSubmitUrl="/chat" />
       </div>
 
       {/* Inspiration section */}
