@@ -2,6 +2,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 
 interface TripDetails {
   title?: string;
@@ -34,7 +35,7 @@ const TripDetailsPanel: React.FC<TripDetailsPanelProps> = ({ details }) => {
       {details.images && details.images.length > 0 && (
         <div className="mb-6 grid grid-cols-2 gap-2">
           {details.images.slice(0, 4).map((src, index) => ( // Prikazujemo max 4 slike za primjer
-            <img key={index} src={src} alt={`Inspirational image ${index + 1}`} className="rounded-md object-cover aspect-video" />
+            <Image key={index} src={src} alt={`Inspirational image ${index + 1}`} height={ 200 } className="rounded-md object-cover aspect-video" />
           ))}
         </div>
       )}

@@ -30,8 +30,7 @@ const ChatPageContent = () => {
     const currentLocale = routeParams.locale as Locale;
     const initialQueryFromUrl = searchParams.get('initialQuery');
 
-    // State for slideshow images; can be made dynamic later based on chat context
-    const [currentSlideshowImages, setCurrentSlideshowImages] = useState<string[]>(defaultSlideshowImageUrls);
+    const [currentSlideshowImages] = useState<string[]>(defaultSlideshowImageUrls); 
 
     useEffect(() => {
         if (initialQueryFromUrl) {
@@ -50,7 +49,6 @@ const ChatPageContent = () => {
             //   setCurrentSlideshowImages(defaultSlideshowImageUrls);
             // }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialQueryFromUrl, currentLocale, router]); // router is stable
 
     const siteHeaderHeight = 64; // Height of your main site header

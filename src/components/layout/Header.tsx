@@ -177,7 +177,7 @@ const Header = ({ locale }: HeaderProps) => {
                 {/* Mobile Menu Header */}
                 <div className="flex justify-between items-center p-4 border-b border-border">
                   <Link href={`/${currentLocale}/`} className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                    <img 
+                    <Image 
                       src={kunaLogoPath} 
                       alt={t('alt_sara_ai_logo')} 
                       width={30} 
