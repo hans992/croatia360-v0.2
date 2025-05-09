@@ -1,7 +1,6 @@
 // src/app/[locale]/page.tsx
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
-import Image from "next/image";
 // Import StickyChatbotSection which will handle the chatbot's display and stickiness
 import StickyChatbotSection from '@/components/StickyChatbotSection'; // Ensure this path is correct
 // The InspireCard is a Client Component, imported into this Server Component.
