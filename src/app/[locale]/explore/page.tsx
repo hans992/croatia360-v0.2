@@ -56,7 +56,6 @@ interface Region {
   slug: string;
 }
 
-// Define a new interface for filter option objects
 interface FilterOption {
   value: string;
   labelKey: string;
@@ -96,8 +95,7 @@ export default function ExplorePage() {
     { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}recommendations/dalmacija/Krka_NP_Explore.jpg`, slug: "krka-national-park-tour", type: 'recommendation' },
   ];
 
-  // --- Filter Options - Now explicitly typed ---
-  const categoryOptions: FilterOption[] = [ // ADDED TYPE
+  const categoryOptions: FilterOption[] = [
     { value: "all", labelKey: "filter_category_all" },
     { value: "accommodation", labelKey: "filter_category_accommodation" },
     { value: "food", labelKey: "filter_category_food" },
@@ -106,7 +104,7 @@ export default function ExplorePage() {
     { value: "sights", labelKey: "filter_category_sights" },
   ];
 
-  const regionFilterOptions: FilterOption[] = [ // ADDED TYPE
+  const regionFilterOptions: FilterOption[] = [
     { value: "all", labelKey: "filter_region_all" },
     { value: "istra", labelKey: "region_istra" },
     { value: "kvarner", labelKey: "region_kvarner" },
@@ -117,7 +115,7 @@ export default function ExplorePage() {
     { value: "lika-gorski-kotar", labelKey: "region_lika_gorski_kotar"}
   ];
 
-  const priceOptions: FilterOption[] = [ // ADDED TYPE
+  const priceOptions: FilterOption[] = [
     { value: "any", labelKey: "filter_price_any" },
     { value: "€", labelKey: "filter_price_1" },
     { value: "€€", labelKey: "filter_price_2" },
@@ -136,13 +134,43 @@ export default function ExplorePage() {
         </p>
       </section>
 
+      {/* Regional Cards Section - Using Grid for better control over last item */}
       <section className="mb-16 md:mb-20">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center text-secondary dark:text-secondary-foreground">
           {t('explore_page_select_region_title')}
         </h2>
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+        {/* Grid container for regional cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {regionsData.map((region, index) => (
+            <div
+              key={region.id}
+              // Za zadnji element ako ih je 7, na lg ekranima će se protegnuti ili centrirati ovisno o grid postavkama
+              // Jednostavnije je da sve kartice imaju istu visinu, a grid će ih rasporediti.
+              // Ako želimo da zadnja kartica (ako je sama u redu) bude centrirana, možemo dodati prazne divove ili kompleksniji CSS.
+              // Za sada, neka grid radi svoj posao. Ako je 7 itema, lg:grid-cols-3 će dati 3-3-1.
+              // Da bi se zadnji item centrirao, možemo ga specifično targetirati ili koristiti flexbox kako smo prije.
+              // Vraćam na Flexbox za jednostavnije centriranje zadnjeg reda ako nije pun.
+            >
+              <RegionalCard
+                regionKey={region.nameKey}
+                descriptionKey={region.descriptionKey}
+                imageUrl={region.imageUrl}
+                color1={region.color1}
+                color2={region.color2}
+                slug={region.slug}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* Reverted to Flexbox for regional cards for simpler centering of the last row */}
+       <section className="mb-16 md:mb-20">
+        {/* <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center text-secondary dark:text-secondary-foreground">
+          {t('explore_page_select_region_title')}
+        </h2> */}
+        <div className="flex flex-wrap justify-center -m-3 md:-m-4"> {/* Negativni margin da kompenzira padding na itemima */}
           {regionsData.map((region) => (
-            <div key={region.id} className="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(33.333%-1.333rem)] xl:w-[calc(25%-1.5rem)]">
+            <div key={region.id} className="w-full sm:w-1/2 lg:w-1/3 p-3 md:p-4"> {/* Padding na itemima */}
               <RegionalCard
                 regionKey={region.nameKey}
                 descriptionKey={region.descriptionKey}
@@ -156,7 +184,8 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      <section className="mb-16 md:mb-20 p-6 md:p-8 bg-slate-50 dark:bg-slate-800/30 backdrop-blur-md rounded-xl shadow-xl">
+
+      <section className="mb-16 md:mb-20 p-6 md:p-8 bg-slate-100 dark:bg-slate-800/60 backdrop-blur-lg rounded-xl shadow-xl"> {/* Neutralnija pozadina */}
         <h3 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8 text-center text-primary dark:text-primary-foreground flex items-center justify-center">
           <Search className="w-7 h-7 md:w-8 md:h-8 mr-3" />
           {t('explore_page_search_title')}
@@ -166,7 +195,7 @@ export default function ExplorePage() {
             type="search"
             aria-label={t('explore_search_aria_label')}
             placeholder={t('explore_search_placeholder')}
-            className="flex-grow text-base p-3 h-12 border-border rounded-md focus:ring-ring focus:border-ring bg-background"
+            className="flex-grow text-base p-3 h-12 border-border rounded-md focus:ring-ring focus:border-ring bg-background dark:bg-slate-700"
           />
           <Button size="lg" className="w-full lg:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base px-8 h-12">
             {t('explore_search_button')}
@@ -174,7 +203,7 @@ export default function ExplorePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Select>
-            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background">
+            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background dark:bg-slate-700">
               <SelectValue placeholder={t('filter_category_label')} />
             </SelectTrigger>
             <SelectContent>
@@ -184,7 +213,7 @@ export default function ExplorePage() {
             </SelectContent>
           </Select>
           <Select>
-            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background">
+            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background dark:bg-slate-700">
                <SelectValue placeholder={t('filter_region_label')} />
             </SelectTrigger>
             <SelectContent>
@@ -194,7 +223,7 @@ export default function ExplorePage() {
             </SelectContent>
           </Select>
           <Select>
-            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background">
+            <SelectTrigger className="w-full text-base p-3 h-12 rounded-md border-border bg-background dark:bg-slate-700">
               <SelectValue placeholder={t('filter_price_label')} />
             </SelectTrigger>
             <SelectContent>
@@ -213,7 +242,7 @@ export default function ExplorePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {popularDestinations.map((item) => (
-            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col">
+            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-900 flex flex-col"> {/* Neutralna pozadina */}
               <Link href={`/${currentLocale}/destinations/${item.slug}`} className="block flex flex-col h-full">
                 <CardHeader className="p-0 relative">
                   <div className="aspect-video w-full overflow-hidden">
@@ -260,7 +289,7 @@ export default function ExplorePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {recommendations.map((item) => (
-            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col">
+            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-900 flex flex-col"> {/* Neutralna pozadina */}
               <Link href={`/${currentLocale}/recommendations/${item.slug}`} className="block flex flex-col h-full">
                 <CardHeader className="p-0 relative">
                   <div className="aspect-video w-full overflow-hidden">
@@ -273,21 +302,22 @@ export default function ExplorePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
-                   <div className="absolute top-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground px-3 py-1 text-xs font-semibold rounded-full shadow-md z-10">
+                   <div className="absolute top-3 left-3 bg-primary/90 backdrop-blur-sm text-primary-foreground px-2.5 py-1 text-xs font-semibold rounded-full shadow-md z-10 flex items-center"> {/* Značka tipa */}
+                      <Tag className="w-3 h-3 mr-1.5" /> {/* Ikona za tag */}
                       {t(item.typeKey)}
                     </div>
                 </CardHeader>
-                <CardContent className="p-5 flex-grow">
-                  <CardTitle className="text-xl lg:text-2xl font-semibold mb-2 mt-1 group-hover:text-primary transition-colors">{t(item.nameKey)}</CardTitle>
+                <CardContent className="p-5 flex-grow"> {/* Povećan padding u contentu */}
+                  <CardTitle className="text-xl lg:text-2xl font-semibold mb-2 mt-2 group-hover:text-primary transition-colors">{t(item.nameKey)}</CardTitle> {/* Povećan gornji margin naslova */}
                   <CardDescription className="text-sm text-muted-foreground mb-1 flex items-center">
                      <MapPin className="w-4 h-4 mr-2 text-secondary" />
                     {t(item.locationKey)}
                   </CardDescription>
                   <p className="text-sm text-muted-foreground mb-3 line-clamp-3">{t(item.descriptionKey)}</p>
                   {item.tagsKeys && item.tagsKeys.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="flex flex-wrap gap-2 mb-4"> {/* Povećan donji margin za tagove */}
                       {item.tagsKeys.map(tagKey => (
-                        <span key={tagKey} className="text-xs bg-accent/20 text-accent-foreground px-2 py-0.5 rounded-full">{t(tagKey)}</span>
+                        <span key={tagKey} className="text-xs bg-accent/20 text-accent-foreground px-2.5 py-1 rounded-full">{t(tagKey)}</span>
                       ))}
                     </div>
                   )}
