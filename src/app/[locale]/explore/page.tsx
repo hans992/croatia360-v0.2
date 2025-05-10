@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"; // Dodan CardFooter
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, MapPin, CalendarDays, Search, TrendingUp, ThumbsUp } from "lucide-react"; // Dodane nove ikone
+import { Star, MapPin, Search, TrendingUp, ThumbsUp } from "lucide-react"; // Dodane nove ikone
 
 // Import Next.js specifičnih funkcionalnosti
 import Image from "next/image"; // Optimizirana image komponenta
