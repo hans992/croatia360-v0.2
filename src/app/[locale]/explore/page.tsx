@@ -64,13 +64,13 @@ interface FilterOption {
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
 const regionsData: Region[] = [
-  { id: "slavonija", nameKey: "region_slavonija", descriptionKey: "region_slavonija_description_short", imageUrl: `${gcsBaseUrl}regions/slavonija/Slavonija_Card.jpg`, color1: '#FFD700', color2: '#8B4513', slug: "slavonija" },
-  { id: "sredisnja_hrvatska", nameKey: "region_sredisnja", descriptionKey: "region_sredisnja_description_short", imageUrl: `${gcsBaseUrl}regions/sredisnja_hrvatska/Sredisnja_Card.jpg`, color1: '#800020', color2: '#2E8B57', slug: "sredisnja-hrvatska" },
-  { id: "zagreb", nameKey: "region_zagreb", descriptionKey: "region_zagreb_description_short", imageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_Card.jpg`, color1: '#5D3FD3', color2: '#EAE0D5', slug: "zagreb" },
-  { id: "lika_gorski_kotar", nameKey: "region_lika_gorski_kotar", descriptionKey: "region_lika_gorski_kotar_description_short", imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Lika_Gorski_Kotar_Card.jpg`, color1: '#228B22', color2: '#40E0D0', slug: "lika-gorski-kotar" },
-  { id: "istra", nameKey: "region_istra", descriptionKey: "region_istra_description_short", imageUrl: `${gcsBaseUrl}regions/istra/Istria_Card.jpg`, color1: '#E07A5F', color2: '#808000', slug: "istra" },
-  { id: "kvarner", nameKey: "region_kvarner", descriptionKey: "region_kvarner_description_short", imageUrl: `${gcsBaseUrl}regions/kvarner/Kvarner_Card.jpg`, color1: '#009688', color2: '#CFD8DC', slug: "kvarner" },
-  { id: "dalmacija", nameKey: "region_dalmacija", descriptionKey: "region_dalmacija_description_short", imageUrl: `${gcsBaseUrl}regions/dalmacija/Dalmacija_Card.jpg`, color1: '#007FFF', color2: '#F8F8FF', slug: "dalmacija" },
+  { id: "slavonija", nameKey: "region_slavonija", descriptionKey: "region_slavonija_description_short", imageUrl: `${gcsBaseUrl}Slavonija_zito.jpg`, color1: '#FFD700', color2: '#8B4513', slug: "slavonija" },
+  { id: "sredisnja_hrvatska", nameKey: "region_sredisnja", descriptionKey: "region_sredisnja_description_short", imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`, color1: '#800020', color2: '#2E8B57', slug: "sredisnja-hrvatska" },
+  { id: "zagreb", nameKey: "region_zagreb", descriptionKey: "region_zagreb_description_short", imageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_dron_image.jpg`, color1: '#5D3FD3', color2: '#EAE0D5', slug: "zagreb" },
+  { id: "lika_gorski_kotar", nameKey: "region_lika_gorski_kotar", descriptionKey: "region_lika_gorski_kotar_description_short", imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Zavizan_house.jpg`, color1: '#228B22', color2: '#40E0D0', slug: "lika-gorski-kotar" },
+  { id: "istra", nameKey: "region_istra", descriptionKey: "region_istra_description_short", imageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`, color1: '#E07A5F', color2: '#808000', slug: "istra" },
+  { id: "kvarner", nameKey: "region_kvarner", descriptionKey: "region_kvarner_description_short", imageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad`, color1: '#009688', color2: '#CFD8DC', slug: "kvarner" },
+  { id: "dalmacija", nameKey: "region_dalmacija", descriptionKey: "region_dalmacija_description_short", imageUrl: `${gcsBaseUrl}regions/dalmacija/Primosten_aerial.jpg`, color1: '#007FFF', color2: '#F8F8FF', slug: "dalmacija" },
 ];
 
 export default function ExplorePage() {
@@ -84,15 +84,15 @@ export default function ExplorePage() {
   const currentLocale = localeParam as Locale;
 
   const popularDestinations: Destination[] = [
-    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}destinations/sibenik/Sibenik_Explore.jpg`, featured: true, slug: "sibenik", type: 'destination' },
-    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}destinations/trogir/Trogir_Explore.jpg`, featured: false, slug: "trogir", type: 'destination' },
-    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "region_kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}destinations/opatija/Opatija_Explore.jpg`, featured: false, slug: "opatija", type: 'destination' },
+    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}regions/dalmacija/Sibenik_from_the_sea.jpg`, featured: true, slug: "sibenik", type: 'destination' },
+    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}regions/dalmacija/Trogir_aerial.jpg`, featured: false, slug: "trogir", type: 'destination' },
+    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "region_kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}Opatija.jpg`, featured: false, slug: "opatija", type: 'destination' },
   ];
 
   const recommendations: Recommendation[] = [
-    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}recommendations/opatija/Opatija_Hotel_Explore.jpg`, slug: "luxury-seaside-resort-opatija", type: 'recommendation' },
-    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}recommendations/slavonija/Kulen_Tour_Explore.jpg`, slug: "kulen-tour-osijek", type: 'recommendation' },
-    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}recommendations/dalmacija/Krka_NP_Explore.jpg`, slug: "krka-national-park-tour", type: 'recommendation' },
+    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}Opatija.jpg`, slug: "luxury-seaside-resort-opatija", type: 'recommendation' },
+    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek", type: 'recommendation' },
+    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour", type: 'recommendation' },
   ];
 
   const categoryOptions: FilterOption[] = [ /* ... ostaje isto ... */ ];
