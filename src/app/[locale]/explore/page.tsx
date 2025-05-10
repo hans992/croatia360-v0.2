@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, MapPin, CalendarDays, Search, TrendingUp, ThumbsUp, Tag } from "lucide-react"; // Dodana Tag ikona
+import { Star, MapPin, CalendarDays, Search, TrendingUp, ThumbsUp, Tag } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -56,6 +56,12 @@ interface Region {
   slug: string;
 }
 
+// Define a new interface for filter option objects
+interface FilterOption {
+  value: string;
+  labelKey: string;
+}
+
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
 const regionsData: Region[] = [
@@ -90,9 +96,34 @@ export default function ExplorePage() {
     { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}recommendations/dalmacija/Krka_NP_Explore.jpg`, slug: "krka-national-park-tour", type: 'recommendation' },
   ];
 
-  const categoryOptions = [ /* ... ostaje isto ... */ ];
-  const regionFilterOptions = [ /* ... ostaje isto ... */ ];
-  const priceOptions = [ /* ... ostaje isto ... */ ];
+  // --- Filter Options - Now explicitly typed ---
+  const categoryOptions: FilterOption[] = [ // ADDED TYPE
+    { value: "all", labelKey: "filter_category_all" },
+    { value: "accommodation", labelKey: "filter_category_accommodation" },
+    { value: "food", labelKey: "filter_category_food" },
+    { value: "activities", labelKey: "filter_category_activities" },
+    { value: "events", labelKey: "filter_category_events" },
+    { value: "sights", labelKey: "filter_category_sights" },
+  ];
+
+  const regionFilterOptions: FilterOption[] = [ // ADDED TYPE
+    { value: "all", labelKey: "filter_region_all" },
+    { value: "istra", labelKey: "region_istra" },
+    { value: "kvarner", labelKey: "region_kvarner" },
+    { value: "dalmacija", labelKey: "region_dalmacija" },
+    { value: "slavonija", labelKey: "region_slavonija" },
+    { value: "sredisnja-hrvatska", labelKey: "region_sredisnja" },
+    { value: "zagreb", labelKey: "region_zagreb" },
+    { value: "lika-gorski-kotar", labelKey: "region_lika_gorski_kotar"}
+  ];
+
+  const priceOptions: FilterOption[] = [ // ADDED TYPE
+    { value: "any", labelKey: "filter_price_any" },
+    { value: "€", labelKey: "filter_price_1" },
+    { value: "€€", labelKey: "filter_price_2" },
+    { value: "€€€", labelKey: "filter_price_3" },
+    { value: "€€€€", labelKey: "filter_price_4" },
+  ];
 
   return (
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
@@ -111,7 +142,7 @@ export default function ExplorePage() {
         </h2>
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {regionsData.map((region) => (
-            <div key={region.id} className="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(33.333%-1.333rem)] xl:w-[calc(25%-1.5rem)]"> {/* Adjust for 4 columns on XL if needed */}
+            <div key={region.id} className="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(33.333%-1.333rem)] xl:w-[calc(25%-1.5rem)]">
               <RegionalCard
                 regionKey={region.nameKey}
                 descriptionKey={region.descriptionKey}
@@ -125,7 +156,7 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      <section className="mb-16 md:mb-20 p-6 md:p-8 bg-slate-50 dark:bg-slate-800/30 backdrop-blur-md rounded-xl shadow-xl"> {/* Promijenjena pozadina i stil */}
+      <section className="mb-16 md:mb-20 p-6 md:p-8 bg-slate-50 dark:bg-slate-800/30 backdrop-blur-md rounded-xl shadow-xl">
         <h3 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8 text-center text-primary dark:text-primary-foreground flex items-center justify-center">
           <Search className="w-7 h-7 md:w-8 md:h-8 mr-3" />
           {t('explore_page_search_title')}
@@ -175,7 +206,6 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Popular Destinations Section - Redesigned Cards */}
       <section className="mb-16 md:mb-20">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center text-secondary dark:text-secondary-foreground flex items-center justify-center">
             <TrendingUp className="w-8 h-8 md:w-9 md:h-9 mr-3" />
@@ -183,7 +213,7 @@ export default function ExplorePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {popularDestinations.map((item) => (
-            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col"> {/* PROMIJENJENA POZADINA */}
+            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col">
               <Link href={`/${currentLocale}/destinations/${item.slug}`} className="block flex flex-col h-full">
                 <CardHeader className="p-0 relative">
                   <div className="aspect-video w-full overflow-hidden">
@@ -210,7 +240,7 @@ export default function ExplorePage() {
                   </CardDescription>
                   <p className="text-sm text-muted-foreground mb-3 line-clamp-3">{t(item.descriptionKey)}</p>
                 </CardContent>
-                <CardFooter className="p-5 pt-0 border-t border-border/20 mt-auto"> {/* Smanjena jačina bordera */}
+                <CardFooter className="p-5 pt-0 border-t border-border/20 mt-auto">
                     <div className="flex items-center text-sm text-amber-500">
                         <Star className="w-5 h-5 mr-1.5" fill="currentColor" />
                         <span className="font-bold text-foreground">{item.rating.toFixed(1)}</span>
@@ -223,7 +253,6 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Recommendations Section - Redesigned Cards & Tag Fix */}
       <section>
         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-10 text-center text-secondary dark:text-secondary-foreground flex items-center justify-center">
             <ThumbsUp className="w-8 h-8 md:w-9 md:h-9 mr-3" />
@@ -231,7 +260,7 @@ export default function ExplorePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {recommendations.map((item) => (
-            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col"> {/* PROMIJENJENA POZADINA */}
+            <Card key={item.id} className="group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out bg-white dark:bg-slate-800/50 backdrop-blur-lg flex flex-col">
               <Link href={`/${currentLocale}/recommendations/${item.slug}`} className="block flex flex-col h-full">
                 <CardHeader className="p-0 relative">
                   <div className="aspect-video w-full overflow-hidden">
@@ -244,14 +273,12 @@ export default function ExplorePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
-                  {/* TypeKey badge - pomaknut malo niže i s većim z-indexom */}
                    <div className="absolute top-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground px-3 py-1 text-xs font-semibold rounded-full shadow-md z-10">
                       {t(item.typeKey)}
                     </div>
                 </CardHeader>
                 <CardContent className="p-5 flex-grow">
-                  {/* Sadržaj kartice - naslov i ostalo */}
-                  <CardTitle className="text-xl lg:text-2xl font-semibold mb-2 mt-1 group-hover:text-primary transition-colors">{t(item.nameKey)}</CardTitle> {/* Dodan mt-1 da se odmakne od taga ako je blizu */}
+                  <CardTitle className="text-xl lg:text-2xl font-semibold mb-2 mt-1 group-hover:text-primary transition-colors">{t(item.nameKey)}</CardTitle>
                   <CardDescription className="text-sm text-muted-foreground mb-1 flex items-center">
                      <MapPin className="w-4 h-4 mr-2 text-secondary" />
                     {t(item.locationKey)}
@@ -265,7 +292,7 @@ export default function ExplorePage() {
                     </div>
                   )}
                 </CardContent>
-                <CardFooter className="p-5 pt-0 border-t border-border/20 mt-auto flex items-center justify-between"> {/* Smanjena jačina bordera */}
+                <CardFooter className="p-5 pt-0 border-t border-border/20 mt-auto flex items-center justify-between">
                     <div className="flex items-center text-sm text-amber-500">
                         <Star className="w-5 h-5 mr-1.5" fill="currentColor" />
                         <span className="font-bold text-foreground">{item.rating.toFixed(1)}</span>
