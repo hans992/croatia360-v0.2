@@ -89,28 +89,28 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
     },
     // Add similar detailed structures for other regions (dalmacija, istra, etc.)
     'dalmacija': {
-      heroImageUrl: `${gcsBaseUrl}regions/dalmacija/Dalmacija_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/dalmacija/Zadar_charter_yacht.jpg`,
       color1: '#007FFF', color2: '#F8F8FF',
       // ... add transport, accommodation etc. for Dalmacija
     },
      'istra': {
-      heroImageUrl: `${gcsBaseUrl}regions/istra/Istria_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`,
       color1: '#E07A5F', color2: '#808000',
     },
     'sredisnja-hrvatska': {
-      heroImageUrl: `${gcsBaseUrl}regions/sredisnja_hrvatska/Sredisnja_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/sredisnja_hrvatska/Madjerkin_breg_wineyard.jpg`,
       color1: '#800020', color2: '#2E8B57',
     },
     'zagreb': {
-      heroImageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_dron_image.jpg`,
       color1: '#004C99', color2: '#D2B48C',
     },
     'lika-gorski-kotar': {
-      heroImageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Lika_Gorski_Kotar_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Velebit_snow_light.jpg`,
       color1: '#228B22', color2: '#40E0D0',
     },
     'kvarner': {
-      heroImageUrl: `${gcsBaseUrl}regions/kvarner/Kvarner_Hero.jpg`,
+      heroImageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`,
       color1: '#1E90FF', color2: '#FFFAF0',
     }
   };
