@@ -62,7 +62,6 @@ const RegionalCard: React.FC<RegionalCardProps> = ({
               <p className="text-white text-sm mb-3 line-clamp-2 md:line-clamp-3 drop-shadow-sm">
                 {t(descriptionKey)}
               </p>
-              {/* VRAĆENO NA TVOJ ORIGINALNI NAČIN ZA TEKST GUMBA */}
               <button
                 aria-label={t('explore_page_discover_region_aria_label', { regionName: t(regionKey) }) || `Discover ${t(regionKey)}`}
                 className="bg-white text-primary hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary font-semibold py-2 px-4 rounded-lg shadow-md transition-colors text-xs md:text-sm"

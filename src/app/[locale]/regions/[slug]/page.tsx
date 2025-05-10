@@ -52,8 +52,8 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
   // Mock database of regions
   const regionsDatabase: Record<string, Partial<Omit<RegionData, 'id' | 'nameKey' | 'titleKey' | 'descriptionKey' | 'longDescriptionKey'>>> = {
     'slavonija': {
-      heroImageUrl: `${gcsBaseUrl}regions/slavonija/Slavonija_Hero.jpg`,
-      galleryImageUrls: [`${gcsBaseUrl}regions/slavonija/Slavonija_Gallery_1.jpg`, `${gcsBaseUrl}regions/slavonija/Slavonija_Gallery_2.jpg`],
+      heroImageUrl: `${gcsBaseUrl}regions/slavonija/Slavonski_Brod_fortress.jpg`,
+      galleryImageUrls: [`${gcsBaseUrl}regions/slavonija/Osijek_trg_tram_Lovro_Pavlicic.jpg`, `${gcsBaseUrl}regions/slavonija/Kutjevo_wineyard_Perak.jpg`],
       color1: '#FFD700', color2: '#8B4513',
       transportIntroKey: 'region_transport_intro_example',
       transportDetails: [
