@@ -39,6 +39,60 @@
     "region_activities_title_example": "Aktivnosti",
     "region_activities_description_example": "Doživite regiju kroz uzbudljive aktivnosti i nezaboravna iskustva.",
   
-    "region_back_to_explore_button": "Natrag na istraživanje"
-  }
+    "region_back_to_explore_button": "Natrag na istraživanje",
+
   
+   
+  
+    "region_transport_title": "Kako doći i kretati se",
+    "region_transport_intro_example": "Otkrijte najbolje načine za dolazak u {{regionName}} i kako se najlakše kretati jednom kad ste ovdje.",
+    "transport_type_airplane": "Avionom",
+    "transport_type_car": "Automobilom",
+    "transport_type_bus": "Autobusom",
+    "transport_type_train": "Vlakom",
+    "transport_slavonija_airplane_details": "Najbliže zračne luke su Osijek (međunarodna) i Zagreb (veliki međunarodni hub, cca 2.5h vožnje autocestom).",
+    "transport_slavonija_car_details": "Slavonija je odlično povezana modernom autocestom A3 (Bregana-Zagreb-Lipovac) i A5 (Beli Manastir-Osijek-Svilaj).",
+    "transport_slavonija_bus_details": "Redovite autobusne linije povezuju veće slavonske gradove s ostatkom Hrvatske i Europom.",
+    "transport_slavonija_train_details": "Željeznička mreža pokriva glavne gradove, s direktnim linijama iz Zagreba.",
+    
+  
+    "region_accommodation_title": "Gdje odsjesti",
+    "region_accommodation_intro_example": "Pronađite savršen smještaj u {{regionName}}, od luksuznih hotela do šarmantnih seoskih domaćinstava.",
+    "accommodation_slavonija_example_hotel_name": "Hotel Osijek",
+    "accommodation_slavonija_example_hotel_desc": "Moderan hotel u centru Osijeka s pogledom na Dravu.",
+    "accommodation_slavonija_example_rural_name": "Seosko imanje Acin Salaš",
+    "accommodation_slavonija_example_rural_desc": "Autentično iskustvo Slavonije s tradicionalnom hranom.",
+
+  
+    "region_food_title": "Okusi regije {{regionName}}",
+    "region_food_intro_example": "Prepustite se bogatstvu okusa i mirisa autentične kuhinje regije {{regionName}}.",
+    "food_slavonija_kulen_name": "Slavonski Kulen",
+    "food_slavonija_kulen_desc": "Začinjena sušena kobasica, ponos Slavonije.",
+    "food_slavonija_fis_paprikas_name": "Fiš paprikaš",
+    "food_slavonija_fis_paprikas_desc": "Ljuti riblji paprikaš, nezaobilazni specijalitet.",
+    
+  
+    "region_activities_title": "Aktivnosti i doživljaji",
+    "region_activities_intro_example": "Istražite {{regionName}} kroz brojne aktivnosti - od opuštajućih šetnji do adrenalinskih avantura.",
+    "activities_slavonija_kopacki_rit_name": "Posjet Kopačkom ritu",
+    "activities_slavonija_kopacki_rit_desc": "Vožnja čamcem i promatranje ptica u jedinstvenom parku prirode.",
+    "activities_slavonija_wine_tour_name": "Vinske ceste",
+    "activities_slavonija_wine_tour_desc": "Degustacija vrhunskih vina u poznatim slavonskim vinogorjima.",
+    
+  
+    "region_events_title": "Događanja u {{regionName}}",
+    "region_events_intro_example": "Ne propustite najzanimljivija kulturna, zabavna i tradicionalna događanja.",
+    "events_slavonija_vinkovacke_jeseni_name": "Vinkovačke jeseni",
+    "events_slavonija_vinkovacke_jeseni_desc": "Najveća smotra izvornog hrvatskog folklora.",
+    
+  
+    "region_sights_title": "Znamenitosti koje morate vidjeti",
+    "region_sights_intro_example": "Otkrijte bisere kulturne i prirodne baštine regije {{regionName}}.",
+    "sights_slavonija_osijek_tvrdja_name": "Tvrđa u Osijeku",
+    "sights_slavonija_osijek_tvrdja_desc": "Barokna gradska jezgra iz 18. stoljeća.",
+    "sights_slavonija_djakovo_cathedral_name": "Đakovačka katedrala",
+    "sights_slavonija_djakovo_cathedral_desc": "Impozantna katedrala, jedna od najljepših u Hrvatskoj.",
+    
+  
+    "view_more_button": "Vidi više"
+  }
