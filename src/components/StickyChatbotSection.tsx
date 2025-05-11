@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot"; 
 import { useScrollDirection } from '@/hooks/useScrollDirection'; 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // Za animacije
 
 export default function StickyChatbotSection() {
   const [isSticky, setIsSticky] = useState(false);
@@ -12,8 +12,7 @@ export default function StickyChatbotSection() {
   const [placeholderHeight, setPlaceholderHeight] = useState<number>(0);
   
   const scrollDirection = useScrollDirection();
-  // Visina headera definirana u Header.tsx kao 'h-16' (4rem = 64px)
-  const siteHeaderHeight = 64; 
+  const siteHeaderHeight = 64; // Pretpostavljena visina vašeg glavnog headera
 
   const initialOffsetTopRef = useRef<number | null>(null);
 
@@ -23,6 +22,7 @@ export default function StickyChatbotSection() {
         initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
       }
     };
+
     captureInitialOffset();
 
     const handleScroll = () => {
@@ -30,9 +30,11 @@ export default function StickyChatbotSection() {
         if (sectionWrapperRef.current && !isSticky) {
             initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
         }
-        if (initialOffsetTopRef.current === null) return; 
+        if (initialOffsetTopRef.current === null) return;
       }
+      
       const triggerPoint = initialOffsetTopRef.current - siteHeaderHeight;
+
       if (window.scrollY > triggerPoint) {
         setIsSticky(true);
       } else {
@@ -40,10 +42,11 @@ export default function StickyChatbotSection() {
       }
     };
 
-    const timerId = setTimeout(handleScroll, 100); 
+    const timerId = setTimeout(handleScroll, 100);
     window.addEventListener('scroll', handleScroll);
-    const handleResize = () => { 
-      captureInitialOffset(); 
+    
+    const handleResize = () => {
+      captureInitialOffset();
       handleScroll();
     };
     window.addEventListener('resize', handleResize);
@@ -64,59 +67,60 @@ export default function StickyChatbotSection() {
     }
   }, [isSticky, placeholderHeight]);
 
-  // Logika za poziciju ljepljive trake
-  // Ako je header skriven (scrollDirection === 'down'), chatbot ide na vrh (top-0)
-  // Ako je header vidljiv, chatbot ide ispod njega (top-[64px])
   const stickyChatbotBarTopClass = scrollDirection === 'down' 
     ? 'top-0'
     : `top-[${siteHeaderHeight}px]`;
 
   return (
     <>
+      {/* Placeholder za sprječavanje skakanja layouta */}
       {isSticky && <div style={{ height: `${placeholderHeight}px` }} />}
 
-      {/* Vanjski div sada samo drži ref i služi kao kontejner za AnimatePresence */}
-      <div ref={sectionWrapperRef} className="relative">
-        <AnimatePresence initial={false}>
+      <div ref={sectionWrapperRef} className={isSticky ? "fixed left-0 right-0 z-40" : "relative"}>
+        <AnimatePresence>
           {isSticky ? (
             <motion.div
               key="sticky-chatbot"
-              initial={{ y: -100, opacity: 0 }}
+              initial={{ y: -80, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -100, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.3 }}
-              // Ljepljiva traka sada eksplicitno ima 'fixed' i pozicioniranje
-              className={`fixed left-0 right-0 z-40 will-change-transform 
+              exit={{ y: -80, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              className={`will-change-transform transition-all duration-300 ease-in-out
                          ${stickyChatbotBarTopClass} 
-                         bg-background/85 dark:bg-slate-900/85 backdrop-blur-lg shadow-xl border-b border-border/20`} 
+                         bg-background/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-xl border-b border-border/20`} 
             >
               <div className="container mx-auto px-4">
                 <Chatbot isSticky={true} redirectOnSubmitUrl="/chat" />
               </div>
             </motion.div>
           ) : (
+            // Unaprijeđena Ne-Ljepljiva Sekcija
             <motion.section
               key="non-sticky-chatbot"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative container mx-auto px-4 my-10 md:my-16 py-10 md:py-16 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="relative container mx-auto px-4 my-10 md:my-16 py-8 md:py-12 
                          overflow-hidden rounded-3xl 
                          bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 
                          dark:from-sky-700 dark:via-blue-800 dark:to-indigo-900
                          shadow-2xl text-white"
             >
-              <div className="absolute inset-0 opacity-10 dark:opacity-[0.07]">
+              {/* Suptilni pozadinski uzorak ili efekt */}
+              <div className="absolute inset-0 opacity-10 dark:opacity-5">
+                {/* Primjer SVG uzorka - može se zamijeniti ili poboljšati */}
                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <pattern id="wowPatternSticky" patternUnits="userSpaceOnUse" width="70" height="70" patternTransform="scale(1) rotate(30)">
-                      <path d="M0 10h70M10 0v70" stroke="currentColor" strokeWidth="0.4" opacity="0.6"/>
-                      <circle cx="35" cy="35" r="1.2" fill="currentColor" opacity="0.8"/>
+                    <pattern id="wowPattern" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="scale(1) rotate(45)">
+                      <path d="M0 10h60M10 0v60" stroke="currentColor" strokeWidth="0.5" opacity="0.5"/>
+                      <circle cx="30" cy="30" r="1.5" fill="currentColor" opacity="0.7"/>
                     </pattern>
                   </defs>
-                  <rect width="100%" height="100%" fill="url(#wowPatternSticky)" />
+                  <rect width="100%" height="100%" fill="url(#wowPattern)" />
                 </svg>
               </div>
+              
+              {/* Sadržaj Chatbota */}
               <div className="relative z-10"> 
                 <Chatbot isSticky={false} redirectOnSubmitUrl="/chat" />
               </div>
