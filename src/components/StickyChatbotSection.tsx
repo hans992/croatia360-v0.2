@@ -1,43 +1,40 @@
-// src/app/components/StickyChatbotSection.tsx
+// src/components/StickyChatbotSection.tsx
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot"; 
 import { useScrollDirection } from '@/hooks/useScrollDirection'; 
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function StickyChatbotSection() {
   const [isSticky, setIsSticky] = useState(false);
-  // Ref for the entire section that contains the chatbot in its non-sticky state
-  const sectionWrapperRef = useRef<HTMLDivElement>(null);
-  const [placeholderHeight, setPlaceholderHeight] = useState<number>(0);
+  const sectionWrapperRef = useRef<HTMLDivElement>(null); // Ref for the initial section position
+  const [placeholderHeight, setPlaceholderHeight] = useState<number>(0); // Height for the placeholder when sticky
   
-  const scrollDirection = useScrollDirection(); // Used to position sticky bar relative to main header
+  const scrollDirection = useScrollDirection();
   const siteHeaderHeight = 64; // Assumed height of your main site header in pixels
 
-  // Ref to store the original offsetTop of the section for scroll calculations
-  const initialOffsetTopRef = useRef<number | null>(null);
+  const initialOffsetTopRef = useRef<number | null>(null); // To store the initial top offset of the section
 
+  // Effect to capture the initial offset and handle scroll/resize events
   useEffect(() => {
-    // Function to capture the initial offsetTop when the component mounts or is not sticky
     const captureInitialOffset = () => {
-      if (sectionWrapperRef.current && !isSticky) { // Only measure when not sticky
+      if (sectionWrapperRef.current && !isSticky) {
         initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
       }
     };
 
-    captureInitialOffset(); // Initial capture
+    captureInitialOffset(); // Capture on mount
 
     const handleScroll = () => {
-      if (initialOffsetTopRef.current === null) {
-        // Fallback: if offset wasn't captured, try again (e.g., if ref wasn't ready initially)
+      if (initialOffsetTopRef.current === null) { // Fallback if not captured initially
         if (sectionWrapperRef.current && !isSticky) {
             initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
         }
-        if (initialOffsetTopRef.current === null) return; // Can't proceed without offset
+        if (initialOffsetTopRef.current === null) return; 
       }
       
-      // Determine the point at which the section should become sticky
-      // It becomes sticky when its original top position is scrolled siteHeaderHeight pixels past the viewport top
+      // Point at which the section should become sticky
       const triggerPoint = initialOffsetTopRef.current - siteHeaderHeight;
 
       if (window.scrollY > triggerPoint) {
@@ -47,34 +44,34 @@ export default function StickyChatbotSection() {
       }
     };
 
-    const timerId = setTimeout(handleScroll, 100); // Check state after initial render and layout
+    // Check scroll position shortly after mount and on scroll/resize
+    const timerId = setTimeout(handleScroll, 100); 
     window.addEventListener('scroll', handleScroll);
     
-    const handleResize = () => { // Recalculate on resize
-      captureInitialOffset();
+    const handleResize = () => { 
+      captureInitialOffset(); // Recalculate offset on resize
       handleScroll();
     };
     window.addEventListener('resize', handleResize);
 
+    // Cleanup listeners on component unmount
     return () => {
       clearTimeout(timerId);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
     };
-  }, [siteHeaderHeight, isSticky]); // Rerun if isSticky changes to re-capture offset correctly
+  }, [siteHeaderHeight, isSticky]); // Rerun if isSticky or siteHeaderHeight changes
 
-  // Effect to set the placeholder height based on the non-sticky section's height
+  // Effect to set the placeholder height
   useEffect(() => {
     if (sectionWrapperRef.current && !isSticky) {
       setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
     }
-    // If it becomes sticky and placeholderHeight is 0 (or undefined),
-    // it means we might have missed the initial measurement or it loaded sticky.
-    // This is a fallback, ideally placeholderHeight is set before becoming sticky.
+    // Fallback if it becomes sticky and placeholder height wasn't set
     else if (isSticky && placeholderHeight === 0 && sectionWrapperRef.current) {
         setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
     }
-  }, [isSticky, placeholderHeight]); // Rerun if isSticky changes
+  }, [isSticky, placeholderHeight]);
 
   // Determine the 'top' class for the sticky chatbot bar based on main header's visibility
   const stickyChatbotBarTopClass = scrollDirection === 'down' 
@@ -86,30 +83,61 @@ export default function StickyChatbotSection() {
       {/* Placeholder to prevent layout jump when the section becomes sticky */}
       {isSticky && <div style={{ height: `${placeholderHeight}px` }} />}
 
-      <div
-        ref={sectionWrapperRef}
-        className={
-          isSticky
-            ? `fixed left-0 right-0 
-               will-change-transform transition-all duration-300 ease-in-out
-               ${stickyChatbotBarTopClass} 
-               z-40  /* Below main header (z-50) */
-               bg-background/80 backdrop-blur-md shadow-md /* Styling for the sticky bar */ ` 
-            : `relative container mx-auto px-4 my-8 md:my-12 py-6 md:py-8 
-               pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl` /* Styling for non-sticky section */
-        }
-      >
-        {/* When sticky, Chatbot renders compact version.
-          When not sticky, Chatbot renders full version within the styled section.
-          The inner .container div is for the sticky state to constrain width.
-        */}
-        {isSticky ? (
-          <div className="container mx-auto px-4"> {/* Constrains width of sticky bar content */}
-            <Chatbot isSticky={true} redirectOnSubmitUrl="/chat" />
-          </div>
-        ) : (
-          <Chatbot isSticky={false} redirectOnSubmitUrl="/chat" />
-        )}
+      {/* The main div that initially holds the non-sticky section.
+        When isSticky becomes true, this div's content is replaced by the fixed sticky bar,
+        but the ref (sectionWrapperRef) is still on this outer div to manage the placeholder height.
+        The actual sticky bar is rendered inside the AnimatePresence.
+      */}
+      <div ref={sectionWrapperRef} className={isSticky ? "fixed left-0 right-0 z-40" : "relative"}>
+        <AnimatePresence initial={false}>
+          {isSticky ? (
+            <motion.div
+              key="sticky-chatbot"
+              initial={{ y: -100, opacity: 0 }} // Start off-screen and transparent
+              animate={{ y: 0, opacity: 1 }}    // Animate to full visibility
+              exit={{ y: -100, opacity: 0 }}     // Animate out
+              transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.3 }}
+              className={`will-change-transform 
+                         ${stickyChatbotBarTopClass} 
+                         bg-background/80 dark:bg-slate-900/80 backdrop-blur-md shadow-xl border-b border-border/20`} 
+            >
+              <div className="container mx-auto px-4">
+                <Chatbot isSticky={true} redirectOnSubmitUrl="/chat" />
+              </div>
+            </motion.div>
+          ) : (
+            // Enhanced Non-Sticky Section
+            <motion.section
+              key="non-sticky-chatbot"
+              initial={{ opacity: 0, y: 20 }} // Start slightly down and transparent
+              animate={{ opacity: 1, y: 0 }}   // Animate to full visibility
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative container mx-auto px-4 my-10 md:my-16 py-10 md:py-16 
+                         overflow-hidden rounded-3xl 
+                         bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 
+                         dark:from-sky-700 dark:via-blue-800 dark:to-indigo-900
+                         shadow-2xl text-white" // Enhanced styling
+            >
+              {/* Subtle background pattern or effect */}
+              <div className="absolute inset-0 opacity-10 dark:opacity-[0.07]">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="wowPattern" patternUnits="userSpaceOnUse" width="70" height="70" patternTransform="scale(1) rotate(30)">
+                      <path d="M0 10h70M10 0v70" stroke="currentColor" strokeWidth="0.4" opacity="0.6"/>
+                      <circle cx="35" cy="35" r="1.2" fill="currentColor" opacity="0.8"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#wowPattern)" />
+                </svg>
+              </div>
+              
+              {/* Chatbot Content */}
+              <div className="relative z-10"> 
+                <Chatbot isSticky={false} redirectOnSubmitUrl="/chat" />
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
