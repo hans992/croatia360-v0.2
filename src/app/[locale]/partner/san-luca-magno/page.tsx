@@ -24,9 +24,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Toaster } from 'sonner';
 import { toast as sonnerToast } from 'sonner';
-import { type SelectSingleEventHandler, type ActiveModifiers } from 'react-day-picker'; // Import ActiveModifiers
+import { type SelectSingleEventHandler, type ActiveModifiers } from 'react-day-picker';
 
-// Mock data (ostaje isto kao u prethodnoj verziji)
+// Mock data (ostaje isto)
 const tripData = {
   title: "San Luca Magno: Cjelodnevni Privatni Izlet Jedrenjakom - Kornati i Telašćica iz Zadra",
   heroImage: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/hero_san_luca_magno.jpg",
@@ -90,30 +90,51 @@ export default function SanLucaMagnoPage() {
     });
   };
 
-  const handleInquirySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInquirySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inquiryData = {
       name,
       email,
       phone,
-      selectedDate: selectedDate ? selectedDate.toLocaleDateString('hr-HR') : 'Nije odabran datum',
+      selectedDate: selectedDate ? selectedDate.toLocaleDateString('hr-HR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Nije odabran datum',
       numGuests,
       message,
       trip: tripData.title
     };
-    console.log("Podaci upita:", inquiryData);
-    sonnerToast.success("Upit poslan!", {
-      description: "Hvala Vam na upitu. Javit ćemo Vam se u najkraćem mogućem roku.",
-    });
-    setName(''); setEmail(''); setPhone(''); setMessage(''); setSelectedDate(new Date()); setNumGuests(1);
-  };
 
-  // Handler for DatePicker's onSelect, which corresponds to SelectSingleEventHandler
-  // Prefix unused parameters with an underscore AND add ESLint disable comments
+    try {
+      const response = await fetch('/api/send-inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inquiryData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        sonnerToast.success("Upit poslan!", {
+          description: "Hvala Vam na upitu. Javit ćemo Vam se u najkraćem mogućem roku.",
+        });
+        setName(''); setEmail(''); setPhone(''); setMessage(''); setSelectedDate(new Date()); setNumGuests(1);
+      } else {
+        sonnerToast.error("Greška pri slanju", {
+          description: result.error || "Došlo je do pogreške. Molimo pokušajte ponovno.",
+        });
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      sonnerToast.error("Greška pri slanju", {
+        description: "Došlo je do mrežne pogreške. Molimo provjerite svoju vezu i pokušajte ponovno.",
+      });
+    }
+  };
+  
   const handleDateSelect: SelectSingleEventHandler = (
     day: Date | undefined,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _selectedDay: Date, 
+    _selectedDay: Date,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _activeModifiers: ActiveModifiers,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -126,7 +147,7 @@ export default function SanLucaMagnoPage() {
     <>
       <Toaster richColors position="top-center" />
       <div className="bg-gradient-to-b from-sky-100 via-sky-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-gray-900 text-gray-800 dark:text-gray-200 animate-fadeIn">
-        {/* Hero Section */}
+        {/* Hero Section (ostaje isti) */}
         <section className="relative h-[70vh] md:h-[80vh] text-white">
           <Image
             src={tripData.heroImage}
@@ -155,7 +176,7 @@ export default function SanLucaMagnoPage() {
         </section>
 
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16">
-          {/* Gallery Section */}
+          {/* Gallery Section (ostaje ista) */}
           <section id="gallery">
             <h2 className="text-3xl font-bold text-center mb-10 text-sky-700 dark:text-sky-400">Doživite Avanturu</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -163,7 +184,7 @@ export default function SanLucaMagnoPage() {
             </div>
           </section>
 
-          {/* Detailed Description Section */}
+          {/* Detailed Description Section (ostaje ista) */}
           <section id="description">
             <Card className="bg-white dark:bg-slate-800 shadow-xl">
               <CardHeader>
@@ -179,8 +200,8 @@ export default function SanLucaMagnoPage() {
             </Card>
           </section>
 
+          {/* Included & Important Info Sections (ostaju iste) */}
           <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-            {/* Included Items Section */}
             <section id="included">
               <Card className="bg-white dark:bg-slate-800 shadow-xl h-full">
                 <CardHeader>
@@ -200,8 +221,6 @@ export default function SanLucaMagnoPage() {
                 </CardContent>
               </Card>
             </section>
-
-            {/* Important Information Section */}
             <section id="important-info">
               <Card className="bg-white dark:bg-slate-800 shadow-xl h-full">
                 <CardHeader>
@@ -223,29 +242,33 @@ export default function SanLucaMagnoPage() {
             </section>
           </div>
 
-          {/* Booking and Calendar Section */}
+          {/* Booking and Calendar Section - AŽURIRANO ZA RESPONZIVNOST */}
           <section id="booking-section">
             <Card className="bg-white dark:bg-slate-800 shadow-xl">
               <CardHeader>
                 <CardTitle className="text-2xl font-semibold text-center text-sky-700 dark:text-sky-400">
                   Rezervirajte Svoj Termin ili Pošaljite Upit
                 </CardTitle>
-                <CardDescription className="text-center text-gray-600 dark:text-gray-400">
+                <CardDescription className="text-center text-gray-600 dark:text-gray-400 mt-1">
                   Provjerite dostupnost u kalendaru. Za direktnu rezervaciju (trenutno u demo modu) ili upit, ispunite formu ispod.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-8 items-start">
-                <div>
-                  <h3 className="text-lg font-medium mb-3 text-sky-700 dark:text-sky-400">Odaberite Datum Izleta:</h3>
-                  <DatePicker
-                    selected={selectedDate}
-                    onSelect={handleDateSelect}
-                    // disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) }
-                  />
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              {/* Korištenje flex-col za mobilne uređaje i md:flex-row za veće */}
+              <CardContent className="flex flex-col md:flex-row gap-8 md:gap-10 items-start pt-6">
+                {/* Lijeva kolona - Kalendar i Mock Booking */}
+                <div className="w-full md:w-1/2 flex flex-col items-center md:items-start"> {/* Centriranje na mobitelu */}
+                  <h3 className="text-lg font-medium mb-3 text-sky-700 dark:text-sky-400 self-start">Odaberite Datum Izleta:</h3>
+                  <div className="w-full max-w-xs mx-auto md:mx-0"> {/* Ograničavanje širine DatePicker-a na mobitelu */}
+                    <DatePicker
+                      selected={selectedDate}
+                      onSelect={handleDateSelect}
+                      // disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) }
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center md:text-left">
                     Kalendar prikazuje opću dostupnost. Za potvrdu termina i iCal sinkronizaciju, molimo pošaljite upit.
                   </p>
-                  <div className="mt-6">
+                  <div className="mt-6 w-full max-w-xs mx-auto md:mx-0">
                      <label htmlFor="numGuests" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Broj osoba (max 12):</label>
                      <Input 
                         type="number" 
@@ -255,23 +278,23 @@ export default function SanLucaMagnoPage() {
                         max="12" 
                         value={numGuests}
                         onChange={(e) => setNumGuests(parseInt(e.target.value))}
-                        className="w-full md:w-1/2 dark:bg-slate-700 dark:border-slate-600"
+                        className="w-full dark:bg-slate-700 dark:border-slate-600" // Puna širina unutar max-w-xs
                       />
                   </div>
                   <Button 
                     size="lg" 
-                    className="w-full mt-6 bg-amber-500 hover:bg-amber-600 text-white py-3"
+                    className="w-full max-w-xs mx-auto md:mx-0 mt-6 bg-amber-500 hover:bg-amber-600 text-white py-3"
                     onClick={handleMockBooking}
                   >
                     <CalendarIconLucide className="w-5 h-5 mr-2" /> {tripData.ctaBooking} (Demo)
                   </Button>
-                   <p className="text-center text-sm mt-3 text-amber-700 dark:text-amber-400 font-semibold">
+                   <p className="text-center md:text-left text-sm mt-3 text-amber-700 dark:text-amber-400 font-semibold">
                     Napomena: Direktna rezervacija je u pripremi. Molimo koristite kontakt formu.
                   </p>
                 </div>
 
-                {/* Contact Form */}
-                <div>
+                {/* Desna kolona - Kontakt Forma */}
+                <div className="w-full md:w-1/2">
                   <h3 className="text-lg font-medium mb-3 text-sky-700 dark:text-sky-400">Kontaktirajte Nas za Upit:</h3>
                   <form onSubmit={handleInquirySubmit} className="space-y-4">
                     <div>
@@ -299,7 +322,7 @@ export default function SanLucaMagnoPage() {
             </Card>
           </section>
 
-           {/* Direct Contact Info */}
+           {/* Direct Contact Info (ostaje isto) */}
           <section id="direct-contact" className="text-center py-8">
             <h3 className="text-xl font-semibold mb-4 text-sky-700 dark:text-sky-400">Ili nas kontaktirajte direktno:</h3>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
@@ -315,6 +338,7 @@ export default function SanLucaMagnoPage() {
           </section>
 
         </main>
+        {/* Footer (ostaje isti) */}
         <footer className="text-center py-8 border-t border-gray-200 dark:border-gray-700">
             <p className="text-sm text-gray-600 dark:text-gray-400">&copy; {new Date().getFullYear()} San Luca Magno & Croatia360. Sva prava pridržana.</p>
         </footer>
