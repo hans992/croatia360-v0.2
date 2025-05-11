@@ -28,13 +28,11 @@ import { toast as sonnerToast } from 'sonner';
 // Mock data for the San Luca Magno trip
 const tripData = {
   title: "San Luca Magno: Cjelodnevni Privatni Izlet Jedrenjakom - Kornati i Telašćica iz Zadra",
-  heroImage: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/hero_san_luca_magno.jpg",
+  heroImage: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg",
   gallery: [
-    { id: 1, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_1.jpg", alt: "Jedrenjak San Luca Magno na moru" },
-    { id: 2, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_2.jpg", alt: "Uvala u NP Kornati" },
-    { id: 3, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_3.jpg", alt: "Slano jezero Mir u PP Telašćica" },
-    { id: 4, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_4.jpg", alt: "Ručak na brodu" },
-    { id: 5, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_5.jpg", alt: "Ronjenje u kristalno čistom moru" },
+    { id: 1, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_2.jpg", alt: "Jedrenjak San Luca Magno" },
+    { id: 2, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg", alt: "San Luca Magno 1" },
+    { id: 3, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_3.jpg", alt: "San Luca Magno 3" },
   ],
   shortDescription: "Otkrijte čaroliju Nacionalnog parka Kornati i Parka prirode Telašćica na nezaboravnom cjelodnevnom privatnom izletu autentičnim motornim jedrenjakom San Luca Magno. Uživajte u kristalno čistom moru, skrivenim uvalama, domaćoj hrani i personaliziranoj usluzi. Idealno za grupe do 12 osoba.",
   detailedDescription: [
@@ -64,8 +62,8 @@ const tripData = {
   ],
   ctaInquiry: "Pošaljite upit za vaš privatni izlet brodom San Luca Magno i doživite Kornate i Telašćicu na najbolji mogući način!",
   ctaBooking: "Ili Bookirajte direktno vaš privatni izlet odmah!",
-  contactEmail: "info@sanluca-magno.hr",
-  contactPhone: "+385 98 123 4567"
+  contactEmail: "info@nautamare.hr",
+  contactPhone: "+385 91 385 9169"
 };
 
 const GalleryImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
