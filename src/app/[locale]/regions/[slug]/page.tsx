@@ -4,11 +4,12 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link'; // Import Next.js Link component
 
 // Internationalization (i18n) utilities
 import { getServerTranslations } from '@/lib/i18n/server';
 import { defaultNS, fallbackLng, type Locale, locales as appLocalesStringArray } from '@/lib/i18n/settings';
-import type { TFunction } from 'i18next'; // Import TFunction
+import type { TFunction } from 'i18next';
 
 // Metadata and type imports for Next.js
 import type { Metadata, ResolvingMetadata } from 'next';
@@ -16,7 +17,25 @@ import type { Metadata, ResolvingMetadata } from 'next';
 // Lucide icons for various elements
 import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon, type LucideIcon } from 'lucide-react';
 
-// Component-specific interfaces
+// --- Component-specific interfaces ---
+
+// Interface for items within example sections (accommodation, food, activities, etc.)
+interface ExampleItem {
+  nameKey: string;
+  descriptionKey: string;
+  icon: LucideIcon;
+  linkTo?: string; // Optional: Path to a dedicated page for this item
+}
+
+// Interface for transport details
+interface TransportDetailItem {
+  typeKey: string;
+  detailsKey: string;
+  icon: LucideIcon;
+  linkTo?: string; // Optional: Link for transport details if needed
+}
+
+// Main interface for the data structure of a region
 interface RegionData {
   id: string;
   nameKey: string;
@@ -28,17 +47,17 @@ interface RegionData {
   color1: string;
   color2: string;
   transportIntroKey?: string;
-  transportDetails?: Array<{ typeKey: string; detailsKey: string; icon: LucideIcon }>;
+  transportDetails?: Array<TransportDetailItem>;
   accommodationIntroKey?: string;
-  accommodationExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>;
+  accommodationExamples?: Array<ExampleItem>;
   foodIntroKey?: string;
-  foodExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>;
+  foodExamples?: Array<ExampleItem>;
   activitiesIntroKey?: string;
-  activityExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>;
+  activityExamples?: Array<ExampleItem>; // This will use the ExampleItem interface
   eventsIntroKey?: string;
-  eventExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>;
+  eventExamples?: Array<ExampleItem>;
   sightsIntroKey?: string;
-  sightExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>;
+  sightExamples?: Array<ExampleItem>;
 }
 
 interface ResolvedPageParams {
@@ -120,7 +139,12 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
       activitiesIntroKey: 'region_activities_intro_example',
       activityExamples: [
         { nameKey: 'activities_dalmacija_np_krka_name', descriptionKey: 'activities_dalmacija_np_krka_desc', icon: Bike },
-        { nameKey: 'activities_dalmacija_boat_trip_name', descriptionKey: 'activities_dalmacija_boat_trip_desc', icon: Sailboat },
+        { 
+          nameKey: 'activities_dalmacija_boat_trip_name', 
+          descriptionKey: 'activities_dalmacija_boat_trip_desc', 
+          icon: Sailboat,
+          linkTo: '/partner/san-luca-magno' // Path to the partner page
+        },
       ],
       eventsIntroKey: 'region_events_intro_example',
       eventExamples: [
@@ -183,6 +207,8 @@ interface TransportationCardProps {
   detailsKey: string;
   primaryColor?: string;
   t: TFunction<[typeof defaultNS, 'regions'], undefined>;
+  linkTo?: string; // Optional link for transport card
+  locale: Locale; // Pass locale for Link component
 }
 
 const TransportationCard: React.FC<TransportationCardProps> = ({
@@ -191,11 +217,13 @@ const TransportationCard: React.FC<TransportationCardProps> = ({
   detailsKey,
   primaryColor,
   t,
+  linkTo,
+  locale,
 }) => {
   const iconStyle = primaryColor ? { color: primaryColor } : {};
   const borderStyle = primaryColor ? { borderColor: primaryColor } : {};
 
-  return (
+  const cardContent = (
     <div 
       className="bg-card text-card-foreground p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 flex flex-col h-full"
       style={borderStyle}
@@ -211,6 +239,16 @@ const TransportationCard: React.FC<TransportationCardProps> = ({
       </p>
     </div>
   );
+
+  if (linkTo) {
+    return (
+      <Link href={`/${locale}${linkTo.startsWith('/') ? linkTo : `/${linkTo}`}`} passHref legacyBehavior>
+        <a className="block h-full">{cardContent}</a>
+      </Link>
+    );
+  }
+
+  return cardContent;
 };
 
 // Main Region Page Component (Server Component)
@@ -245,10 +283,11 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
   };
   const primaryRegionColorText = { color: regionData.color1 };
 
+  // Helper function to render sections with multiple cards (e.g., accommodation, food)
   const renderSectionWithCards = (
     sectionTitleKey: string,
     introKey: string | undefined,
-    items: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }> | undefined,
+    items: Array<ExampleItem> | undefined, // Use ExampleItem type
     iconColor?: string
   ) => {
     if (!items || items.length === 0) {
@@ -276,22 +315,33 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           </p>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="bg-card text-card-foreground p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 flex flex-col h-full"
-              style={{ borderColor: iconColor || regionData.color1 }}
-            >
-              <item.icon className="w-8 h-8 mb-3" style={{ color: iconColor || regionData.color1 }} />
-              <h3 className="font-bold text-xl mb-2">{t(item.nameKey, { ns: 'regions' })}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed flex-grow">{t(item.descriptionKey, { ns: 'regions' })}</p>
-            </div>
-          ))}
+          {items.map((item, index) => {
+            const cardItemContent = (
+              <div
+                className="bg-card text-card-foreground p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 flex flex-col h-full"
+                style={{ borderColor: iconColor || regionData.color1 }}
+              >
+                <item.icon className="w-8 h-8 mb-3" style={{ color: iconColor || regionData.color1 }} />
+                <h3 className="font-bold text-xl mb-2">{t(item.nameKey, { ns: 'regions' })}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed flex-grow">{t(item.descriptionKey, { ns: 'regions' })}</p>
+              </div>
+            );
+
+            if (item.linkTo) {
+              return (
+                <Link key={index} href={`/${effectiveLocale}${item.linkTo.startsWith('/') ? item.linkTo : `/${item.linkTo}`}`} passHref legacyBehavior>
+                  <a className="block h-full">{cardItemContent}</a>
+                </Link>
+              );
+            }
+            return <div key={index} className="h-full">{cardItemContent}</div>;
+          })}
         </div>
       </section>
     );
   };
   
+  // Updated helper function for Transport section using TransportationCard
   const renderTransportSection = () => {
     if (!regionData.transportDetails || regionData.transportDetails.length === 0) return null;
     return (
@@ -313,6 +363,8 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
               detailsKey={item.detailsKey}
               primaryColor={regionData.color1}
               t={t} 
+              linkTo={item.linkTo} // Pass linkTo if it exists
+              locale={effectiveLocale} // Pass locale for Link construction
             />
           ))}
         </div>

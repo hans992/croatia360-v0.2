@@ -7,10 +7,12 @@ import {
   Sailboat,
   Users,
   Clock,
+  // MapPin, // Nije korišteno, može se ukloniti ako nije planirano
   CheckCircle,
-  Calendar as CalendarIconLucide, // Renamed to avoid conflict
+  Calendar as CalendarIconLucide,
   Mail,
   Info,
+  // Sun, // Nije korišteno
   Briefcase,
   Anchor,
   Sparkles,
@@ -21,18 +23,26 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar } from '@/components/ui/calendar'; // Using YOUR Calendar component
+import { DatePicker } from '@/components/ui/date-picker'; // Import nove DatePicker komponente
 import { Toaster } from 'sonner';
 import { toast as sonnerToast } from 'sonner';
+// format i hr locale se sada koriste unutar DatePicker komponente, pa nisu nužno potrebni ovdje
+// osim ako ih ne koristite za nešto drugo.
+// import { format } from 'date-fns';
+// import { hr } from 'date-fns/locale';
+import { type SelectSingleEventHandler } from 'react-day-picker';
+
 
 // Mock data for the San Luca Magno trip
 const tripData = {
   title: "San Luca Magno: Cjelodnevni Privatni Izlet Jedrenjakom - Kornati i Telašćica iz Zadra",
-  heroImage: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg",
+  heroImage: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/hero_san_luca_magno.jpg",
   gallery: [
-    { id: 1, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_2.jpg", alt: "Jedrenjak San Luca Magno" },
-    { id: 2, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg", alt: "San Luca Magno 1" },
-    { id: 3, url: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_3.jpg", alt: "San Luca Magno 3" },
+    { id: 1, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_1.jpg", alt: "Jedrenjak San Luca Magno na moru" },
+    { id: 2, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_2.jpg", alt: "Uvala u NP Kornati" },
+    { id: 3, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_3.jpg", alt: "Slano jezero Mir u PP Telašćica" },
+    { id: 4, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_4.jpg", alt: "Ručak na brodu" },
+    { id: 5, url: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/gallery_5.jpg", alt: "Ronjenje u kristalno čistom moru" },
   ],
   shortDescription: "Otkrijte čaroliju Nacionalnog parka Kornati i Parka prirode Telašćica na nezaboravnom cjelodnevnom privatnom izletu autentičnim motornim jedrenjakom San Luca Magno. Uživajte u kristalno čistom moru, skrivenim uvalama, domaćoj hrani i personaliziranoj usluzi. Idealno za grupe do 12 osoba.",
   detailedDescription: [
@@ -62,8 +72,8 @@ const tripData = {
   ],
   ctaInquiry: "Pošaljite upit za vaš privatni izlet brodom San Luca Magno i doživite Kornate i Telašćicu na najbolji mogući način!",
   ctaBooking: "Ili Bookirajte direktno vaš privatni izlet odmah!",
-  contactEmail: "info@nautamare.hr",
-  contactPhone: "+385 91 385 9169"
+  contactEmail: "info@sanluca-magno.hr",
+  contactPhone: "+385 98 123 4567"
 };
 
 const GalleryImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
@@ -73,7 +83,7 @@ const GalleryImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
 );
 
 export default function SanLucaMagnoPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // Changed to Date | null
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date()); // Promijenjeno u Date | undefined
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -103,6 +113,14 @@ export default function SanLucaMagnoPage() {
       description: "Hvala Vam na upitu. Javit ćemo Vam se u najkraćem mogućem roku.",
     });
     setName(''); setEmail(''); setPhone(''); setMessage(''); setSelectedDate(new Date()); setNumGuests(1);
+  };
+
+  // Handler za DatePicker's onSelect, koji odgovara SelectSingleEventHandler
+  const handleDateSelect: SelectSingleEventHandler = (day, selectedDay, activeModifiers, e) => {
+    // day je Date | undefined. selectedDay je Date.
+    // Za single mode, day i selectedDay bi trebali biti isti ako je datum odabran.
+    // Ako je datum od-selektiran (ako je to omogućeno), day će biti undefined.
+    setSelectedDate(day);
   };
 
   return (
@@ -220,12 +238,10 @@ export default function SanLucaMagnoPage() {
               <CardContent className="grid md:grid-cols-2 gap-8 items-start">
                 <div>
                   <h3 className="text-lg font-medium mb-3 text-sky-700 dark:text-sky-400">Odaberite Datum Izleta:</h3>
-                  {/* Directly using your Calendar component */}
-                  <Calendar
+                  <DatePicker
                     selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)} // react-datepicker onChange returns Date | null
-                    inline={true} // This prop is from your Calendar component
-                    className="border rounded-md" // Add some basic styling if needed
+                    onSelect={handleDateSelect} // Korištenje novog handlera
+                    // disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } // Onemogući prošle datume
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                     Kalendar prikazuje opću dostupnost. Za potvrdu termina i iCal sinkronizaciju, molimo pošaljite upit.
