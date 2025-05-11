@@ -1,13 +1,21 @@
 // src/app/[locale]/regions/[slug]/page.tsx
 
+// Essential Next.js and React imports
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import React from 'react'; // Ensure React is imported if not already
+
+// Internationalization (i18n) utilities
 import { getServerTranslations } from '@/lib/i18n/server';
 import { defaultNS, fallbackLng, type Locale, locales as appLocalesStringArray } from '@/lib/i18n/settings';
-import type { Metadata, ResolvingMetadata } from 'next';
-import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon } from 'lucide-react'; // Primjeri ikona
 
-// Interface for the data structure of a region
+// Metadata and type imports for Next.js
+import type { Metadata, ResolvingMetadata } from 'next';
+
+// Lucide icons for various elements
+import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon, type LucideIcon } from 'lucide-react';
+
+// Component-specific interfaces
 interface RegionData {
   id: string;
   nameKey: string;
@@ -18,19 +26,18 @@ interface RegionData {
   galleryImageUrls?: string[];
   color1: string;
   color2: string;
-  // Data for new sections (examples, will be expanded)
   transportIntroKey?: string;
-  transportDetails?: Array<{ typeKey: string; detailsKey: string; icon: React.ElementType }>;
+  transportDetails?: Array<{ typeKey: string; detailsKey: string; icon: LucideIcon }>; // Use LucideIcon type
   accommodationIntroKey?: string;
-  accommodationExamples?: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }>;
+  accommodationExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>; // Use LucideIcon type
   foodIntroKey?: string;
-  foodExamples?: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }>;
+  foodExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>; // Use LucideIcon type
   activitiesIntroKey?: string;
-  activityExamples?: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }>;
+  activityExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>; // Use LucideIcon type
   eventsIntroKey?: string;
-  eventExamples?: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }>;
+  eventExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>; // Use LucideIcon type
   sightsIntroKey?: string;
-  sightExamples?: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }>;
+  sightExamples?: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }>; // Use LucideIcon type
 }
 
 interface ResolvedPageParams {
@@ -42,20 +49,25 @@ interface ResolvedSearchParams {
   [key: string]: string | string[] | undefined;
 }
 
+// Base URL for images from Google Cloud Storage
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
+// Mock database of regions with detailed information
+// In a real application, this data would be fetched from a CMS or database
 async function getRegionDataBySlug(slug: string, locale: Locale): Promise<RegionData | null> {
   console.log(`[getRegionDataBySlug] Fetching data for dynamic slug: '${slug}', locale: '${locale}'`);
   const lowerSlug = slug.toLowerCase();
-  const baseKey = `region_${lowerSlug.replace(/-/g, '_')}`;
+  const baseKey = `region_${lowerSlug.replace(/-/g, '_')}`; // e.g., region_dalmacija
 
   // Mock database of regions
+  // NOTE: Ensure all translation keys used here (e.g., 'transport_dalmacija_airplane_details')
+  // are present in your /public/locales/[lang]/regions.json files.
   const regionsDatabase: Record<string, Partial<Omit<RegionData, 'id' | 'nameKey' | 'titleKey' | 'descriptionKey' | 'longDescriptionKey'>>> = {
     'slavonija': {
       heroImageUrl: `${gcsBaseUrl}regions/slavonija/Slavonski_Brod_fortress.jpg`,
       galleryImageUrls: [`${gcsBaseUrl}regions/slavonija/Osijek_trg_tram_Lovro_Pavlicic.jpg`, `${gcsBaseUrl}regions/slavonija/Kutjevo_wineyard_Perak.jpg`],
-      color1: '#FFD700', color2: '#8B4513',
-      transportIntroKey: 'region_transport_intro_example',
+      color1: '#FFD700', color2: '#8B4513', // Gold, SaddleBrown
+      transportIntroKey: 'region_transport_intro_example', // Generic key, ensure it exists
       transportDetails: [
         { typeKey: 'transport_type_airplane', detailsKey: 'transport_slavonija_airplane_details', icon: Plane },
         { typeKey: 'transport_type_car', detailsKey: 'transport_slavonija_car_details', icon: Car },
@@ -87,12 +99,10 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
         { nameKey: 'sights_slavonija_djakovo_cathedral_name', descriptionKey: 'sights_slavonija_djakovo_cathedral_desc', icon: LandmarkIcon },
       ],
     },
-    
-    // Add similar detailed structures for other regions (dalmacija, istra, etc.)
     'dalmacija': {
       heroImageUrl: `${gcsBaseUrl}regions/dalmacija/Zadar_charter_yacht.jpg`,
       galleryImageUrls: [`${gcsBaseUrl}regions/dalmacija/Dubrovnik_srd.jpg`, `${gcsBaseUrl}regions/dalmacija/Makarska_from_the_sea.jpg`],
-      color1: '#007FFF', color2: '#F8F8FF',
+      color1: '#007FFF', color2: '#F8F8FF', // Azure Blue, GhostWhite
       transportIntroKey: 'region_transport_intro_example',
       transportDetails: [
         { typeKey: 'transport_type_airplane', detailsKey: 'transport_dalmacija_airplane_details', icon: Plane },
@@ -113,7 +123,8 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
       activitiesIntroKey: 'region_activities_intro_example',
       activityExamples: [
         { nameKey: 'activities_dalmacija_np_krka_name', descriptionKey: 'activities_dalmacija_np_krka_desc', icon: Bike },
-        { nameKey: 'activities_dalmacija_boat_trip_name', descriptionKey: 'activities_slavonija_boat_trip_desc', icon: Sailboat },
+        // Corrected key from _slavonija_ to _dalmacija_
+        { nameKey: 'activities_dalmacija_boat_trip_name', descriptionKey: 'activities_dalmacija_boat_trip_desc', icon: Sailboat },
       ],
       eventsIntroKey: 'region_events_intro_example',
       eventExamples: [
@@ -127,90 +138,146 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
     },
      'istra': {
       heroImageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`,
-      color1: '#E07A5F', color2: '#808000',
+      color1: '#E07A5F', color2: '#808000', // Terra Cotta, Olive
+      // Add other details for Istra as needed
     },
     'sredisnja-hrvatska': {
       heroImageUrl: `${gcsBaseUrl}regions/sredisnja_hrvatska/Madjerkin_breg_wineyard.jpg`,
-      color1: '#800020', color2: '#2E8B57',
+      color1: '#800020', color2: '#2E8B57', // Burgundy, SeaGreen
+      // Add other details for Središnja Hrvatska as needed
     },
     'zagreb': {
       heroImageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_dron_image.jpg`,
-      color1: '#004C99', color2: '#D2B48C',
+      color1: '#5D3FD3', color2: '#EAE0D5', // Regal Purple, Warm Parchment
+      // Add other details for Zagreb as needed
     },
     'lika-gorski-kotar': {
       heroImageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Velebit_snow_light.jpg`,
-      color1: '#228B22', color2: '#40E0D0',
+      color1: '#228B22', color2: '#40E0D0', // ForestGreen, Turquoise
+      // Add other details for Lika-Gorski Kotar as needed
     },
     'kvarner': {
-      heroImageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`,
-      color1: '#1E90FF', color2: '#FFFAF0',
+      heroImageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`, // Placeholder, ensure image exists
+      color1: '#009688', color2: '#CFD8DC', // Teal, Blue Grey
+      // Add other details for Kvarner as needed
     }
   };
 
   const regionSpecificData = regionsDatabase[lowerSlug];
 
   if (regionSpecificData) {
+    // Construct the full RegionData object
     return {
       id: lowerSlug,
-      nameKey: baseKey,
-      titleKey: `${baseKey}_page_title`,
-      descriptionKey: `${baseKey}_description_detailed`,
-      longDescriptionKey: `${baseKey}_long_description`,
-      ...regionSpecificData,
-    } as RegionData;
+      nameKey: baseKey, // e.g., region_dalmacija
+      titleKey: `${baseKey}_page_title`, // e.g., region_dalmacija_page_title
+      descriptionKey: `${baseKey}_description_detailed`, // e.g., region_dalmacija_description_detailed
+      longDescriptionKey: `${baseKey}_long_description`, // e.g., region_dalmacija_long_description
+      ...regionSpecificData, // Spread the specific data for the region
+    } as RegionData; // Cast to RegionData to ensure type conformity
   }
 
   console.warn(`[getRegionDataBySlug] No data found for slug: '${slug}'`);
   return null;
 }
 
+// Props for the main page component
 interface PageAsyncProps {
   params: Promise<ResolvedPageParams>;
   searchParams?: Promise<ResolvedSearchParams>;
 }
 
+// --- Reusable Transportation Card Component ---
+// Idealno, ovo bi bila zasebna datoteka: src/components/TransportationCard.tsx
+// For simplicity in this combined response, it's defined here.
+// It's a functional component that receives props including the translation function 't'.
+interface TransportationCardProps {
+  icon: LucideIcon;
+  typeKey: string;
+  detailsKey: string;
+  primaryColor?: string;
+  t: (key: string, options?: any) => string; // Pass the translation function
+}
+
+const TransportationCard: React.FC<TransportationCardProps> = ({
+  icon: IconComponent,
+  typeKey,
+  detailsKey,
+  primaryColor,
+  t,
+}) => {
+  const iconStyle = primaryColor ? { color: primaryColor } : {};
+  // Using a slightly darker shade for the border for better contrast, or the primary color itself
+  const borderStyle = primaryColor ? { borderColor: primaryColor } : {};
+
+  return (
+    <div 
+      className="bg-card text-card-foreground p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 flex flex-col h-full" // Added flex flex-col h-full for consistent height
+      style={borderStyle}
+    >
+      <div className="flex items-center mb-3">
+        <IconComponent className="w-7 h-7 mr-3 shrink-0" style={iconStyle} />
+        <h3 className="font-semibold text-lg" style={iconStyle}>
+          {t(typeKey, { ns: 'regions' })}
+        </h3>
+      </div>
+      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4 flex-grow"> {/* line-clamp-4 for more text, flex-grow to fill space */}
+        {t(detailsKey, { ns: 'regions' })}
+      </p>
+      {/* Optional: Add a "Read more" button or link if needed */}
+      {/* <a href="#" className="text-sm text-primary hover:underline mt-2 self-start">Read more</a> */}
+    </div>
+  );
+};
+
+
+// Main Region Page Component (Server Component)
 export default async function RegionSlugPage(props: PageAsyncProps) {
   const resolvedParams = await props.params;
   const resolvedSearchParams = props.searchParams ? await props.searchParams : {};
 
+  // Log search params if any (for debugging or specific functionalities)
   if (Object.keys(resolvedSearchParams).length > 0) {
     console.log('[RegionSlugPage] Search Params:', resolvedSearchParams);
   }
 
   const { locale: localeParamFromParams, slug } = resolvedParams;
 
+  // Determine effective locale for translations
   let effectiveLocale: Locale;
   if (localeParamFromParams && appLocalesStringArray.includes(localeParamFromParams as Locale)) {
     effectiveLocale = localeParamFromParams as Locale;
   } else {
     console.warn(`[regions/${slug}/page.tsx] - Invalid or unsupported locale '${localeParamFromParams}'. Using fallback: ${fallbackLng}`);
-    effectiveLocale = fallbackLng;
+    effectiveLocale = fallbackLng; // Fallback to default language if locale is invalid
   }
 
+  // Fetch translations and region-specific data
   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
   const regionData = await getRegionDataBySlug(slug, effectiveLocale);
 
+  // Handle case where no region data is found for the slug
   if (!regionData) {
     console.error(`[regions/${slug}/page.tsx] No data for slug '${slug}'. Rendering 404.`);
-    notFound();
+    notFound(); // Trigger 404 page
   }
 
+  // Dynamic styles based on region colors
   const heroGradientStyle = {
     backgroundImage: `linear-gradient(to top, ${regionData.color1}BF 0%, ${regionData.color1}80 25%, ${regionData.color2}33 60%, transparent 100%)`,
   };
   const primaryRegionColorText = { color: regionData.color1 };
-  const primaryRegionBorderColor = { borderColor: regionData.color1 };
+  // const primaryRegionBorderColor = { borderColor: regionData.color1 }; // Defined in TransportationCard now
 
-  // Helper function to render a section with cards
+  // Helper function to render sections with multiple cards (e.g., accommodation, food)
   const renderSectionWithCards = (
     sectionTitleKey: string,
     introKey: string | undefined,
-    items: Array<{ nameKey: string; descriptionKey: string; icon: React.ElementType }> | undefined,
+    items: Array<{ nameKey: string; descriptionKey: string; icon: LucideIcon }> | undefined,
     iconColor?: string
   ) => {
     if (!items || items.length === 0) {
-      // If no specific items, show a generic placeholder or hide section
-      if (!introKey) return null; // Hide if no intro either
+      if (!introKey) return null; // Hide section if no items and no intro
       return (
         <section className="mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center md:text-left" style={primaryRegionColorText}>
@@ -219,7 +286,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           <p className="text-muted-foreground mb-8 text-center md:text-left">
             {t(introKey, { ns: 'regions', regionName: t(regionData.nameKey, { ns: defaultNS }) })}
           </p>
-          {/* Optional: Add a generic "Coming soon" or "Explore more with SARA AI" card */}
         </section>
       );
     }
@@ -238,27 +304,20 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           {items.map((item, index) => (
             <div
               key={index}
-              className="bg-card text-card-foreground p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4"
-              style={primaryRegionBorderColor}
+              className="bg-card text-card-foreground p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 flex flex-col h-full" // Added flex flex-col h-full
+              style={{ borderColor: iconColor || regionData.color1 }} // Use primaryRegionBorderColor directly
             >
               <item.icon className="w-8 h-8 mb-3" style={{ color: iconColor || regionData.color1 }} />
               <h3 className="font-bold text-xl mb-2">{t(item.nameKey, { ns: 'regions' })}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{t(item.descriptionKey, { ns: 'regions' })}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-grow">{t(item.descriptionKey, { ns: 'regions' })}</p>
             </div>
           ))}
         </div>
-        {/* Optional: "View More" button linking to a dedicated page for this category */}
-        {/* <div className="text-center mt-8">
-          <a href={`/${effectiveLocale}/explore?region=${slug}&category=${sectionTitleKey.replace('region_','').replace('_title','')} `} 
-             className="text-primary hover:underline" style={primaryRegionColorText}>
-            {t('view_more_button', { ns: 'regions' })}
-          </a>
-        </div> */}
       </section>
     );
   };
   
-  // Helper function for Transport section
+  // Updated helper function for Transport section using TransportationCard
   const renderTransportSection = () => {
     if (!regionData.transportDetails || regionData.transportDetails.length === 0) return null;
     return (
@@ -271,34 +330,37 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
             {t(regionData.transportIntroKey, { ns: 'regions', regionName: t(regionData.nameKey, { ns: defaultNS }) })}
           </p>
         )}
-        <div className="space-y-6">
+        {/* Grid layout for TransportationCards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {regionData.transportDetails.map((item, index) => (
-            <div key={index} className="bg-card text-card-foreground p-6 rounded-xl shadow-lg border-l-4" style={primaryRegionBorderColor}>
-              <div className="flex items-center mb-2">
-                <item.icon className="w-7 h-7 mr-3" style={primaryRegionColorText} />
-                <h3 className="font-semibold text-xl" style={primaryRegionColorText}>{t(item.typeKey, { ns: 'regions' })}</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">{t(item.detailsKey, { ns: 'regions' })}</p>
-            </div>
+            <TransportationCard
+              key={index}
+              icon={item.icon}
+              typeKey={item.typeKey}
+              detailsKey={item.detailsKey}
+              primaryColor={regionData.color1}
+              t={t} // Pass the translation function as a prop
+            />
           ))}
         </div>
       </section>
     );
   };
 
-
+  // Main JSX for the page
   return (
     <div className="animate-fadeIn bg-background text-foreground">
-      <section className="relative h-[60vh] min-h-[450px] md:h-[70vh] lg:h-[75vh] text-white overflow-hidden">
+      {/* Hero Section with dynamic image and gradient */}
+      <section className="relative h-[60vh] min-h-[450px] md:h-[70vh] lg:h-[75vh] text-white overflow-hidden group">
         <Image
           src={regionData.heroImageUrl}
-          alt={t(regionData.nameKey, { ns: defaultNS })}
+          alt={t(regionData.nameKey, { ns: defaultNS })} // Alt text from default namespace
           fill
           style={{ objectFit: 'cover' }}
-          priority
+          priority // Prioritize loading for LCP
           className="brightness-70 group-hover:brightness-75 transition-all duration-700 ease-in-out scale-100 group-hover:scale-105"
         />
-        <div className="absolute inset-0" style={heroGradientStyle} />
+        <div className="absolute inset-0" style={heroGradientStyle} /> {/* Gradient overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-4 md:p-8 text-center">
           <h1 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-3 md:mb-4 tracking-tight leading-tight"
@@ -315,13 +377,16 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
         </div>
       </section>
 
+      {/* Main content area */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        {/* Long description section */}
         {regionData.longDescriptionKey && (
           <section aria-labelledby="about-region-heading" className="mb-12 md:mb-16">
             <h2 id="about-region-heading" className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center md:text-left" style={primaryRegionColorText}>
               {t('region_about_title', { ns: 'regions', regionName: t(regionData.nameKey, { ns: defaultNS }) })}
             </h2>
             <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 leading-relaxed">
+              {/* Split long description by newlines to render paragraphs */}
               {t(regionData.longDescriptionKey, { ns: 'regions' }).split('\n').map((paragraph, index) => (
                 <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
               ))}
@@ -329,14 +394,15 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           </section>
         )}
 
+        {/* Render various sections using helper functions */}
         {renderTransportSection()}
-        
         {renderSectionWithCards('region_accommodation_title', regionData.accommodationIntroKey, regionData.accommodationExamples, regionData.color1)}
         {renderSectionWithCards('region_food_title', regionData.foodIntroKey, regionData.foodExamples, regionData.color1)}
         {renderSectionWithCards('region_activities_title', regionData.activitiesIntroKey, regionData.activityExamples, regionData.color1)}
         {renderSectionWithCards('region_events_title', regionData.eventsIntroKey, regionData.eventExamples, regionData.color1)}
         {renderSectionWithCards('region_sights_title', regionData.sightsIntroKey, regionData.sightExamples, regionData.color1)}
 
+        {/* Gallery Section */}
         {regionData.galleryImageUrls && regionData.galleryImageUrls.length > 0 && (
           <section aria-labelledby="gallery-heading" className="mt-12 md:mt-16 mb-12 md:mb-16">
             <h2 id="gallery-heading" className="text-3xl md:text-4xl font-bold mb-8 text-center" style={primaryRegionColorText}>
@@ -351,7 +417,7 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
                     fill
                     style={{ objectFit: 'cover' }}
                     className="transform transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Responsive image sizes
                   />
                 </div>
               ))}
@@ -359,17 +425,23 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           </section>
         )}
         
-        {/* TODO: Consider adding a region-specific Chatbot interaction point here */}
+        {/* Placeholder for region-specific Chatbot interaction point */}
         {/* <section className="my-12 md:my-16 text-center p-8 bg-card rounded-xl shadow-lg">
-          <h3 className="text-2xl font-bold mb-4" style={primaryRegionColorText}>Imate još pitanja o {t(regionData.nameKey, { ns: defaultNS })}?</h3>
-          <p className="text-muted-foreground mb-6">{t('region_chatbot_prompt', { ns: 'regions', defaultValue: 'Naš SARA AI asistent spreman je pomoći!' })}</p>
+          <h3 className="text-2xl font-bold mb-4" style={primaryRegionColorText}>
+            {t('region_chatbot_prompt_title_example', { ns: 'regions', regionName: t(regionData.nameKey, { ns: defaultNS })})}
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            {t('region_chatbot_prompt_subtitle_example', { ns: 'regions' })}
+          </p>
           <Button size="lg" style={{ backgroundColor: regionData.color1, borderColor: regionData.color2 }} className="text-white">
-            Pitajte SARA AI
+            {t('region_chatbot_button_example', { ns: 'regions' })}
           </Button>
-        </section> */}
+        </section> 
+        */}
 
+        {/* Back to Explore button */}
         <section className="text-center mt-12 md:mt-16 py-8">
-           <a
+           <a // Using <a> tag for simplicity, can be <Link> from next/link
             href={`/${effectiveLocale}/explore`}
             className="inline-block bg-primary text-primary-foreground hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background font-semibold py-3 px-10 rounded-lg shadow-lg hover:shadow-xl transition-all text-lg"
           >
@@ -381,69 +453,73 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
   );
 }
 
-// --- Metadata and Static Params ---
+// --- Metadata and Static Page Generation ---
+
+// Props for metadata generation function
 interface MetadataAsyncProps {
   params: Promise<ResolvedPageParams>;
   searchParams?: Promise<ResolvedSearchParams>;
 }
 
+// Function to generate page metadata dynamically
 export async function generateMetadata(
   props: MetadataAsyncProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const resolvedParams = await props.params;
-  const resolvedSearchParams = props.searchParams ? await props.searchParams : {};
-  const resolvedParent = await parent;
-
-  if (Object.keys(resolvedSearchParams).length > 0) {
-    console.log('[generateMetadata] Search Params:', resolvedSearchParams);
-  }
-  if (resolvedParent && Object.keys(resolvedParent).length > 0) {
-    console.log('[generateMetadata] Parent Metadata (resolved): Has keys');
-  }
+  // const resolvedSearchParams = props.searchParams ? await props.searchParams : {}; // Uncomment if searchParams are needed for metadata
+  // const resolvedParent = await parent; // Uncomment if parent metadata is needed
 
   const { locale: localeParam, slug } = resolvedParams;
-  const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) ? localeParam as Locale : fallbackLng;
+  const effectiveLocale = appLocalesStringArray.includes(localeParam as Locale) 
+    ? localeParam as Locale 
+    : fallbackLng;
 
   const regionData = await getRegionDataBySlug(slug, effectiveLocale);
   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
 
   if (!regionData) {
     return {
-      title: t('common_not_found_title', { ns: defaultNS }),
+      title: t('common_not_found_title', { ns: defaultNS }), // Fallback title for 404
     };
   }
 
+  // Construct title and description from translation keys
   const title = t(regionData.titleKey, { ns: 'regions', defaultValue: t(regionData.nameKey, { ns: defaultNS }) });
   const description = t(regionData.descriptionKey, { ns: 'regions' });
-  const siteName = t('site_name', { ns: defaultNS, defaultValue: 'Croatia360' });
+  const siteName = t('site_name', { ns: defaultNS, defaultValue: 'Croatia360' }); // Default site name if not in translations
 
   return {
     title: `${title} | ${siteName}`,
     description: description,
-    themeColor: regionData.color1, // Set browser theme color
-    openGraph: {
+    themeColor: regionData.color1, // Set browser theme color based on region
+    openGraph: { // Open Graph metadata for social sharing
       title: `${title} | ${siteName}`,
       description: description,
       images: [
         {
           url: regionData.heroImageUrl,
-          width: 1200,
-          height: 630,
+          width: 1200, // Standard OG image width
+          height: 630, // Standard OG image height
           alt: title,
         },
       ],
-      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, // Replace with your domain
-      type: 'article',
+      // Ensure this URL is correct and matches your domain structure
+      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, 
+      type: 'article', // OG type
       siteName: siteName,
     },
+    // Add other metadata as needed (e.g., twitter cards, canonical URLs)
   };
 }
 
+// Function to generate static params for all region pages and locales
+// This is used by Next.js for Static Site Generation (SSG)
 export async function generateStaticParams(): Promise<Array<ResolvedPageParams>> {
   const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar', 'kvarner'];
-  const locales = appLocalesStringArray as readonly string[];
+  const locales = appLocalesStringArray as readonly string[]; // Supported locales
 
+  // Create a flat array of all locale/slug combinations
   return locales.flatMap(locale =>
     regionSlugs.map(slug => ({
       locale,
