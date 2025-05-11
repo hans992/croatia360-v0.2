@@ -52,28 +52,33 @@
   "transport_type_train": "Train",
   "transport_dalmacija_train_details": "Details about train transport for Dalmatia...",
 
+  "region_accommodation_title": "Where to Stay", 
   "region_accommodation_intro_example": "Introduction to accommodation in {{regionName}}.", 
   "accommodation_dalmacija_example_hotel_name": "Dalmatia Example Hotel",
   "accommodation_dalmacija_example_hotel_desc": "Description of the example hotel in Dalmatia.",
   "accommodation_dalmacija_example_rural_name": "Dalmatia Example Rural Household",
   "accommodation_dalmacija_example_rural_desc": "Description of the example rural household in Dalmatia.",
 
+  "region_food_title": "Flavors of {{regionName}}",
   "region_food_intro_example": "Introduction to food in {{regionName}}.", 
   "food_dalmacija_pasticada_name": "Pašticada (Dalmatian Pot Roast)",
   "food_dalmacija_pasticada_desc": "A traditional Dalmatian dish...",
   "food_dalmacija_brudet_name": "Brudet (Fish Stew)",
   "food_dalmacija_brudet_desc": "A Dalmatian fish stew...",
 
+  "region_activities_title": "Activities and experiences",
   "region_activities_intro_example": "Introduction to activities in {{regionName}}.", 
   "activities_dalmacija_np_krka_name": "NP Krka Waterfalls",
   "activities_dalmacija_np_krka_desc": "Explore the Krka National Park...",
   "activities_dalmacija_boat_trip_name": "Dalmatian Coast Boat Trip",
   "activities_slavonija_boat_trip_desc": "Description of a boat trip in Dalmatia.", 
 
+  "region_events_title": "Events in {{regionName}}",
   "region_events_intro_example": "Introduction to events in {{regionName}}.", 
   "events_dalmacija_ultra_europe_name": "Ultra Europe Festival",
   "events_dalmacija_ultra_europe_desc": "Experience the world-famous music festival...",
-
+  
+  "region_sights_title": "Must-See Attractions",
   "region_sights_intro_example": "Introduction to sights in {{regionName}}.", 
   "sights_dalmacija_dubrovnik_walls_name": "Dubrovnik City Walls",
   "sights_dalmacija_dubrovnik_walls_desc": "Walk along the historic city walls of Dubrovnik...",
