@@ -94,5 +94,19 @@
     "sights_slavonija_djakovo_cathedral_desc": "Impozantna katedrala, jedna od najljepših u Hrvatskoj.",
     
   
-    "view_more_button": "Vidi više"
+    "view_more_button": "Vidi više",
+    
+  "transport_dalmacija_airplane_details": "Detalji o zračnom prijevozu za Dalmaciju...",
+  
+  "transport_dalmacija_car_details": "Detalji o cestovnom prijevozu automobilom za Dalmaciju...",
+  
+  "accommodation_dalmacija_example_hotel_name": "Primjer Hotela Dalmacija",
+  "accommodation_dalmacija_example_hotel_desc": "Opis primjera hotela u Dalmaciji.",
+  "accommodation_dalmacija_example_rural_name": "Primjer Seoskog Domaćinstva Dalmacija",
+  "accommodation_dalmacija_example_rural_desc": "Opis primjera seoskog domaćinstva u Dalmaciji.",
+  
+  "food_dalmacija_pasticada_name": "Pašticada",
+  "food_dalmacija_pasticada_desc": "Tradicionalno dalmatinsko jelo...",
+  "activities_dalmacija_boat_trip_desc": "Opis izleta brodom u Dalmaciji."
+  
   }
