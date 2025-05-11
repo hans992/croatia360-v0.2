@@ -1,9 +1,10 @@
 // src/app/api/send-inquiry/route.ts
-import { type NextRequest, NextResponse } from 'next/server'; // ISPRAVLJEN IMPORT: NextResponse se uvozi kao vrijednost
+import { type NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 // Helper function to create a response
-function createResponse(body: any, status: number): NextResponse {
+// Changed 'body: any' to 'body: Record<string, unknown> | { error: string } | { message: string }' for better type safety
+function createResponse(body: Record<string, unknown> | { error: string } | { message: string }, status: number): NextResponse {
   return new NextResponse(JSON.stringify(body), { 
     status,
     headers: {
@@ -12,9 +13,21 @@ function createResponse(body: any, status: number): NextResponse {
   });
 }
 
+// Define an interface for the expected request body for better type checking
+interface InquiryRequestBody {
+  name?: string;
+  email?: string;
+  phone?: string;
+  selectedDate?: string;
+  numGuests?: number;
+  message?: string;
+  trip?: string;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    // Cast the parsed JSON to our defined interface
+    const body = await req.json() as InquiryRequestBody;
     const { 
       name, 
       email, 
@@ -30,17 +43,10 @@ export async function POST(req: NextRequest) {
       return createResponse({ error: 'Nedostaju obavezna polja za upit.' }, 400);
     }
 
-    // Nodemailer transporter setup - ensure these ENV variables are set on Vercel
-    // Ensure your environment variables are correctly named and set in Vercel.
-    // For Gmail, common settings are:
-    // SMTP_HOST=smtp.gmail.com
-    // SMTP_PORT=465
-    // SMTP_SECURE=true
-    // EMAIL_USER=your-gmail-address@gmail.com
-    // EMAIL_PASS=your-gmail-app-password (not your regular password)
+    // Nodemailer transporter setup
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 465, // Default to 465 for Gmail if secure
+      port: Number(process.env.SMTP_PORT) || 465,
       secure: process.env.SMTP_SECURE === 'true', 
       auth: {
         user: process.env.EMAIL_USER, 
@@ -48,7 +54,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Determine the recipient email address
     const partnerEmail = process.env.PARTNER_SAN_LUCA_MAGNO_EMAIL || process.env.EMAIL_RECEIVER;
     if (!partnerEmail) {
         console.error("Email adresa primatelja (PARTNER_SAN_LUCA_MAGNO_EMAIL ili EMAIL_RECEIVER) nije postavljena u environment varijablama.");
@@ -98,10 +103,9 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     console.error("Greška prilikom slanja upita (catch block):", error);
-    // It's good practice to avoid sending raw error messages to the client in production
-    let userFriendlyErrorMessage = 'Neuspješno slanje upita. Molimo pokušajte kasnije ili nas kontaktirajte direktno.';
+    // Changed 'let' to 'const' as the variable is not reassigned
+    const userFriendlyErrorMessage = 'Neuspješno slanje upita. Molimo pokušajte kasnije ili nas kontaktirajte direktno.';
     
-    // You can log more specific details on the server for debugging
     if (error instanceof Error) {
         console.error("Nodemailer error details:", error.message);
     }
