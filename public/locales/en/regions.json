@@ -39,5 +39,45 @@
   "region_activities_title_example": "Activities",
   "region_activities_description_example": "Experience the region through exciting activities and unforgettable experiences.",
 
-  "region_back_to_explore_button": "Back to Explore"
+  "region_back_to_explore_button": "Back to Explore",
+
+  "region_transport_intro_example": "Introduction to transport in {{regionName}}.", 
+  "transport_type_airplane": "Airplane",
+  "transport_dalmacija_airplane_details": "Details about air transport for Dalmatia...",
+  "transport_type_car": "Car",
+  "transport_dalmacija_car_details": "Details about road transport by car for Dalmatia...",
+  "transport_type_bus": "Bus",
+  "transport_dalmacija_bus_details": "Details about bus transport for Dalmatia...",
+  "transport_type_train": "Train",
+  "transport_dalmacija_train_details": "Details about train transport for Dalmatia...",
+
+  "region_accommodation_intro_example": "Introduction to accommodation in {{regionName}}.", 
+  "accommodation_dalmacija_example_hotel_name": "Dalmatia Example Hotel",
+  "accommodation_dalmacija_example_hotel_desc": "Description of the example hotel in Dalmatia.",
+  "accommodation_dalmacija_example_rural_name": "Dalmatia Example Rural Household",
+  "accommodation_dalmacija_example_rural_desc": "Description of the example rural household in Dalmatia.",
+
+  "region_food_intro_example": "Introduction to food in {{regionName}}.", 
+  "food_dalmacija_pasticada_name": "Pašticada (Dalmatian Pot Roast)",
+  "food_dalmacija_pasticada_desc": "A traditional Dalmatian dish...",
+  "food_dalmacija_brudet_name": "Brudet (Fish Stew)",
+  "food_dalmacija_brudet_desc": "A Dalmatian fish stew...",
+
+  "region_activities_intro_example": "Introduction to activities in {{regionName}}.", 
+  "activities_dalmacija_np_krka_name": "NP Krka Waterfalls",
+  "activities_dalmacija_np_krka_desc": "Explore the Krka National Park...",
+  "activities_dalmacija_boat_trip_name": "Dalmatian Coast Boat Trip",
+  "activities_slavonija_boat_trip_desc": "Description of a boat trip in Dalmatia.", 
+
+  "region_events_intro_example": "Introduction to events in {{regionName}}.", 
+  "events_dalmacija_ultra_europe_name": "Ultra Europe Festival",
+  "events_dalmacija_ultra_europe_desc": "Experience the world-famous music festival...",
+
+  "region_sights_intro_example": "Introduction to sights in {{regionName}}.", 
+  "sights_dalmacija_dubrovnik_walls_name": "Dubrovnik City Walls",
+  "sights_dalmacija_dubrovnik_walls_desc": "Walk along the historic city walls of Dubrovnik...",
+  "sights_dalmacija_dioklecian_palace_name": "Diocletian's Palace",
+  "sights_dalmacija_dioklecian_palace_desc": "Explore the ancient palace in Split...",
+
+  "view_more_button": "View More"
 }
