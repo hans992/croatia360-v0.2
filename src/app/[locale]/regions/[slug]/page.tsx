@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { getServerTranslations } from '@/lib/i18n/server';
 import { defaultNS, fallbackLng, type Locale, locales as appLocalesStringArray } from '@/lib/i18n/settings';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, CalendarDays, LandmarkIcon } from 'lucide-react'; // Primjeri ikona
+import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon } from 'lucide-react'; // Primjeri ikona
 
 // Interface for the data structure of a region
 interface RegionData {
@@ -87,11 +87,43 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
         { nameKey: 'sights_slavonija_djakovo_cathedral_name', descriptionKey: 'sights_slavonija_djakovo_cathedral_desc', icon: LandmarkIcon },
       ],
     },
+    
     // Add similar detailed structures for other regions (dalmacija, istra, etc.)
     'dalmacija': {
       heroImageUrl: `${gcsBaseUrl}regions/dalmacija/Zadar_charter_yacht.jpg`,
+      galleryImageUrls: [`${gcsBaseUrl}regions/dalmacija/Dubrovnik_srd.jpg`, `${gcsBaseUrl}regions/dalmacija/Makarska_from_the_sea.jpg`],
       color1: '#007FFF', color2: '#F8F8FF',
-      // ... add transport, accommodation etc. for Dalmacija
+      transportIntroKey: 'region_transport_intro_example',
+      transportDetails: [
+        { typeKey: 'transport_type_airplane', detailsKey: 'transport_dalmacija_airplane_details', icon: Plane },
+        { typeKey: 'transport_type_car', detailsKey: 'transport_dalmacija_car_details', icon: Car },
+        { typeKey: 'transport_type_bus', detailsKey: 'transport_dalmacija_bus_details', icon: Bus },
+        { typeKey: 'transport_type_train', detailsKey: 'transport_dalmacija_train_details', icon: Train },
+      ],
+      accommodationIntroKey: 'region_accommodation_intro_example',
+      accommodationExamples: [
+        { nameKey: 'accommodation_dalmacija_example_hotel_name', descriptionKey: 'accommodation_dalmacija_example_hotel_desc', icon: BedDouble },
+        { nameKey: 'accommodation_dalmacija_example_rural_name', descriptionKey: 'accommodation_dalmacija_example_rural_desc', icon: BedDouble },
+      ],
+      foodIntroKey: 'region_food_intro_example',
+      foodExamples: [
+        { nameKey: 'food_dalmacija_pasticada_name', descriptionKey: 'food_dalmacija_pasticada_desc', icon: Utensils },
+        { nameKey: 'food_dalmacija_brudet_name', descriptionKey: 'food_dalmacija_brudet_desc', icon: Utensils },
+      ],
+      activitiesIntroKey: 'region_activities_intro_example',
+      activityExamples: [
+        { nameKey: 'activities_dalmacija_np_krka_name', descriptionKey: 'activities_dalmacija_np_krka_desc', icon: Bike },
+        { nameKey: 'activities_dalmacija_boat_trip_name', descriptionKey: 'activities_slavonija_boat_trip_desc', icon: Sailboat },
+      ],
+      eventsIntroKey: 'region_events_intro_example',
+      eventExamples: [
+        { nameKey: 'events_dalmacija_ultra_europe_name', descriptionKey: 'events_dalmacija_ultra_europe_desc', icon: CalendarDays },
+      ],
+      sightsIntroKey: 'region_sights_intro_example',
+      sightExamples: [
+        { nameKey: 'sights_dalmacija_dubrovnik_walls_name', descriptionKey: 'sights_dalmacija_dubrovnik_walls_desc', icon: LandmarkIcon },
+        { nameKey: 'sights_dalmacija_dioklecian_palace_name', descriptionKey: 'sights_dalmacija_dioklecian_palace_desc', icon: LandmarkIcon },
+      ],
     },
      'istra': {
       heroImageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`,
