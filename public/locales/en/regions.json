@@ -40,8 +40,8 @@
   "region_activities_description_example": "Experience the region through exciting activities and unforgettable experiences.",
 
   "region_back_to_explore_button": "Back to Explore",
-
-  "region_transport_intro_example": "Introduction to transport in {{regionName}}.", 
+  
+  "region_transport_intro_example": "Introduction to transport", 
   "transport_type_airplane": "Airplane",
   "transport_dalmacija_airplane_details": "Details about air transport for Dalmatia...",
   "transport_type_car": "Car",
