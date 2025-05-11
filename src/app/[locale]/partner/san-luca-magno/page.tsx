@@ -7,12 +7,12 @@ import {
   Sailboat,
   Users,
   Clock,
-  // MapPin, // Nije korišteno, može se ukloniti ako nije planirano
+  // MapPin, // Not used, can be removed if not planned
   CheckCircle,
-  Calendar as CalendarIconLucide,
+  Calendar as CalendarIconLucide, // Renamed to avoid conflict
   Mail,
   Info,
-  // Sun, // Nije korišteno
+  // Sun, // Not used
   Briefcase,
   Anchor,
   Sparkles,
@@ -23,11 +23,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { DatePicker } from '@/components/ui/date-picker'; // Import nove DatePicker komponente
+import { DatePicker } from '@/components/ui/date-picker'; // Import your DatePicker component
 import { Toaster } from 'sonner';
 import { toast as sonnerToast } from 'sonner';
-// format i hr locale se sada koriste unutar DatePicker komponente, pa nisu nužno potrebni ovdje
-// osim ako ih ne koristite za nešto drugo.
+// format and hr locale are now used within DatePicker, so not necessarily needed here
+// unless used for something else.
 // import { format } from 'date-fns';
 // import { hr } from 'date-fns/locale';
 import { type SelectSingleEventHandler } from 'react-day-picker';
@@ -83,7 +83,7 @@ const GalleryImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
 );
 
 export default function SanLucaMagnoPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date()); // Promijenjeno u Date | undefined
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -115,11 +115,14 @@ export default function SanLucaMagnoPage() {
     setName(''); setEmail(''); setPhone(''); setMessage(''); setSelectedDate(new Date()); setNumGuests(1);
   };
 
-  // Handler za DatePicker's onSelect, koji odgovara SelectSingleEventHandler
-  const handleDateSelect: SelectSingleEventHandler = (day, selectedDay, activeModifiers, e) => {
-    // day je Date | undefined. selectedDay je Date.
-    // Za single mode, day i selectedDay bi trebali biti isti ako je datum odabran.
-    // Ako je datum od-selektiran (ako je to omogućeno), day će biti undefined.
+  // Handler for DatePicker's onSelect, which corresponds to SelectSingleEventHandler
+  // Prefix unused parameters with an underscore to satisfy ESLint
+  const handleDateSelect: SelectSingleEventHandler = (
+    day, 
+    _selectedDay, // Marked as unused
+    _activeModifiers, // Marked as unused
+    _e // Marked as unused
+  ) => {
     setSelectedDate(day);
   };
 
@@ -240,8 +243,8 @@ export default function SanLucaMagnoPage() {
                   <h3 className="text-lg font-medium mb-3 text-sky-700 dark:text-sky-400">Odaberite Datum Izleta:</h3>
                   <DatePicker
                     selected={selectedDate}
-                    onSelect={handleDateSelect} // Korištenje novog handlera
-                    // disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } // Onemogući prošle datume
+                    onSelect={handleDateSelect}
+                    // disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) }
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                     Kalendar prikazuje opću dostupnost. Za potvrdu termina i iCal sinkronizaciju, molimo pošaljite upit.
