@@ -6,7 +6,7 @@ import React, { useEffect, useRef } // Added useRef
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -152,11 +152,65 @@ const Chatbot: React.FC<ChatbotProps> = ({
           )}
         </div>
       </div>
-      <div className="mt-3 flex flex-wrap gap-2 justify-center">
-        <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="border-blue-200/50 bg-white/20 hover:bg-blue-50/30 text-blue-700" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-        <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="border-red-200/50 bg-white/20 hover:bg-red-50/30 text-red-700" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-        <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="border-green-200/50 bg-white/20 hover:bg-green-50/30 text-green-700" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-        <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="border-amber-200/50 bg-white/20 hover:bg-amber-50/30 text-amber-700" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+      <div className="flex flex-wrap gap-2 md:gap-3 justify-center mb-6">
+        {[
+          { 
+            labelKey: 'chatbot_button_beaches_label', 
+            queryKey: 'chatbot_button_beaches_text', 
+            baseColor: 'blue', // Osnovna boja za generiranje Tailwind klasa
+            icon: Sparkles // Primjer ikone, prilagodite po potrebi
+          },
+          { 
+            labelKey: 'chatbot_button_wine_label', 
+            queryKey: 'chatbot_button_wine_text', 
+            baseColor: 'red',
+            icon: Sparkles
+          },
+          { 
+            labelKey: 'chatbot_button_budget_label', 
+            queryKey: 'chatbot_button_budget_text', 
+            baseColor: 'green',
+            icon: Sparkles
+          },
+          { 
+            labelKey: 'chatbot_button_nature_label', 
+            queryKey: 'chatbot_button_nature_text', 
+            baseColor: 'yellow',
+            icon: Sparkles
+          },
+        ].map(btn => {
+          // Dinamičko generiranje klasa za bolju čitljivost i održavanje
+          const lightBg = `bg-${btn.baseColor}-500`;
+          const lightHoverBg = `hover:bg-${btn.baseColor}-600`;
+          const darkBg = `dark:bg-${btn.baseColor}-600`; // Malo tamnija ili ista za tamnu temu
+          const darkHoverBg = `dark:hover:bg-${btn.baseColor}-500`; // Svjetlija na hover u tamnoj temi
+
+          return (
+            <Button 
+              key={btn.labelKey}
+              variant="default" 
+              size="sm" 
+              onClick={() => {
+                setInput(t(btn.queryKey));
+                // Pronalazi formu i submit-a je. Osigurajte da postoji samo jedna forma ili prilagodite selektor.
+                const form = document.querySelector<HTMLFormElement>('form[class*="max-w-3xl"]');
+                if (form) {
+                  // Kreiranje i slanje submit eventa
+                  const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                  form.dispatchEvent(submitEvent);
+                }
+              }}
+              className={`text-white rounded-full px-5 py-2.5 text-sm font-medium shadow-md hover:shadow-lg 
+                         transition-all transform hover:scale-105 active:scale-95
+                         ${lightBg} ${lightHoverBg} 
+                         ${darkBg} ${darkHoverBg}
+                         dark:ring-1 dark:ring-white/20`} // Dodan suptilni ring za bolji kontrast u tamnoj temi
+              disabled={isLoading}
+            > 
+              <btn.icon className="w-4 h-4 mr-2 opacity-90" /> {t(btn.labelKey)}
+            </Button>
+          );
+        })}
       </div>
       <div className="mt-3 flex items-center justify-center">
         {renderForm(false)}
