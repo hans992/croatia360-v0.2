@@ -7,12 +7,10 @@ import {
   Sailboat,
   Users,
   Clock,
-  // MapPin, // Not used, can be removed if not planned
   CheckCircle,
-  Calendar as CalendarIconLucide, // Renamed to avoid conflict
+  Calendar as CalendarIconLucide,
   Mail,
   Info,
-  // Sun, // Not used
   Briefcase,
   Anchor,
   Sparkles,
@@ -23,17 +21,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { DatePicker } from '@/components/ui/date-picker'; // Import your DatePicker component
+import { DatePicker } from '@/components/ui/date-picker';
 import { Toaster } from 'sonner';
 import { toast as sonnerToast } from 'sonner';
-// format and hr locale are now used within DatePicker, so not necessarily needed here
-// unless used for something else.
-// import { format } from 'date-fns';
-// import { hr } from 'date-fns/locale';
-import { type SelectSingleEventHandler } from 'react-day-picker';
+import { type SelectSingleEventHandler, type ActiveModifiers } from 'react-day-picker'; // Import ActiveModifiers
 
-
-// Mock data for the San Luca Magno trip
+// Mock data (ostaje isto kao u prethodnoj verziji)
 const tripData = {
   title: "San Luca Magno: Cjelodnevni Privatni Izlet Jedrenjakom - Kornati i Telašćica iz Zadra",
   heroImage: "https://storage.googleapis.com/croatia360/images/partners/san_luca_magno/hero_san_luca_magno.jpg",
@@ -116,12 +109,15 @@ export default function SanLucaMagnoPage() {
   };
 
   // Handler for DatePicker's onSelect, which corresponds to SelectSingleEventHandler
-  // Prefix unused parameters with an underscore to satisfy ESLint
+  // Prefix unused parameters with an underscore AND add ESLint disable comments
   const handleDateSelect: SelectSingleEventHandler = (
-    day, 
-    _selectedDay, // Marked as unused
-    _activeModifiers, // Marked as unused
-    _e // Marked as unused
+    day: Date | undefined,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _selectedDay: Date, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _activeModifiers: ActiveModifiers,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _e?: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | undefined
   ) => {
     setSelectedDate(day);
   };
