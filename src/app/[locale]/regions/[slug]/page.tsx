@@ -182,7 +182,7 @@ interface TransportationCardProps {
   typeKey: string;
   detailsKey: string;
   primaryColor?: string;
-  t: TFunction<[typeof defaultNS, 'regions'], undefined>; // Use TFunction from i18next
+  t: TFunction<[typeof defaultNS, 'regions'], undefined>;
 }
 
 const TransportationCard: React.FC<TransportationCardProps> = ({
@@ -232,7 +232,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
     effectiveLocale = fallbackLng;
   }
 
-  // Explicitly type the return of getServerTranslations if needed, or rely on inference
   const { t } = await getServerTranslations(effectiveLocale, [defaultNS, 'regions']);
   const regionData = await getRegionDataBySlug(slug, effectiveLocale);
 
@@ -413,7 +412,8 @@ interface MetadataAsyncProps {
 
 export async function generateMetadata(
   props: MetadataAsyncProps,
-  _parent: ResolvingMetadata // Marked as unused
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _parent: ResolvingMetadata 
 ): Promise<Metadata> {
   const resolvedParams = await props.params;
 
