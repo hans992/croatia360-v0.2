@@ -222,6 +222,7 @@
   "region_lika_gorski_kotar_description_short": "Nature sauvage intacte des parcs nationaux, sommets montagneux et rivières cristallines.",  
   "region_istra_description_short": "Une péninsule magique de villes médiévales, d'oliveraies et de cuisine exquise.",  
   "region_dalmacija_description_short": "Un littoral de mille îles, de villes antiques et d'une mer azur cristalline.",  
+  "region_kvarner_description_short": "Un mélange unique de mer, d’îles et de montagnes, avec des villes historiques, une nature luxuriante et une gastronomie variée.",
   "region_lika_gorski_kotar": "Lika et Gorski Kotar",  
   "explore_page_discover_region": "Explorez {{regionName}}",  
   "explore_page_select_region_title": "Sélectionnez une région à explorer",  
