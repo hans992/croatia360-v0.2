@@ -25,17 +25,17 @@ interface Destination {
 interface PopularDestinationCardProps {
     destination: Destination;
     locale: Locale;
-    regionColor: string; // <<< DODANO: Prop za boju regije
+    regionColor: string; // Prop za boju regije
 }
 
 const PopularDestinationCard: React.FC<PopularDestinationCardProps> = ({ destination, locale, regionColor }) => {
     const { t } = useTranslation(defaultNS);
 
     return (
-        // CORRECTED: Uklonjen border-transparent, dodan border-l-4
+        // CORRECTED: Zamijenjen border-l-4 s border-b-4
         <Card
-            className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out bg-card text-card-foreground border-l-4 flex flex-col h-full"
-            style={{ borderColor: regionColor }} // <<< DODANO: Primjena boje na lijevi obrub
+            className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out bg-card text-card-foreground border-b-4 flex flex-col h-full" // Promijenjeno u border-b-4
+            style={{ borderBottomColor: regionColor }} // <<< DODANO: Primjena boje na donji obrub
         >
             <Link href={`/${locale}/destinations/${destination.slug}`} className="flex flex-col h-full">
                 <CardHeader className="p-0">
@@ -59,7 +59,6 @@ const PopularDestinationCard: React.FC<PopularDestinationCardProps> = ({ destina
                 </CardHeader>
                 <CardContent className="p-4 flex flex-col flex-grow">
                     <CardTitle className="text-lg font-bold mb-1 text-foreground group-hover:text-primary transition-colors duration-300">{t(destination.nameKey)}</CardTitle>
-                    {/* Prikazujemo ime regije umjesto ključa */}
                     <CardDescription className="text-sm text-muted-foreground mb-3">{t(`region_${destination.regionKey}`)}</CardDescription>
                     <p className="text-xs text-muted-foreground mb-3 line-clamp-2 flex-grow hidden sm:block">{t(destination.descriptionKey)}</p>
                     <div className="mt-auto flex items-center text-sm text-muted-foreground">
