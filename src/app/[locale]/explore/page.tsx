@@ -1,29 +1,23 @@
 // src/app/[locale]/explore/page.tsx
 "use client";
 
-// Import necessary UI components and icons
+// ... (ostali importi ostaju isti)
+import RegionalCard from '@/components/RegionalCard';
+import PopularDestinationCard from '@/components/PopularDestinationCard';
+import RecommendationCard from '@/components/RecommendationCard';
+import { useParams, notFound } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
-// Import i18n utilities
-import { useTranslation } from 'react-i18next';
-import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
-
-// Import Next.js navigation hooks
-import { useParams, notFound } from 'next/navigation';
-
-// Import custom components
-import RegionalCard from '@/components/RegionalCard';
-import PopularDestinationCard from '@/components/PopularDestinationCard'; // Import new component
-import RecommendationCard from '@/components/RecommendationCard'; // Import new component
-
-// --- Interfaces (Keep definitions if needed for data fetching/passing) ---
+// --- Interfaces ---
 interface Destination {
   id: string;
   nameKey: string;
-  regionKey: string;
+  regionKey: string; // Ključ za dohvaćanje boje regije
   descriptionKey: string;
   rating: number;
   reviews: number;
@@ -37,6 +31,7 @@ interface Recommendation {
   typeKey: string;
   nameKey: string;
   locationKey: string;
+  regionKey: string; // <<< DODANO: Ključ za regiju
   descriptionKey: string;
   rating: number;
   reviews: number;
@@ -61,7 +56,7 @@ interface Region {
 // Base URL for images
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
-// --- Data (Keep as is for now) ---
+// --- Data ---
 const regionsData: Region[] = [
   { id: "slavonija", nameKey: "region_slavonija", descriptionKey: "region_slavonija_description_short", imageUrl: `${gcsBaseUrl}Slavonija_zito.jpg`, color1: '#FFD700', color2: '#8B4513', slug: "slavonija" },
   { id: "sredisnja_hrvatska", nameKey: "region_sredisnja", descriptionKey: "region_sredisnja_description_short", imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`, color1: '#800020', color2: '#2E8B57', slug: "sredisnja-hrvatska" },
@@ -85,21 +80,23 @@ export default function ExplorePage() {
   }
   const currentLocale = localeParam as Locale;
 
-  // --- Mock Data (Keep as is for now) ---
+  // --- Mock Data ---
   const popularDestinations: Destination[] = [
-    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}regions/dalmacija/Sibenik_from_the_sea.jpg`, featured: true, slug: "sibenik" },
-    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}regions/dalmacija/Trogir_aerial.jpg`, featured: false, slug: "trogir" },
-    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "region_kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}Opatija.jpg`, featured: false, slug: "opatija" },
+    // Koristimo ID regije iz regionsData kao regionKey
+    { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}regions/dalmacija/Sibenik_from_the_sea.jpg`, featured: true, slug: "sibenik" },
+    { id: "trogir", nameKey: "destination_trogir_name", regionKey: "dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}regions/dalmacija/Trogir_aerial.jpg`, featured: false, slug: "trogir" },
+    { id: "opatija", nameKey: "destination_opatija_name", regionKey: "kvarner", descriptionKey: "destination_opatija_description", rating: 4.7, reviews: 980, imageUrl: `${gcsBaseUrl}Opatija.jpg`, featured: false, slug: "opatija" },
   ];
 
   const recommendations: Recommendation[] = [
-    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
-    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek" },
-    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour" },
+    // DODANO: regionKey
+    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", regionKey: "kvarner", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
+    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", regionKey: "slavonija", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek" },
+    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", regionKey: "dalmacija", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour" },
   ];
 
-  // --- Filter Options (Keep as is) ---
-  const categoryOptions = [
+  // --- Filter Options (ostaju isti) ---
+   const categoryOptions = [
     { value: "all", labelKey: "filter_category_all" },
     { value: "accommodation", labelKey: "filter_category_accommodation" },
     { value: "food", labelKey: "filter_category_food" },
@@ -125,6 +122,13 @@ export default function ExplorePage() {
     { value: "€€€€", labelKey: "filter_price_4" },
   ];
 
+  // --- Helper za dohvaćanje boje regije ---
+  // Kreiramo mapu ID regije -> primarna boja za lakši pristup
+  const regionColorMap = regionsData.reduce((acc, region) => {
+      acc[region.id] = region.color1; // Koristimo color1 kao primarnu boju za obrub
+      return acc;
+  }, {} as Record<string, string>);
+
   // --- Render Page ---
   return (
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
@@ -141,18 +145,20 @@ export default function ExplorePage() {
       {/* Regional Cards Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-foreground">{t('explore_page_select_region_title')}</h2>
-        {/* CORRECTED: Grid layout adjusted for better distribution of 7 items */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+        {/* CORRECTED: Flexbox layout for centering */}
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {regionsData.map((region) => (
-            <RegionalCard
-              key={region.id}
-              regionKey={region.nameKey}
-              descriptionKey={region.descriptionKey}
-              imageUrl={region.imageUrl}
-              color1={region.color1}
-              color2={region.color2}
-              slug={region.slug}
-            />
+            // Dodajemo širinu karticama da se bolje rasporede unutar flex container-a
+            <div key={region.id} className="w-full sm:w-[calc(50%-1.5rem)] md:w-[calc(33.33%-1.5rem)] lg:w-[calc(25%-1.5rem)]">
+                 <RegionalCard
+                    regionKey={region.nameKey}
+                    descriptionKey={region.descriptionKey}
+                    imageUrl={region.imageUrl}
+                    color1={region.color1}
+                    color2={region.color2}
+                    slug={region.slug}
+                 />
+            </div>
           ))}
         </div>
       </section>
@@ -207,37 +213,39 @@ export default function ExplorePage() {
 
       {/* Popular Destinations Section */}
       <section className="mb-16">
-        {/* CORRECTED: Changed text-secondary to text-primary for light theme visibility */}
         <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_popular_destinations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {popularDestinations.map((dest) => (
-            // Use the new component
-            <PopularDestinationCard
-              key={dest.id}
-              destination={dest}
-              locale={currentLocale}
-              // t function is already available via useTranslation hook in the card component if needed,
-              // or pass it explicitly: t={t}
-            />
-          ))}
+          {popularDestinations.map((dest) => {
+            // Dohvaćamo boju regije koristeći mapu
+            const regionColor = regionColorMap[dest.regionKey] || 'hsl(var(--border))'; // Fallback na boju obruba
+            return (
+              <PopularDestinationCard
+                key={dest.id}
+                destination={dest}
+                locale={currentLocale}
+                regionColor={regionColor} // Proslijeđujemo boju
+              />
+            );
+          })}
         </div>
       </section>
 
       {/* Recommendations Section */}
       <section>
-        {/* CORRECTED: Changed text-secondary to text-primary for light theme visibility */}
         <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_recommendations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {recommendations.map((rec) => (
-             // Use the new component
-            <RecommendationCard
-              key={rec.id}
-              recommendation={rec}
-              locale={currentLocale}
-              // t function is already available via useTranslation hook in the card component if needed,
-              // or pass it explicitly: t={t}
-            />
-          ))}
+          {recommendations.map((rec) => {
+             // Dohvaćamo boju regije koristeći mapu
+             const regionColor = regionColorMap[rec.regionKey] || 'hsl(var(--border))'; // Fallback na boju obruba
+             return (
+               <RecommendationCard
+                 key={rec.id}
+                 recommendation={rec}
+                 locale={currentLocale}
+                 regionColor={regionColor} // Proslijeđujemo boju
+               />
+             );
+          })}
         </div>
       </section>
     </main>

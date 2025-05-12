@@ -5,7 +5,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge'; // Using Badge for tags
+import { Badge } from '@/components/ui/badge';
 import { Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -16,6 +16,7 @@ interface Recommendation {
     typeKey: string;
     nameKey: string;
     locationKey: string;
+    regionKey: string; // <<< Osiguraj da postoji
     descriptionKey: string;
     rating: number;
     reviews: number;
@@ -30,31 +31,33 @@ interface Recommendation {
 interface RecommendationCardProps {
     recommendation: Recommendation;
     locale: Locale;
+    regionColor: string; // <<< DODANO: Prop za boju regije
 }
 
-const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation, locale }) => {
+const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation, locale, regionColor }) => {
     const { t } = useTranslation(defaultNS);
 
     return (
-        <Card className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out bg-card text-card-foreground border border-transparent hover:border-primary/30 flex flex-col h-full">
-             {/* Link wraps the entire card content */}
+         // CORRECTED: Uklonjen border-transparent, dodan border-l-4
+        <Card
+            className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out bg-card text-card-foreground border-l-4 flex flex-col h-full"
+            style={{ borderColor: regionColor }} // <<< DODANO: Primjena boje na lijevi obrub
+        >
             <Link href={`/${locale}/recommendations/${recommendation.slug}`} className="flex flex-col h-full">
                 <CardHeader className="p-0">
-                    <div className="relative w-full aspect-[16/10] overflow-hidden"> {/* Fixed aspect ratio */}
+                    <div className="relative w-full aspect-[16/10] overflow-hidden">
                         <Image
                             src={recommendation.imageUrl}
                             alt={t(recommendation.nameKey)}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optimized sizes
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             style={{ objectFit: 'cover' }}
                             className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                         />
-                         {/* Optional: Add a subtle overlay */}
                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70 group-hover:opacity-80 transition-opacity duration-300"></div>
-                         {/* Price Category Badge */}
                          {recommendation.priceCategory && (
                              <Badge
-                                variant="secondary" // Use secondary variant for subtle look
+                                variant="secondary"
                                 className="absolute top-2 right-2 text-xs font-bold bg-black/50 text-white backdrop-blur-sm"
                              >
                                  {recommendation.priceCategory}
@@ -63,32 +66,28 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation,
                     </div>
                 </CardHeader>
                 <CardContent className="p-4 flex flex-col flex-grow">
-                    {/* Type displayed prominently */}
                     <p className="text-xs uppercase text-primary font-semibold mb-1 tracking-wide">{t(recommendation.typeKey)}</p>
                     <CardTitle className="text-lg font-bold mb-1 text-foreground group-hover:text-primary transition-colors duration-300">{t(recommendation.nameKey)}</CardTitle>
-                    <CardDescription className="text-sm text-muted-foreground mb-2">{t(recommendation.locationKey)}</CardDescription>
-                    {/* Description hidden on smaller cards */}
+                    {/* Dodajemo i prikaz regije ovdje */}
+                    <CardDescription className="text-sm text-muted-foreground mb-2">
+                        {t(recommendation.locationKey)} - <span className="font-medium" style={{ color: regionColor }}>{t(`region_${recommendation.regionKey}`)}</span>
+                    </CardDescription>
                     <p className="text-xs text-muted-foreground mb-3 line-clamp-2 flex-grow hidden sm:block">{t(recommendation.descriptionKey)}</p>
-
-                    {/* Tags - Conditionally rendered */}
                     {recommendation.tagsKeys && recommendation.tagsKeys.length > 0 && (
                         <div className="mb-3 flex flex-wrap gap-1">
-                            {recommendation.tagsKeys.slice(0, 3).map(tagKey => ( // Show max 3 tags
+                            {recommendation.tagsKeys.slice(0, 3).map(tagKey => (
                                 <Badge key={tagKey} variant="outline" className="text-xs px-1.5 py-0.5">
                                     {t(tagKey)}
                                 </Badge>
                             ))}
                         </div>
                     )}
-
-                    {/* Rating and Price pushed to bottom */}
                     <div className="mt-auto flex items-center justify-between text-sm">
                         <div className="flex items-center text-muted-foreground">
                             <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
                             <span className="font-medium text-foreground">{recommendation.rating.toFixed(1)}</span>
                             <span className="ml-1">({recommendation.reviews} {t('reviews_label', 'recenzija')})</span>
                         </div>
-                        {/* Display raw price if available */}
                         {recommendation.priceRaw && <span className="font-semibold text-accent">{recommendation.priceRaw}</span>}
                     </div>
                 </CardContent>
