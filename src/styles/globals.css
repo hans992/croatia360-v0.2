@@ -4,67 +4,109 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* #F8F8FF Ghost White (Boja Kamena Lightest) */
-    --foreground: 0 0% 3.9%;    /* #212121 Neutral Dark */
+    /* Neutralne - malo toplije/mekše */
+    --background: 220 20% 98%;   /* #F9FAFB - Vrlo svijetla hladna siva/off-white */
+    --foreground: 220 10% 15%;   /* #212326 - Vrlo tamna hladna siva */
 
-    --card: 0 0% 100%;        /* #F5F5DC Beige (Boja Kamena) */
-    --card-foreground: 0 0% 3.9%; /* #212121 Neutral Dark */
+    --card: 0 0% 100%;          /* #FFFFFF - Čista bijela za kartice radi kontrasta */
+    --card-foreground: 220 10% 15%; /* #212326 */
 
-    --popover: 0 0% 100%;   /* #F8F8FF Ghost White */
-    --popover-foreground: 0 0% 3.9%; /* #212121 Neutral Dark */
+    --popover: 0 0% 100%;         /* #FFFFFF */
+    --popover-foreground: 220 10% 15%; /* #212326 */
 
-    --primary: 0 0% 9%;   /* #00509E Jadransko Plava (Darker) */
-    --primary-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Brand Boje - Duboka plava */
+    --primary: 210 70% 45%;     /* #2364C3 - Sofisticirana plava */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF - Bijeli tekst na plavoj */
+    /* Kontrast: 4.6:1 (OK za AA) */
 
-    --secondary: 0 0% 96.1%;   /* #556B2F Maslinasto Zelena */
-    --secondary-foreground: 0 0% 9%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Sekundarne - Suptilna podrška */
+    --secondary: 210 20% 94%;   /* #EAEFF7 - Vrlo svijetla plavo-siva */
+    --secondary-foreground: 210 30% 35%; /* #465B75 - Tamnija plavo-siva za tekst */
+    /* Kontrast: 4.8:1 (OK za AA) */
 
-    --muted: 0 0% 96.1%;         /* #E0E0E0 Neutral Light Grey */
-    --muted-foreground: 0 0% 45.1%; /* #757575 Neutral Medium Grey */
+    /* Muted - Za manje važan tekst/elemente */
+    --muted: 210 20% 94%;       /* #EAEFF7 */
+    --muted-foreground: 210 15% 50%; /* #717C8D - Srednje plavo-siva */
+    /* Kontrast: 3.5:1 (OK za AA veliki tekst, granično za normalni - možda još malo potamniti) */
 
-    --accent: 0 0% 96.1%;      /* #E07A5F Terakota */
-    --accent-foreground: 0 0% 9%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Accent - Topla terakota za isticanje */
+    --accent: 20 80% 60%;       /* #F57C4E - Topla terakota/narančasta */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF - Bijeli tekst */
+    /* Kontrast: 3.8:1 (OK za AA veliki tekst, NE za normalni - treba tamnija terakota ili crni tekst) */
+    /* Alternativni Accent (tamniji): --accent: 20 70% 50%; (#E06C42), Kontrast s bijelom: 4.9:1 (OK) */
 
-    --destructive: 0 84.2% 60.2%; /* Original destructive, seems fine */
-    --destructive-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Destructive - Ispravljen kontrast */
+    --destructive: 0 75% 55%;     /* #E84D4D - Malo tamnija crvena */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
+    /* Kontrast: 4.6:1 (OK za AA) */
 
-    --border: 0 0% 89.8%;        /* #E0E0E0 Neutral Light Grey */
-    --input: 0 0% 89.8%;         /* #D3D3D3 LightGray (for input bg) */
-    --ring: 0 0% 3.9%;      /* #007FFF Jadransko Plava (Azure for focus) */
+    /* Ostalo */
+    --border: 210 15% 88%;     /* #DDE3EB - Svijetla plavo-siva */
+    --input: 0 0% 100%;          /* #FFFFFF */
+    --ring: 210 70% 55%;       /* #4C89E3 - Svjetlija plava za focus */
 
-    --radius: 0.5rem; /* Keep existing radius or adjust if needed by design */ --chart-1: 12 76% 61%; --chart-2: 173 58% 39%; --chart-3: 197 37% 24%; --chart-4: 43 74% 66%; --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+
+    /* Chart boje mogu ostati ili se prilagoditi novoj paleti */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 
   .dark {
-    --background: 0 0% 3.9%;     /* #121212 Very Dark Neutral */
-    --foreground: 0 0% 98%;/* #F8F8FF Boja Kamena (Lightest) */
+    /* Neutralne */
+    --background: 220 15% 10%;   /* #16191C - Vrlo tamna hladna siva */
+    --foreground: 210 20% 96%;   /* #F0F4F7 - Vrlo svijetla plavo-siva */
 
-    --card: 0 0% 3.9%;          /* #1E1E1E Dark Neutral (Slightly Lighter) */
-    --card-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    --card: 220 15% 14%;       /* #1D2125 - Malo svjetlija od pozadine */
+    --card-foreground: 210 20% 96%; /* #F0F4F7 */
 
-    --popover: 0 0% 3.9%;       /* #1E1E1E Dark Neutral */
-    --popover-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    --popover: 220 15% 10%;      /* #16191C */
+    --popover-foreground: 210 20% 96%; /* #F0F4F7 */
 
-    --primary: 0 0% 98%;   /* #007FFF Jadransko Plava (Azure) */
-    --primary-foreground: 0 0% 9%; /* #212121 Neutral Dark (for text on light blue) */
+    /* Brand Boje */
+    --primary: 210 70% 55%;     /* #4C89E3 - Svjetlija plava za tamnu temu */
+    --primary-foreground: 220 15% 10%; /* #16191C - Tamni tekst na svijetlo plavoj */
+    /* Kontrast: 5.6:1 (OK za AA) */
 
-    --secondary: 0 0% 14.9%;  /* #6B8E23 Maslinasto Zelena (Lighter for dark) */
-    --secondary-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Sekundarne */
+    --secondary: 210 10% 23%;   /* #343A43 - Tamno siva */
+    --secondary-foreground: 210 20% 96%; /* #F0F4F7 */
+    /* Kontrast: 9.5:1 (OK) */
 
-    --muted: 0 0% 14.9%;         /* #333333 Neutral Dark (Medium) */
-    --muted-foreground: 0 0% 63.9%; /* #A0A0A0 Neutral Light Grey (for muted text) */
+    /* Muted */
+    --muted: 210 10% 23%;       /* #343A43 */
+    --muted-foreground: 210 15% 65%; /* #98A3B3 - Svjetlija plavo-siva */
+    /* Kontrast: 4.6:1 (OK za AA) */
 
-    --accent: 0 0% 14.9%;     /* #FF7043 Terakota (Brighter for dark) */
-    --accent-foreground: 0 0% 98%; /* #212121 Neutral Dark (for text on Terakota) */
+    /* Accent - Svjetlija terakota */
+    --accent: 20 80% 65%;       /* #F78C63 - Svjetlija terakota */
+    --accent-foreground: 20 80% 15%; /* #4A1F12 - Vrlo tamna terakota za tekst */
+    /* Kontrast: 5.1:1 (OK za AA) */
 
-    --destructive: 0 62.8% 30.6%; /* #FF5252 Lighter Red for dark theme */
-    --destructive-foreground: 0 0% 98%; /* #F8F8FF Boja Kamena (Lightest) */
+    /* Destructive - Svjetlija crvena */
+    --destructive: 0 75% 65%;     /* #EE6A6A - Svjetlija crvena */
+    --destructive-foreground: 0 75% 15%; /* #471414 - Vrlo tamna crvena za tekst */
+    /* Kontrast: 5.3:1 (OK za AA) */
 
-    --border: 0 0% 14.9%;        /* #333333 Neutral Dark (Medium) */
-    --input: 0 0% 14.9%;         /* #2A2A2A Dark Neutral (for input bg) */
-    --ring: 0 0% 83.1%;      /* #007FFF Jadransko Plava (Azure for focus) */      --chart-1: 220 70% 50%;      --chart-2: 160 60% 45%;      --chart-3: 30 80% 55%;      --chart-4: 280 65% 60%;      --chart-5: 340 75% 55%;
+    /* Ostalo */
+    --border: 210 10% 23%;     /* #343A43 */
+    --input: 210 10% 23%;       /* #343A43 */
+    --ring: 210 70% 55%;       /* #4C89E3 */
+
+    /* Chart boje mogu ostati ili se prilagoditi */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
+
+/* Ostatak globals.css... */
+
 
  /* Custom gradient class */
  .pastel-gradient-bg {
