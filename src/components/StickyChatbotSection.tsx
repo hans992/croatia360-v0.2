@@ -2,115 +2,109 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import Chatbot from "@/components/chatbot/Chatbot"; 
-import { useScrollDirection } from '@/hooks/useScrollDirection'; 
+import Chatbot from "@/components/chatbot/Chatbot";
+import { useScrollDirection } from '@/hooks/useScrollDirection';
+import Image from 'next/image'; // Import Image component
 
 export default function StickyChatbotSection() {
-  const [isSticky, setIsSticky] = useState(false);
-  // Ref for the entire section that contains the chatbot in its non-sticky state
-  const sectionWrapperRef = useRef<HTMLDivElement>(null);
-  const [placeholderHeight, setPlaceholderHeight] = useState<number>(0);
-  
-  const scrollDirection = useScrollDirection(); // Used to position sticky bar relative to main header
-  const siteHeaderHeight = 64; // Assumed height of your main site header in pixels
+    const [isSticky, setIsSticky] = useState(false);
+    const sectionWrapperRef = useRef<HTMLDivElement>(null);
+    const [placeholderHeight, setPlaceholderHeight] = useState<number>(0);
+    const scrollDirection = useScrollDirection();
+    const siteHeaderHeight = 64; // Assume header height
+    const initialOffsetTopRef = useRef<number | null>(null);
 
-  // Ref to store the original offsetTop of the section for scroll calculations
-  const initialOffsetTopRef = useRef<number | null>(null);
+    // Background image URL (replace with your high-quality image URL)
+    // Suggestion: A beautiful, slightly abstract Croatian landscape/seascape
+    const backgroundImageUrl = "https://storage.googleapis.com/croatia360/images/regions/dalmacija/Dubrovnik_wall_tour.jpg"; // Placeholder - REPLACE THIS
 
-  useEffect(() => {
-    // Function to capture the initial offsetTop when the component mounts or is not sticky
-    const captureInitialOffset = () => {
-      if (sectionWrapperRef.current && !isSticky) { // Only measure when not sticky
-        initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
-      }
-    };
+    useEffect(() => {
+        const captureInitialOffset = () => {
+            if (sectionWrapperRef.current && !isSticky) {
+                initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
+            }
+        };
+        captureInitialOffset();
 
-    captureInitialOffset(); // Initial capture
+        const handleScroll = () => {
+            if (initialOffsetTopRef.current === null) {
+                 if (sectionWrapperRef.current && !isSticky) {
+                     initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
+                 }
+                 if (initialOffsetTopRef.current === null) return;
+            }
+            const triggerPoint = initialOffsetTopRef.current - siteHeaderHeight;
+            setIsSticky(window.scrollY > triggerPoint);
+        };
 
-    const handleScroll = () => {
-      if (initialOffsetTopRef.current === null) {
-        // Fallback: if offset wasn't captured, try again (e.g., if ref wasn't ready initially)
+        const timerId = setTimeout(handleScroll, 100);
+        window.addEventListener('scroll', handleScroll);
+        const handleResize = () => {
+            captureInitialOffset();
+            handleScroll();
+        };
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            clearTimeout(timerId);
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [siteHeaderHeight, isSticky]);
+
+    useEffect(() => {
         if (sectionWrapperRef.current && !isSticky) {
-            initialOffsetTopRef.current = sectionWrapperRef.current.offsetTop;
+            setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
+        } else if (isSticky && placeholderHeight === 0 && sectionWrapperRef.current) {
+            setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
         }
-        if (initialOffsetTopRef.current === null) return; // Can't proceed without offset
-      }
-      
-      // Determine the point at which the section should become sticky
-      // It becomes sticky when its original top position is scrolled siteHeaderHeight pixels past the viewport top
-      const triggerPoint = initialOffsetTopRef.current - siteHeaderHeight;
+    }, [isSticky, placeholderHeight]);
 
-      if (window.scrollY > triggerPoint) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
-    };
+    const stickyChatbotBarTopClass = scrollDirection === 'down'
+        ? 'top-0'
+        : `top-[${siteHeaderHeight}px]`; // Sticks below header
 
-    const timerId = setTimeout(handleScroll, 100); // Check state after initial render and layout
-    window.addEventListener('scroll', handleScroll);
-    
-    const handleResize = () => { // Recalculate on resize
-      captureInitialOffset();
-      handleScroll();
-    };
-    window.addEventListener('resize', handleResize);
+    return (
+        <>
+            {/* Placeholder to prevent layout jump */}
+            {isSticky && <div style={{ height: `${placeholderHeight}px` }} />}
 
-    return () => {
-      clearTimeout(timerId);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [siteHeaderHeight, isSticky]); // Rerun if isSticky changes to re-capture offset correctly
+            {/* Main Section Wrapper */}
+            <div
+                ref={sectionWrapperRef}
+                className={
+                    isSticky
+                        ? `fixed left-0 right-0 will-change-transform transition-all duration-300 ease-in-out ${stickyChatbotBarTopClass} z-40 bg-background/80 backdrop-blur-md shadow-md` // Sticky bar styling
+                        : `relative w-full h-[70vh] md:h-[80vh] min-h-[500px] md:min-h-[600px] my-0 overflow-hidden flex items-center justify-center animate-fadeIn` // Non-sticky hero section styling
+                }
+            >
+                {/* Background Image and Overlay (Only for non-sticky state) */}
+                {!isSticky && (
+                    <>
+                        <Image
+                            src={backgroundImageUrl}
+                            alt="Pozadina hrvatskog krajolika" // Alt text in Croatian
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            priority // Load image early
+                            className="z-[-2]" // Place behind content and overlay
+                        />
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black/30 dark:bg-black/50 z-[-1]"></div>
+                    </>
+                )}
 
-  // Effect to set the placeholder height based on the non-sticky section's height
-  useEffect(() => {
-    if (sectionWrapperRef.current && !isSticky) {
-      setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
-    }
-    // If it becomes sticky and placeholderHeight is 0 (or undefined),
-    // it means we might have missed the initial measurement or it loaded sticky.
-    // This is a fallback, ideally placeholderHeight is set before becoming sticky.
-    else if (isSticky && placeholderHeight === 0 && sectionWrapperRef.current) {
-        setPlaceholderHeight(sectionWrapperRef.current.offsetHeight);
-    }
-  }, [isSticky, placeholderHeight]); // Rerun if isSticky changes
-
-  // Determine the 'top' class for the sticky chatbot bar based on main header's visibility
-  const stickyChatbotBarTopClass = scrollDirection === 'down' 
-    ? 'top-0' // If main header is hidden (scrolling down), stick to very top
-    : `top-[${siteHeaderHeight}px]`; // If main header is visible (scrolling up), stick below it
-
-  return (
-    <>
-      {/* Placeholder to prevent layout jump when the section becomes sticky */}
-      {isSticky && <div style={{ height: `${placeholderHeight}px` }} />}
-
-      <div
-        ref={sectionWrapperRef}
-        className={
-          isSticky
-            ? `fixed left-0 right-0 
-               will-change-transform transition-all duration-300 ease-in-out
-               ${stickyChatbotBarTopClass} 
-               z-40  /* Below main header (z-50) */
-               bg-background/80 backdrop-blur-md shadow-md /* Styling for the sticky bar */ ` 
-            : `relative container mx-auto px-4 my-8 md:my-12 py-6 md:py-8 
-               pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl` /* Styling for non-sticky section */
-        }
-      >
-        {/* When sticky, Chatbot renders compact version.
-          When not sticky, Chatbot renders full version within the styled section.
-          The inner .container div is for the sticky state to constrain width.
-        */}
-        {isSticky ? (
-          <div className="container mx-auto px-4"> {/* Constrains width of sticky bar content */}
-            <Chatbot isSticky={true} redirectOnSubmitUrl="/chat" />
-          </div>
-        ) : (
-          <Chatbot isSticky={false} redirectOnSubmitUrl="/chat" />
-        )}
-      </div>
-    </>
-  );
+                {/* Content Container */}
+                <div className={`container mx-auto px-4 ${isSticky ? '' : 'relative z-10'}`}>
+                    {/* Render Chatbot: compact when sticky, full version otherwise */}
+                    <Chatbot
+                        isSticky={isSticky}
+                        redirectOnSubmitUrl="/chat"
+                        // Pass a prop to indicate it's the hero section version for styling inside Chatbot
+                        variant={isSticky ? 'sticky' : 'hero'}
+                    />
+                </div>
+            </div>
+        </>
+    );
 }
