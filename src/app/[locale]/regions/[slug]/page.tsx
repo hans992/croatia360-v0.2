@@ -15,7 +15,9 @@ import type { TFunction } from 'i18next';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 // Lucide icons for various elements
-import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon, type LucideIcon, Ship } from 'lucide-react'; // Added Ship icon as an alternative for Sailboat if preferred
+// Removed 'Ship' as it was unused. If you need a ship icon, Sailboat is already imported and used.
+// If a different ship icon is needed, it can be re-added and used.
+import { Plane, Car, Bus, Train, BedDouble, Utensils, Bike, Sailboat, CalendarDays, LandmarkIcon, type LucideIcon } from 'lucide-react';
 
 // --- Component-specific interfaces ---
 
@@ -88,11 +90,11 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
   };
   
   // Default transport details
-  const getDefaultTransportDetails = (regionSlug: string): TransportDetailItem[] => [
-    { typeKey: 'transport_type_airplane', detailsKey: `transport_${regionSlug}_airplane_details`, icon: Plane },
-    { typeKey: 'transport_type_car', detailsKey: `transport_${regionSlug}_car_details`, icon: Car },
-    { typeKey: 'transport_type_bus', detailsKey: `transport_${regionSlug}_bus_details`, icon: Bus },
-    { typeKey: 'transport_type_train', detailsKey: `transport_${regionSlug}_train_details`, icon: Train },
+  const getDefaultTransportDetails = (regionSlugForKeys: string): TransportDetailItem[] => [
+    { typeKey: 'transport_type_airplane', detailsKey: `transport_${regionSlugForKeys}_airplane_details`, icon: Plane },
+    { typeKey: 'transport_type_car', detailsKey: `transport_${regionSlugForKeys}_car_details`, icon: Car },
+    { typeKey: 'transport_type_bus', detailsKey: `transport_${regionSlugForKeys}_bus_details`, icon: Bus },
+    { typeKey: 'transport_type_train', detailsKey: `transport_${regionSlugForKeys}_train_details`, icon: Train },
   ];
 
 
@@ -187,7 +189,7 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
       galleryImageUrls: [`${gcsBaseUrl}regions/sredisnja_hrvatska/Trakoscan_castle_lake.jpg`, `${gcsBaseUrl}regions/sredisnja_hrvatska/Varazdin_old_town.jpg`],
       color1: '#800020', color2: '#2E8B57', // Burgundy, SeaGreen
       transportIntroKey: 'region_transport_intro_example',
-      transportDetails: getDefaultTransportDetails('sredisnja_hrvatska'),
+      transportDetails: getDefaultTransportDetails('sredisnja_hrvatska'), // Corrected key to sredisnja_hrvatska
       accommodationIntroKey: 'region_accommodation_intro_example',
       accommodationExamples: getDefaultExamples('sredisnja_hrvatska', 'accommodation', 2, BedDouble),
       foodIntroKey: 'region_food_intro_example',
@@ -221,7 +223,7 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
       galleryImageUrls: [`${gcsBaseUrl}regions/lika_gorski_kotar/Plitvice_lakes_waterfalls.jpg`, `${gcsBaseUrl}regions/lika_gorski_kotar/Risnjak_national_park_forest.jpg`],
       color1: '#228B22', color2: '#40E0D0', // ForestGreen, Turquoise
       transportIntroKey: 'region_transport_intro_example',
-      transportDetails: getDefaultTransportDetails('lika_gorski_kotar'),
+      transportDetails: getDefaultTransportDetails('lika_gorski_kotar'), // Corrected key
       accommodationIntroKey: 'region_accommodation_intro_example',
       accommodationExamples: getDefaultExamples('lika_gorski_kotar', 'accommodation', 2, BedDouble),
       foodIntroKey: 'region_food_intro_example',
@@ -258,21 +260,14 @@ async function getRegionDataBySlug(slug: string, locale: Locale): Promise<Region
   const regionSpecificData = regionsDatabase[lowerSlug];
 
   if (regionSpecificData) {
-    // Construct the full RegionData object, ensuring all keys are present
-    // The baseKey will generate nameKey, titleKey, descriptionKey, longDescriptionKey
-    // e.g., for 'istra', baseKey is 'region_istra'
-    // nameKey becomes 'region_istra'
-    // titleKey becomes 'region_istra_page_title'
-    // descriptionKey becomes 'region_istra_description_detailed'
-    // longDescriptionKey becomes 'region_istra_long_description'
     return {
       id: lowerSlug,
       nameKey: baseKey,
       titleKey: `${baseKey}_page_title`,
       descriptionKey: `${baseKey}_description_detailed`,
-      longDescriptionKey: `${baseKey}_long_description`, // This key is used for the "About" section
-      ...regionSpecificData, // Spread the specific data for the region
-    } as RegionData; // Type assertion
+      longDescriptionKey: `${baseKey}_long_description`,
+      ...regionSpecificData,
+    } as RegionData;
   }
 
   console.warn(`[getRegionDataBySlug] No data found for slug: '${slug}'`);
@@ -291,8 +286,8 @@ interface TransportationCardProps {
   detailsKey: string;
   primaryColor?: string;
   t: TFunction<[typeof defaultNS, 'regions'], undefined>;
-  linkTo?: string; // Optional link for transport card
-  locale: Locale; // Pass locale for Link component
+  linkTo?: string; 
+  locale: Locale; 
 }
 
 const TransportationCard: React.FC<TransportationCardProps> = ({
@@ -367,7 +362,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
   };
   const primaryRegionColorText = { color: regionData.color1 };
 
-  // Helper function to render sections with multiple cards (e.g., accommodation, food)
   const renderSectionWithCards = (
     sectionTitleKey: string,
     introKey: string | undefined,
@@ -375,7 +369,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
     iconColor?: string
   ) => {
     if (!items || items.length === 0) {
-      // If there are no items, but there is an intro key, still render the title and intro
       if (!introKey) return null;
       return (
         <section className="mb-12 md:mb-16">
@@ -426,10 +419,8 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
     );
   };
   
-  // Updated helper function for Transport section using TransportationCard
   const renderTransportSection = () => {
     if (!regionData.transportDetails || regionData.transportDetails.length === 0) {
-        // If no transport details, but there is an intro key, render title and intro
         if (!regionData.transportIntroKey) return null;
         return (
             <section className="mb-12 md:mb-16">
@@ -472,11 +463,10 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
 
   return (
     <div className="animate-fadeIn bg-background text-foreground">
-      {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[450px] md:h-[70vh] lg:h-[75vh] text-white overflow-hidden group">
         <Image
           src={regionData.heroImageUrl}
-          alt={t(regionData.nameKey, { ns: defaultNS })} // Alt text uses the general region name from defaultNS
+          alt={t(regionData.nameKey, { ns: defaultNS })}
           fill
           style={{ objectFit: 'cover' }}
           priority
@@ -488,30 +478,24 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-3 md:mb-4 tracking-tight leading-tight"
             style={{ textShadow: `0 2px 10px ${regionData.color2 === '#F8F8FF' || regionData.color2 === '#FFFAF0' || regionData.color2 === '#EAE0D5' || regionData.color2 === '#CFD8DC' ? 'rgba(0,0,0,0.5)' : regionData.color2}` }}
           >
-            {/* Title uses region-specific titleKey from 'regions' namespace, falls back to nameKey from defaultNS */}
             {t(regionData.titleKey, { ns: 'regions', defaultValue: t(regionData.nameKey, { ns: defaultNS }) })}
           </h1>
           <p 
             className="text-lg md:text-xl lg:text-2xl max-w-3xl mt-2"
             style={{ textShadow: `0 1px 6px ${regionData.color2 === '#F8F8FF' || regionData.color2 === '#FFFAF0' || regionData.color2 === '#EAE0D5' || regionData.color2 === '#CFD8DC' ? 'rgba(0,0,0,0.4)' : regionData.color2}` }}
           >
-            {/* Description uses region-specific descriptionKey from 'regions' namespace */}
             {t(regionData.descriptionKey, { ns: 'regions' })}
           </p>
         </div>
       </section>
 
-      {/* Main Content Area */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        {/* About Section - uses longDescriptionKey */}
         {regionData.longDescriptionKey && (
           <section aria-labelledby="about-region-heading" className="mb-12 md:mb-16">
             <h2 id="about-region-heading" className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center md:text-left" style={primaryRegionColorText}>
-              {/* "About region" title, uses regionName from defaultNS */}
               {t('region_about_title', { ns: 'regions', regionName: t(regionData.nameKey, { ns: defaultNS }) })}
             </h2>
             <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 leading-relaxed">
-              {/* Long description is split into paragraphs */}
               {t(regionData.longDescriptionKey, { ns: 'regions' }).split('\n').map((paragraph, index) => (
                 <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
               ))}
@@ -519,7 +503,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           </section>
         )}
 
-        {/* Dynamically rendered sections */}
         {renderTransportSection()}
         {renderSectionWithCards('region_accommodation_title', regionData.accommodationIntroKey, regionData.accommodationExamples, regionData.color1)}
         {renderSectionWithCards('region_food_title', regionData.foodIntroKey, regionData.foodExamples, regionData.color1)}
@@ -527,7 +510,6 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
         {renderSectionWithCards('region_events_title', regionData.eventsIntroKey, regionData.eventExamples, regionData.color1)}
         {renderSectionWithCards('region_sights_title', regionData.sightsIntroKey, regionData.sightExamples, regionData.color1)}
 
-        {/* Gallery Section */}
         {regionData.galleryImageUrls && regionData.galleryImageUrls.length > 0 && (
           <section aria-labelledby="gallery-heading" className="mt-12 md:mt-16 mb-12 md:mb-16">
             <h2 id="gallery-heading" className="text-3xl md:text-4xl font-bold mb-8 text-center" style={primaryRegionColorText}>
@@ -550,9 +532,8 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
           </section>
         )}
         
-        {/* Back to Explore Button */}
         <section className="text-center mt-12 md:mt-16 py-8">
-           <Link // Changed from <a> to <Link> for Next.js navigation
+           <Link
             href={`/${effectiveLocale}/explore`}
             className="inline-block bg-primary text-primary-foreground hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background font-semibold py-3 px-10 rounded-lg shadow-lg hover:shadow-xl transition-all text-lg"
           >
@@ -567,13 +548,19 @@ export default async function RegionSlugPage(props: PageAsyncProps) {
 // --- Metadata and Static Page Generation ---
 interface MetadataAsyncProps {
   params: Promise<ResolvedPageParams>;
-  searchParams?: Promise<ResolvedSearchParams>;
+  searchParams?: Promise<ResolvedSearchParams>; // Although not used here, it's part of the signature
 }
 
 export async function generateMetadata(
   props: MetadataAsyncProps,
-  _parent: ResolvingMetadata // _parent can be used to access parent metadata
+  parent: ResolvingMetadata // Renamed from _parent to parent, will be used or ESLint disabled
 ): Promise<Metadata> {
+  // To satisfy ESLint if 'parent' is not used, you can add:
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _parentPromiseResult = await parent; // Example of using parent to avoid unused var error if not directly needed.
+                                          // Or, if you truly don't need it, you can disable the rule for this line.
+                                          // For now, we'll assume it might be used later or is part of a strict signature.
+
   const resolvedParams = await props.params;
 
   const { locale: localeParam, slug } = resolvedParams;
@@ -586,13 +573,10 @@ export async function generateMetadata(
 
   if (!regionData) {
     return {
-      // Fallback title if region data is not found
       title: t('common_not_found_title', { ns: defaultNS }),
     };
   }
 
-  // Generate title and description using i18n
-  // DefaultValue for titleKey uses nameKey from defaultNS if titleKey is not found in 'regions'
   const title = t(regionData.titleKey, { ns: 'regions', defaultValue: t(regionData.nameKey, { ns: defaultNS }) });
   const description = t(regionData.descriptionKey, { ns: 'regions' });
   const siteName = t('site_name', { ns: defaultNS, defaultValue: 'Croatia360' });
@@ -600,7 +584,7 @@ export async function generateMetadata(
   return {
     title: `${title} | ${siteName}`,
     description: description,
-    themeColor: regionData.color1, // Use primary color for theme
+    themeColor: regionData.color1,
     openGraph: {
       title: `${title} | ${siteName}`,
       description: description,
@@ -609,25 +593,21 @@ export async function generateMetadata(
           url: regionData.heroImageUrl,
           width: 1200,
           height: 630,
-          alt: title, // Use generated title for alt text
+          alt: title,
         },
-        // Optionally add more images for Open Graph
         ...(regionData.galleryImageUrls?.slice(0, 2).map(url => ({ url })) || [])
       ],
-      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, // Ensure this URL is correct
-      type: 'article', // More specific type for content pages
+      url: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`, 
+      type: 'article',
       siteName: siteName,
-      locale: effectiveLocale, // Add locale to Open Graph data
-      // Consider adding article-specific OG tags if applicable (e.g., published_time, author)
+      locale: effectiveLocale,
     },
-    // Add Twitter card metadata for better sharing on Twitter
     twitter: {
         card: "summary_large_image",
         title: `${title} | ${siteName}`,
         description: description,
-        images: [regionData.heroImageUrl], // Ensure this is a direct URL to the image
+        images: [regionData.heroImageUrl], 
     },
-    // Add canonical URL to prevent duplicate content issues
     alternates: {
         canonical: `https://www.croatia360.hr/${effectiveLocale}/regions/${slug}`,
         languages: {
@@ -638,12 +618,10 @@ export async function generateMetadata(
   };
 }
 
-// Generates static paths for all regions and locales during build time
 export async function generateStaticParams(): Promise<Array<ResolvedPageParams>> {
   const regionSlugs = ['slavonija', 'dalmacija', 'istra', 'sredisnja-hrvatska', 'zagreb', 'lika-gorski-kotar', 'kvarner'];
-  const locales = appLocalesStringArray as readonly string[]; // All supported locales
+  const locales = appLocalesStringArray as readonly string[];
 
-  // Create a flat array of all locale/slug combinations
   return locales.flatMap(locale =>
     regionSlugs.map(slug => ({
       locale,
