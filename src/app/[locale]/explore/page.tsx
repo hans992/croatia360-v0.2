@@ -210,7 +210,7 @@ export default function ExplorePage() {
 
       {/* Regional Cards Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-8 text-center text-secondary dark:text-secondary-foreground">{t('explore_page_select_region_title')}</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-primary-foreground">{t('explore_page_select_region_title')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-8"> {/* Adjusted grid for potentially 7 items */}
           {regionsData.map((region) => (
             <RegionalCard
