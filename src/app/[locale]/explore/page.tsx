@@ -120,7 +120,7 @@ const regionsData: Region[] = [
     id: "kvarner", // NEWLY ADDED REGION
     nameKey: "region_kvarner",
     descriptionKey: "region_kvarner_description_short", // Ensure this key exists in i18n files
-    imageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad`, // Ensure this image exists
+    imageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`, // Ensure this image exists
     color1: '#009688', // Teal
     color2: '#CFD8DC', // Blue Grey
     slug: "kvarner",
@@ -200,7 +200,8 @@ export default function ExplorePage() {
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
       {/* Hero Section */}
       <section className="text-center py-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-primary dark:text-primary-foreground">
+        {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-primary dark:text-foreground">
           {t('explore_page_title')}
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -210,7 +211,8 @@ export default function ExplorePage() {
 
       {/* Regional Cards Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-primary-foreground">{t('explore_page_select_region_title')}</h2>
+        {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
+        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-foreground">{t('explore_page_select_region_title')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-8"> {/* Adjusted grid for potentially 7 items */}
           {regionsData.map((region) => (
             <RegionalCard
@@ -227,8 +229,9 @@ export default function ExplorePage() {
       </section>
 
       {/* Search & Filters Section */}
+      {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
       <section className="mb-12 p-6 bg-card/50 dark:bg-card/80 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-6 text-center text-primary dark:text-primary-foreground">{t('explore_page_search_title')}</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-center text-primary dark:text-foreground">{t('explore_page_search_title')}</h3>
         <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
           <Input
             type="search"
@@ -276,6 +279,7 @@ export default function ExplorePage() {
 
       {/* Popular Destinations Section */}
       <section className="mb-16">
+        {/* NOTE: This heading uses text-secondary dark:text-secondary-foreground, which should be visible */}
         <h2 className="text-3xl font-bold mb-8 text-center text-secondary dark:text-secondary-foreground">{t('explore_page_popular_destinations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {popularDestinations.map((dest) => (
@@ -303,6 +307,7 @@ export default function ExplorePage() {
 
       {/* Recommendations Section */}
       <section>
+         {/* NOTE: This heading uses text-secondary dark:text-secondary-foreground, which should be visible */}
         <h2 className="text-3xl font-bold mb-8 text-center text-secondary dark:text-secondary-foreground">{t('explore_page_recommendations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {recommendations.map((rec) => (
@@ -314,6 +319,7 @@ export default function ExplorePage() {
                   </div>
                 </CardHeader>
                 <CardContent className="p-4">
+                  {/* Using text-primary for the type, which should be visible in both themes now */}
                   <p className="text-xs uppercase text-primary font-semibold mb-1">{t(rec.typeKey)}</p>
                   <CardTitle className="text-xl font-semibold mb-1">{t(rec.nameKey)}</CardTitle>
                   <CardDescription className="text-sm text-muted-foreground mb-2">{t(rec.locationKey)}</CardDescription>
@@ -323,6 +329,7 @@ export default function ExplorePage() {
                       <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
                       <span>{rec.rating.toFixed(1)} ({rec.reviews} {t('reviews_label')})</span>
                     </div>
+                    {/* Using text-foreground for price, ensuring visibility */}
                     {rec.priceRaw && <span className="font-semibold text-foreground">{rec.priceRaw}</span>}
                   </div>
                 </CardContent>
