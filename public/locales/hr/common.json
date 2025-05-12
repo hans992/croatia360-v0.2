@@ -18,11 +18,12 @@
   "language_switcher_toggle_aria_label": "Odaberi jezik",
   "language_selector_label": "Jezik",
   "theme_switcher_aria_label": "Promijeni temu",
-  "theme_switcher_light_label": "☀️ Svijetla",
-  "theme_switcher_dark_label": "🌙 Tamna",
+  "theme_switcher_light_label": "☀️",
+  "theme_switcher_dark_label": "🌙",
 
-  "hero_title_sara_ai": "Hej, ja sam SARA AI, tvoj osobni planer putovanja",
-  "hero_subtitle_sara_ai": "Reci mi što želiš, a ja ću se pobrinuti za ostalo: letove, hotele, itinerere, u sekundi. Zamisli me kao svog prijatelja upućenog u putovanja... koji te stvarno razumije.",
+  "chatbot_hero_greeting_1": "Bok, ja sam SARA AI,",
+  "chatbot_hero_greeting_2": "vaša asistentica za putovanja.",
+  "chatbot_hero_subtitle": "Recite mi što želite, a ja ću se pobrinuti za ostalo: letove, hotele, itinerare – u nekoliko sekundi. Zamislite me kao prijateljicu koja zna sve o putovanjima... i stvarno vas razumije.",
   "inspiration_title": "Inspiracija za Vaše Putovanje",
   "inspiration_subtitle": "Provjerite neke od ovih destinacija i neka inspiracija za odmor dođe sama.",
 

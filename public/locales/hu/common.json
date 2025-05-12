@@ -18,11 +18,12 @@
   "language_switcher_toggle_aria_label": "Nyelv kiválasztása",
   "language_selector_label": "Nyelv",
   "theme_switcher_aria_label": "Téma váltása",
-  "theme_switcher_light_label": "☀️ Világos",
-  "theme_switcher_dark_label": "🌙 Sötét",
+  "theme_switcher_light_label": "☀️",
+  "theme_switcher_dark_label": "🌙",
 
-  "hero_title_sara_ai": "Szia, SARA MI vagyok, a személyes utazásterveződ",
-  "hero_subtitle_sara_ai": "Mondd el, mit szeretnél, és én elintézem a többit: repülőjegyek, szállodák, útiterv, másodpercek alatt. Gondolj rám úgy, mint egy utazásban jártas barátodra... aki tényleg megért téged.",
+  "chatbot_hero_greeting_1": "Szia, én vagyok SARA AI,",
+    "chatbot_hero_greeting_2": "az utazási asszisztensed.",
+    "chatbot_hero_subtitle": "Mondd el, mire van szükséged, a többit én intézem: repülőjegyek, hotelek, útvonalak – másodpercek alatt. Gondolj rám úgy, mint egy utazásban jártas barátra... aki tényleg megért téged.",
   "inspiration_title": "Inspiráció az Utazásodhoz",
   "inspiration_subtitle": "Nézz meg néhányat ezek közül az úti célok közül, és hagyd, hogy az üdülési inspiráció magától jöjjön.",
 
