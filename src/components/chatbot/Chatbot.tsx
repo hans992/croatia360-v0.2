@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react"; 
+import { Send } from "lucide-react"; // Uklonjen Sparkles jer se StickyContent više ne koristi
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -43,7 +43,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
     ] : [],
     onFinish: () => {
       if (variant === 'page') {
-        // Ensure scroll after AI response
         setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0);
       }
     }
@@ -52,18 +51,26 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const initialQueryProcessedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  // inputAreaRef i messagesContainerRef se manje koriste za dinamičko pozicioniranje u ovom pristupu
-  const inputAreaRef = useRef<HTMLDivElement>(null);
-
+  const inputAreaRef = useRef<HTMLDivElement>(null); // Za mjerenje visine input područja
 
   const [isMobileView, setIsMobileView] = useState(false);
-  const [isInputFocused, setIsInputFocused] = useState(false); // Jednostavnije praćenje fokusa
+  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(120); // Početna procjena visine
 
   useEffect(() => {
     const checkMobile = () => window.innerWidth < 768;
     setIsMobileView(checkMobile());
-    const handleResize = () => setIsMobileView(checkMobile());
+    const handleResize = () => {
+        setIsMobileView(checkMobile());
+        // Ponovno izmjeri visinu input područja pri promjeni veličine ekrana
+        if (inputAreaRef.current) {
+            setEstimatedInputAreaHeight(inputAreaRef.current.offsetHeight || 120);
+        }
+    }
     window.addEventListener('resize', handleResize);
+    // Početno mjerenje
+    if (inputAreaRef.current) {
+        setEstimatedInputAreaHeight(inputAreaRef.current.offsetHeight || 120);
+    }
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -74,65 +81,37 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   }, [variant, initialQuery, append]);
 
-  // Scroll to new messages
+  // Skrolaj na nove poruke
   useEffect(() => {
     if (variant === 'page' && messages.length > 0) {
       setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
     }
   }, [messages, variant]);
 
-
-  // Body scroll lock when input is focused on mobile (Page variant only)
-  useEffect(() => {
-    if (variant !== 'page' || !isMobileView) return;
-
-    if (isInputFocused) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed'; // Helps prevent pull-to-refresh and other scroll issues
-      document.body.style.width = '100%';
-      // When keyboard opens, try to scroll the input into view
-      setTimeout(() => {
-        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300); // Delay to allow keyboard to open
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    }
-    return () => { // Cleanup on unmount or when dependencies change
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-    };
-  }, [isInputFocused, variant, isMobileView]);
-
-
+  // Minimalni onFocus handler
   const handleInputFocus = useCallback(() => {
-    if (variant !== 'page' || !isMobileView) return;
-    setIsInputFocused(true);
+    if (variant === 'page' && isMobileView) {
+      // Pokušaj skrolati input u vidljivo područje
+      // Timeout da se omogući tipkovnici da se pojavi
+      setTimeout(() => {
+        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 350);
+    }
   }, [variant, isMobileView]);
 
-  const handleInputBlur = useCallback(() => {
-    if (variant !== 'page' || !isMobileView) return;
-    // Delay blur slightly to allow submit or suggestion button click
-    setTimeout(() => {
-        if (inputAreaRef.current && !inputAreaRef.current.contains(document.activeElement)) {
-            setIsInputFocused(false);
-        }
-    }, 200);
-  }, [variant, isMobileView]);
-
+  // onBlur nije potreban za ovu strategiju, preglednik bi trebao sam upravljati
+  // zatvaranjem tipkovnice kada fokus napusti input.
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (redirectOnSubmitUrl && input.trim() && variant === 'hero') {
       const userQuery = input;
-      setInput(''); // Clear input for hero variant before redirect
+      setInput('');
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
     } else if (variant === 'page') {
       if (!input.trim()) return;
       originalUseChatSubmit(e);
-      // Keep input focused after submit for page variant, user can manually close keyboard
+      // Nećemo dirati fokus nakon slanja, neka korisnik sam zatvori tipkovnicu
     }
   };
 
@@ -150,7 +129,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
-                    // No ref, onFocus, onBlur for hero variant
+                    // Uklonjen ref za Hero, onFocus, onBlur
                     value={input}
                     onChange={handleInputChange}
                     placeholder={t('chatbot_input_placeholder_hero')}
@@ -162,7 +141,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
                         "shadow-lg focus:shadow-xl transition-all duration-300"
                     )}
-                    disabled={isLoading} // isLoading might not be relevant for hero before redirect
+                    disabled={isLoading}
                     aria-label={t('chatbot_input_aria_label')}
                 />
                 <Button
@@ -191,16 +170,13 @@ const Chatbot: React.FC<ChatbotProps> = ({
   );
 
   const PageContent = () => (
-    // Main container for the chat page variant
-    // h-full is important, and its parent on chat/page.tsx must also have a defined height (e.g., calc(100vh - headerHeight))
     <div className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden">
-      {/* Message Display Area */}
+      {/* Kontejner za poruke */}
       <div
-        // ref={messagesContainerRef} // Ref might not be needed if padding is handled by overall layout
         className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent"
-        // Conditional padding-bottom can be applied here if body scroll lock is not enough
-        style={{ paddingBottom: isMobileView && isInputFocused ? `${(inputAreaRef.current?.offsetHeight || 70) + 16}px` : '1rem' }}
-
+        // Fiksni padding-bottom da osigura prostor za input područje
+        // Vrijednost treba biti dovoljna da stane inputAreaRef.current.offsetHeight + malo margine
+        style={{ paddingBottom: `${estimatedInputAreaHeight + 16}px` }}
       >
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -215,7 +191,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} /> {/* For scrolling to bottom */}
+        <div ref={messagesEndRef} /> {/* Za skrolanje na dno */}
+        {/* ... (isLoading i error prikazi ostaju isti) ... */}
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
            <div className="flex justify-start">
              <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse">
@@ -232,15 +209,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
         )}
       </div>
 
-      {/* Input Area - Positioned at the bottom of the flex container */}
+      {/* Područje za unos - uvijek na dnu flex kontejnera */}
       <div
-        ref={inputAreaRef} // Ref for measuring height
-        className={cn(
-            "p-4 border-t border-border bg-card", // Base styles
-            // No fixed positioning here, relies on flex layout
-            // On mobile when keyboard is open, the browser should push this up.
-            // The body scroll lock and padding-bottom on messages container help.
-        )}
+        ref={inputAreaRef} // Koristi se za mjerenje visine
+        className="p-4 border-t border-border bg-card shrink-0" // shrink-0 sprječava da se smanji
       >
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
@@ -257,8 +229,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
                   className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
+                  onFocus={handleInputFocus} // Jednostavniji onFocus
+                  // onBlur je uklonjen, oslanjamo se na prirodno ponašanje
               />
               <Button
                   type="submit"
