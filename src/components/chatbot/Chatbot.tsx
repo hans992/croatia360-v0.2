@@ -1,17 +1,16 @@
-// src/app/components/chatbot/Chatbot.tsx
+// src/components/chatbot/Chatbot.tsx
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react'; // Added useState
+import React, { useEffect, useRef, useState, useCallback } from 'react'; // Added useCallback
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
 import { useRouter, useParams } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
-// Props for the Chatbot component
 interface ChatbotProps {
   variant?: 'hero' | 'page';
   redirectOnSubmitUrl?: string;
@@ -42,16 +41,33 @@ const Chatbot: React.FC<ChatbotProps> = ({
     initialMessages: variant === 'page' ? [
       { id: 'sara-initial-greeting', role: 'assistant', content: t('chatbot_initial_greeting') }
     ] : [],
+    // Ensure messages are scrolled into view after new message is added by AI
+    onFinish: () => {
+        if (variant === 'page') {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+        }
+    }
   });
 
   const initialQueryProcessedRef = useRef(false);
-  const inputRef = useRef<HTMLInputElement>(null); // Ref for the actual input element
-  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref to scroll to new messages
-  const inputAreaRef = useRef<HTMLDivElement>(null); // Ref for the entire input area (suggestions + form)
-  const messagesContainerRef = useRef<HTMLDivElement>(null); // Ref for the messages container
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputAreaRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const chatPageLayoutRef = useRef<HTMLDivElement>(null); // Ref for the main chat page layout
 
   const [isMobileKeyboardVisible, setIsMobileKeyboardVisible] = useState(false);
   const [inputAreaHeight, setInputAreaHeight] = useState(0);
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  // Check for mobile view on mount and resize
+  useEffect(() => {
+    const checkMobile = () => window.innerWidth < 768;
+    setIsMobileView(checkMobile());
+    const handleResize = () => setIsMobileView(checkMobile());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (variant === 'page' && initialQuery && !initialQueryProcessedRef.current && append) {
@@ -60,104 +76,107 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   }, [variant, initialQuery, append]);
 
-  // Scroll to bottom when new messages are added
   useEffect(() => {
     if (variant === 'page') {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages, variant]);
 
+  // Measure input area height when it's not fixed (or when mobile keyboard state changes)
+  useEffect(() => {
+    if (inputAreaRef.current && !isMobileKeyboardVisible) {
+      setInputAreaHeight(inputAreaRef.current.offsetHeight);
+    }
+  }, [isMobileKeyboardVisible, variant]); // Re-measure if variant changes (though less likely for this)
+
+
   // Mobile keyboard handling logic
-  useEffect(() => {
-    if (variant !== 'page') return;
+  const handleVisualViewportResize = useCallback(() => {
+    if (!isMobileView || !window.visualViewport || !inputAreaRef.current || !messagesContainerRef.current) return;
 
-    const checkMobile = () => window.innerWidth < 768; // Threshold for mobile view
-
-    const handleFocus = () => {
-      if (checkMobile()) {
-        setIsMobileKeyboardVisible(true);
-      }
-    };
-
-    const handleBlur = () => {
-      // Small delay to prevent layout jump if focus moves to another element within the input area (e.g., send button)
-      setTimeout(() => {
-        if (document.activeElement !== inputRef.current) {
-            setIsMobileKeyboardVisible(false);
-        }
-      }, 100);
-    };
+    const { offsetTop, height: vvHeight } = window.visualViewport;
+    const windowHeight = window.innerHeight;
+    const keyboardIsOpening = vvHeight < windowHeight * 0.9 && offsetTop > 0; // Heuristic
     
-    const currentInputRef = inputRef.current;
-    currentInputRef?.addEventListener('focus', handleFocus);
-    currentInputRef?.addEventListener('blur', handleBlur);
-
-    // Get height of input area for padding calculation
-    if (inputAreaRef.current) {
-        setInputAreaHeight(inputAreaRef.current.offsetHeight);
-    }
-
-    // Adjust layout based on visualViewport (more reliable for keyboard)
-    const visualViewport = window.visualViewport;
-    let initialViewportHeight = visualViewport?.height || window.innerHeight;
-
-    const handleViewportResize = () => {
-        if (!checkMobile() || !visualViewport) return;
-
-        if (visualViewport.height < initialViewportHeight * 0.9) { // Heuristic: keyboard is likely open
-            setIsMobileKeyboardVisible(true);
-            if (inputAreaRef.current) { // Re-measure height in case it changes
-                setInputAreaHeight(inputAreaRef.current.offsetHeight);
-            }
+    if (keyboardIsOpening) {
+        setIsMobileKeyboardVisible(true);
+        // Ensure input area height is current
+        const currentInputAreaHeight = inputAreaRef.current.offsetHeight;
+        setInputAreaHeight(currentInputAreaHeight);
+        messagesContainerRef.current.style.paddingBottom = `${currentInputAreaHeight + 16}px`;
+        // Scroll the focused input into view if it's being obscured
+        if (document.activeElement === inputRef.current) {
+            inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-            // Check if input is still focused before closing, to handle cases where keyboard closes but input is refocused quickly
-            if (document.activeElement !== inputRef.current) {
-                 setIsMobileKeyboardVisible(false);
+             messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+        }
+
+    } else {
+        // Keyboard is closing or not significantly open
+        if (isMobileKeyboardVisible) { // Only act if it was previously visible
+            setIsMobileKeyboardVisible(false);
+            messagesContainerRef.current.style.paddingBottom = '1rem'; // Reset padding
+        }
+    }
+  }, [isMobileView, isMobileKeyboardVisible]); // Added isMobileKeyboardVisible to dependencies
+
+  useEffect(() => {
+    if (variant !== 'page' || !isMobileView) return;
+
+    const visualViewport = window.visualViewport;
+    if (visualViewport) {
+      visualViewport.addEventListener('resize', handleVisualViewportResize);
+      // Initial check in case keyboard is already open (e.g. page refresh)
+      if (document.activeElement === inputRef.current) {
+        handleVisualViewportResize();
+      }
+    }
+    return () => {
+      if (visualViewport) {
+        visualViewport.removeEventListener('resize', handleVisualViewportResize);
+      }
+    };
+  }, [variant, isMobileView, handleVisualViewportResize]);
+
+  const handleInputFocus = () => {
+    if (isMobileView && window.visualViewport) {
+        // When input is focused on mobile, visualViewport resize should handle it.
+        // We can trigger a re-check just in case.
+        handleVisualViewportResize();
+        // Ensure the input itself is scrolled into view if somehow obscured
+        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  const handleInputBlur = () => {
+    if (isMobileView) {
+      // Delay hiding to allow click on send button or other elements
+      setTimeout(() => {
+        // Check if focus is still within the chat input area or if keyboard is truly gone
+        if (!inputAreaRef.current?.contains(document.activeElement)) {
+            // If visualViewport hasn't already set it to false, we do it here
+            if(isMobileKeyboardVisible && window.visualViewport && window.visualViewport.height > window.innerHeight * 0.9) {
+                setIsMobileKeyboardVisible(false);
+                 if(messagesContainerRef.current) messagesContainerRef.current.style.paddingBottom = '1rem';
             }
         }
-         // Update initialViewportHeight in case of orientation change etc.
-        initialViewportHeight = visualViewport.height;
-    };
-
-    if (visualViewport) {
-        visualViewport.addEventListener('resize', handleViewportResize);
-        // Initial check in case keyboard is already open
-        if (checkMobile() && document.activeElement === inputRef.current) {
-            handleViewportResize();
-        }
+      }, 200);
     }
-
-
-    return () => {
-      currentInputRef?.removeEventListener('focus', handleFocus);
-      currentInputRef?.removeEventListener('blur', handleBlur);
-      if (visualViewport) {
-        visualViewport.removeEventListener('resize', handleViewportResize);
-      }
-    };
-  }, [variant, inputAreaHeight]); // Rerun if inputAreaHeight changes to update padding correctly
-
-  // Apply padding to messages container when keyboard is visible
-  useEffect(() => {
-    if (variant === 'page' && messagesContainerRef.current) {
-      if (isMobileKeyboardVisible && inputAreaHeight > 0) {
-        messagesContainerRef.current.style.paddingBottom = `${inputAreaHeight + 16}px`; // 16px for some extra space
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); // Scroll to bottom after padding adjustment
-      } else {
-        messagesContainerRef.current.style.paddingBottom = '1rem'; // Default padding (p-4)
-      }
-    }
-  }, [isMobileKeyboardVisible, inputAreaHeight, variant]);
+  };
 
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (redirectOnSubmitUrl && input.trim() && variant === 'hero') { // Ensure redirect only for hero
+    if (redirectOnSubmitUrl && input.trim() && variant === 'hero') {
       const userQuery = input;
       setInput('');
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
     } else if (variant === 'page') {
       originalUseChatSubmit(e);
+      // Optionally blur input after submit on mobile to hide keyboard
+      if (isMobileView && inputRef.current) {
+        // inputRef.current.blur(); // Uncomment this if you want keyboard to hide on submit
+      }
     }
   };
 
@@ -176,7 +195,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
-                    ref={inputRef} // Assign ref
+                    ref={inputRef}
                     value={input}
                     onChange={handleInputChange}
                     placeholder={t('chatbot_input_placeholder_hero')}
@@ -190,6 +209,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
                     )}
                     disabled={isLoading}
                     aria-label={t('chatbot_input_aria_label')}
+                    onFocus={handleInputFocus} // Added onFocus
+                    // onBlur={handleInputBlur} // Blur might be too aggressive, visualViewport should handle closing
                 />
                 <Button
                     type="submit"
@@ -216,15 +237,12 @@ const Chatbot: React.FC<ChatbotProps> = ({
     </div>
   );
 
-  // --- Page Variant Specific Content (Full Chat Interface) ---
   const PageContent = () => (
-    // Main container for the chat page variant
-    <div className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden"> {/* Added overflow-hidden */}
-      {/* Message Display Area */}
+    <div ref={chatPageLayoutRef} className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden">
       <div
-        ref={messagesContainerRef} // Assign ref
+        ref={messagesContainerRef}
         className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent"
-        // Padding bottom will be adjusted by JS
+        style={{ paddingBottom: isMobileKeyboardVisible && inputAreaHeight > 0 ? `${inputAreaHeight + 16}px` : '1rem' }}
       >
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -239,7 +257,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
             </div>
           </div>
         ))}
-        {/* Div to scroll to */}
         <div ref={messagesEndRef} />
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
            <div className="flex justify-start">
@@ -256,18 +273,15 @@ const Chatbot: React.FC<ChatbotProps> = ({
            </div>
         )}
       </div>
-
-      {/* Input Area - This will be fixed on mobile when keyboard is open */}
       <div
-        ref={inputAreaRef} // Assign ref
+        ref={inputAreaRef}
         className={cn(
-            "p-4 border-t border-border bg-card", // Base styles
-            "transition-all duration-200 ease-out", // Smooth transition for positioning
-            isMobileKeyboardVisible
-                ? "fixed bottom-0 left-0 right-0 z-50 shadow-2xl" // Fixed styles when keyboard is visible on mobile
-                : "relative" // Default positioning
+            "p-4 border-t border-border bg-card",
+            "transition-transform duration-200 ease-out", // Changed from transition-all
+            isMobileKeyboardVisible && isMobileView
+                ? "fixed bottom-0 left-0 right-0 z-50 shadow-2xl transform translate-y-0" // Ensure it's visible
+                : "relative transform translate-y-0" // Default state
         )}
-        // No inline style for height needed here, natural height is fine
       >
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
@@ -277,13 +291,15 @@ const Chatbot: React.FC<ChatbotProps> = ({
           </div>
           <form onSubmit={handleFormSubmit} className="relative w-full">
               <Input
-                  ref={inputRef} // Assign ref
+                  ref={inputRef}
                   value={input}
                   onChange={handleInputChange}
                   placeholder={t('chatbot_input_placeholder')}
                   className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
+                  onFocus={handleInputFocus} // Add onFocus
+                  onBlur={handleInputBlur}   // Add onBlur
               />
               <Button
                   type="submit"
@@ -299,7 +315,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
     </div>
   );
 
-  // --- Render based on variant ---
   switch (variant) {
     case 'hero':
       return <HeroContent />;
