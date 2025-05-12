@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react"; // Uklonjen Sparkles jer se StickyContent više ne koristi
+import { Send } from "lucide-react"; // Uklonjen Sparkles ako se StickyContent više ne koristi
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -30,7 +30,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const {
     messages,
     input,
-    handleInputChange,
+    handleInputChange: originalHandleInputChange,
     handleSubmit: originalUseChatSubmit,
     isLoading,
     setInput,
@@ -51,27 +51,19 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const initialQueryProcessedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputAreaRef = useRef<HTMLDivElement>(null); // Za mjerenje visine input područja
+  const inputAreaRef = useRef<HTMLDivElement>(null);
 
   const [isMobileView, setIsMobileView] = useState(false);
-  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(120); // Početna procjena visine
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(120);
+
 
   useEffect(() => {
     const checkMobile = () => window.innerWidth < 768;
-    setIsMobileView(checkMobile());
-    const handleResize = () => {
-        setIsMobileView(checkMobile());
-        // Ponovno izmjeri visinu input područja pri promjeni veličine ekrana
-        if (inputAreaRef.current) {
-            setEstimatedInputAreaHeight(inputAreaRef.current.offsetHeight || 120);
-        }
-    }
-    window.addEventListener('resize', handleResize);
-    // Početno mjerenje
-    if (inputAreaRef.current) {
-        setEstimatedInputAreaHeight(inputAreaRef.current.offsetHeight || 120);
-    }
-    return () => window.removeEventListener('resize', handleResize);
+    const updateMobileView = () => setIsMobileView(checkMobile());
+    updateMobileView();
+    window.addEventListener('resize', updateMobileView);
+    return () => window.removeEventListener('resize', updateMobileView);
   }, []);
 
   useEffect(() => {
@@ -81,37 +73,68 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   }, [variant, initialQuery, append]);
 
-  // Skrolaj na nove poruke
   useEffect(() => {
     if (variant === 'page' && messages.length > 0) {
       setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
     }
   }, [messages, variant]);
 
-  // Minimalni onFocus handler
-  const handleInputFocus = useCallback(() => {
-    if (variant === 'page' && isMobileView) {
-      // Pokušaj skrolati input u vidljivo područje
-      // Timeout da se omogući tipkovnici da se pojavi
-      setTimeout(() => {
-        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 350);
+  useEffect(() => {
+    if (inputAreaRef.current) {
+      const height = inputAreaRef.current.offsetHeight;
+      if (height > 0) {
+        setEstimatedInputAreaHeight(height);
+      }
     }
-  }, [variant, isMobileView]);
+  }, [input, variant]);
 
-  // onBlur nije potreban za ovu strategiju, preglednik bi trebao sam upravljati
-  // zatvaranjem tipkovnice kada fokus napusti input.
+  useEffect(() => {
+    if (variant === 'hero' && isMobileView) {
+      if (isInputFocused) {
+        document.body.classList.add('hero-chat-active');
+      } else {
+        document.body.classList.remove('hero-chat-active');
+      }
+      return () => document.body.classList.remove('hero-chat-active');
+    }
+  }, [isInputFocused, variant, isMobileView]);
+
+  useEffect(() => {
+    if (variant === 'page' && isMobileView && isInputFocused) {
+      const timer = setTimeout(() => {
+        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isInputFocused, variant, isMobileView]);
+
+  const handleInputChangeWrapper = (e: React.ChangeEvent<HTMLInputElement>) => {
+    originalHandleInputChange(e);
+  };
+
+  const handleFocus = useCallback(() => {
+    setIsInputFocused(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setTimeout(() => {
+        if (inputAreaRef.current && !inputAreaRef.current.contains(document.activeElement)) {
+            setIsInputFocused(false);
+        }
+    }, 250);
+  }, []);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (redirectOnSubmitUrl && input.trim() && variant === 'hero') {
+    if (!input.trim()) return;
+
+    if (redirectOnSubmitUrl && variant === 'hero') {
       const userQuery = input;
       setInput('');
+      document.body.classList.remove('hero-chat-active');
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
     } else if (variant === 'page') {
-      if (!input.trim()) return;
       originalUseChatSubmit(e);
-      // Nećemo dirati fokus nakon slanja, neka korisnik sam zatvori tipkovnicu
     }
   };
 
@@ -129,13 +152,12 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
-                    // Uklonjen ref za Hero, onFocus, onBlur
+                    ref={inputRef}
                     value={input}
-                    onChange={handleInputChange}
+                    onChange={handleInputChangeWrapper}
                     placeholder={t('chatbot_input_placeholder_hero')}
                     className={cn(
-                        "w-full pr-12 pl-5 py-7 rounded-full",
-                        "text-base md:text-lg",
+                        "w-full pr-12 pl-5 py-7 rounded-full", "text-base md:text-lg",
                         "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                         "border border-neutral-300 dark:border-neutral-700",
                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
@@ -143,7 +165,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
                     )}
                     disabled={isLoading}
                     aria-label={t('chatbot_input_aria_label')}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
+                {/* ISPRAVLJENA TIPKA OVDJE */}
                 <Button
                     type="submit"
                     className={cn(
@@ -153,17 +178,17 @@ const Chatbot: React.FC<ChatbotProps> = ({
                         "disabled:opacity-50 disabled:scale-100"
                     )}
                     size="icon"
-                    disabled={!input.trim()}
+                    disabled={isLoading || !input.trim()}
                     aria-label={t('chatbot_send_button_aria_label')}
                 >
                     <Send className="h-5 w-5" />
                 </Button>
             </form>
             <div className="flex flex-wrap gap-2 justify-center">
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_wine_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_budget_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_nature_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
             </div>
         </div>
     </div>
@@ -171,11 +196,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
   const PageContent = () => (
     <div className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden">
-      {/* Kontejner za poruke */}
       <div
         className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent"
-        // Fiksni padding-bottom da osigura prostor za input područje
-        // Vrijednost treba biti dovoljna da stane inputAreaRef.current.offsetHeight + malo margine
         style={{ paddingBottom: `${estimatedInputAreaHeight + 16}px` }}
       >
         {messages.map((message: Message) => (
@@ -185,16 +207,13 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 ? 'bg-primary text-primary-foreground rounded-tr-none'
                 : 'bg-muted text-muted-foreground rounded-tl-none'
             }`}>
-              {message.content.split('\n').map((line, i) => (
-                <span key={i}>{line}<br/></span>
-              ))}
+              {message.content.split('\n').map((line, i) => ( <span key={i}>{line}<br/></span> ))}
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} /> {/* Za skrolanje na dno */}
-        {/* ... (isLoading i error prikazi ostaju isti) ... */}
+        <div ref={messagesEndRef} />
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
-           <div className="flex justify-start">
+            <div className="flex justify-start">
              <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse">
                {t('chatbot_thinking')}
              </div>
@@ -209,11 +228,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         )}
       </div>
 
-      {/* Područje za unos - uvijek na dnu flex kontejnera */}
-      <div
-        ref={inputAreaRef} // Koristi se za mjerenje visine
-        className="p-4 border-t border-border bg-card shrink-0" // shrink-0 sprječava da se smanji
-      >
+      <div ref={inputAreaRef} className="p-4 border-t border-border bg-card shrink-0">
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_wine_text'));   inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
@@ -224,13 +239,13 @@ const Chatbot: React.FC<ChatbotProps> = ({
               <Input
                   ref={inputRef}
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeWrapper}
                   placeholder={t('chatbot_input_placeholder')}
                   className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
-                  onFocus={handleInputFocus} // Jednostavniji onFocus
-                  // onBlur je uklonjen, oslanjamo se na prirodno ponašanje
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
               />
               <Button
                   type="submit"
