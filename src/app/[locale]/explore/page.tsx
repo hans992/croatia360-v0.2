@@ -1,158 +1,91 @@
 // src/app/[locale]/explore/page.tsx
-"use client"; // This directive indicates that this is a Client Component
+"use client";
 
-// Import necessary UI components from shadcn/ui and lucide-react for icons
+// Import necessary UI components and icons
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Added SelectValue
-import { Star } from "lucide-react"; // Icon for ratings
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// Import Next.js specific functionalities
-import Image from "next/image"; // Optimized image component
-import Link from "next/link"; // For client-side navigation
 
 // Import i18n utilities
-import { useTranslation } from 'react-i18next'; // Hook for using translations
-import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings'; // i18n configuration
+import { useTranslation } from 'react-i18next';
+import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
 
 // Import Next.js navigation hooks
-import { useParams, notFound } from 'next/navigation'; // To access route parameters and handle 404
+import { useParams, notFound } from 'next/navigation';
 
 // Import custom components
-import RegionalCard from '@/components/RegionalCard'; // Card component for displaying regions
+import RegionalCard from '@/components/RegionalCard';
+import PopularDestinationCard from '@/components/PopularDestinationCard'; // Import new component
+import RecommendationCard from '@/components/RecommendationCard'; // Import new component
 
-// --- Interfaces ---
-// Defines the structure for a Destination object
+// --- Interfaces (Keep definitions if needed for data fetching/passing) ---
 interface Destination {
   id: string;
-  nameKey: string;        // Translation key for destination name
-  regionKey: string;      // Translation key for destination's region
-  descriptionKey: string; // Translation key for destination description
+  nameKey: string;
+  regionKey: string;
+  descriptionKey: string;
   rating: number;
   reviews: number;
   imageUrl: string;
   featured: boolean;
-  slug: string;           // URL-friendly identifier
+  slug: string;
 }
 
-// Defines the structure for a Recommendation object
 interface Recommendation {
   id: string;
-  typeKey: string;        // Translation key for recommendation type (e.g., accommodation, restaurant)
-  nameKey: string;        // Translation key for recommendation name
-  locationKey: string;    // Translation key for recommendation location
-  descriptionKey: string; // Translation key for recommendation description
+  typeKey: string;
+  nameKey: string;
+  locationKey: string;
+  descriptionKey: string;
   rating: number;
   reviews: number;
-  priceKey?: string;       // Translation key for price description (e.g., "per night")
-  priceRaw?: string;       // Raw price string (e.g., "€250 / noć")
-  priceCategory?: '€' | '€€' | '€€€' | '€€€€'; // Price category
-  tagsKeys: string[];     // Array of translation keys for tags
+  priceKey?: string;
+  priceRaw?: string;
+  priceCategory?: '€' | '€€' | '€€€' | '€€€€';
+  tagsKeys: string[];
   imageUrl: string;
   slug: string;
 }
 
-// Defines the structure for a Region object, used for RegionalCards
 interface Region {
   id: string;
-  nameKey: string;           // Translation key for region name
-  descriptionKey: string;    // Translation key for region short description
+  nameKey: string;
+  descriptionKey: string;
   imageUrl: string;
-  color1: string;            // Primary color for the region's card gradient
-  color2: string;            // Secondary color for the region's card gradient
+  color1: string;
+  color2: string;
   slug: string;
 }
 
-// Base URL for images stored on Google Cloud Storage
+// Base URL for images
 const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
 
-// --- Data for Regional Cards ---
-// This array holds the data for each region to be displayed.
-// Ensure image URLs are correct and translation keys exist.
+// --- Data (Keep as is for now) ---
 const regionsData: Region[] = [
-  {
-    id: "slavonija",
-    nameKey: "region_slavonija",
-    descriptionKey: "region_slavonija_description_short",
-    imageUrl: `${gcsBaseUrl}Slavonija_zito.jpg`, // Suggesting a specific card image
-    color1: '#FFD700', // Gold
-    color2: '#8B4513', // SaddleBrown
-    slug: "slavonija",
-  },
-  {
-    id: "sredisnja_hrvatska",
-    nameKey: "region_sredisnja",
-    descriptionKey: "region_sredisnja_description_short",
-    imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`,
-    color1: '#800020', // Burgundy
-    color2: '#2E8B57', // SeaGreen
-    slug: "sredisnja-hrvatska",
-  },
-  {
-    id: "zagreb",
-    nameKey: "region_zagreb",
-    descriptionKey: "region_zagreb_description_short",
-    imageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_dron_image.jpg`,
-    color1: '#5D3FD3', // UPDATED: Regal Purple / Iris
-    color2: '#EAE0D5', // UPDATED: Warm Parchment / Light Beige
-    slug: "zagreb",
-  },
-  {
-    id: "lika_gorski_kotar",
-    nameKey: "region_lika_gorski_kotar",
-    descriptionKey: "region_lika_gorski_kotar_description_short",
-    imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Zavizan_house.jpg`,
-    color1: '#228B22', // ForestGreen
-    color2: '#40E0D0', // Turquoise
-    slug: "lika-gorski-kotar",
-  },
-  {
-    id: "istra",
-    nameKey: "region_istra",
-    descriptionKey: "region_istra_description_short",
-    imageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`,
-    color1: '#E07A5F', // Terra Cotta
-    color2: '#808000', // Olive
-    slug: "istra",
-  },
-  {
-    id: "kvarner", // NEWLY ADDED REGION
-    nameKey: "region_kvarner",
-    descriptionKey: "region_kvarner_description_short", // Ensure this key exists in i18n files
-    imageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`, // Ensure this image exists
-    color1: '#009688', // Teal
-    color2: '#CFD8DC', // Blue Grey
-    slug: "kvarner",
-  },
-  {
-    id: "dalmacija",
-    nameKey: "region_dalmacija",
-    descriptionKey: "region_dalmacija_description_short",
-    imageUrl: `${gcsBaseUrl}regions/dalmacija/Primosten_aerial.jpg`,
-    color1: '#007FFF', // Azure Blue (Kept as is, now distinct from Zagreb)
-    color2: '#F8F8FF', // GhostWhite
-    slug: "dalmacija",
-  },
+  { id: "slavonija", nameKey: "region_slavonija", descriptionKey: "region_slavonija_description_short", imageUrl: `${gcsBaseUrl}Slavonija_zito.jpg`, color1: '#FFD700', color2: '#8B4513', slug: "slavonija" },
+  { id: "sredisnja_hrvatska", nameKey: "region_sredisnja", descriptionKey: "region_sredisnja_description_short", imageUrl: `${gcsBaseUrl}Sredisnja_Hrvatska.jpg`, color1: '#800020', color2: '#2E8B57', slug: "sredisnja-hrvatska" },
+  { id: "zagreb", nameKey: "region_zagreb", descriptionKey: "region_zagreb_description_short", imageUrl: `${gcsBaseUrl}regions/zagreb/Zagreb_dron_image.jpg`, color1: '#5D3FD3', color2: '#EAE0D5', slug: "zagreb" },
+  { id: "lika_gorski_kotar", nameKey: "region_lika_gorski_kotar", descriptionKey: "region_lika_gorski_kotar_description_short", imageUrl: `${gcsBaseUrl}regions/lika_gorski_kotar/Zavizan_house.jpg`, color1: '#228B22', color2: '#40E0D0', slug: "lika-gorski-kotar" },
+  { id: "istra", nameKey: "region_istra", descriptionKey: "region_istra_description_short", imageUrl: `${gcsBaseUrl}regions/istra/Rovinj_from_distance.jpg`, color1: '#E07A5F', color2: '#808000', slug: "istra" },
+  { id: "kvarner", nameKey: "region_kvarner", descriptionKey: "region_kvarner_description_short", imageUrl: `${gcsBaseUrl}regions/kvarner/Rijeka_grad.jpg`, color1: '#009688', color2: '#CFD8DC', slug: "kvarner" },
+  { id: "dalmacija", nameKey: "region_dalmacija", descriptionKey: "region_dalmacija_description_short", imageUrl: `${gcsBaseUrl}regions/dalmacija/Primosten_aerial.jpg`, color1: '#007FFF', color2: '#F8F8FF', slug: "dalmacija" },
 ];
-
 
 // --- ExplorePage Component ---
 export default function ExplorePage() {
   // --- Hooks ---
-  const params = useParams(); // Access route parameters (e.g., locale)
-  const { t } = useTranslation(defaultNS); // Initialize translation hook with default namespace
+  const params = useParams();
+  const { t } = useTranslation(defaultNS);
 
   // --- Locale Validation ---
-  // Extracts locale from URL params and validates it against the list of supported locales.
   const localeParam = params.locale;
   if (typeof localeParam !== 'string' || !validLocalesArray.includes(localeParam as Locale)) {
-    notFound(); // If locale is invalid, show a 404 page
+    notFound();
   }
-  const currentLocale = localeParam as Locale; // Cast to Locale type after validation
+  const currentLocale = localeParam as Locale;
 
-  // --- Mock Data for Popular Destinations and Recommendations ---
-  // In a real application, this data would be fetched from an API or database.
+  // --- Mock Data (Keep as is for now) ---
   const popularDestinations: Destination[] = [
     { id: "sibenik", nameKey: "destination_sibenik_name", regionKey: "region_dalmacija", descriptionKey: "destination_sibenik_description", rating: 4.9, reviews: 2450, imageUrl: `${gcsBaseUrl}regions/dalmacija/Sibenik_from_the_sea.jpg`, featured: true, slug: "sibenik" },
     { id: "trogir", nameKey: "destination_trogir_name", regionKey: "region_dalmacija", descriptionKey: "destination_trogir_description", rating: 4.8, reviews: 1890, imageUrl: `${gcsBaseUrl}regions/dalmacija/Trogir_aerial.jpg`, featured: false, slug: "trogir" },
@@ -165,8 +98,7 @@ export default function ExplorePage() {
     { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour" },
   ];
 
-  // --- Filter Options ---
-  // Data for populating filter dropdowns. Labels are translation keys.
+  // --- Filter Options (Keep as is) ---
   const categoryOptions = [
     { value: "all", labelKey: "filter_category_all" },
     { value: "accommodation", labelKey: "filter_category_accommodation" },
@@ -175,18 +107,16 @@ export default function ExplorePage() {
     { value: "events", labelKey: "filter_category_events" },
     { value: "sights", labelKey: "filter_category_sights" },
   ];
-
-  const regionFilterOptions = [ // Renamed to avoid conflict with regionsData
+  const regionFilterOptions = [
     { value: "all", labelKey: "filter_region_all" },
     { value: "istra", labelKey: "region_istra" },
     { value: "kvarner", labelKey: "region_kvarner" },
     { value: "dalmacija", labelKey: "region_dalmacija" },
     { value: "slavonija", labelKey: "region_slavonija" },
-    { value: "sredisnja-hrvatska", labelKey: "region_sredisnja" }, // Ensure slug matches
+    { value: "sredisnja-hrvatska", labelKey: "region_sredisnja" },
     { value: "zagreb", labelKey: "region_zagreb" },
     { value: "lika-gorski-kotar", labelKey: "region_lika_gorski_kotar"}
   ];
-
   const priceOptions = [
     { value: "any", labelKey: "filter_price_any" },
     { value: "€", labelKey: "filter_price_1" },
@@ -200,7 +130,6 @@ export default function ExplorePage() {
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
       {/* Hero Section */}
       <section className="text-center py-12">
-        {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-primary dark:text-foreground">
           {t('explore_page_title')}
         </h1>
@@ -211,9 +140,9 @@ export default function ExplorePage() {
 
       {/* Regional Cards Section */}
       <section className="mb-16">
-        {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
         <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-foreground">{t('explore_page_select_region_title')}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-8"> {/* Adjusted grid for potentially 7 items */}
+        {/* CORRECTED: Grid layout adjusted for better distribution of 7 items */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
           {regionsData.map((region) => (
             <RegionalCard
               key={region.id}
@@ -222,14 +151,13 @@ export default function ExplorePage() {
               imageUrl={region.imageUrl}
               color1={region.color1}
               color2={region.color2}
-              slug={region.slug} // Slug is passed to RegionalCard to construct the link
+              slug={region.slug}
             />
           ))}
         </div>
       </section>
 
       {/* Search & Filters Section */}
-      {/* CORRECTED: Changed dark:text-primary-foreground to dark:text-foreground */}
       <section className="mb-12 p-6 bg-card/50 dark:bg-card/80 rounded-lg shadow-lg">
         <h3 className="text-2xl font-semibold mb-6 text-center text-primary dark:text-foreground">{t('explore_page_search_title')}</h3>
         <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
@@ -259,7 +187,7 @@ export default function ExplorePage() {
                <SelectValue placeholder={t('filter_region_label')} />
             </SelectTrigger>
             <SelectContent>
-              {regionFilterOptions.map(option => ( // Using regionFilterOptions
+              {regionFilterOptions.map(option => (
                 <SelectItem key={option.value} value={option.value} className="text-base">{t(option.labelKey)}</SelectItem>
               ))}
             </SelectContent>
@@ -279,62 +207,36 @@ export default function ExplorePage() {
 
       {/* Popular Destinations Section */}
       <section className="mb-16">
-        {/* NOTE: This heading uses text-secondary dark:text-secondary-foreground, which should be visible */}
-        <h2 className="text-3xl font-bold mb-8 text-center text-secondary dark:text-secondary-foreground">{t('explore_page_popular_destinations_title')}</h2>
+        {/* CORRECTED: Changed text-secondary to text-primary for light theme visibility */}
+        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_popular_destinations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {popularDestinations.map((dest) => (
-            <Card key={dest.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg bg-card text-card-foreground">
-              <Link href={`/${currentLocale}/destinations/${dest.slug}`} className="block"> {/* Added currentLocale to link */}
-                <CardHeader className="p-0">
-                  <div className="relative w-full h-56">
-                    <Image src={dest.imageUrl} alt={t(dest.nameKey)} fill style={{objectFit: 'cover'}} />
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <CardTitle className="text-xl font-semibold mb-1">{t(dest.nameKey)}</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground mb-2">{t(dest.regionKey)}</CardDescription>
-                  <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{t(dest.descriptionKey)}</p>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
-                    <span>{dest.rating.toFixed(1)} ({dest.reviews} {t('reviews_label')})</span>
-                  </div>
-                </CardContent>
-              </Link>
-            </Card>
+            // Use the new component
+            <PopularDestinationCard
+              key={dest.id}
+              destination={dest}
+              locale={currentLocale}
+              // t function is already available via useTranslation hook in the card component if needed,
+              // or pass it explicitly: t={t}
+            />
           ))}
         </div>
       </section>
 
       {/* Recommendations Section */}
       <section>
-         {/* NOTE: This heading uses text-secondary dark:text-secondary-foreground, which should be visible */}
-        <h2 className="text-3xl font-bold mb-8 text-center text-secondary dark:text-secondary-foreground">{t('explore_page_recommendations_title')}</h2>
+        {/* CORRECTED: Changed text-secondary to text-primary for light theme visibility */}
+        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_recommendations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {recommendations.map((rec) => (
-            <Card key={rec.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg bg-card text-card-foreground">
-              <Link href={`/${currentLocale}/recommendations/${rec.slug}`} className="block"> {/* Added currentLocale to link */}
-                <CardHeader className="p-0">
-                  <div className="relative w-full h-56">
-                    <Image src={rec.imageUrl} alt={t(rec.nameKey)} fill style={{objectFit: 'cover'}} />
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4">
-                  {/* Using text-primary for the type, which should be visible in both themes now */}
-                  <p className="text-xs uppercase text-primary font-semibold mb-1">{t(rec.typeKey)}</p>
-                  <CardTitle className="text-xl font-semibold mb-1">{t(rec.nameKey)}</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground mb-2">{t(rec.locationKey)}</CardDescription>
-                  <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{t(rec.descriptionKey)}</p>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-muted-foreground">
-                      <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
-                      <span>{rec.rating.toFixed(1)} ({rec.reviews} {t('reviews_label')})</span>
-                    </div>
-                    {/* Using text-foreground for price, ensuring visibility */}
-                    {rec.priceRaw && <span className="font-semibold text-foreground">{rec.priceRaw}</span>}
-                  </div>
-                </CardContent>
-              </Link>
-            </Card>
+             // Use the new component
+            <RecommendationCard
+              key={rec.id}
+              recommendation={rec}
+              locale={currentLocale}
+              // t function is already available via useTranslation hook in the card component if needed,
+              // or pass it explicitly: t={t}
+            />
           ))}
         </div>
       </section>
