@@ -180,7 +180,31 @@
     "sights_kvarner_example_1_name": "Zamek Trsat",
     "sights_kvarner_example_1_desc": "Średniowieczny zamek z pięknym widokiem na Rijekę i Zatokę Kvarnerską.",
     "sights_kvarner_example_2_name": "Stare Miasto Rab",
-    "sights_kvarner_example_2_desc": "Malownicze średniowieczne miasto z czterema dzwonnicami na wyspie Rab."
-  
+    "sights_kvarner_example_2_desc": "Malownicze średniowieczne miasto z czterema dzwonnicami na wyspie Rab.",
+
+  "region_transport_title": "Jak dojechać i poruszać się",
+  "region_transport_intro_example": "Poznaj najlepsze sposoby dotarcia do {{regionName}} i najwygodniejsze opcje poruszania się na miejscu.",
+  "transport_type_airplane": "Samolotem",
+  "transport_type_car": "Samochodem",
+  "transport_type_bus": "Autobusem",
+  "transport_type_train": "Pociągiem",
+  "transport_type_boat": "Łodzią / promem",
+
+  "region_accommodation_title": "Gdzie nocować w {{regionName}}",
+  "region_accommodation_intro_example": "Znajdź idealne zakwaterowanie w {{regionName}} – od luksusowych hoteli po urokliwe gospodarstwa agroturystyczne.",
+
+  "region_food_title": "Smaki regionu {{regionName}}",
+  "region_food_intro_example": "Daj się oczarować bogactwu smaków i aromatów autentycznej kuchni regionu {{regionName}}.",
+
+  "region_activities_title": "Atrakcje i aktywności w {{regionName}}",
+  "region_activities_intro_example": "Odkryj {{regionName}} poprzez liczne aktywności – od relaksujących spacerów po pełne adrenaliny przygody.",
+
+  "region_events_title": "Wydarzenia w {{regionName}}",
+  "region_events_intro_example": "Nie przegap najciekawszych wydarzeń kulturalnych, rozrywkowych i tradycyjnych w {{regionName}}.",
+
+  "region_sights_title": "Najciekawsze miejsca w {{regionName}}",
+  "region_sights_intro_example": "Odkryj skarby dziedzictwa kulturowego i przyrodniczego regionu {{regionName}}.",
+
+  "view_more_button": "Zobacz więcej"
   
 }

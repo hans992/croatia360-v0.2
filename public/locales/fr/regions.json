@@ -181,7 +181,31 @@
     "sights_kvarner_example_1_name": "Château de Trsat",
     "sights_kvarner_example_1_desc": "Forteresse médiévale avec une vue imprenable sur Rijeka et la baie du Kvarner.",
     "sights_kvarner_example_2_name": "Vieille ville de Rab",
-    "sights_kvarner_example_2_desc": "Ville médiévale pittoresque aux quatre clochers sur l’île de Rab."
-  
+    "sights_kvarner_example_2_desc": "Ville médiévale pittoresque aux quatre clochers sur l’île de Rab.",
+
+  "region_transport_title": "Comment venir et se déplacer",
+  "region_transport_intro_example": "Découvrez les meilleures façons de rejoindre {{regionName}} et de vous déplacer une fois sur place.",
+  "transport_type_airplane": "En avion",
+  "transport_type_car": "En voiture",
+  "transport_type_bus": "En bus",
+  "transport_type_train": "En train",
+  "transport_type_boat": "En bateau / ferry",
+
+  "region_accommodation_title": "Où séjourner à {{regionName}}",
+  "region_accommodation_intro_example": "Trouvez l’hébergement idéal à {{regionName}}, des hôtels de luxe aux charmantes maisons rurales.",
+
+  "region_food_title": "Saveurs de {{regionName}}",
+  "region_food_intro_example": "Laissez-vous séduire par la richesse des saveurs et des arômes de la cuisine authentique de {{regionName}}.",
+
+  "region_activities_title": "Activités et expériences à {{regionName}}",
+  "region_activities_intro_example": "Découvrez {{regionName}} à travers de nombreuses activités – des balades relaxantes aux aventures pleines d’adrénaline.",
+
+  "region_events_title": "Événements à {{regionName}}",
+  "region_events_intro_example": "Ne manquez pas les événements culturels, festifs et traditionnels les plus intéressants à {{regionName}}.",
+
+  "region_sights_title": "Incontournables à {{regionName}}",
+  "region_sights_intro_example": "Découvrez les trésors culturels et naturels de {{regionName}}.",
+
+  "view_more_button": "Voir plus"
   
 }

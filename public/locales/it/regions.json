@@ -181,7 +181,32 @@
     "sights_kvarner_example_1_name": "Castello di Trsat",
     "sights_kvarner_example_1_desc": "Fortezza medievale con splendida vista su Fiume e sul Golfo del Quarnaro.",
     "sights_kvarner_example_2_name": "Centro storico di Arbe",
-    "sights_kvarner_example_2_desc": "Pittoresco centro medievale con quattro campanili sull’isola di Arbe."
+    "sights_kvarner_example_2_desc": "Pittoresco centro medievale con quattro campanili sull’isola di Arbe.",
   
-  
+
+  "region_transport_title": "Come arrivare e muoversi",
+  "region_transport_intro_example": "Scopri i modi migliori per raggiungere {{regionName}} e come spostarti facilmente una volta arrivato.",
+  "transport_type_airplane": "In aereo",
+  "transport_type_car": "In auto",
+  "transport_type_bus": "In autobus",
+  "transport_type_train": "In treno",
+  "transport_type_boat": "In barca / traghetto",
+
+  "region_accommodation_title": "Dove alloggiare a {{regionName}}",
+  "region_accommodation_intro_example": "Trova la sistemazione perfetta a {{regionName}}, dagli hotel di lusso alle affascinanti case rurali.",
+
+  "region_food_title": "Sapori di {{regionName}}",
+  "region_food_intro_example": "Lasciati conquistare dai sapori e profumi autentici della cucina di {{regionName}}.",
+
+  "region_activities_title": "Attività ed esperienze a {{regionName}}",
+  "region_activities_intro_example": "Scopri {{regionName}} attraverso tante attività – dalle passeggiate rilassanti alle avventure adrenaliniche.",
+
+  "region_events_title": "Eventi a {{regionName}}",
+  "region_events_intro_example": "Non perdere gli eventi culturali, di intrattenimento e tradizionali più interessanti a {{regionName}}.",
+
+  "region_sights_title": "Cosa vedere a {{regionName}}",
+  "region_sights_intro_example": "Scopri le perle del patrimonio culturale e naturale di {{regionName}}.",
+
+  "view_more_button": "Vedi di più"
+
 }

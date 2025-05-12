@@ -180,7 +180,30 @@
     "sights_kvarner_example_1_name": "Trsat vár",
     "sights_kvarner_example_1_desc": "Középkori vár, lenyűgöző kilátással Rijekára és a Kvarner-öbölre.",
     "sights_kvarner_example_2_name": "Rab óvárosa",
-    "sights_kvarner_example_2_desc": "Festői középkori város négy harangtoronnyal a Rab-szigeten."
+    "sights_kvarner_example_2_desc": "Festői középkori város négy harangtoronnyal a Rab-szigeten.",
   
-  
+  "region_transport_title": "Hogyan juthat el ide és közlekedés",
+  "region_transport_intro_example": "Ismerje meg a legjobb lehetőségeket, hogyan juthat el {{regionName}} területére, és hogyan közlekedhet a legegyszerűbben a helyszínen.",
+  "transport_type_airplane": "Repülővel",
+  "transport_type_car": "Autóval",
+  "transport_type_bus": "Busszal",
+  "transport_type_train": "Vonattal",
+  "transport_type_boat": "Hajóval / komppal",
+
+  "region_accommodation_title": "Szálláshelyek {{regionName}} területén",
+  "region_accommodation_intro_example": "Találja meg a tökéletes szállást {{regionName}} területén – a luxusszállodáktól a hangulatos vidéki vendégházakig.",
+
+  "region_food_title": "{{regionName}} ízei",
+  "region_food_intro_example": "Élvezze {{regionName}} autentikus konyhájának gazdag ízeit és illatait.",
+
+  "region_activities_title": "Programok és élmények {{regionName}} területén",
+  "region_activities_intro_example": "Fedezze fel {{regionName}} területét számos programon keresztül – a pihentető sétáktól az adrenalindús kalandokig.",
+
+  "region_events_title": "Események {{regionName}} területén",
+  "region_events_intro_example": "Ne hagyja ki a legizgalmasabb kulturális, szórakoztató és hagyományos eseményeket {{regionName}} területén.",
+
+  "region_sights_title": "Látnivalók {{regionName}} területén",
+  "region_sights_intro_example": "Fedezze fel {{regionName}} kulturális és természeti örökségének gyöngyszemeit.",
+
+  "view_more_button": "Továbbiak"
 }

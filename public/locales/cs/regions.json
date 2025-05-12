@@ -181,7 +181,30 @@
     "sights_kvarner_example_1_name": "Hrad Trsat",
     "sights_kvarner_example_1_desc": "Středověká pevnost s nádherným výhledem na Rijeku a Kvarnerský záliv.",
     "sights_kvarner_example_2_name": "Historické centrum Rabu",
-    "sights_kvarner_example_2_desc": "Malebné středověké město se čtyřmi věžemi na ostrově Rab."
+    "sights_kvarner_example_2_desc": "Malebné středověké město se čtyřmi věžemi na ostrově Rab.",
   
-  
+  "region_transport_title": "Jak se dostat a pohybovat",
+  "region_transport_intro_example": "Objevte nejlepší způsoby, jak se dostat do {{regionName}} a jak se zde nejlépe pohybovat.",
+  "transport_type_airplane": "Letadlem",
+  "transport_type_car": "Autem",
+  "transport_type_bus": "Autobusem",
+  "transport_type_train": "Vlakem",
+  "transport_type_boat": "Lodí / trajektem",
+
+  "region_accommodation_title": "Kde se ubytovat v {{regionName}}",
+  "region_accommodation_intro_example": "Najděte si ideální ubytování v {{regionName}} – od luxusních hotelů po kouzelné venkovské usedlosti.",
+
+  "region_food_title": "Chutě regionu {{regionName}}",
+  "region_food_intro_example": "Nechte se okouzlit bohatstvím chutí a vůní autentické kuchyně regionu {{regionName}}.",
+
+  "region_activities_title": "Aktivity a zážitky v {{regionName}}",
+  "region_activities_intro_example": "Objevte {{regionName}} prostřednictvím mnoha aktivit – od relaxačních procházek po adrenalinová dobrodružství.",
+
+  "region_events_title": "Události v {{regionName}}",
+  "region_events_intro_example": "Nenechte si ujít nejzajímavější kulturní, zábavné a tradiční akce v {{regionName}}.",
+
+  "region_sights_title": "Památky, které musíte vidět v {{regionName}}",
+  "region_sights_intro_example": "Objevte klenoty kulturního a přírodního dědictví regionu {{regionName}}.",
+
+  "view_more_button": "Zobrazit více"
 }

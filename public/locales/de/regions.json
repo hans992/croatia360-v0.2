@@ -180,6 +180,31 @@
     "sights_kvarner_example_1_name": "Burg Trsat",
     "sights_kvarner_example_1_desc": "Mittelalterliche Festung mit herrlichem Blick auf Rijeka und die Kvarner-Bucht.",
     "sights_kvarner_example_2_name": "Altstadt von Rab",
-    "sights_kvarner_example_2_desc": "Malerische mittelalterliche Stadt mit vier Glockentürmen auf der Insel Rab."
+    "sights_kvarner_example_2_desc": "Malerische mittelalterliche Stadt mit vier Glockentürmen auf der Insel Rab.",
+
+    "region_transport_title": "Anreise und Mobilität",
+  "region_transport_intro_example": "Entdecken Sie die besten Möglichkeiten, um nach {{regionName}} zu gelangen und sich vor Ort fortzubewegen.",
+  "transport_type_airplane": "Mit dem Flugzeug",
+  "transport_type_car": "Mit dem Auto",
+  "transport_type_bus": "Mit dem Bus",
+  "transport_type_train": "Mit dem Zug",
+  "transport_type_boat": "Mit dem Boot / Fähre",
+
+  "region_accommodation_title": "Unterkünfte in {{regionName}}",
+  "region_accommodation_intro_example": "Finden Sie die perfekte Unterkunft in {{regionName}}, von Luxushotels bis zu charmanten Landhäusern.",
+
+  "region_food_title": "Kulinarik in {{regionName}}",
+  "region_food_intro_example": "Genießen Sie die Vielfalt der Aromen und Düfte der authentischen Küche von {{regionName}}.",
+
+  "region_activities_title": "Aktivitäten und Erlebnisse in {{regionName}}",
+  "region_activities_intro_example": "Erleben Sie {{regionName}} mit zahlreichen Aktivitäten – von entspannten Spaziergängen bis zu Adrenalin-Abenteuern.",
+
+  "region_events_title": "Veranstaltungen in {{regionName}}",
+  "region_events_intro_example": "Verpassen Sie nicht die spannendsten kulturellen, unterhaltsamen und traditionellen Events in {{regionName}}.",
+
+  "region_sights_title": "Sehenswürdigkeiten in {{regionName}}",
+  "region_sights_intro_example": "Entdecken Sie die kulturellen und natürlichen Highlights von {{regionName}}.",
+
+  "view_more_button": "Mehr anzeigen"
   }
 
