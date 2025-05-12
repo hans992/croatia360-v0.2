@@ -71,11 +71,11 @@ const Chatbot: React.FC<ChatbotProps> = ({
     <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 text-center md:text-left">
         <div className="md:w-1/2 space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-tight text-white text-shadow-md">
-                {t('chatbot_hero_greeting_1', "Hi! I'm SARA AI,")} <br className="hidden md:block" />
-                <span className="opacity-80">{t('chatbot_hero_greeting_2', "your travel assistant.")}</span> ✨
+                {t('chatbot_hero_greeting_1')} <br className="hidden md:block" />
+                <span className="opacity-80">{t('chatbot_hero_greeting_2')}</span> ✨
             </h1>
             <p className="text-lg md:text-xl text-white/80 max-w-md mx-auto md:mx-0">
-                {t('chatbot_hero_subtitle', "Tell me what you're looking for in your Croatian adventure, and I'll help you plan the perfect trip!")}
+                {t('chatbot_hero_subtitle')}
             </p>
         </div>
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">

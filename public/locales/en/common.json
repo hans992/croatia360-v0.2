@@ -18,11 +18,12 @@
   "language_switcher_toggle_aria_label": "Select language",
   "language_selector_label": "Language",
   "theme_switcher_aria_label": "Toggle theme",
-  "theme_switcher_light_label": "☀️ Light",
-  "theme_switcher_dark_label": "🌙 Dark",
+  "theme_switcher_light_label": "☀️",
+  "theme_switcher_dark_label": "🌙",
 
-  "hero_title_sara_ai": "Hey, I'm SARA AI, your personal travel planner",
-  "hero_subtitle_sara_ai": "Tell me what you want, and I'll take care of the rest: flights, hotels, itineraries, in seconds. Think of me as your travel-savvy friend... who truly gets you.",
+  "chatbot_hero_greeting_1": "Hey, I'm SARA AI,",
+  "chatbot_hero_greeting_2": "your travel assistant.",
+  "chatbot_hero_subtitle": "Tell me what you want, and I'll take care of the rest: flights, hotels, itineraries, in seconds. Think of me as your travel-savvy friend... who truly gets you.",
   "inspiration_title": "Inspiration for Your Journey",
   "inspiration_subtitle": "Check out some of these destinations and let the holiday inspiration come to you.",
 

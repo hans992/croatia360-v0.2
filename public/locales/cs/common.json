@@ -18,11 +18,12 @@
   "language_switcher_toggle_aria_label": "Vybrat jazyk",
   "language_selector_label": "Jazyk",
   "theme_switcher_aria_label": "Přepnout téma",
-  "theme_switcher_light_label": "☀️ Světlé",
-  "theme_switcher_dark_label": "🌙 Tmavé",
+  "theme_switcher_light_label": "☀️",
+  "theme_switcher_dark_label": "🌙",
 
-  "hero_title_sara_ai": "Ahoj, jsem SARA AI, váš osobní plánovač cest",
-  "hero_subtitle_sara_ai": "Řekněte mi, co chcete, a já se postarám o zbytek: lety, hotely, itineráře, během sekundy. Představte si mě jako svého přítele znalého cestování... který vám skutečně rozumí.",
+  "chatbot_hero_greeting_1": "Ahoj, jsem SARA AI,",
+  "chatbot_hero_greeting_2": "váš cestovní asistent.",
+  "chatbot_hero_subtitle": "Řekněte mi, co potřebujete, a o zbytek se postarám: letenky, hotely, itineráře – během pár vteřin. Představte si mě jako kamaráda znalého cestování... který vás opravdu chápe.",
   "inspiration_title": "Inspirace pro Vaši Cestu",
   "inspiration_subtitle": "Podívejte se na některé z těchto destinací a nechte inspiraci pro dovolenou přijít sama.",
 

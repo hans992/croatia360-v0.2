@@ -18,11 +18,12 @@
   "language_switcher_toggle_aria_label": "Sprache auswählen",
   "language_selector_label": "Sprache",
   "theme_switcher_aria_label": "Theme wechseln",
-  "theme_switcher_light_label": "☀️ Hell",
-  "theme_switcher_dark_label": "🌙 Dunkel",
+  "theme_switcher_light_label": "☀️",
+  "theme_switcher_dark_label": "🌙",
 
-  "hero_title_sara_ai": "Hallo, ich bin SARA AI, Ihr persönlicher Reiseplaner",
-  "hero_subtitle_sara_ai": "Sagen Sie mir, was Sie möchten, und ich kümmere mich um den Rest: Flüge, Hotels, Reiserouten, sekundenschnell. Stellen Sie mich mir als Ihren reiseerfahrenen Freund vor... der Sie wirklich versteht.",
+  "chatbot_hero_greeting_1": "Hey, ich bin SARA AI,",
+  "chatbot_hero_greeting_2": "deine Reiseassistentin.",
+  "chatbot_hero_subtitle": "Sag mir, was du möchtest, und ich kümmere mich um den Rest: Flüge, Hotels, Reiserouten – in Sekundenschnelle. Stell dir mich als deine reiseerfahrene Freundin vor... die dich wirklich versteht.",
   "inspiration_title": "Inspiration für Ihre Reise",
   "inspiration_subtitle": "Schauen Sie sich einige dieser Reiseziele an und lassen Sie sich für Ihren Urlaub inspirieren.",
 
