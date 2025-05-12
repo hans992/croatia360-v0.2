@@ -1,22 +1,21 @@
-// src/app/components/StickyChatbotSection.tsx
+// src/components/StickyChatbotSection.tsx
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from "@/components/chatbot/Chatbot";
 import { useScrollDirection } from '@/hooks/useScrollDirection';
-import Image from 'next/image'; // Import Image component
+import Image from 'next/image';
 
 export default function StickyChatbotSection() {
     const [isSticky, setIsSticky] = useState(false);
     const sectionWrapperRef = useRef<HTMLDivElement>(null);
     const [placeholderHeight, setPlaceholderHeight] = useState<number>(0);
     const scrollDirection = useScrollDirection();
-    const siteHeaderHeight = 64; // Assume header height
+    const siteHeaderHeight = 64;
     const initialOffsetTopRef = useRef<number | null>(null);
 
-    // Background image URL (replace with your high-quality image URL)
-    // Suggestion: A beautiful, slightly abstract Croatian landscape/seascape
-    const backgroundImageUrl = "https://storage.googleapis.com/croatia360/images/regions/dalmacija/Dubrovnik_wall_tour.jpg"; // Placeholder - REPLACE THIS
+    // Zamijeni s URL-om tvoje slike visoke kvalitete
+    const backgroundImageUrl = "https://storage.googleapis.com/croatia360/images/regions/dalmacija/Dubrovnik_wall_tour.jpg"; // Placeholder - ZAMIJENI OVO
 
     useEffect(() => {
         const captureInitialOffset = () => {
@@ -62,46 +61,46 @@ export default function StickyChatbotSection() {
 
     const stickyChatbotBarTopClass = scrollDirection === 'down'
         ? 'top-0'
-        : `top-[${siteHeaderHeight}px]`; // Sticks below header
+        : `top-[${siteHeaderHeight}px]`;
 
     return (
         <>
-            {/* Placeholder to prevent layout jump */}
+            {/* Placeholder */}
             {isSticky && <div style={{ height: `${placeholderHeight}px` }} />}
 
-            {/* Main Section Wrapper */}
+            {/* Glavni Omotač Sekcije */}
             <div
                 ref={sectionWrapperRef}
                 className={
                     isSticky
-                        ? `fixed left-0 right-0 will-change-transform transition-all duration-300 ease-in-out ${stickyChatbotBarTopClass} z-40 bg-background/80 backdrop-blur-md shadow-md` // Sticky bar styling
-                        : `relative w-full h-[70vh] md:h-[80vh] min-h-[500px] md:min-h-[600px] my-0 overflow-hidden flex items-center justify-center animate-fadeIn` // Non-sticky hero section styling
+                        ? `fixed left-0 right-0 will-change-transform transition-all duration-300 ease-in-out ${stickyChatbotBarTopClass} z-40 bg-background/80 backdrop-blur-md shadow-md` // Ljepljiva traka
+                        : `relative w-full h-[70vh] md:h-[80vh] min-h-[500px] md:min-h-[600px] overflow-hidden flex items-center justify-center animate-fadeIn` // Hero sekcija - uklonjen container, mx-auto, px-4, my-*, zaobljeni rubovi
                 }
             >
-                {/* Background Image and Overlay (Only for non-sticky state) */}
+                {/* Pozadinska Slika i Sloj (Samo za ne-ljepljivo stanje) */}
                 {!isSticky && (
                     <>
                         <Image
                             src={backgroundImageUrl}
-                            alt="Pozadina hrvatskog krajolika" // Alt text in Croatian
+                            alt="Pozadina hrvatskog krajolika"
                             fill
                             style={{ objectFit: 'cover' }}
-                            priority // Load image early
-                            className="z-[-2]" // Place behind content and overlay
+                            priority
+                            className="z-[-2]"
                         />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-black/30 dark:bg-black/50 z-[-1]"></div>
+                        {/* Sloj - možda malo tamniji za bolji kontrast s bijelim tekstom */}
+                        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 z-[-1]"></div>
                     </>
                 )}
 
-                {/* Content Container */}
+                {/* Kontejner za Sadržaj (Centrira sadržaj unutar full-width sekcije) */}
                 <div className={`container mx-auto px-4 ${isSticky ? '' : 'relative z-10'}`}>
-                    {/* Render Chatbot: compact when sticky, full version otherwise */}
+                     {/* Renderira Chatbot */}
                     <Chatbot
-                        isSticky={isSticky}
-                        redirectOnSubmitUrl="/chat"
-                        // Pass a prop to indicate it's the hero section version for styling inside Chatbot
+                        // Ako želimo potpuno ukloniti sticky, možemo maknuti ovaj uvjet
+                        // i uvijek renderirati 'hero' varijantu
                         variant={isSticky ? 'sticky' : 'hero'}
+                        redirectOnSubmitUrl="/chat"
                     />
                 </div>
             </div>
