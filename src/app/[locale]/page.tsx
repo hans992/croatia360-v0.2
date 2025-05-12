@@ -1,8 +1,7 @@
 // src/app/[locale]/page.tsx
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
-// Import StickyChatbotSection which will handle the chatbot's display and stickiness
-import StickyChatbotSection from '@/components/StickyChatbotSection'; // Ensure this path is correct
+import HeroChatbotSection from '@/components/HeroChatbotSection';// Novi naziv komponente
 // The InspireCard is a Client Component, imported into this Server Component.
 import InspireCard from '@/components/InspireCard';
 
@@ -96,7 +95,7 @@ export default async function HomePage(props: HomePageProps) {
         The pastel-gradient-bg, backdrop-blur, etc., are now defined within StickyChatbotSection
         for its non-sticky state.
       */}
-      <StickyChatbotSection />
+      <HeroChatbotSection />
 
       {/* Inspiration section */}
       <section className="py-12 bg-transparent w-full">

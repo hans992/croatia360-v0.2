@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
+// ... (ostali importi ostaju isti)
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Sparkles } from "lucide-react";
@@ -11,9 +12,10 @@ import { defaultNS, type Locale } from '@/lib/i18n/settings';
 import { useRouter, useParams } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
+
 // Props for the Chatbot component
 interface ChatbotProps {
-  variant?: 'sticky' | 'hero' | 'page'; // Variant prop
+  variant?: 'hero' | 'page'; // Uklonjena 'sticky' varijanta
   redirectOnSubmitUrl?: string;
   initialQuery?: string | null;
 }
@@ -55,11 +57,11 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (redirectOnSubmitUrl && input.trim()) {
+    if (redirectOnSubmitUrl && input.trim()) { // Redirect se i dalje događa za hero
       const userQuery = input;
       setInput('');
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
-    } else if (variant === 'page') {
+    } else if (variant === 'page') { // Submit samo za page
       originalUseChatSubmit(e);
     }
   };
@@ -67,20 +69,15 @@ const Chatbot: React.FC<ChatbotProps> = ({
   // --- Hero Variant Specific Content ---
   const HeroContent = () => (
     <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 text-center md:text-left">
-        {/* Left Side: Text */}
         <div className="md:w-1/2 space-y-4">
-             {/* CORRECTED: Slightly smaller font size, explicit white color */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-tight text-white text-shadow-md"> {/* Smanjena veličina za lg, boja bijela */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-tight text-white text-shadow-md">
                 {t('chatbot_hero_greeting_1', "Hi! I'm SARA AI,")} <br className="hidden md:block" />
                 <span className="opacity-80">{t('chatbot_hero_greeting_2', "your travel assistant.")}</span> ✨
             </h1>
-             {/* CORRECTED: Explicit white color */}
-            <p className="text-lg md:text-xl text-white/80 max-w-md mx-auto md:mx-0"> {/* Boja bijela s prozirnošću */}
+            <p className="text-lg md:text-xl text-white/80 max-w-md mx-auto md:mx-0">
                 {t('chatbot_hero_subtitle', "Tell me what you're looking for in your Croatian adventure, and I'll help you plan the perfect trip!")}
             </p>
         </div>
-
-        {/* Right Side: Input and Buttons */}
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
@@ -90,7 +87,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
                     className={cn(
                         "w-full pr-12 pl-5 py-7 rounded-full",
                         "text-base md:text-lg",
-                        // Stilovi za input ostaju isti, prilagođavaju se temi
                         "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                         "border border-neutral-300 dark:border-neutral-700",
                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
@@ -115,7 +111,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 </Button>
             </form>
             <div className="flex flex-wrap gap-2 justify-center">
-                 {/* Stilovi za gumbe ostaju isti, bijeli s prozirnom pozadinom */}
                 <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
                 <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
                 <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
@@ -125,42 +120,9 @@ const Chatbot: React.FC<ChatbotProps> = ({
     </div>
   );
 
-  // --- Sticky Variant Specific Content ---
-  const StickyContent = () => (
-     <div className="w-full max-w-5xl mx-auto py-2">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 flex-shrink-0">
-             <Sparkles className="h-6 w-6 text-primary" />
-             <span className="text-lg font-semibold text-foreground hidden sm:inline">
-                {t('chatbot_sticky_title', 'Plan with SARA AI')}
-             </span>
-          </div>
-          <form onSubmit={handleFormSubmit} className="relative flex-grow max-w-xl">
-              <Input
-                  value={input}
-                  onChange={handleInputChange}
-                  placeholder={t('chatbot_input_placeholder_sticky', "Ask SARA AI...")}
-                  className="w-full pr-10 pl-4 py-2 rounded-full border bg-background text-foreground placeholder:text-muted-foreground text-sm focus:ring-1 focus:ring-primary"
-                  disabled={isLoading}
-                  aria-label={t('chatbot_input_aria_label')}
-              />
-              <Button
-                  type="submit"
-                  className="absolute right-1.5 top-1/2 transform -translate-y-1/2 p-1.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
-                  size="icon"
-                  disabled={!input.trim()}
-                  aria-label={t('chatbot_send_button_aria_label')}
-              >
-                  <Send className="h-3.5 w-3.5" />
-              </Button>
-          </form>
-        </div>
-      </div>
-  );
-
   // --- Page Variant Specific Content (Full Chat Interface) ---
   const PageContent = () => (
-    <div className="w-full max-w-3xl mx-auto flex flex-col h-[calc(80vh-100px)] border rounded-lg shadow-lg bg-card">
+     <div className="w-full max-w-3xl mx-auto flex flex-col h-[calc(80vh-100px)] border rounded-lg shadow-lg bg-card">
       <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent">
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -221,11 +183,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
   );
 
   // --- Render based on variant ---
+  // Uklonjen 'sticky' case
   switch (variant) {
     case 'hero':
       return <HeroContent />;
-    case 'sticky':
-      return <StickyContent />;
     case 'page':
     default:
       return <PageContent />;
