@@ -80,7 +80,7 @@
   "footer_subscribe_error_enter_email": "Molimo unesite email adresu.",
   "footer_subscribe_error_invalid_email": "Molimo unesite ispravnu email adresu.",
   "footer_follow_us": "Pratite nas",
-  "footer_copyright": "© {year} Croatia360 by SARA AI. Sva prava pridržana.",
+  "footer_copyright": "© {{year}} Croatia360 by SARA AI. Sva prava pridržana.",
 
   "chatbot_initial_greeting": "Bok! Ja sam SARA AI, tvoj asistent za putovanja. 👋 Reci mi što tražiš za svoju hrvatsku avanturu, a ja ću ti pomoći isplanirati savršeno putovanje!",
   "chatbot_input_placeholder": "Pitaj SARA AI bilo što o Hrvatskoj...",

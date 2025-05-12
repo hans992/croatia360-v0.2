@@ -80,7 +80,7 @@
   "footer_subscribe_error_enter_email": "Kérjük, adjon meg egy e-mail címet.",
   "footer_subscribe_error_invalid_email": "Kérjük, adjon meg egy érvényes e-mail címet.",
   "footer_follow_us": "Kövessen minket",
-  "footer_copyright": "© {year} Croatia360, SARA MI. Minden jog fenntartva.",
+  "footer_copyright": "© {{year}} Croatia360, SARA MI. Minden jog fenntartva.",
 
   "chatbot_initial_greeting": "Szia! SARA MI vagyok, az utazási asszisztensed. 👋 Mondd el, mit keresel a horvátországi kalandodhoz, és segítek megtervezni a tökéletes utazást!",
   "chatbot_input_placeholder": "Kérdezzen bármit a SARA MI-től Horvátországról...",
