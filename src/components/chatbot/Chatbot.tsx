@@ -1,18 +1,21 @@
 // src/components/chatbot/Chatbot.tsx
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
+// ... (ostali importi ostaju isti)
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react"; // Uklonjen Sparkles ako se StickyContent više ne koristi
+import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
 import { useRouter, useParams } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
+
+// Props for the Chatbot component
 interface ChatbotProps {
-  variant?: 'hero' | 'page';
+  variant?: 'hero' | 'page'; // Uklonjena 'sticky' varijanta
   redirectOnSubmitUrl?: string;
   initialQuery?: string | null;
 }
@@ -30,7 +33,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const {
     messages,
     input,
-    handleInputChange: originalHandleInputChange,
+    handleInputChange,
     handleSubmit: originalUseChatSubmit,
     isLoading,
     setInput,
@@ -41,30 +44,9 @@ const Chatbot: React.FC<ChatbotProps> = ({
     initialMessages: variant === 'page' ? [
       { id: 'sara-initial-greeting', role: 'assistant', content: t('chatbot_initial_greeting') }
     ] : [],
-    onFinish: () => {
-      if (variant === 'page') {
-        setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 0);
-      }
-    }
   });
 
   const initialQueryProcessedRef = useRef(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputAreaRef = useRef<HTMLDivElement>(null);
-
-  const [isMobileView, setIsMobileView] = useState(false);
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(120);
-
-
-  useEffect(() => {
-    const checkMobile = () => window.innerWidth < 768;
-    const updateMobileView = () => setIsMobileView(checkMobile());
-    updateMobileView();
-    window.addEventListener('resize', updateMobileView);
-    return () => window.removeEventListener('resize', updateMobileView);
-  }, []);
 
   useEffect(() => {
     if (variant === 'page' && initialQuery && !initialQueryProcessedRef.current && append) {
@@ -73,91 +55,38 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   }, [variant, initialQuery, append]);
 
-  useEffect(() => {
-    if (variant === 'page' && messages.length > 0) {
-      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
-    }
-  }, [messages, variant]);
-
-  useEffect(() => {
-    if (inputAreaRef.current) {
-      const height = inputAreaRef.current.offsetHeight;
-      if (height > 0) {
-        setEstimatedInputAreaHeight(height);
-      }
-    }
-  }, [input, variant]);
-
-  useEffect(() => {
-    if (variant === 'hero' && isMobileView) {
-      if (isInputFocused) {
-        document.body.classList.add('hero-chat-active');
-      } else {
-        document.body.classList.remove('hero-chat-active');
-      }
-      return () => document.body.classList.remove('hero-chat-active');
-    }
-  }, [isInputFocused, variant, isMobileView]);
-
-  useEffect(() => {
-    if (variant === 'page' && isMobileView && isInputFocused) {
-      const timer = setTimeout(() => {
-        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isInputFocused, variant, isMobileView]);
-
-  const handleInputChangeWrapper = (e: React.ChangeEvent<HTMLInputElement>) => {
-    originalHandleInputChange(e);
-  };
-
-  const handleFocus = useCallback(() => {
-    setIsInputFocused(true);
-  }, []);
-
-  const handleBlur = useCallback(() => {
-    setTimeout(() => {
-        if (inputAreaRef.current && !inputAreaRef.current.contains(document.activeElement)) {
-            setIsInputFocused(false);
-        }
-    }, 250);
-  }, []);
-
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.trim()) return;
-
-    if (redirectOnSubmitUrl && variant === 'hero') {
+    if (redirectOnSubmitUrl && input.trim()) { // Redirect se i dalje događa za hero
       const userQuery = input;
       setInput('');
-      document.body.classList.remove('hero-chat-active');
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
-    } else if (variant === 'page') {
+    } else if (variant === 'page') { // Submit samo za page
       originalUseChatSubmit(e);
     }
   };
 
+  // --- Hero Variant Specific Content ---
   const HeroContent = () => (
     <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 text-center md:text-left">
         <div className="md:w-1/2 space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-tight text-white text-shadow-md">
-                {t('chatbot_hero_greeting_1')} <br className="hidden md:block" />
-                <span className="opacity-80">{t('chatbot_hero_greeting_2')}</span> ✨
+                {t('chatbot_hero_greeting_1', "Hi! I'm SARA AI,")} <br className="hidden md:block" />
+                <span className="opacity-80">{t('chatbot_hero_greeting_2', "your travel assistant.")}</span> ✨
             </h1>
             <p className="text-lg md:text-xl text-white/80 max-w-md mx-auto md:mx-0">
-                {t('chatbot_hero_subtitle')}
+                {t('chatbot_hero_subtitle', "Tell me what you're looking for in your Croatian adventure, and I'll help you plan the perfect trip!")}
             </p>
         </div>
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
-                    ref={inputRef}
                     value={input}
-                    onChange={handleInputChangeWrapper}
-                    placeholder={t('chatbot_input_placeholder_hero')}
+                    onChange={handleInputChange}
+                    placeholder={t('chatbot_input_placeholder_hero', "Ask SARA AI anything about Croatia...")}
                     className={cn(
-                        "w-full pr-12 pl-5 py-7 rounded-full", "text-base md:text-lg",
+                        "w-full pr-12 pl-5 py-7 rounded-full",
+                        "text-base md:text-lg",
                         "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                         "border border-neutral-300 dark:border-neutral-700",
                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
@@ -165,10 +94,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                     )}
                     disabled={isLoading}
                     aria-label={t('chatbot_input_aria_label')}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
                 />
-                {/* ISPRAVLJENA TIPKA OVDJE */}
                 <Button
                     type="submit"
                     className={cn(
@@ -178,28 +104,26 @@ const Chatbot: React.FC<ChatbotProps> = ({
                         "disabled:opacity-50 disabled:scale-100"
                     )}
                     size="icon"
-                    disabled={isLoading || !input.trim()}
+                    disabled={!input.trim()}
                     aria-label={t('chatbot_send_button_aria_label')}
                 >
                     <Send className="h-5 w-5" />
                 </Button>
             </form>
             <div className="flex flex-wrap gap-2 justify-center">
-                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_wine_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_budget_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_nature_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
             </div>
         </div>
     </div>
   );
 
+  // --- Page Variant Specific Content (Full Chat Interface) ---
   const PageContent = () => (
-    <div className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden">
-      <div
-        className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent"
-        style={{ paddingBottom: `${estimatedInputAreaHeight + 16}px` }}
-      >
+     <div className="w-full max-w-3xl mx-auto flex flex-col h-[calc(80vh-100px)] border rounded-lg shadow-lg bg-card">
+      <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent">
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
@@ -207,45 +131,42 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 ? 'bg-primary text-primary-foreground rounded-tr-none'
                 : 'bg-muted text-muted-foreground rounded-tl-none'
             }`}>
-              {message.content.split('\n').map((line, i) => ( <span key={i}>{line}<br/></span> ))}
+              {message.content.split('\n').map((line, i) => (
+                <span key={i}>{line}<br/></span>
+              ))}
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
-            <div className="flex justify-start">
+           <div className="flex justify-start">
              <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse">
-               {t('chatbot_thinking')}
+               {t('chatbot_thinking', "SARA AI is thinking...")}
              </div>
            </div>
         )}
         {error && (
            <div className="flex justify-start">
              <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-destructive/10 text-destructive rounded-tl-none">
-                {t('chatbot_error_prefix')} {error.message || t('chatbot_error_default_message')}
+                {t('chatbot_error_prefix', "Error:")} {error.message || t('chatbot_error_default_message', "Something went wrong.")}
              </div>
            </div>
         )}
       </div>
-
-      <div ref={inputAreaRef} className="p-4 border-t border-border bg-card shrink-0">
+      <div className="p-4 border-t border-border bg-background/50">
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
-              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_wine_text'));   inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_budget_text'));  inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_nature_text')); inputRef.current?.focus(); }} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
           </div>
           <form onSubmit={handleFormSubmit} className="relative w-full">
               <Input
-                  ref={inputRef}
                   value={input}
-                  onChange={handleInputChangeWrapper}
-                  placeholder={t('chatbot_input_placeholder')}
+                  onChange={handleInputChange}
+                  placeholder={t('chatbot_input_placeholder', "Ask SARA AI anything...")}
                   className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
               />
               <Button
                   type="submit"
@@ -261,6 +182,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
     </div>
   );
 
+  // --- Render based on variant ---
+  // Uklonjen 'sticky' case
   switch (variant) {
     case 'hero':
       return <HeroContent />;
