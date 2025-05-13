@@ -103,6 +103,11 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  body.chat-input-focused {
+    overflow: hidden !important; /* Sprječava skrolanje tijela kad je chat input fokusiran na mobitelu */
+    /* Možda će biti potrebno i position: fixed; width: 100%; height: 100%; ali oprezno s tim */
+  }
 }
 
 /* Ostatak globals.css... */
