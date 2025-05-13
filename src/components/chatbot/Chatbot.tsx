@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react"; // Uklonjen Sparkles ako se StickyContent više ne koristi
+import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -51,20 +51,37 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const initialQueryProcessedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputAreaRef = useRef<HTMLDivElement>(null);
+  const inputAreaRef = useRef<HTMLDivElement>(null); // Za mjerenje visine
 
   const [isMobileView, setIsMobileView] = useState(false);
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(120);
+  const [estimatedInputAreaHeight, setEstimatedInputAreaHeight] = useState(130); // Povećana procjena
 
-
+  // Određivanje mobilnog prikaza i mjerenje visine input područja
   useEffect(() => {
     const checkMobile = () => window.innerWidth < 768;
     const updateMobileView = () => setIsMobileView(checkMobile());
     updateMobileView();
-    window.addEventListener('resize', updateMobileView);
-    return () => window.removeEventListener('resize', updateMobileView);
-  }, []);
+
+    const measureInputArea = () => {
+      if (inputAreaRef.current) {
+        const height = inputAreaRef.current.offsetHeight;
+        if (height > 0) setEstimatedInputAreaHeight(height);
+      }
+    };
+    measureInputArea(); // Početno mjerenje
+    // Debounced mjerenje pri resize-u
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+        updateMobileView();
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(measureInputArea, 200);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+        window.removeEventListener('resize', handleResize);
+        clearTimeout(resizeTimer);
+    };
+  }, []); // Samo na mount/unmount
 
   useEffect(() => {
     if (variant === 'page' && initialQuery && !initialQueryProcessedRef.current && append) {
@@ -73,68 +90,69 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   }, [variant, initialQuery, append]);
 
+  // Skrolaj na nove poruke
   useEffect(() => {
     if (variant === 'page' && messages.length > 0) {
-      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 100);
+      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }), 150); // Malo veći delay
     }
   }, [messages, variant]);
 
-  useEffect(() => {
-    if (inputAreaRef.current) {
-      const height = inputAreaRef.current.offsetHeight;
-      if (height > 0) {
-        setEstimatedInputAreaHeight(height);
-      }
-    }
-  }, [input, variant]);
 
-  useEffect(() => {
-    if (variant === 'hero' && isMobileView) {
-      if (isInputFocused) {
-        document.body.classList.add('hero-chat-active');
-      } else {
-        document.body.classList.remove('hero-chat-active');
-      }
-      return () => document.body.classList.remove('hero-chat-active');
-    }
-  }, [isInputFocused, variant, isMobileView]);
-
-  useEffect(() => {
-    if (variant === 'page' && isMobileView && isInputFocused) {
-      const timer = setTimeout(() => {
-        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isInputFocused, variant, isMobileView]);
-
+  // Omotač za handleInputChange da EKSPLICITNO VRATI FOKUS
   const handleInputChangeWrapper = (e: React.ChangeEvent<HTMLInputElement>) => {
-    originalHandleInputChange(e);
+    originalHandleInputChange(e); // Pozovi originalni handler iz useChat
+    // Odmah nakon promjene, ako smo na mobilnom i ovo je chat stranica, vrati fokus
+    if (isMobileView && variant === 'page') {
+      // Koristimo requestAnimationFrame da osiguramo da se fokus vrati nakon što React završi s trenutnim ciklusom
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
+    }
   };
 
-  const handleFocus = useCallback(() => {
-    setIsInputFocused(true);
-  }, []);
+  // Handler za fokus na inputu
+  const handleInputFocus = useCallback(() => {
+    if (isMobileView && variant === 'page') {
+      // Kada input dobije fokus, osiguraj da je vidljiv
+      // Preglednik bi trebao sam podići viewport
+      // Možemo dodati klasu na body ako želimo spriječiti skrolanje tijela
+      document.body.classList.add('chat-input-focused');
+      // Skrolaj input u prikaz nakon što se tipkovnica (nadamo se) pojavi
+      setTimeout(() => {
+        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 350);
+    }
+    if (isMobileView && variant === 'hero') {
+        document.body.classList.add('hero-chat-active');
+    }
+  }, [isMobileView, variant]);
 
-  const handleBlur = useCallback(() => {
-    setTimeout(() => {
-        if (inputAreaRef.current && !inputAreaRef.current.contains(document.activeElement)) {
-            setIsInputFocused(false);
-        }
-    }, 250);
-  }, []);
+  // Handler za blur na inputu
+  const handleInputBlur = useCallback(() => {
+    if (isMobileView && variant === 'page') {
+      document.body.classList.remove('chat-input-focused');
+    }
+    if (isMobileView && variant === 'hero') {
+        document.body.classList.remove('hero-chat-active');
+    }
+  }, [isMobileView, variant]);
+
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const currentInput = input; // Spremi trenutnu vrijednost inputa
+    if (!currentInput.trim()) return;
 
     if (redirectOnSubmitUrl && variant === 'hero') {
-      const userQuery = input;
-      setInput('');
+      setInput(''); // Očisti input prije redirecta
       document.body.classList.remove('hero-chat-active');
-      router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
+      router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(currentInput)}`);
     } else if (variant === 'page') {
-      originalUseChatSubmit(e);
+      originalUseChatSubmit(e); // useChat će sam očistiti input ako je tako konfiguriran
+      // Nakon slanja, EKSPLICITNO VRATI FOKUS na input ako smo na mobilnom
+      if (isMobileView) {
+        setTimeout(() => inputRef.current?.focus(), 0);
+      }
     }
   };
 
@@ -152,31 +170,27 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
-                    ref={inputRef}
+                    ref={inputRef} // Ref za upravljanje fokusom i klasom na body
                     value={input}
-                    onChange={handleInputChangeWrapper}
+                    onChange={handleInputChangeWrapper} // Koristimo omotač
                     placeholder={t('chatbot_input_placeholder_hero')}
                     className={cn(
                         "w-full pr-12 pl-5 py-7 rounded-full", "text-base md:text-lg",
                         "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                         "border border-neutral-300 dark:border-neutral-700",
                         "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
-                        "shadow-lg focus:shadow-xl transition-all duration-300"
+                        "shadow-lg focus:shadow-xl transition-all duration-300",
+                        "transform-gpu" // Dodano za potencijalno poboljšanje renderinga
                     )}
+                    type="text" // Eksplicitno text
                     disabled={isLoading}
                     aria-label={t('chatbot_input_aria_label')}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                 />
-                {/* ISPRAVLJENA TIPKA OVDJE */}
                 <Button
                     type="submit"
-                    className={cn(
-                        "absolute right-2.5 top-1/2 transform -translate-y-1/2 p-2.5 rounded-full",
-                        "bg-primary hover:bg-primary/90 text-primary-foreground",
-                        "transition-transform duration-200 hover:scale-110 active:scale-100",
-                        "disabled:opacity-50 disabled:scale-100"
-                    )}
+                    className={cn( /* ... klase ... */ )}
                     size="icon"
                     disabled={isLoading || !input.trim()}
                     aria-label={t('chatbot_send_button_aria_label')}
@@ -185,6 +199,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 </Button>
             </form>
             <div className="flex flex-wrap gap-2 justify-center">
+                 {/* ... suggestion buttons ... onClick sada uključuje inputRef.current?.focus() ... */}
                 <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_beaches_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
                 <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_wine_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
                 <Button variant="outline" size="sm" onClick={() => {setInput(t('chatbot_button_budget_text')); inputRef.current?.focus();}} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
@@ -198,7 +213,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     <div className="w-full max-w-3xl mx-auto flex flex-col h-full border rounded-lg shadow-lg bg-card overflow-hidden">
       <div
         className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent"
-        style={{ paddingBottom: `${estimatedInputAreaHeight + 16}px` }}
+        style={{ paddingBottom: `${estimatedInputAreaHeight + 20}px` }} // Povećan padding za svaki slučaj
       >
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -213,18 +228,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
         ))}
         <div ref={messagesEndRef} />
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
-            <div className="flex justify-start">
-             <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse">
-               {t('chatbot_thinking')}
-             </div>
-           </div>
+            <div className="flex justify-start"> <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse"> {t('chatbot_thinking')} </div> </div>
         )}
         {error && (
-           <div className="flex justify-start">
-             <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-destructive/10 text-destructive rounded-tl-none">
-                {t('chatbot_error_prefix')} {error.message || t('chatbot_error_default_message')}
-             </div>
-           </div>
+           <div className="flex justify-start"> <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-destructive/10 text-destructive rounded-tl-none"> {t('chatbot_error_prefix')} {error.message || t('chatbot_error_default_message')} </div> </div>
         )}
       </div>
 
@@ -239,13 +246,14 @@ const Chatbot: React.FC<ChatbotProps> = ({
               <Input
                   ref={inputRef}
                   value={input}
-                  onChange={handleInputChangeWrapper}
+                  onChange={handleInputChangeWrapper} // Koristimo omotač
                   placeholder={t('chatbot_input_placeholder')}
-                  className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
+                  className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary transform-gpu" // Dodan transform-gpu
+                  type="text" // Eksplicitno text
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
               />
               <Button
                   type="submit"

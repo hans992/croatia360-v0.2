@@ -5,14 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { User, Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react'; // Added useCallback
+import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { useTranslation } from 'react-i18next';
-import { defaultNS, type Locale } from '@/lib/i18n/settings';
+import { defaultNS, type Locale, fallbackLng } from '@/lib/i18n/settings'; // Import fallbackLng
 import { usePathname, useParams } from 'next/navigation';
 
 type SupabaseUser = {
@@ -33,54 +33,68 @@ const Header = ({ locale }: HeaderProps) => {
   const [authChecked, setAuthChecked] = useState(false);
   const pathname = usePathname();
   const params = useParams();
-  const [isHeroChatActive, setIsHeroChatActive] = useState(false); // State to track if hero chat is active
+  const [isHeroChatInputActive, setIsHeroChatInputActive] = useState(false);
 
-  const currentLocale = locale || (params.locale as Locale);
-  const isChatPage = pathname.endsWith('/chat');
-  const isHomePage = pathname === `/${currentLocale}` || pathname === '/'; // Check if it's the homepage
+  // Determine the current locale, prioritizing prop, then params, then fallback
+  const currentLocale = locale || (params?.locale as Locale) || fallbackLng;
+
+  // Check if the current page is the dedicated chat page
+  const isChatPage = pathname ? pathname.endsWith('/chat') : false;
+  // Check if it's the homepage
+  const isHomePage = pathname ? (pathname === `/${currentLocale}` || (currentLocale === fallbackLng && pathname === '/')) : false;
+
 
   const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user as SupabaseUser | null ?? null);
-      setAuthChecked(true);
+      if (!authChecked) setAuthChecked(true); // Set authChecked once session info is processed
     });
+    // Initial session check
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!user) {
-        setUser(session?.user as SupabaseUser | null ?? null);
+      if (!user && session) { // Check if user state is not already set
+        setUser(session.user as SupabaseUser | null ?? null);
       }
-      setAuthChecked(true);
+      if (!authChecked) setAuthChecked(true);
     });
-    return () => authListener?.subscription.unsubscribe();
-  }, [user]); // Added user to dependency array
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, [authChecked, user]); // Rerun if authChecked or user changes
 
   useEffect(() => {
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
   }, [pathname, isMobileMenuOpen]);
 
-  // Check for body class indicating hero chat is active
+  // Effect to check for 'hero-chat-active' class on body
   useEffect(() => {
+    if (!isHomePage || isChatPage) { // Only apply this logic on the homepage, not on the chat page
+        setIsHeroChatInputActive(false); // Ensure it's false on other pages
+        return;
+    }
+
     const checkBodyClass = () => {
-      // Only check on homepage, not on /chat page
-      if (isHomePage && !isChatPage) {
-        setIsHeroChatActive(document.body.classList.contains('hero-chat-active'));
-      } else {
-        setIsHeroChatActive(false); // Ensure it's false on other pages or if class is removed
+      const isActive = document.body.classList.contains('hero-chat-active');
+      if (isActive !== isHeroChatInputActive) {
+        setIsHeroChatInputActive(isActive);
       }
     };
 
-    // Check initially and set up a MutationObserver to watch for class changes on body
-    checkBodyClass();
+    checkBodyClass(); // Initial check
+
     const observer = new MutationObserver(checkBodyClass);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     return () => observer.disconnect();
-  }, [isHomePage, isChatPage]); // Rerun if page context changes
+  }, [isHomePage, isChatPage, isHeroChatInputActive]); // Added isHeroChatInputActive to dependencies
 
 
   const headerHeightClass = 'h-16';
-  const hiddenHeaderClass = '-top-16';
+  const hiddenHeaderClass = '-top-16'; // Class to hide header
   const displayName = user?.user_metadata?.name || user?.email || (user ? t('user_generic_name') : "");
 
   const navLinks = [
@@ -97,8 +111,10 @@ const Header = ({ locale }: HeaderProps) => {
         ${headerHeightClass}
         transition-all duration-300 ease-in-out
         ${
-          isChatPage || isHeroChatActive // If it's the chat page OR hero chat is active, always keep header at top-0
+          // Header is always visible if on chat page OR if hero chat input is active on homepage
+          isChatPage || (isHomePage && isHeroChatInputActive)
             ? 'top-0'
+            // Otherwise, hide on scroll down (but not on chat page or when hero input active)
             : (scrollDirection === 'down' ? hiddenHeaderClass : 'top-0')
         }
       `}
@@ -179,7 +195,7 @@ const Header = ({ locale }: HeaderProps) => {
                 <div className="flex justify-between items-center p-4 border-b border-border">
                   <Link href={`/${currentLocale}/`} className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
                     <Image
-                      src={logoUrl} // Corrected from kunaLogoPath
+                      src={logoUrl}
                       alt={t('alt_croatia360_logo')}
                       width={30}
                       height={30}
