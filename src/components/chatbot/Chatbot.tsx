@@ -1,7 +1,7 @@
 // src/components/chatbot/Chatbot.tsx
 "use client";
 
-import React, { useEffect, useRef } from 'react'; // useRef je tu, ali ga nećemo aktivno koristiti za fokus u ovom testu
+import React, { useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
@@ -27,7 +27,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const params = useParams();
   const currentLocale = params.locale as Locale;
 
-  // Koristimo handleInputChange direktno iz useChat, kao u staroj funkcionalnoj verziji
   const {
     messages,
     input,
@@ -62,49 +61,36 @@ const Chatbot: React.FC<ChatbotProps> = ({
     } else if (variant === 'page') {
       originalUseChatSubmit(e);
     } else if (variant === 'hero' && !redirectOnSubmitUrl) {
-      // Ako hero varijanta nema redirect, trebala bi poslati poruku
       originalUseChatSubmit(e);
     }
   };
 
-  // --- Hero Variant Specific Content (POJEDNOSTAVLJENO ZA TESTIRANJE FOKUSA) ---
+  // --- Hero Variant Specific Content (POJEDNOSTAVLJENO + UKLONJENI FOCUS STILOVI) ---
   const HeroContent = () => (
-    // Privremeno uklanjamo kompleksnu okolnu strukturu da vidimo utječe li na fokus.
-    // Ostavljamo samo formu, input i gumb s njihovim NOVIM stilovima.
-    // Ako ovo radi, problem je u okolnim elementima/stilovima.
-    <div className="w-full flex flex-col items-center"> {/* Osnovni centrirajući omotač */}
-      {/* Originalni pozdravni tekstovi su zakomentirani za test */}
-      {/* <div className="md:w-1/2 space-y-4 text-center md:text-left mb-8">
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-tight text-white text-shadow-md">
-              {t('chatbot_hero_greeting_1', "Hi! I'm SARA AI,")} <br className="hidden md:block" />
-              <span className="opacity-80">{t('chatbot_hero_greeting_2', "your travel assistant.")}</span> ✨
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-md mx-auto md:mx-0">
-              {t('chatbot_hero_subtitle', "Tell me what you're looking for in your Croatian adventure, and I'll help you plan the perfect trip!")}
-          </p>
-      </div> */}
-
-      {/* Forma je sada direktnije renderirana, sličnije starom 'renderForm' pristupu */}
-      <form onSubmit={handleFormSubmit} className="relative w-full max-w-md"> {/* Ograničavamo širinu forme */}
+    <div className="w-full flex flex-col items-center">
+      {/* Pozdravni tekstovi ostaju zakomentirani za ovaj test */}
+      <form onSubmit={handleFormSubmit} className="relative w-full max-w-md">
           <Input
-              // ref se ne koristi u ovom testu
               value={input}
-              onChange={handleInputChange} // Direktno iz useChat
+              onChange={handleInputChange}
               placeholder={t('chatbot_input_placeholder_hero', "Ask SARA AI anything about Croatia...")}
-              className={cn( // Novi stilovi inputa ostaju
+              className={cn(
                   "w-full pr-12 pl-5 py-7 rounded-full",
                   "text-base md:text-lg",
                   "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                   "border border-neutral-300 dark:border-neutral-700",
-                  "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
-                  "shadow-lg focus:shadow-xl transition-all duration-300"
+                  // UKLONJENI/POJEDNOSTAVLJENI FOCUS STILOVI:
+                  // "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
+                  // "shadow-lg focus:shadow-xl transition-all duration-300"
+                  "shadow-lg transition-all duration-300" // Ostavljamo osnovnu sjenu i tranziciju, ali maknuli smo focus:shadow-xl
+                                                          // Preglednik će primijeniti defaultni outline na fokus ako focus:outline-none nije specificiran.
               )}
               disabled={isLoading}
               aria-label={t('chatbot_input_aria_label')}
           />
           <Button
               type="submit"
-              className={cn( // Novi stilovi gumba ostaju
+              className={cn(
                   "absolute right-2.5 top-1/2 transform -translate-y-1/2 p-2.5 rounded-full",
                   "bg-primary hover:bg-primary/90 text-primary-foreground",
                   "transition-transform duration-200 hover:scale-110 active:scale-100",
@@ -117,23 +103,14 @@ const Chatbot: React.FC<ChatbotProps> = ({
               <Send className="h-5 w-5" />
           </Button>
       </form>
-
-      {/* Gumbi za prijedloge su zakomentirani za test */}
-      {/* <div className="flex flex-wrap gap-2 justify-center mt-4">
-          <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-          <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-          <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-          <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
-      </div> */}
+      {/* Gumbi za prijedloge ostaju zakomentirani */}
     </div>
   );
 
-  // --- Page Variant Specific Content (Full Chat Interface) ---
-  // Ako se problem javlja i ovdje, primijeniti slično pojednostavljenje JSX-a za testiranje.
+  // --- Page Variant Specific Content (Full Chat Interface - UKLONJENI FOCUS STILOVI) ---
   const PageContent = () => (
      <div className="w-full max-w-3xl mx-auto flex flex-col h-[calc(80vh-100px)] border rounded-lg shadow-lg bg-card">
       <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent">
-        {/* Prikaz poruka */}
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
@@ -147,7 +124,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
             </div>
           </div>
         ))}
-        {/* Indikatori za isLoading i error */}
         {isLoading && messages.length > 0 && messages[messages.length - 1].role === 'user' && (
            <div className="flex justify-start">
              <div className="max-w-[80%] p-3 rounded-lg shadow-sm bg-muted text-muted-foreground rounded-tl-none italic animate-pulse">
@@ -164,21 +140,20 @@ const Chatbot: React.FC<ChatbotProps> = ({
         )}
       </div>
       <div className="p-4 border-t border-border bg-background/50">
-          {/* Gumbi za prijedloge */}
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
           </div>
-          {/* Forma za unos */}
           <form onSubmit={handleFormSubmit} className="relative w-full">
               <Input
-                  // ref se ne koristi u ovom testu
                   value={input}
-                  onChange={handleInputChange} // Direktno iz useChat
+                  onChange={handleInputChange}
                   placeholder={t('chatbot_input_placeholder', "Ask SARA AI anything...")}
-                  className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
+                  // UKLONJENI/POJEDNOSTAVLJENI FOCUS STILOVI:
+                  // className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
+                  className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground" // Maknute focus:ring-1 focus:ring-primary klase
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
               />
