@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { Input } from "@/components/ui/input";
+// Importujemo samo Button, ne i Input iz ui
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { useChat, type Message } from 'ai/react';
@@ -65,25 +65,24 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }
   };
 
-  // --- Hero Variant Specific Content (POJEDNOSTAVLJENO + UKLONJENI FOCUS STILOVI) ---
+  // --- Hero Variant Specific Content (Koristi običan HTML input) ---
   const HeroContent = () => (
-    <div className="w-full flex flex-col items-center">
-      {/* Pozdravni tekstovi ostaju zakomentirani za ovaj test */}
-      <form onSubmit={handleFormSubmit} className="relative w-full max-w-md">
-          <Input
+    <div className="w-full flex flex-col items-center"> {/* Osnovni omotač iz prethodnog testa */}
+      <form onSubmit={handleFormSubmit} className="relative w-full max-w-md mx-auto">
+          {/* Zamjena ui/Input s običnim HTML input elementom */}
+          <input
+              type="text"
+              key="hero-chat-input" // Statički key za testiranje stabilnosti
               value={input}
-              onChange={handleInputChange}
+              onChange={handleInputChange} // Direktno iz useChat
               placeholder={t('chatbot_input_placeholder_hero', "Ask SARA AI anything about Croatia...")}
-              className={cn(
+              className={cn( // Koristimo iste Tailwind klase kao za ui/Input
                   "w-full pr-12 pl-5 py-7 rounded-full",
                   "text-base md:text-lg",
                   "bg-white/90 dark:bg-neutral-800/90 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                   "border border-neutral-300 dark:border-neutral-700",
-                  // UKLONJENI/POJEDNOSTAVLJENI FOCUS STILOVI:
-                  // "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900",
-                  // "shadow-lg focus:shadow-xl transition-all duration-300"
-                  "shadow-lg transition-all duration-300" // Ostavljamo osnovnu sjenu i tranziciju, ali maknuli smo focus:shadow-xl
-                                                          // Preglednik će primijeniti defaultni outline na fokus ako focus:outline-none nije specificiran.
+                  "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary dark:focus:ring-offset-neutral-900", // Vraćeni focus stilovi
+                  "shadow-lg focus:shadow-xl transition-all duration-300" // Vraćeni focus stilovi
               )}
               disabled={isLoading}
               aria-label={t('chatbot_input_aria_label')}
@@ -103,14 +102,14 @@ const Chatbot: React.FC<ChatbotProps> = ({
               <Send className="h-5 w-5" />
           </Button>
       </form>
-      {/* Gumbi za prijedloge ostaju zakomentirani */}
     </div>
   );
 
-  // --- Page Variant Specific Content (Full Chat Interface - UKLONJENI FOCUS STILOVI) ---
+  // --- Page Variant Specific Content (Koristi običan HTML input) ---
   const PageContent = () => (
      <div className="w-full max-w-3xl mx-auto flex flex-col h-[calc(80vh-100px)] border rounded-lg shadow-lg bg-card">
       <div className="flex-grow overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent">
+        {/* Prikaz poruka */}
         {messages.map((message: Message) => (
           <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-3 rounded-lg shadow-sm ${
@@ -140,20 +139,24 @@ const Chatbot: React.FC<ChatbotProps> = ({
         )}
       </div>
       <div className="p-4 border-t border-border bg-background/50">
+          {/* Gumbi za prijedloge */}
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
               <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
           </div>
+          {/* Forma za unos s običnim HTML inputom */}
           <form onSubmit={handleFormSubmit} className="relative w-full">
-              <Input
+              <input
+                  type="text"
+                  key="page-chat-input" // Statički key za testiranje stabilnosti
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={handleInputChange} // Direktno iz useChat
                   placeholder={t('chatbot_input_placeholder', "Ask SARA AI anything...")}
-                  // UKLONJENI/POJEDNOSTAVLJENI FOCUS STILOVI:
-                  // className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
-                  className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground" // Maknute focus:ring-1 focus:ring-primary klase
+                  className={cn( // Koristimo iste Tailwind klase kao za ui/Input
+                    "w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary" // Vraćeni focus stilovi
+                  )}
                   disabled={isLoading}
                   aria-label={t('chatbot_input_aria_label')}
               />
