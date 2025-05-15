@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { User, Menu, X } from 'lucide-react';
-import React, { useState, useEffect, useCallback } from 'react'; // React import
+import React, { useState, useEffect } from 'react'; // React import
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
