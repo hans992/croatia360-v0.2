@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-// ... (ostali importi ostaju isti)
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
@@ -12,10 +11,9 @@ import { defaultNS, type Locale } from '@/lib/i18n/settings';
 import { useRouter, useParams } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
-
 // Props for the Chatbot component
 interface ChatbotProps {
-  variant?: 'hero' | 'page'; // Uklonjena 'sticky' varijanta
+  variant?: 'hero' | 'page';
   redirectOnSubmitUrl?: string;
   initialQuery?: string | null;
 }
@@ -30,10 +28,13 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const params = useParams();
   const currentLocale = params.locale as Locale;
 
+  // Create a ref for the input element
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const {
     messages,
     input,
-    handleInputChange,
+    handleInputChange: originalHandleInputChange, // Renamed to avoid conflict
     handleSubmit: originalUseChatSubmit,
     isLoading,
     setInput,
@@ -44,6 +45,9 @@ const Chatbot: React.FC<ChatbotProps> = ({
     initialMessages: variant === 'page' ? [
       { id: 'sara-initial-greeting', role: 'assistant', content: t('chatbot_initial_greeting') }
     ] : [],
+    // onFinish: () => { // Optional: if you need to do something when message stream finishes
+    //   inputRef.current?.focus(); // Re-focus after AI response
+    // }
   });
 
   const initialQueryProcessedRef = useRef(false);
@@ -52,18 +56,38 @@ const Chatbot: React.FC<ChatbotProps> = ({
     if (variant === 'page' && initialQuery && !initialQueryProcessedRef.current && append) {
       append({ role: 'user', content: initialQuery });
       initialQueryProcessedRef.current = true;
+      // Optionally focus input after processing initial query if needed
+      // setTimeout(() => inputRef.current?.focus(), 0);
     }
   }, [variant, initialQuery, append]);
 
+  // Wrapped input change handler to maintain focus
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    originalHandleInputChange(e); // Call the original handler from useChat
+    // Use setTimeout to re-focus after React has processed the state update and re-render
+    // This helps ensure that the focus is set on the potentially re-rendered input element
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (redirectOnSubmitUrl && input.trim()) { // Redirect se i dalje događa za hero
+    if (redirectOnSubmitUrl && input.trim() && variant === 'hero') { // Redirect only for hero variant on submit
       const userQuery = input;
-      setInput('');
+      setInput(''); // Clear input before redirecting
       router.push(`/${currentLocale}${redirectOnSubmitUrl}?initialQuery=${encodeURIComponent(userQuery)}`);
-    } else if (variant === 'page') { // Submit samo za page
+    } else if (variant === 'page') { // Submit for chat only for page variant
       originalUseChatSubmit(e);
+      // Consider focusing the input again after submission for page variant
+      // setTimeout(() => inputRef.current?.focus(), 0);
+    } else if (variant === 'hero' && !redirectOnSubmitUrl) {
+        // If hero variant has no redirect URL, it should probably also submit the chat
+        originalUseChatSubmit(e);
+        // setTimeout(() => inputRef.current?.focus(), 0);
     }
+    // For hero variant that redirects, focus is lost anyway due to navigation.
+    // For hero variant that might submit (if no redirect), focus should be maintained.
   };
 
   // --- Hero Variant Specific Content ---
@@ -81,8 +105,9 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <div className="md:w-1/2 w-full max-w-md flex flex-col items-center gap-4">
             <form onSubmit={handleFormSubmit} className="relative w-full">
                 <Input
+                    ref={inputRef} // Assign the ref to the input element
                     value={input}
-                    onChange={handleInputChange}
+                    onChange={handleInputChange} // Use the wrapped handler
                     placeholder={t('chatbot_input_placeholder_hero', "Ask SARA AI anything about Croatia...")}
                     className={cn(
                         "w-full pr-12 pl-5 py-7 rounded-full",
@@ -104,17 +129,17 @@ const Chatbot: React.FC<ChatbotProps> = ({
                         "disabled:opacity-50 disabled:scale-100"
                     )}
                     size="icon"
-                    disabled={!input.trim()}
+                    disabled={isLoading || !input.trim()} // Disable button if input is empty or loading
                     aria-label={t('chatbot_send_button_aria_label')}
                 >
                     <Send className="h-5 w-5" />
                 </Button>
             </form>
             <div className="flex flex-wrap gap-2 justify-center">
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-                <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_beaches_text')); setTimeout(() => inputRef.current?.focus(), 0); }} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_wine_text')); setTimeout(() => inputRef.current?.focus(), 0); }} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_budget_text')); setTimeout(() => inputRef.current?.focus(), 0); }} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+                <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_nature_text')); setTimeout(() => inputRef.current?.focus(), 0); }} className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs" disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
             </div>
         </div>
     </div>
@@ -154,15 +179,17 @@ const Chatbot: React.FC<ChatbotProps> = ({
       </div>
       <div className="p-4 border-t border-border bg-background/50">
           <div className="mb-3 flex flex-wrap gap-2 justify-center">
-              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_beaches_text'))} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_wine_text'))} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_budget_text'))} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
-              <Button variant="outline" size="sm" onClick={() => setInput(t('chatbot_button_nature_text'))} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
+              {/* Also ensure focus is returned after clicking these suggestion buttons */}
+              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_beaches_text')); setTimeout(() => inputRef.current?.focus(), 0); }} disabled={isLoading}> {t('chatbot_button_beaches_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_wine_text')); setTimeout(() => inputRef.current?.focus(), 0); }} disabled={isLoading}> {t('chatbot_button_wine_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_budget_text')); setTimeout(() => inputRef.current?.focus(), 0); }} disabled={isLoading}> {t('chatbot_button_budget_label')} </Button>
+              <Button variant="outline" size="sm" onClick={() => { setInput(t('chatbot_button_nature_text')); setTimeout(() => inputRef.current?.focus(), 0); }} disabled={isLoading}> {t('chatbot_button_nature_label')} </Button>
           </div>
           <form onSubmit={handleFormSubmit} className="relative w-full">
               <Input
+                  ref={inputRef} // Assign the ref to the input element
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={handleInputChange} // Use the wrapped handler
                   placeholder={t('chatbot_input_placeholder', "Ask SARA AI anything...")}
                   className="w-full pr-12 pl-4 py-3 rounded-full border bg-background text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-primary"
                   disabled={isLoading}
@@ -172,7 +199,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                   type="submit"
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
                   size="icon"
-                  disabled={isLoading || !input.trim()}
+                  disabled={isLoading || !input.trim()} // Disable button if input is empty or loading
                   aria-label={t('chatbot_send_button_aria_label')}
               >
                   <Send className="h-4 w-4" />
@@ -183,7 +210,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
   );
 
   // --- Render based on variant ---
-  // Uklonjen 'sticky' case
   switch (variant) {
     case 'hero':
       return <HeroContent />;
