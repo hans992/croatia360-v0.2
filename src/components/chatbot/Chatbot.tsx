@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Sparkles } from "lucide-react";
