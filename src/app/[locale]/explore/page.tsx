@@ -54,7 +54,7 @@ interface Region {
 }
 
 // Base URL for images
-const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
+const gcsBaseUrl = "https://storage.googleapis.com/croatiasara/images/";
 
 // --- Data ---
 const regionsData: Region[] = [

@@ -18,7 +18,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
   const { t } = useTranslation(defaultNS);
 
   // URL za logo s Google Cloud Storagea
-  const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
+  const logoUrl = "https://storage.googleapis.com/croatiasara/images/logo-croatia360.png";
 
   const [email, setEmail] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

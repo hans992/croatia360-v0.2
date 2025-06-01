@@ -43,7 +43,7 @@ const Header = ({ locale }: HeaderProps) => {
   const currentLocale = locale || (params?.locale as Locale) || fallbackLng;
   const isChatPage = pathname ? pathname.endsWith('/chat') : false;
 
-  const logoUrl = "https://storage.googleapis.com/croatia360/images/logo-croatia360.png";
+  const logoUrl = "https://storage.googleapis.com/croatiasara/images/logo-croatia360.png";
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
