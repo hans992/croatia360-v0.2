@@ -9,16 +9,12 @@ import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { type Locale } from '@/lib/i18n/settings';
 
 // Example image URLs from your GCS bucket
-const GCS_BASE_URL = "https://storage.googleapis.com/croatia360/images/";
+const GCS_BASE_URL = "https://storage.googleapis.com/croatiasara/images/";
 const defaultSlideshowImageUrls: string[] = [
   `${GCS_BASE_URL}inspiring_beach.jpg`,
   `${GCS_BASE_URL}inspiring_culture.jpg`,
   `${GCS_BASE_URL}inspiring_nature.jpg`,
   `${GCS_BASE_URL}inspiring_food.jpg`,
-  `${GCS_BASE_URL}Zagreb_Trg_kralja_Tomislava.jpg`, 
-  `${GCS_BASE_URL}Hvar_grad.jpg`,
-  `${GCS_BASE_URL}Istria_stock.jpg`,
-  `${GCS_BASE_URL}senj.jpg`,
   // Dodajte još nekoliko kvalitetnih slika iz Hrvatske
 ];
 

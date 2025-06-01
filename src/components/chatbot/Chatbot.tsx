@@ -112,7 +112,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     return (
       <div className="w-full max-w-3xl mx-auto py-2">
         <div className="flex items-center justify-between">
-          <Image src="https://storage.googleapis.com/croatia360/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />
+          <Image src="https://storage.googleapis.com/croatiasara/images/kuna.png" alt={t('alt_sara_ai_logo')} width={90} height={40} />
           {renderForm(true)}
         </div>
       </div>
