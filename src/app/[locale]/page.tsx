@@ -20,7 +20,7 @@ interface HomePageProps {
 }
 
 // Base URL for images from Google Cloud Storage
-const gcsBaseUrl = "https://storage.googleapis.com/croatia360/images/";
+const gcsBaseUrl = "https://storage.googleapis.com/croatiasara/images/";
 
 // Static data for inspiration cards.
 const inspirationItems = [
