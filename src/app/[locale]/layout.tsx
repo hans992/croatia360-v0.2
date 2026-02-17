@@ -1,6 +1,6 @@
 // src/app/[locale]/layout.tsx
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import '../../styles/globals.css';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
@@ -11,11 +11,20 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import CookieConsentBanner from '@/components/layout/CookieConsentBanner'; // Import the banner component
 
-const inter = Inter({ subsets: ['latin'] });
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
 
 // --- Metadata Generation ---
 
-export async function generateMetadata(props: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const params = await props.params;
   let localeToUse: Locale;
 
@@ -52,7 +61,7 @@ export async function generateStaticParams() {
 
 export default async function RootLayout(props: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
   const params = await props.params;
   let effectiveLocale: Locale;
@@ -78,7 +87,7 @@ export default async function RootLayout(props: {
 
   return (
     <html lang={effectiveLocale} suppressHydrationWarning>
-      <body className={`${inter.className} flex flex-col min-h-screen bg-background text-foreground`}>
+      <body className={`${plusJakarta.variable} ${dmSans.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         {/* Provides i18n context and resources to Client Components */}
         <TranslationsProvider
           locale={effectiveLocale}
@@ -104,7 +113,7 @@ export default async function RootLayout(props: {
 
             {/* Main Layout Structure */}
             <Header locale={effectiveLocale} />
-            <main className="flex-grow container mx-auto px-4 pt-4 pb-8">
+            <main className="flex-grow container mx-auto px-4 pt-0 pb-8">
               {props.children}
             </main>
             <Footer locale={effectiveLocale} />

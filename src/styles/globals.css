@@ -4,145 +4,145 @@
 
 @layer base {
   :root {
-    /* Neutralne - malo toplije/mekše */
-    --background: 220 20% 98%;   /* #F9FAFB - Vrlo svijetla hladna siva/off-white */
-    --foreground: 220 10% 15%;   /* #212326 - Vrlo tamna hladna siva */
+    /* Premium Adriatic palette - light */
+    --background: 40 20% 98%;
+    --foreground: 220 25% 12%;
 
-    --card: 0 0% 100%;          /* #FFFFFF - Čista bijela za kartice radi kontrasta */
-    --card-foreground: 220 10% 15%; /* #212326 */
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
 
-    --popover: 0 0% 100%;         /* #FFFFFF */
-    --popover-foreground: 220 10% 15%; /* #212326 */
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
 
-    /* Brand Boje - Duboka plava */
-    --primary: 210 70% 45%;     /* #2364C3 - Sofisticirana plava */
-    --primary-foreground: 0 0% 100%; /* #FFFFFF - Bijeli tekst na plavoj */
-    /* Kontrast: 4.6:1 (OK za AA) */
+    /* Primary - Deep Adriatic blue */
+    --primary: 212 65% 28%;
+    --primary-foreground: 40 30% 98%;
 
-    /* Sekundarne - Suptilna podrška */
-    --secondary: 210 20% 94%;   /* #EAEFF7 - Vrlo svijetla plavo-siva */
-    --secondary-foreground: 210 30% 35%; /* #465B75 - Tamnija plavo-siva za tekst */
-    /* Kontrast: 4.8:1 (OK za AA) */
+    /* Secondary - Warm stone */
+    --secondary: 40 15% 94%;
+    --secondary-foreground: 220 20% 25%;
 
-    /* Muted - Za manje važan tekst/elemente */
-    --muted: 210 20% 94%;       /* #EAEFF7 */
-    --muted-foreground: 210 15% 50%; /* #717C8D - Srednje plavo-siva */
-    /* Kontrast: 3.5:1 (OK za AA veliki tekst, granično za normalni - možda još malo potamniti) */
+    /* Muted */
+    --muted: 40 15% 94%;
+    --muted-foreground: 220 12% 45%;
 
-    /* Accent - Topla terakota za isticanje */
-    --accent: 20 80% 60%;       /* #F57C4E - Topla terakota/narančasta */
-    --accent-foreground: 0 0% 100%; /* #FFFFFF - Bijeli tekst */
-    /* Kontrast: 3.8:1 (OK za AA veliki tekst, NE za normalni - treba tamnija terakota ili crni tekst) */
-    /* Alternativni Accent (tamniji): --accent: 20 70% 50%; (#E06C42), Kontrast s bijelom: 4.9:1 (OK) */
+    /* Accent - Warm gold (luxury travel) */
+    --accent: 43 74% 49%;
+    --accent-foreground: 220 25% 12%;
 
-    /* Destructive - Ispravljen kontrast */
-    --destructive: 0 75% 55%;     /* #E84D4D - Malo tamnija crvena */
-    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
-    /* Kontrast: 4.6:1 (OK za AA) */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Ostalo */
-    --border: 210 15% 88%;     /* #DDE3EB - Svijetla plavo-siva */
-    --input: 0 0% 100%;          /* #FFFFFF */
-    --ring: 210 70% 55%;       /* #4C89E3 - Svjetlija plava za focus */
+    --border: 40 12% 90%;
+    --input: 0 0% 100%;
+    --ring: 212 65% 35%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* Chart boje mogu ostati ili se prilagoditi novoj paleti */
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Premium gradients */
+    --gradient-adriatic: linear-gradient(135deg, hsl(212 65% 28%) 0%, hsl(212 55% 38%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(43 74% 49%) 0%, hsl(38 80% 55%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(212 30% 96%) 0%, hsl(40 25% 98%) 100%);
+
+    --chart-1: 212 65% 45%;
+    --chart-2: 160 55% 40%;
+    --chart-3: 43 74% 49%;
+    --chart-4: 280 55% 55%;
+    --chart-5: 340 65% 50%;
   }
 
   .dark {
-    /* Neutralne */
-    --background: 220 15% 10%;   /* #16191C - Vrlo tamna hladna siva */
-    --foreground: 210 20% 96%;   /* #F0F4F7 - Vrlo svijetla plavo-siva */
+    --background: 220 25% 8%;
+    --foreground: 40 20% 96%;
 
-    --card: 220 15% 14%;       /* #1D2125 - Malo svjetlija od pozadine */
-    --card-foreground: 210 20% 96%; /* #F0F4F7 */
+    --card: 220 20% 11%;
+    --card-foreground: 40 20% 96%;
 
-    --popover: 220 15% 10%;      /* #16191C */
-    --popover-foreground: 210 20% 96%; /* #F0F4F7 */
+    --popover: 220 20% 11%;
+    --popover-foreground: 40 20% 96%;
 
-    /* Brand Boje */
-    --primary: 210 70% 55%;     /* #4C89E3 - Svjetlija plava za tamnu temu */
-    --primary-foreground: 220 15% 10%; /* #16191C - Tamni tekst na svijetlo plavoj */
-    /* Kontrast: 5.6:1 (OK za AA) */
+    --primary: 212 60% 55%;
+    --primary-foreground: 220 25% 8%;
 
-    /* Sekundarne */
-    --secondary: 210 10% 23%;   /* #343A43 - Tamno siva */
-    --secondary-foreground: 210 20% 96%; /* #F0F4F7 */
-    /* Kontrast: 9.5:1 (OK) */
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 40 20% 96%;
 
-    /* Muted */
-    --muted: 210 10% 23%;       /* #343A43 */
-    --muted-foreground: 210 15% 65%; /* #98A3B3 - Svjetlija plavo-siva */
-    /* Kontrast: 4.6:1 (OK za AA) */
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 12% 65%;
 
-    /* Accent - Svjetlija terakota */
-    --accent: 20 80% 65%;       /* #F78C63 - Svjetlija terakota */
-    --accent-foreground: 20 80% 15%; /* #4A1F12 - Vrlo tamna terakota za tekst */
-    /* Kontrast: 5.1:1 (OK za AA) */
+    --accent: 43 74% 55%;
+    --accent-foreground: 220 25% 8%;
 
-    /* Destructive - Svjetlija crvena */
-    --destructive: 0 75% 65%;     /* #EE6A6A - Svjetlija crvena */
-    --destructive-foreground: 0 75% 15%; /* #471414 - Vrlo tamna crvena za tekst */
-    /* Kontrast: 5.3:1 (OK za AA) */
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Ostalo */
-    --border: 210 10% 23%;     /* #343A43 */
-    --input: 210 10% 23%;       /* #343A43 */
-    --ring: 210 70% 55%;       /* #4C89E3 */
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 212 60% 50%;
 
-    /* Chart boje mogu ostati ili se prilagoditi */
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --gradient-hero: linear-gradient(180deg, hsl(220 25% 8%) 0%, hsl(220 20% 12%) 100%);
   }
 
   body.chat-input-focused {
-    overflow: hidden !important; /* Sprječava skrolanje tijela kad je chat input fokusiran na mobitelu */
-    /* Možda će biti potrebno i position: fixed; width: 100%; height: 100%; ali oprezno s tim */
+    overflow: hidden !important;
   }
 }
 
-/* Ostatak globals.css... */
-
-
- /* Custom gradient class */
- .pastel-gradient-bg {
-  background: linear-gradient(135deg, rgba(0, 127, 255, 0.6), rgba(248, 248, 255, 0.8));
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* Premium gradient backgrounds */
+.premium-gradient-bg {
+  background: var(--gradient-hero);
 }
 
-.blurry-gradient {
-  position: absolute;
-  top: -100px;
-  left: -100px;
-  width: 500px;
-  height: 500px;
-  border-radius: 50% 22% 40% 80%;
-  filter: blur(70px);
-  background: radial-gradient(circle at 50% 50%, rgba(76, 0, 255, 0.5), rgba(76, 0, 255, 0));
-  opacity: 0.3;
-  z-index: 0;
-  pointer-events: none;
+.premium-chat-bg {
+  background: linear-gradient(160deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--accent) / 0.05) 50%, transparent 100%);
 }
 
+.premium-card-hover {
+  @apply transition-all duration-500 ease-out;
+}
+.premium-card-hover:hover {
+  @apply -translate-y-1 shadow-xl;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Glass morphism - refined */
+.glass-panel {
+  @apply backdrop-blur-xl bg-white/70 dark:bg-card/70 border border-white/20 dark:border-white/5;
+}
+
+/* AI badge glow */
+.ai-glow {
+  box-shadow: 0 0 40px -10px hsl(var(--primary) / 0.4);
+}
+
+/* Hero entrance animations */
+@keyframes hero-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-hero-fade-in {
+  animation: hero-fade-in 0.6s ease-out forwards;
+}
+.animate-hero-slide-up {
+  animation: hero-slide-up 0.6s ease-out forwards;
+}
+.animate-hero-delay-1 { animation-delay: 0.1s; }
+.animate-hero-delay-2 { animation-delay: 0.2s; }
+.animate-hero-delay-3 { animation-delay: 0.3s; }
+.animate-hero-delay-4 { animation-delay: 0.4s; }
 
 @layer utilities {
   .border {
     border-color: hsl(var(--border));
   }
+  .font-heading {
+    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  }
 }
-
-
-
-
 
 @layer base {
   * {
@@ -150,5 +150,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold tracking-tight;
   }
 }

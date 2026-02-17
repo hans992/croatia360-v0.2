@@ -78,8 +78,8 @@ export default function StickyChatbotSection() {
 
   // Determine the 'top' class for the sticky chatbot bar based on main header's visibility
   const stickyChatbotBarTopClass = scrollDirection === 'down' 
-    ? 'top-0' // If main header is hidden (scrolling down), stick to very top
-    : `top-[${siteHeaderHeight}px]`; // If main header is visible (scrolling up), stick below it
+    ? 'top-0' 
+    : 'top-16'; // top-16 = 64px, matches siteHeaderHeight
 
   return (
     <>
@@ -90,13 +90,10 @@ export default function StickyChatbotSection() {
         ref={sectionWrapperRef}
         className={
           isSticky
-            ? `fixed left-0 right-0 
-               will-change-transform transition-all duration-300 ease-in-out
-               ${stickyChatbotBarTopClass} 
-               z-40  /* Below main header (z-50) */
-               bg-background/80 backdrop-blur-md shadow-md /* Styling for the sticky bar */ ` 
-            : `relative container mx-auto px-4 my-8 md:my-12 py-6 md:py-8 
-               pastel-gradient-bg backdrop-blur-md rounded-xl shadow-xl` /* Styling for non-sticky section */
+            ? `fixed left-0 right-0 will-change-transform transition-all duration-300 ease-in-out
+               ${stickyChatbotBarTopClass} z-40 glass-panel shadow-lg`
+            : `relative container mx-auto px-4 my-8 md:my-12 py-8 md:py-10 
+               premium-chat-bg glass-panel rounded-2xl ai-glow`
         }
       >
         {/* When sticky, Chatbot renders compact version.

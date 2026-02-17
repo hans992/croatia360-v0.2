@@ -9,7 +9,7 @@ import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { type Locale } from '@/lib/i18n/settings';
 
 // Example image URLs from your GCS bucket
-const GCS_BASE_URL = "https://storage.googleapis.com/croatiasara/images/";
+const GCS_BASE_URL = "https://storage.googleapis.com/croatiasara2026/images/";
 const defaultSlideshowImageUrls: string[] = [
   `${GCS_BASE_URL}inspiring_beach.jpg`,
   `${GCS_BASE_URL}inspiring_culture.jpg`,
@@ -51,18 +51,16 @@ const ChatPageContent = () => {
 
     return (
         <div
-            className="flex flex-col md:flex-row w-full overflow-hidden bg-background text-foreground"
+            className="flex flex-col md:flex-row w-full overflow-hidden premium-gradient-bg text-foreground"
             style={{ height: `calc(100vh - ${siteHeaderHeight}px)` }}
         >
-            {/* Chatbot Section */}
-            <div className="w-full md:w-1/2 h-full flex flex-col p-2 sm:p-4">
+            <div className="w-full md:w-1/2 h-full flex flex-col p-4 sm:p-6 lg:p-8">
                 <Chatbot initialQuery={initialQueryFromUrl} />
             </div>
-
-            {/* Inspirational Slideshow Section */}
-            <div className="hidden md:flex md:w-1/2 h-full p-2 sm:p-4 items-center justify-center">
-                {/* Using the new InspirationalSlideshow component */}
-                <InspirationalSlideshow imageUrls={currentSlideshowImages} autoplayInterval={4000} />
+            <div className="hidden md:flex md:w-1/2 h-full p-4 sm:p-6 lg:p-8 items-center justify-center bg-gradient-to-br from-primary/5 via-transparent to-accent/5">
+                <div className="w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl">
+                    <InspirationalSlideshow imageUrls={currentSlideshowImages} autoplayInterval={4000} />
+                </div>
             </div>
         </div>
     );
@@ -71,8 +69,8 @@ const ChatPageContent = () => {
 export default function ChatPage() {
   return (
     <Suspense fallback={
-      <div className="flex items-center justify-center h-screen bg-background text-foreground">
-        Loading Chat Experience...
+      <div className="flex items-center justify-center h-screen premium-gradient-bg text-foreground">
+        <div className="animate-pulse font-heading text-lg text-muted-foreground">Loading...</div>
       </div>
     }>
       <ChatPageContent />

@@ -72,7 +72,7 @@ interface ResolvedSearchParams {
 }
 
 // Base URL for images from Google Cloud Storage
-const gcsBaseUrl = "https://storage.googleapis.com/croatiasara/images/";
+const gcsBaseUrl = "https://storage.googleapis.com/croatiasara2026/images/";
 
 // Mock database of regions with detailed information
 async function getRegionDataBySlug(slug: string, locale: Locale): Promise<RegionData | null> {

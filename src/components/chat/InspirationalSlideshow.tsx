@@ -38,28 +38,25 @@ const InspirationalSlideshow: React.FC<InspirationalSlideshowProps> = ({
   }
 
   return (
-    // Relative container for absolute positioning of images
-    <div className="relative w-full h-full overflow-hidden rounded-lg shadow-xl bg-black">
+    <div className="relative w-full aspect-[4/3] min-h-[300px] overflow-hidden rounded-2xl bg-muted">
       {imageUrls.map((url, index) => (
         <div
-          key={url} // Use URL as key if they are unique, otherwise index
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0' // Show current, hide others
+          key={url}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
           <Image
             src={url}
             alt={`Inspirational image ${index + 1}`}
-            layout="fill" // Fill the container
-            objectFit="cover" // Cover the area, may crop; use "contain" if full image is preferred
-            priority={index === 0} // Prioritize loading the first image
-            className="rounded-lg" // Apply rounded corners to the image itself
-            unoptimized={url.startsWith('http')} // Consider if images are external and optimization is problematic
+            fill
+            className="object-cover"
+            priority={index === 0}
+            unoptimized={url.startsWith('http')}
           />
         </div>
       ))}
-      {/* Optional: Navigation Dots for manual control or visual feedback */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2 p-1 bg-black/20 rounded-full">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2 p-2 bg-black/30 backdrop-blur-sm rounded-full">
         {imageUrls.map((_, index) => (
           <button
             key={`dot-${index}`}

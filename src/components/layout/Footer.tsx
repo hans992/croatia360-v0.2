@@ -18,7 +18,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
   const { t } = useTranslation(defaultNS);
 
   // URL za logo s Google Cloud Storagea
-  const logoUrl = "https://storage.googleapis.com/croatiasara/images/logo-croatia360.png";
+  const logoUrl = "https://storage.googleapis.com/croatiasara2026/images/logo-croatia360.png";
 
   const [email, setEmail] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -51,8 +51,8 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-card text-card-foreground border-t border-border mt-16">
-      <div className="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-card/50 text-card-foreground border-t border-border mt-20 py-16">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Section 1: Brand & About */}
         <div className="space-y-4">
           <Link href={`/${locale}/`} className="flex items-center space-x-3 mb-3">
@@ -74,7 +74,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
 
         {/* Section 2: Quick Links */}
         <div className="">
-          <h4 className="text-lg font-semibold text-foreground mb-4">{t('footer_navigation')}</h4>
+          <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-foreground/80 mb-4">{t('footer_navigation')}</h4>
           <ul className="space-y-2 text-sm">
             <li><Link href={`/${locale}/explore`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_explore_destinations')}</Link></li>
             <li><Link href={`/${locale}/#sara-ai-planner`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_sara_ai_planner')}</Link></li>
@@ -85,7 +85,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
 
         {/* Section 3: Legal & Support */}
         <div className="">
-          <h4 className="text-lg font-semibold text-foreground mb-4">{t('footer_support')}</h4>
+          <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-foreground/80 mb-4">{t('footer_support')}</h4>
           <ul className="space-y-2 text-sm">
             <li><Link href={`/${locale}/contact`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_contact_us')}</Link></li>
             <li><Link href={`/${locale}/faq`} className="text-muted-foreground hover:text-primary transition-colors">{t('footer_faq')}</Link></li>
@@ -97,7 +97,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
         {/* Section 4: Newsletter & Social */}
         <div className="space-y-6">
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-3">{t('footer_stay_updated')}</h4>
+            <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-foreground/80 mb-3">{t('footer_stay_updated')}</h4>
             <p className="text-sm text-muted-foreground mb-3">{t('footer_newsletter_prompt')}</p>
             <form className="flex flex-col sm:flex-row gap-2" onSubmit={handleSubmit}>
               <Input
@@ -126,7 +126,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
             )}
           </div>
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-3">{t('footer_follow_us')}</h4>
+            <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-foreground/80 mb-3">{t('footer_follow_us')}</h4>
             <div className="flex space-x-3">
               <Link href="#" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={20} /></Link>
               <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={20} /></Link>
@@ -139,7 +139,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="container mx-auto px-4 py-6 border-t border-border">
+      <div className="container mx-auto px-4 py-8 mt-8 border-t border-border">
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>{t('footer_copyright', { year: currentYear })}</p>
         </div>

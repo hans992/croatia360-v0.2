@@ -29,11 +29,11 @@ import { type SelectSingleEventHandler, type ActiveModifiers } from 'react-day-p
 // Mock data (ostaje isto)
 const tripData = {
   title: "San Luca Magno: Cjelodnevni Privatni Izlet Jedrenjakom - Kornati i Telašćica iz Zadra",
-  heroImage: "https://storage.googleapis.com/croatia360/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg",
+  heroImage: "https://storage.googleapis.com/croatiasara2026/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg",
   gallery: [
-    { id: 1, url: "https://storage.googleapis.com/croatiasara/images/partners/san-luca-magno-zadar/San_Luca_Magno_2.jpg", alt: "Jedrenjak San Luca Magno na moru" },
-    { id: 2, url: "https://storage.googleapis.com/croatiasara/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg", alt: "San Luca Magno1" },
-    { id: 3, url: "https://storage.googleapis.com/croatiasara/images/partners/san-luca-magno-zadar/San_Luca_Magno_3.jpg", alt: "San Luca Magno3" },
+    { id: 1, url: "https://storage.googleapis.com/croatiasara2026/images/partners/san-luca-magno-zadar/San_Luca_Magno_2.jpg", alt: "Jedrenjak San Luca Magno na moru" },
+    { id: 2, url: "https://storage.googleapis.com/croatiasara2026/images/partners/san-luca-magno-zadar/San_Luca_Magno_1.jpg", alt: "San Luca Magno1" },
+    { id: 3, url: "https://storage.googleapis.com/croatiasara2026/images/partners/san-luca-magno-zadar/San_Luca_Magno_3.jpg", alt: "San Luca Magno3" },
   ],
   shortDescription: "Otkrijte čaroliju Nacionalnog parka Kornati i Parka prirode Telašćica na nezaboravnom cjelodnevnom privatnom izletu autentičnim motornim jedrenjakom San Luca Magno. Uživajte u kristalno čistom moru, skrivenim uvalama, domaćoj hrani i personaliziranoj usluzi. Idealno za grupe do 12 osoba.",
   detailedDescription: [
@@ -69,7 +69,7 @@ const tripData = {
 
 const GalleryImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
   <div className="relative aspect-video overflow-hidden rounded-lg shadow-lg group">
-    <Image src={src} alt={alt} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" />
+    <Image src={src} alt={alt} fill style={{ objectFit: 'cover' }} className="group-hover:scale-105 transition-transform duration-300" />
   </div>
 );
 
@@ -150,8 +150,8 @@ export default function SanLucaMagnoPage() {
           <Image
             src={tripData.heroImage}
             alt={`Hero slika za ${tripData.title}`}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
             priority
             className="brightness-75"
           />

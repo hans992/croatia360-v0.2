@@ -78,14 +78,19 @@ const config = {
   		},
   		fontFamily: {
   			sans: [
-  				'Geist',
-  				'Arial',
-                    ...defaultTheme.fontFamily.sans
-                ],
+  				'var(--font-body)',
+  				'DM Sans',
+  				...defaultTheme.fontFamily.sans
+  			],
+  			heading: [
+  				'var(--font-heading)',
+  				'Plus Jakarta Sans',
+  				...defaultTheme.fontFamily.sans
+  			],
   			mono: [
   				'Geist Mono',
-                    ...defaultTheme.fontFamily.mono
-                ]
+  				...defaultTheme.fontFamily.mono
+  			]
   		},
   		boxShadow: {
   			card: '0 4px 10px rgba(0, 0, 0, 0.1)',

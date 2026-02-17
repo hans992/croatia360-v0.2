@@ -43,7 +43,7 @@ const Header = ({ locale }: HeaderProps) => {
   const currentLocale = locale || (params?.locale as Locale) || fallbackLng;
   const isChatPage = pathname ? pathname.endsWith('/chat') : false;
 
-  const logoUrl = "https://storage.googleapis.com/croatiasara/images/logo-croatia360.png";
+  const logoUrl = "https://storage.googleapis.com/croatiasara2026/images/logo-croatia360.png";
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -76,18 +76,18 @@ const Header = ({ locale }: HeaderProps) => {
   return (
     <header
       className={`
-        sticky w-full z-50 bg-background/80 text-foreground shadow-md backdrop-blur-md
+        sticky w-full z-50 glass-panel
         ${headerHeightClass} transition-all duration-300 ease-in-out
         ${isChatPage ? 'top-0' : (scrollDirection === 'down' ? hiddenHeaderClass : 'top-0')}
       `}
     >
       <div className="container mx-auto flex h-full items-center justify-between px-4">
-        <Link href={`/${currentLocale}/`} className="flex items-center space-x-2">
-          <Image src={logoUrl} alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={100} height={40} className="h-10 w-auto" priority />
+        <Link href={`/${currentLocale}/`} className="flex items-center space-x-2 group">
+          <Image src={logoUrl} alt={t('alt_croatia360_logo') || "Croatia360 Logo"} width={100} height={40} className="h-10 w-auto transition-opacity group-hover:opacity-90" priority />
         </Link>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link key={link.labelKey} href={`/${currentLocale}${link.href}`} className={`transition-colors hover:text-primary ${link.isPrimary ? 'text-primary font-semibold' : 'text-foreground/80'}`}>
+            <Link key={link.labelKey} href={`/${currentLocale}${link.href}`} className={`transition-all duration-200 ${link.isPrimary ? 'text-primary font-semibold hover:text-primary/90' : 'text-foreground/70 hover:text-foreground'}`}>
               {t(link.labelKey)}
             </Link>
           ))}

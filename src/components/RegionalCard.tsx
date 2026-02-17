@@ -38,8 +38,8 @@ const RegionalCard: React.FC<RegionalCardProps> = ({
           <Image
             src={imageUrl}
             alt={t(regionKey)}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
             className="transition-transform duration-500 ease-out group-hover:scale-110"
           />
         </div>

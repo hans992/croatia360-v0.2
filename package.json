@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.2.14",
+    "@ai-sdk/google": "^3.0.29",
     "@formatjs/intl-localematcher": "^0.6.1",
     "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-accordion": "^1.2.8",
@@ -41,7 +41,7 @@
     "@radix-ui/react-tooltip": "^1.2.4",
     "@supabase/supabase-js": "^2.49.4",
     "accept-language": "^3.0.20",
-    "ai": "^4.3.13",
+    "ai": "^6.0.86",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -53,7 +53,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.506.0",
-    "next": "15.3.1",
+    "next": "^16.1.6",
     "next-i18next": "^15.4.2",
     "next-themes": "^0.4.6",
     "nodemailer": "^7.0.2",
@@ -68,7 +68,8 @@
     "recharts": "^2.15.3",
     "sonner": "^2.0.3",
     "tailwind-merge": "^2.6.0",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -86,7 +87,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
