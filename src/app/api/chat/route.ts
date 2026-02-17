@@ -57,7 +57,7 @@ function buildSystemPrompt(locale: string): string {
 }
 
 export async function POST(req: Request) {
-  let body: { messages?: { role?: string; content?: string }[] } = {};
+  let body: { messages?: { role?: string; content?: string }[]; locale?: string } = {};
   try {
     if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
       return Response.json(
