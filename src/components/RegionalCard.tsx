@@ -4,9 +4,10 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'next/navigation'; // Potrebno za dohvaćanje locale
-import { defaultNS, type Locale } from '@/lib/i18n/settings'; // Potrebno za Locale tip
+import { useParams } from 'next/navigation';
+import { defaultNS, type Locale } from '@/lib/i18n/settings';
 
 interface RegionalCardProps {
   regionKey: string;
@@ -33,7 +34,13 @@ const RegionalCard: React.FC<RegionalCardProps> = ({
 
   return (
     <Link href={regionPagePath} passHref legacyBehavior={false}>
-      <div className="relative h-[300px] md:h-[350px] rounded-xl shadow-xl overflow-hidden group cursor-pointer transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl">
+      <motion.div
+        className="relative h-[300px] md:h-[350px] rounded-xl shadow-xl overflow-hidden group cursor-pointer backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/20 dark:border-white/20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        whileHover={{ scale: 1.02, y: -4 }}
+      >
         <div className="absolute inset-0 w-full h-full">
           <Image
             src={imageUrl}
@@ -71,7 +78,7 @@ const RegionalCard: React.FC<RegionalCardProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 };

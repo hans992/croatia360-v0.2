@@ -1,7 +1,6 @@
 // src/app/[locale]/page.tsx
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
-import StickyChatbotSection from '@/components/StickyChatbotSection';
 import InspireCard from '@/components/InspireCard';
 import HomeHero from '@/components/HomeHero';
 
@@ -88,13 +87,12 @@ export default async function HomePage(props: HomePageProps) {
 
   return (
     <>
-      {/* Hero with background image */}
-      <HomeHero imageUrl={heroImageUrl} />
+      {/* Hero with massive AI input + video background */}
+      <HomeHero useVideo={true} imageUrl={heroImageUrl} />
 
-      {/* Main content: inspiration cards + chatbot above the fold */}
+      {/* Inspiration cards - below the fold */}
       <section className="py-12 md:py-16" id="sara-ai-planner">
         <div className="container mx-auto px-4">
-          {/* Inspiration cards - above the fold */}
           <div className="mb-10 md:mb-14">
             <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-2">
               {t('inspiration_title')}
@@ -122,9 +120,6 @@ export default async function HomePage(props: HomePageProps) {
               ))}
             </div>
           </div>
-
-          {/* Chatbot section */}
-          <StickyChatbotSection />
         </div>
       </section>
     </>

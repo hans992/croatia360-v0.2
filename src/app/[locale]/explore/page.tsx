@@ -37,6 +37,8 @@ interface Recommendation {
   reviews: number;
   priceKey?: string;
   priceRaw?: string;
+  priceAmount?: string;
+  priceUnitKey?: string;
   priceCategory?: '€' | '€€' | '€€€' | '€€€€';
   tagsKeys: string[];
   imageUrl: string;
@@ -90,9 +92,9 @@ export default function ExplorePage() {
 
   const recommendations: Recommendation[] = [
     // DODANO: regionKey
-    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", regionKey: "kvarner", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceRaw: "€250 / noć", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}regions/kvarner/Hotel_sv_Jakov_Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
-    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", regionKey: "slavonija", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceRaw: "35€ / osoba", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek" },
-    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", regionKey: "dalmacija", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceRaw: "€40 / osoba", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour" },
+    { id: "hotel_opatija", typeKey: "recommendation_type_accommodation", nameKey: "recommendation_opatija_hotel_name", locationKey: "recommendation_opatija_hotel_location", regionKey: "kvarner", descriptionKey: "recommendation_opatija_hotel_description", rating: 4.9, reviews: 320, priceAmount: "250", priceUnitKey: "price_per_night", priceCategory: "€€€€", tagsKeys: ["tag_spa", "tag_pool", "tag_restaurant"], imageUrl: `${gcsBaseUrl}regions/kvarner/Hotel_sv_Jakov_Opatija.jpg`, slug: "luxury-seaside-resort-opatija" },
+    { id: "kulen_tour_osijek", typeKey: "recommendation_type_restaurant", nameKey: "recommendation_kulen_tour_name", locationKey: "recommendation_kulen_tour_location", regionKey: "slavonija", descriptionKey: "recommendation_kulen_tour_description", rating: 4.9, reviews: 189, priceAmount: "35", priceUnitKey: "price_per_person", priceCategory: "€€", tagsKeys: ["tag_kulen", "tag_gourmet", "tag_local"], imageUrl: `${gcsBaseUrl}food_slavonia.jpg`, slug: "kulen-tour-osijek" },
+    { id: "krka_tour", typeKey: "recommendation_type_activity", nameKey: "recommendation_krka_tour_name", locationKey: "recommendation_krka_tour_location", regionKey: "dalmacija", descriptionKey: "recommendation_krka_tour_description", rating: 4.8, reviews: 1500, priceAmount: "40", priceUnitKey: "price_per_person", priceCategory: "€€", tagsKeys: ["tag_nature", "tag_waterfalls", "tag_hiking"], imageUrl: `${gcsBaseUrl}regions/dalmacija/Visovac_Monastery_NP_Krka.jpg`, slug: "krka-national-park-tour" },
   ];
 
   // --- Filter Options (ostaju isti) ---

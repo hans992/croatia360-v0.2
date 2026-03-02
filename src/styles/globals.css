@@ -1,50 +1,53 @@
+/* Mapbox GL styles for RegionMap - must be first */
+@import "mapbox-gl/dist/mapbox-gl.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Premium Adriatic palette - light */
-    --background: 40 20% 98%;
-    --foreground: 220 25% 12%;
+    /* Premium Tech - sophisticated light (Adriatic stone) */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 12%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 12%;
+    --popover-foreground: 222 47% 11%;
 
-    /* Primary - Deep Adriatic blue */
-    --primary: 212 65% 28%;
-    --primary-foreground: 40 30% 98%;
+    /* Primary - Deep navy (Adriatic night) */
+    --primary: 222 47% 18%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Secondary - Warm stone */
-    --secondary: 40 15% 94%;
-    --secondary-foreground: 220 20% 25%;
+    /* Secondary - Slate */
+    --secondary: 210 20% 94%;
+    --secondary-foreground: 222 47% 20%;
 
     /* Muted */
-    --muted: 40 15% 94%;
-    --muted-foreground: 220 12% 45%;
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 16% 45%;
 
-    /* Accent - Warm gold (luxury travel) */
-    --accent: 43 74% 49%;
-    --accent-foreground: 220 25% 12%;
+    /* Accent - Neon turquoise (AI elements) */
+    --accent: 187 85% 53%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 12% 90%;
+    --border: 214 20% 90%;
     --input: 0 0% 100%;
-    --ring: 212 65% 35%;
+    --ring: 187 85% 43%;
 
     --radius: 0.75rem;
 
     /* Premium gradients */
-    --gradient-adriatic: linear-gradient(135deg, hsl(212 65% 28%) 0%, hsl(212 55% 38%) 100%);
+    --gradient-adriatic: linear-gradient(135deg, hsl(222 47% 18%) 0%, hsl(222 45% 28%) 100%);
     --gradient-gold: linear-gradient(135deg, hsl(43 74% 49%) 0%, hsl(38 80% 55%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(212 30% 96%) 0%, hsl(40 25% 98%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(210 20% 98%) 0%, hsl(210 25% 96%) 100%);
 
-    --chart-1: 212 65% 45%;
+    --chart-1: 187 85% 53%;
     --chart-2: 160 55% 40%;
     --chart-3: 43 74% 49%;
     --chart-4: 280 55% 55%;
@@ -52,35 +55,36 @@
   }
 
   .dark {
-    --background: 220 25% 8%;
-    --foreground: 40 20% 96%;
+    /* Dark mode default - Premium Tech (slate-950, Adriatic night) */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 92%;
 
-    --card: 220 20% 11%;
-    --card-foreground: 40 20% 96%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 92%;
 
-    --popover: 220 20% 11%;
-    --popover-foreground: 40 20% 96%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 92%;
 
-    --primary: 212 60% 55%;
-    --primary-foreground: 220 25% 8%;
+    --primary: 187 85% 53%;
+    --primary-foreground: 222 47% 4%;
 
-    --secondary: 220 15% 18%;
-    --secondary-foreground: 40 20% 96%;
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 92%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 12% 65%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 43 74% 55%;
-    --accent-foreground: 220 25% 8%;
+    --accent: 187 85% 53%;
+    --accent-foreground: 222 47% 4%;
 
     --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 18%;
-    --ring: 212 60% 50%;
+    --border: 217 33% 12%;
+    --input: 217 33% 12%;
+    --ring: 187 85% 53%;
 
-    --gradient-hero: linear-gradient(180deg, hsl(220 25% 8%) 0%, hsl(220 20% 12%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(222 47% 4%) 0%, hsl(222 40% 8%) 100%);
   }
 
   body.chat-input-focused {
@@ -110,9 +114,9 @@
   @apply backdrop-blur-xl bg-white/70 dark:bg-card/70 border border-white/20 dark:border-white/5;
 }
 
-/* AI badge glow */
+/* AI badge glow - accent cyan/turquoise */
 .ai-glow {
-  box-shadow: 0 0 40px -10px hsl(var(--primary) / 0.4);
+  box-shadow: 0 0 40px -10px hsl(var(--accent) / 0.5), 0 0 80px -20px hsl(var(--accent) / 0.3);
 }
 
 /* Hero entrance animations */

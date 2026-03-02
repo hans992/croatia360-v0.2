@@ -16,6 +16,7 @@ interface ChatbotProps {
   isSticky?: boolean;
   redirectOnSubmitUrl?: string;
   initialQuery?: string | null;
+  onAssistantMessage?: (content: string) => void;
 }
 
 // Module-level set to prevent duplicate initialQuery sends (e.g. React Strict Mode double-mount)
@@ -25,6 +26,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
   isSticky = false,
   redirectOnSubmitUrl,
   initialQuery,
+  onAssistantMessage,
 }) => {
   const { t } = useTranslation(defaultNS);
   const router = useRouter();
@@ -88,6 +90,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         content: data.message ?? "",
       };
       setMessages((prev) => [...prev, assistantMsg]);
+      onAssistantMessage?.(data.message ?? "");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
     } finally {
@@ -128,7 +131,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={t("chatbot_input_placeholder")}
-        className="pr-12 py-5 rounded-full border-2 border-primary/20 bg-card/50 dark:bg-card/30 
+        className="pr-12 py-5 rounded-full border-2 border-primary/20 bg-background dark:bg-card/30 
                    placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20
                    transition-all duration-200 disabled:opacity-50"
         disabled={isLoading}
@@ -184,7 +187,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 className={`max-w-[85%] p-4 rounded-2xl ${
                   message.role === "user"
                     ? "bg-primary text-primary-foreground rounded-br-md"
-                    : "bg-card/80 dark:bg-card/50 text-foreground border border-border/50 rounded-bl-md"
+                    : "bg-muted/60 dark:bg-card/50 text-foreground border border-border/60 dark:border-border/50 rounded-bl-md"
                 }`}
               >
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
@@ -193,7 +196,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
           ))}
           {isLoading && messages.filter((m) => m.id !== "sara-initial-greeting").length > 0 && (
             <div className="flex justify-start">
-              <div className="max-w-[85%] p-4 rounded-2xl rounded-bl-md bg-card/80 dark:bg-card/50 border border-border/50 italic text-muted-foreground">
+              <div className="max-w-[85%] p-4 rounded-2xl rounded-bl-md bg-muted/60 dark:bg-card/50 border border-border/60 dark:border-border/50 italic text-muted-foreground">
                 {t("chatbot_thinking")}
               </div>
             </div>

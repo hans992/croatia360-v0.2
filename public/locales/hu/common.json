@@ -25,6 +25,7 @@
     "chatbot_hero_greeting_2": "az utazási asszisztensed.",
     "chatbot_hero_subtitle": "Mondd el, mire van szükséged, a többit én intézem: repülőjegyek, hotelek, útvonalak – másodpercek alatt. Gondolj rám úgy, mint egy utazásban jártas barátra... aki tényleg megért téged.",
   "hero_headline": "A horvát kalandod itt kezdődik",
+  "hero_input_placeholder": "Hová visz a szíved? (pl. Rejtett strandokat, vörösbort keresek, 1500 € költségvetésem van kettőnknek szeptemberre...)",
   "hero_cta": "Kezdd el a tervezést SARA AI-val",
   "hero_trust": "MI által működtetve",
   "inspiration_title": "Inspiráció az Utazásodhoz",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Tervezés €1500-ból",
   "chatbot_button_nature_label": "Természeti szépségek",
   "chatbot_button_nature_text": "Legjobb természeti szépségek",
+
+  "sara_widget_aria_label": "Csevegés a SARA AI-val",
+  "sara_widget_prompt_default": "Horvátországi utazást tervez? Itt vagyok, hogy segítsek. Kérdezz bármit!",
+  "sara_widget_prompt_explore": "Horvátországot fedezed fel? Mondd el, mit keresel, és személyre szabom az ajánlásokat.",
+  "sara_widget_prompt_region": "Tetszik ez a régió? Hozzáadhatom az utazásodhoz vagy konkrét helyeket javasolhatok.",
+  "sara_widget_prompt_partner": "Nagyszerű választás! Szeretnéd, ha hozzáadnám az útvonaladhoz?",
+  "sara_widget_prompt_my_trip": "Segítség kell az átrendezéshez? Csak húzd és ejtsd, vagy kérj tőlem javaslatot.",
+  "sara_widget_open_full_chat": "Teljes chat megnyitása",
 
   "region_dalmacija": "Dalmácia",
   "region_istra": "Isztria",
@@ -243,6 +252,9 @@
   "tag_nature": "Természet",
   "tag_waterfalls": "Vízesések",
   "tag_hiking": "Túrázás",
+
+  "price_per_night": "éjszaka",
+  "price_per_person": "fő",
 
   "alt_croatia_map": "Horvátország térképe régiók szerint",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Körút a Trónok harca forgatási helyszínein",
   "my_trip_day_7_activity_2": "Sikló a Srđra naplementéhez",
   "my_trip_day_7_activity_3": "Búcsúvacsora panorámakilátású étteremben",
-  "my_trip_day_7_accommodation": "Vendégház a dubrovniki óvárosban"
+  "my_trip_day_7_accommodation": "Vendégház a dubrovniki óvárosban",
+
+  "my_trip_weather_rain_toast": "Eső várható",
+  "my_trip_weather_rain_description": "Ezen a napon eső várható. Fontolja meg a szabadtéri tevékenységek áthelyezését.",
+  "my_trip_weather_rain_ok": "Értem"
 }

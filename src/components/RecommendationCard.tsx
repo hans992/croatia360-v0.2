@@ -22,6 +22,8 @@ interface Recommendation {
     reviews: number;
     priceKey?: string;
     priceRaw?: string;
+    priceAmount?: string;
+    priceUnitKey?: string;
     priceCategory?: '€' | '€€' | '€€€' | '€€€€';
     tagsKeys: string[];
     imageUrl: string;
@@ -85,9 +87,12 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation,
                         <div className="flex items-center text-muted-foreground">
                             <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
                             <span className="font-medium text-foreground">{recommendation.rating.toFixed(1)}</span>
-                            <span className="ml-1">({recommendation.reviews} {t('reviews_label', 'recenzija')})</span>
+                            <span className="ml-1">({recommendation.reviews} {t('reviews_label')})</span>
                         </div>
-                        {recommendation.priceRaw && <span className="font-semibold text-accent">{recommendation.priceRaw}</span>}
+                        {(recommendation.priceAmount && recommendation.priceUnitKey) && (
+                            <span className="font-semibold text-accent">€{recommendation.priceAmount} / {t(recommendation.priceUnitKey)}</span>
+                        )}
+                        {recommendation.priceRaw && !recommendation.priceAmount && <span className="font-semibold text-accent">{recommendation.priceRaw}</span>}
                     </div>
                 </CardContent>
             </Link>

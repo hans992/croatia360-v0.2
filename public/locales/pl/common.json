@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "twój asystent podróży.",
   "chatbot_hero_subtitle": "Powiedz mi, czego potrzebujesz, a resztą się zajmę: loty, hotele, plany podróży – w kilka sekund. Pomyśl o mnie jak o przyjacielu znającym się na podróżach... który naprawdę cię rozumie.",
   "hero_headline": "Twoja chorwacka przygoda zaczyna się tutaj",
+  "hero_input_placeholder": "Dokąd prowadzi Cię serce? (np. Szukam ukrytych plaż, czerwonego wina i mam budżet 1500 € dla dwojga we wrześniu...)",
   "hero_cta": "Zacznij planować z SARA AI",
   "hero_trust": "Napędzane przez AI",
   "inspiration_title": "Inspiracja na Twoją Podróż",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Planuj z €1500",
   "chatbot_button_nature_label": "Piękno przyrody",
   "chatbot_button_nature_text": "Najlepsze piękno przyrody",
+
+  "sara_widget_aria_label": "Czat z SARA AI",
+  "sara_widget_prompt_default": "Planujesz podróż do Chorwacji? Jestem tu, by pomóc. Zapytaj mnie o cokolwiek!",
+  "sara_widget_prompt_explore": "Odkrywasz Chorwację? Powiedz mi, czego szukasz, a dopasuję sugestie.",
+  "sara_widget_prompt_region": "Podoba Ci się ten region? Mogę dodać go do Twojej podróży lub zasugerować konkretne miejsca.",
+  "sara_widget_prompt_partner": "Świetny wybór! Chcesz, żebym dodał to do Twojego planu?",
+  "sara_widget_prompt_my_trip": "Potrzebujesz pomocy w reorganizacji? Po prostu przeciągnij i upuść lub zapytaj mnie o sugestie.",
+  "sara_widget_open_full_chat": "Otwórz pełny czat",
 
   "region_dalmacija": "Dalmacja",
   "region_istra": "Istria",
@@ -243,6 +252,9 @@
   "tag_nature": "Natura",
   "tag_waterfalls": "Wodospady",
   "tag_hiking": "Piesze wycieczki",
+
+  "price_per_night": "noc",
+  "price_per_person": "osoba",
 
   "alt_croatia_map": "Mapa Chorwacji według regionów",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Wycieczka po lokacjach z Gry o tron",
   "my_trip_day_7_activity_2": "Kolejka linowa na Srđ na zachód słońca",
   "my_trip_day_7_activity_3": "Pożegnalna kolacja w restauracji z widokiem panoramicznym",
-  "my_trip_day_7_accommodation": "Pensjonat w starej części Dubrownika"
+  "my_trip_day_7_accommodation": "Pensjonat w starej części Dubrownika",
+
+  "my_trip_weather_rain_toast": "Przewidywany deszcz",
+  "my_trip_weather_rain_description": "Na ten dzień przewidywany jest deszcz. Rozważ przeniesienie aktywności na świeżym powietrzu.",
+  "my_trip_weather_rain_ok": "Rozumiem"
 }

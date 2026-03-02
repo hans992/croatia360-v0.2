@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "votre assistante de voyage.",
   "chatbot_hero_subtitle": "Dites-moi ce que vous voulez et je m’occupe du reste : vols, hôtels, itinéraires, en quelques secondes. Considérez-moi comme une amie experte en voyages... qui vous comprend vraiment.",
   "hero_headline": "Votre aventure croate commence ici",
+  "hero_input_placeholder": "Où vous mène votre cœur ? (ex. Je cherche des plages cachées, du vin rouge, et j'ai un budget de 1500 € pour deux en septembre...)",
   "hero_cta": "Commencer à planifier avec SARA AI",
   "hero_trust": "Propulsé par l'IA",
   "inspiration_title": "Inspiration pour Votre Voyage",
@@ -105,6 +106,14 @@
   "chatbot_button_budget_text": "Planifier avec 1500 €",
   "chatbot_button_nature_label": "Beautés naturelles",
   "chatbot_button_nature_text": "Meilleures beautés naturelles",
+
+  "sara_widget_aria_label": "Discuter avec SARA AI",
+  "sara_widget_prompt_default": "Vous planifiez un voyage en Croatie ? Je suis là pour vous aider. Posez-moi vos questions !",
+  "sara_widget_prompt_explore": "Vous explorez la Croatie ? Dites-moi ce que vous cherchez et j'adapterai mes suggestions.",
+  "sara_widget_prompt_region": "Vous aimez cette région ? Je peux l'ajouter à votre voyage ou suggérer des endroits précis.",
+  "sara_widget_prompt_partner": "Excellent choix ! Voulez-vous que je l'ajoute à votre itinéraire ?",
+  "sara_widget_prompt_my_trip": "Besoin d'aide pour réorganiser ? Glissez-déposez ou demandez-moi des suggestions.",
+  "sara_widget_open_full_chat": "Ouvrir le chat complet",
 
   "region_dalmacija": "Dalmatie",
   "region_istra": "Istrie",
@@ -244,6 +253,9 @@
   "tag_nature": "Nature",
   "tag_waterfalls": "Cascades",
   "tag_hiking": "Randonnée",
+
+  "price_per_night": "nuit",
+  "price_per_person": "personne",
 
   "alt_croatia_map": "Carte de la Croatie par régions",
 
@@ -412,5 +424,9 @@
   "my_trip_day_7_activity_1": "Tour des lieux de tournage de Game of Thrones",
   "my_trip_day_7_activity_2": "Téléphérique jusqu'au Srđ pour le coucher de soleil",
   "my_trip_day_7_activity_3": "Dîner d'adieu dans un restaurant avec vue panoramique",
-  "my_trip_day_7_accommodation": "Maison d'hôtes dans la vieille ville de Dubrovnik"
+  "my_trip_day_7_accommodation": "Maison d'hôtes dans la vieille ville de Dubrovnik",
+
+  "my_trip_weather_rain_toast": "Pluie prévue",
+  "my_trip_weather_rain_description": "De la pluie est prévue pour ce jour. Envisagez de déplacer les activités en plein air.",
+  "my_trip_weather_rain_ok": "Compris"
 }

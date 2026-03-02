@@ -1,6 +1,6 @@
 // src/app/[locale]/layout.tsx
 import type { Metadata, Viewport } from 'next';
-import { Plus_Jakarta_Sans, DM_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import '../../styles/globals.css';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
@@ -9,17 +9,15 @@ import { getServerTranslations } from '@/lib/i18n/server';
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import CookieConsentBanner from '@/components/layout/CookieConsentBanner'; // Import the banner component
+import CookieConsentBanner from '@/components/layout/CookieConsentBanner';
+import SaraFloatingWidget from '@/components/SaraFloatingWidget';
+import { Toaster } from '@/components/ui/sonner';
 
-const plusJakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-heading',
   display: 'swap',
-});
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 // --- Metadata Generation ---
@@ -87,7 +85,7 @@ export default async function RootLayout(props: {
 
   return (
     <html lang={effectiveLocale} suppressHydrationWarning>
-      <body className={`${plusJakarta.variable} ${dmSans.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         {/* Provides i18n context and resources to Client Components */}
         <TranslationsProvider
           locale={effectiveLocale}
@@ -97,7 +95,7 @@ export default async function RootLayout(props: {
           {/* Handles theme switching */}
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
@@ -121,6 +119,9 @@ export default async function RootLayout(props: {
             {/* Cookie Consent Banner Component */}
             <CookieConsentBanner />
 
+            {/* SARA Omnipresent Floating Widget */}
+            <SaraFloatingWidget />
+            <Toaster position="bottom-right" />
           </ThemeProvider>
         </TranslationsProvider>
       </body>

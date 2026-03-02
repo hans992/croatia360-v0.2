@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "la tua assistente di viaggio.",
   "chatbot_hero_subtitle": "Dimmi cosa desideri e penserò a tutto il resto: voli, hotel, itinerari, in pochi secondi. Pensami come un’amica esperta di viaggi... che ti capisce davvero.",
   "hero_headline": "La tua avventura croata inizia qui",
+  "hero_input_placeholder": "Dove ti porta il cuore? (es. Cerco spiagge nascoste, vino rosso e ho un budget di €1500 per due a settembre...)",
   "hero_cta": "Inizia a pianificare con SARA AI",
   "hero_trust": "Alimentato da IA",
   "inspiration_title": "Ispirazione per il Tuo Viaggio",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Pianifica con 1500€",
   "chatbot_button_nature_label": "Bellezze naturali",
   "chatbot_button_nature_text": "Migliori bellezze naturali",
+
+  "sara_widget_aria_label": "Chatta con SARA AI",
+  "sara_widget_prompt_default": "Stai pianificando un viaggio in Croazia? Sono qui per aiutarti. Chiedimi qualsiasi cosa!",
+  "sara_widget_prompt_explore": "Esplorando la Croazia? Dimmi cosa cerchi e adatterò i suggerimenti.",
+  "sara_widget_prompt_region": "Ti piace questa regione? Posso aggiungerla al tuo viaggio o suggerire luoghi specifici.",
+  "sara_widget_prompt_partner": "Ottima scelta! Vuoi che lo aggiunga al tuo itinerario?",
+  "sara_widget_prompt_my_trip": "Serve aiuto a riorganizzare? Trascina e rilascia, o chiedi a me suggerimenti.",
+  "sara_widget_open_full_chat": "Apri chat completa",
 
   "region_dalmacija": "Dalmazia",
   "region_istra": "Istria",
@@ -243,6 +252,9 @@
   "tag_nature": "Natura",
   "tag_waterfalls": "Cascate",
   "tag_hiking": "Escursionismo",
+
+  "price_per_night": "notte",
+  "price_per_person": "persona",
 
   "alt_croatia_map": "Mappa della Croazia per regioni",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Tour dei luoghi delle riprese de Il Trono di Spade",
   "my_trip_day_7_activity_2": "Funivia fino al Srđ per il tramonto",
   "my_trip_day_7_activity_3": "Cena di addio in un ristorante con vista panoramica",
-  "my_trip_day_7_accommodation": "Pensione nella città vecchia di Dubrovnik"
+  "my_trip_day_7_accommodation": "Pensione nella città vecchia di Dubrovnik",
+
+  "my_trip_weather_rain_toast": "Pioggia prevista",
+  "my_trip_weather_rain_description": "Per questo giorno è prevista pioggia. Considera di spostare le attività all'aperto.",
+  "my_trip_weather_rain_ok": "Capito"
 }

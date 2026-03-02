@@ -4,6 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'next/navigation';
 import { defaultNS, type Locale } from '@/lib/i18n/settings';
@@ -36,7 +37,13 @@ const InspireCard: React.FC<InspireCardProps> = ({
 
   return (
     <Link href={href} className="block h-full group">
-      <div className="relative h-full overflow-hidden rounded-2xl premium-card-hover">
+      <motion.div
+        className="relative h-full overflow-hidden rounded-2xl premium-card-hover backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/20 dark:border-white/20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        whileHover={{ scale: 1.02, y: -4 }}
+      >
         <div className="relative h-56 w-full">
           <Image 
             src={imageUrl} 
@@ -66,7 +73,7 @@ const InspireCard: React.FC<InspireCardProps> = ({
             <span className="text-accent">→</span>
           </span>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 };

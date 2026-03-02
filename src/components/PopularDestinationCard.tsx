@@ -52,7 +52,7 @@ const PopularDestinationCard: React.FC<PopularDestinationCardProps> = ({ destina
                         {destination.featured && (
                             <div className="absolute top-2 right-2 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-semibold flex items-center shadow-md">
                                 <Award className="w-3 h-3 mr-1" />
-                                {t('featured_label', 'Istaknuto')}
+                                {t('explore_featured_badge')}
                             </div>
                         )}
                     </div>
@@ -64,7 +64,7 @@ const PopularDestinationCard: React.FC<PopularDestinationCardProps> = ({ destina
                     <div className="mt-auto flex items-center text-sm text-muted-foreground">
                         <Star className="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" />
                         <span className="font-medium text-foreground">{destination.rating.toFixed(1)}</span>
-                        <span className="ml-1">({destination.reviews} {t('reviews_label', 'recenzija')})</span>
+                        <span className="ml-1">({destination.reviews} {t('reviews_label')})</span>
                     </div>
                 </CardContent>
             </Link>

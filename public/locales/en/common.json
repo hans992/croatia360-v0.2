@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "your travel assistant.",
   "chatbot_hero_subtitle": "Tell me what you want, and I'll take care of the rest: flights, hotels, itineraries, in seconds. Think of me as your travel-savvy friend... who truly gets you.",
   "hero_headline": "Your Croatian Adventure Starts Here",
+  "hero_input_placeholder": "Where is your heart taking you? (e.g., I'm looking for hidden beaches, red wine, and I have a budget of €1500 for two in September...)",
   "hero_cta": "Start planning with SARA AI",
   "hero_trust": "Powered by AI",
   "inspiration_title": "Inspiration for Your Journey",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Plan with €1500",
   "chatbot_button_nature_label": "Natural beauties",
   "chatbot_button_nature_text": "Best natural beauties",
+
+  "sara_widget_aria_label": "Chat with SARA AI",
+  "sara_widget_prompt_default": "Planning a trip to Croatia? I'm here to help. Ask me anything!",
+  "sara_widget_prompt_explore": "Exploring Croatia? Tell me what you're looking for and I'll tailor suggestions.",
+  "sara_widget_prompt_region": "Love this region? I can add it to your trip or suggest specific spots.",
+  "sara_widget_prompt_partner": "Great choice! Want me to add this to your itinerary?",
+  "sara_widget_prompt_my_trip": "Need help rearranging? Just drag and drop, or ask me for suggestions.",
+  "sara_widget_open_full_chat": "Open full chat",
 
   "region_dalmacija": "Dalmatia",
   "region_istra": "Istria",
@@ -243,6 +252,9 @@
   "tag_nature": "Nature",
   "tag_waterfalls": "Waterfalls",
   "tag_hiking": "Hiking",
+
+  "price_per_night": "night",
+  "price_per_person": "person",
 
   "alt_croatia_map": "Map of Croatia by regions",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Tour of Game of Thrones filming locations",
   "my_trip_day_7_activity_2": "Cable car ride to Srđ for sunset",
   "my_trip_day_7_activity_3": "Farewell dinner at a restaurant with panoramic views",
-  "my_trip_day_7_accommodation": "Guesthouse in Dubrovnik's old town"
+  "my_trip_day_7_accommodation": "Guesthouse in Dubrovnik's old town",
+
+  "my_trip_weather_rain_toast": "Rain forecast",
+  "my_trip_weather_rain_description": "Rain is forecast for this day. Consider moving outdoor activities or packing accordingly.",
+  "my_trip_weather_rain_ok": "Got it"
 }

@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "vaša asistentica za putovanja.",
   "chatbot_hero_subtitle": "Recite mi što želite, a ja ću se pobrinuti za ostalo: letove, hotele, itinerare – u nekoliko sekundi. Zamislite me kao prijateljicu koja zna sve o putovanjima... i stvarno vas razumije.",
   "hero_headline": "Vaša hrvatska avantura počinje ovdje",
+  "hero_input_placeholder": "Kamo te vodi srce? (npr. Tražim skrivene plaže, crno vino, imam budžet od €1500 za dvoje u rujnu...)",
   "hero_cta": "Započni planiranje s SARA AI",
   "hero_trust": "Pokreće umjetna inteligencija",
   "inspiration_title": "Inspiracija za Vaše Putovanje",
@@ -105,6 +106,14 @@
   "chatbot_button_budget_text": "Planiraj s €1500",
   "chatbot_button_nature_label": "Prirodne ljepote",
   "chatbot_button_nature_text": "Najbolje prirodne ljepote",
+
+  "sara_widget_aria_label": "Razgovaraj s SARA AI",
+  "sara_widget_prompt_default": "Planirate putovanje u Hrvatsku? Tu sam da pomognem. Pitajte me bilo što!",
+  "sara_widget_prompt_explore": "Istražujete Hrvatsku? Recite mi što tražite i prilagodit ću prijedloge.",
+  "sara_widget_prompt_region": "Sviđa vam se ova regija? Mogu je dodati u vaše putovanje ili predložiti konkretna mjesta.",
+  "sara_widget_prompt_partner": "Odličan izbor! Želite li da ovo dodam u vaš itinerar?",
+  "sara_widget_prompt_my_trip": "Trebate pomoć s preuređivanjem? Samo povucite i ispustite ili pitajte mene za prijedloge.",
+  "sara_widget_open_full_chat": "Otvori puni chat",
 
   "region_dalmacija": "Dalmacija",
   "region_istra": "Istra",
@@ -244,6 +253,9 @@
   "tag_nature": "Priroda",
   "tag_waterfalls": "Slapovi",
   "tag_hiking": "Pješačenje",
+
+  "price_per_night": "noć",
+  "price_per_person": "osoba",
 
   "alt_croatia_map": "Karta Hrvatske po regijama",
 
@@ -413,6 +425,10 @@
   "my_trip_day_7_activity_1": "Obilazak lokacija iz serije 'Igra prijestolja'",
   "my_trip_day_7_activity_2": "Uspon žičarom na Srđ za zalazak sunca",
   "my_trip_day_7_activity_3": "Završna večera u restoranu s panoramskim pogledom",
-  "my_trip_day_7_accommodation": "Gostinjska kuća u staroj gradskoj jezgri Dubrovnika"
+  "my_trip_day_7_accommodation": "Gostinjska kuća u staroj gradskoj jezgri Dubrovnika",
+
+  "my_trip_weather_rain_toast": "Predviđena kiša",
+  "my_trip_weather_rain_description": "Za ovaj dan je predviđena kiša. Razmislite o premještanju outdoor aktivnosti ili pakiranju.",
+  "my_trip_weather_rain_ok": "Razumijem"
 }
 

@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "deine Reiseassistentin.",
   "chatbot_hero_subtitle": "Sag mir, was du möchtest, und ich kümmere mich um den Rest: Flüge, Hotels, Reiserouten – in Sekundenschnelle. Stell dir mich als deine reiseerfahrene Freundin vor... die dich wirklich versteht.",
   "hero_headline": "Ihr kroatisches Abenteuer beginnt hier",
+  "hero_input_placeholder": "Wohin führt dich dein Herz? (z.B. Ich suche versteckte Strände, Rotwein und habe ein Budget von €1500 für zwei im September...)",
   "hero_cta": "Planung mit SARA AI starten",
   "hero_trust": "Angetrieben von KI",
   "inspiration_title": "Inspiration für Ihre Reise",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Planen mit €1500",
   "chatbot_button_nature_label": "Naturschönheiten",
   "chatbot_button_nature_text": "Beste Naturschönheiten",
+
+  "sara_widget_aria_label": "Mit SARA AI chatten",
+  "sara_widget_prompt_default": "Planen Sie eine Reise nach Kroatien? Ich bin hier, um zu helfen. Fragen Sie mich alles!",
+  "sara_widget_prompt_explore": "Kroatien erkunden? Sagen Sie mir, was Sie suchen, und ich passe die Vorschläge an.",
+  "sara_widget_prompt_region": "Gefällt Ihnen diese Region? Ich kann sie zu Ihrer Reise hinzufügen oder konkrete Orte vorschlagen.",
+  "sara_widget_prompt_partner": "Gute Wahl! Soll ich das zu Ihrem Reiseplan hinzufügen?",
+  "sara_widget_prompt_my_trip": "Brauchen Sie Hilfe beim Umorganisieren? Ziehen Sie einfach per Drag & Drop oder fragen Sie mich.",
+  "sara_widget_open_full_chat": "Vollen Chat öffnen",
 
   "region_dalmacija": "Dalmatien",
   "region_istra": "Istrien",
@@ -243,6 +252,9 @@
   "tag_nature": "Natur",
   "tag_waterfalls": "Wasserfälle",
   "tag_hiking": "Wandern",
+
+  "price_per_night": "Nacht",
+  "price_per_person": "Person",
 
   "alt_croatia_map": "Karte von Kroatien nach Regionen",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Tour zu den Drehorten von Game of Thrones",
   "my_trip_day_7_activity_2": "Seilbahnfahrt zum Srđ für den Sonnenuntergang",
   "my_trip_day_7_activity_3": "Abschiedsabendessen in einem Restaurant mit Panoramablick",
-  "my_trip_day_7_accommodation": "Pension in der Altstadt von Dubrovnik"
+  "my_trip_day_7_accommodation": "Pension in der Altstadt von Dubrovnik",
+
+  "my_trip_weather_rain_toast": "Regen vorhergesagt",
+  "my_trip_weather_rain_description": "Für diesen Tag ist Regen vorhergesagt. Erwägen Sie, Outdoor-Aktivitäten zu verschieben.",
+  "my_trip_weather_rain_ok": "Verstanden"
 }

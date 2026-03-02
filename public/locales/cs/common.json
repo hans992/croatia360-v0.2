@@ -25,6 +25,7 @@
   "chatbot_hero_greeting_2": "váš cestovní asistent.",
   "chatbot_hero_subtitle": "Řekněte mi, co potřebujete, a o zbytek se postarám: letenky, hotely, itineráře – během pár vteřin. Představte si mě jako kamaráda znalého cestování... který vás opravdu chápe.",
   "hero_headline": "Vaše chorvatské dobrodružství začíná zde",
+  "hero_input_placeholder": "Kam vás vede srdce? (např. Hledám skryté pláže, červené víno a mám rozpočet 1500 € pro dva v září...)",
   "hero_cta": "Začněte plánovat se SARA AI",
   "hero_trust": "Poháněno AI",
   "inspiration_title": "Inspirace pro Vaši Cestu",
@@ -104,6 +105,14 @@
   "chatbot_button_budget_text": "Plánovat s €1500",
   "chatbot_button_nature_label": "Přírodní krásy",
   "chatbot_button_nature_text": "Nejlepší přírodní krásy",
+
+  "sara_widget_aria_label": "Chatovat se SARA AI",
+  "sara_widget_prompt_default": "Plánujete cestu do Chorvatska? Jsem tu, abych pomohl. Zeptejte se mě na cokoli!",
+  "sara_widget_prompt_explore": "Objevujete Chorvatsko? Řekněte mi, co hledáte, a přizpůsobím návrhy.",
+  "sara_widget_prompt_region": "Líbí se vám tento region? Mohu ho přidat do vaší cesty nebo navrhnout konkrétní místa.",
+  "sara_widget_prompt_partner": "Skvělá volba! Chcete to přidat do vašeho itineráře?",
+  "sara_widget_prompt_my_trip": "Potřebujete pomoc s přeskupením? Stačí přetáhnout a pustit, nebo se zeptejte mě.",
+  "sara_widget_open_full_chat": "Otevřít plný chat",
 
   "region_dalmacija": "Dalmácie",
   "region_istra": "Istrie",
@@ -243,6 +252,9 @@
   "tag_nature": "Příroda",
   "tag_waterfalls": "Vodopády",
   "tag_hiking": "Turistika",
+
+  "price_per_night": "noc",
+  "price_per_person": "osoba",
 
   "alt_croatia_map": "Mapa Chorvatska podle regionů",
 
@@ -411,5 +423,9 @@
   "my_trip_day_7_activity_1": "Prohlídka lokací ze seriálu Hra o trůny",
   "my_trip_day_7_activity_2": "Lanovka na Srđ pro západ slunce",
   "my_trip_day_7_activity_3": "Rozlučková večeře v restauraci s panoramatickým výhledem",
-  "my_trip_day_7_accommodation": "Penzion ve starém městě Dubrovníku"
+  "my_trip_day_7_accommodation": "Penzion ve starém městě Dubrovníku",
+
+  "my_trip_weather_rain_toast": "Předpověď deště",
+  "my_trip_weather_rain_description": "Na tento den je předpovězen déšť. Zvažte přesunutí venkovních aktivit.",
+  "my_trip_weather_rain_ok": "Rozumím"
 }

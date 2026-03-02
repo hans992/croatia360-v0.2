@@ -78,13 +78,13 @@ const config = {
   		},
   		fontFamily: {
   			sans: [
-  				'var(--font-body)',
-  				'DM Sans',
+  				'var(--font-heading)',
+  				'Inter',
   				...defaultTheme.fontFamily.sans
   			],
   			heading: [
   				'var(--font-heading)',
-  				'Plus Jakarta Sans',
+  				'Inter',
   				...defaultTheme.fontFamily.sans
   			],
   			mono: [
@@ -94,7 +94,8 @@ const config = {
   		},
   		boxShadow: {
   			card: '0 4px 10px rgba(0, 0, 0, 0.1)',
-  			button: '0 2px 5px rgba(0, 0, 0, 0.1)'
+  			button: '0 2px 5px rgba(0, 0, 0, 0.1)',
+  			'glow-accent': '0 0 40px -10px rgba(34, 211, 238, 0.5), 0 0 80px -20px rgba(34, 211, 238, 0.3)'
   		},
   		keyframes: {
   			'accordion-down': {
