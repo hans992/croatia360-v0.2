@@ -37,9 +37,25 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
     setIsSubmitting(true);
     setMessage('');
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock API call
-      setMessage(t('footer_subscribe_success'));
-      setEmail('');
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json().catch(() => ({} as { message?: string; error?: string }));
+
+      if (!response.ok) {
+        setMessage(
+          data?.error ||
+            t('footer_subscribe_error_network')
+        );
+      } else {
+        setMessage(t('footer_subscribe_success'));
+        setEmail('');
+      }
     } catch (error) {
       console.error('Greška prilikom slanja prijave:', error);
       setMessage(t('footer_subscribe_error_network'));

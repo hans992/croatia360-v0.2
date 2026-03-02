@@ -1,6 +1,9 @@
 import type { NextRequest } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Ensure this route runs on the Node.js runtime (required for nodemailer)
+export const runtime = 'nodejs';
+
 export async function POST(req: NextRequest) {
   
   const { email } = await req.json();

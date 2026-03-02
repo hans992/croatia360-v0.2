@@ -106,7 +106,16 @@ const Header = ({ locale }: HeaderProps) => {
               <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary/10" onClick={async () => { await supabase.auth.signOut(); setUser(null); }}>{t('header_logout')}</Button>
             </div>
           ) : (
-            <Link href={`/${currentLocale}/login`}><Button variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground"><User className="h-5 w-5 mr-2" />{t('header_login')}</Button></Link>
+            <Button
+              asChild
+              variant="default"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              <Link href={`/${currentLocale}/login`}>
+                <User className="h-5 w-5 mr-2" />
+                {t('header_login')}
+              </Link>
+            </Button>
           )}
         </div>
         <div className="md:hidden flex items-center space-x-2">
@@ -130,7 +139,18 @@ const Header = ({ locale }: HeaderProps) => {
                         <Button variant="outline" size="sm" className="w-full border-destructive text-destructive hover:bg-destructive/10" onClick={async () => { await supabase.auth.signOut(); setUser(null); setIsMobileMenuOpen(false); }}>{t('header_logout')}</Button>
                       </div>
                   ) : (
-                    <SheetClose asChild><Link href={`/${currentLocale}/login`} className="w-full"><Button variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"><User className="h-5 w-5 mr-2" />{t('login_register_button') || "Prijava / Registracija"}</Button></Link></SheetClose>
+                    <SheetClose asChild>
+                      <Button
+                        asChild
+                        variant="default"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                      >
+                        <Link href={`/${currentLocale}/login`} className="w-full">
+                          <User className="h-5 w-5 mr-2" />
+                          {t('login_register_button') || "Prijava / Registracija"}
+                        </Link>
+                      </Button>
+                    </SheetClose>
                   )}
                 </div>
             </SheetContent>
