@@ -2,10 +2,9 @@
 
 import React from "react";
 
-// Free stock video - Mediterranean/coastal aerial (Mixkit)
-// Replace with your own Croatia drone footage from GCS when available
+// Croatia hero video (GCS)
 const DEFAULT_VIDEO_URL =
-  "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-tropical-beach-4935-large.mp4";
+  "https://storage.googleapis.com/croatiasara/videos/hero.mp4";
 
 interface VideoBackgroundProps {
   videoUrl?: string;
@@ -25,6 +24,7 @@ export default function VideoBackground({
         loop
         muted
         playsInline
+        preload="metadata"
         className="absolute inset-0 h-full w-full object-cover"
       >
         <source src={videoUrl} type="video/mp4" />
