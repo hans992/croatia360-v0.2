@@ -132,25 +132,21 @@ export default function ExplorePage() {
       return acc;
   }, {} as Record<string, string>);
 
-  // --- Render Page ---
   return (
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
-      {/* Sticky chatbot - right under the menu */}
       <StickyChatbotSection />
 
-      {/* Hero Section */}
-      <section className="text-center py-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-primary dark:text-foreground">
+      <section className="text-center py-16 md:py-20">
+        <h1 className="text-display text-primary dark:text-foreground mb-4">
           {t('explore_page_title')}
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
           {t('explore_page_subtitle')}
         </p>
       </section>
 
-      {/* Regional Cards Section */}
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-foreground">{t('explore_page_select_region_title')}</h2>
+      <section className="mb-20">
+        <h2 className="section-title text-center mb-8">{t('explore_page_select_region_title')}</h2>
         {/* CORRECTED: Flexbox layout for centering */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {regionsData.map((region) => (
@@ -169,9 +165,8 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Search & Filters Section */}
-      <section className="mb-12 p-6 bg-card/50 dark:bg-card/80 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-6 text-center text-primary dark:text-foreground">{t('explore_page_search_title')}</h3>
+      <section className="mb-20 p-6 bg-card/50 dark:bg-card/80 rounded-xl shadow-card">
+        <h3 className="text-h3 text-center mb-6 text-foreground">{t('explore_page_search_title')}</h3>
         <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
           <Input
             type="search"
@@ -179,7 +174,7 @@ export default function ExplorePage() {
             placeholder={t('explore_search_placeholder')}
             className="flex-grow text-base p-3 border-border rounded-md focus:ring-ring focus:border-ring"
           />
-          <Button size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base px-8 py-3">
+          <Button size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-card">
             {t('explore_search_button')}
           </Button>
         </div>
@@ -217,9 +212,8 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Popular Destinations Section */}
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_popular_destinations_title')}</h2>
+      <section className="mb-20">
+        <h2 className="section-title text-center mb-8">{t('explore_page_popular_destinations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {popularDestinations.map((dest) => {
             // Dohvaćamo boju regije koristeći mapu
@@ -236,9 +230,8 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Recommendations Section */}
       <section>
-        <h2 className="text-3xl font-bold mb-8 text-center text-primary dark:text-secondary-foreground">{t('explore_page_recommendations_title')}</h2>
+        <h2 className="section-title text-center mb-8">{t('explore_page_recommendations_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {recommendations.map((rec) => {
              // Dohvaćamo boju regije koristeći mapu

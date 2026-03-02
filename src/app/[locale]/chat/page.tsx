@@ -63,7 +63,7 @@ export default function ChatPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center h-screen premium-gradient-bg text-foreground">
-        <div className="animate-pulse font-heading text-lg text-muted-foreground">Loading...</div>
+        <div className="animate-pulse text-body-lg text-muted-foreground">Loading...</div>
       </div>
     }>
       <ChatPageContent />

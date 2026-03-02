@@ -35,7 +35,7 @@ export default function HomeHero({ useVideo = true, imageUrl }: HomeHeroProps) {
     <div className="container mx-auto relative z-10 px-4 py-12 md:py-20">
       <div className="max-w-3xl mx-auto text-center">
         <div
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-white text-sm font-medium mb-6 animate-hero-fade-in animate-hero-delay-1"
+          className="hero-glass-input inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-sm font-medium mb-6 animate-hero-fade-in animate-hero-delay-1"
           style={{ animationFillMode: "both" }}
         >
           <Sparkles className="h-4 w-4" />
@@ -66,13 +66,13 @@ export default function HomeHero({ useVideo = true, imageUrl }: HomeHeroProps) {
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("hero_input_placeholder")}
               rows={4}
-              className="w-full px-6 py-5 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/50 text-white placeholder:text-white/60 text-lg resize-none transition-all duration-300 shadow-glow-accent"
+          className="hero-glass-input w-full px-6 py-5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent/50 text-white placeholder:text-white/70 text-lg resize-none transition-all duration-normal"
               aria-label={t("hero_input_placeholder")}
             />
             <Button
               type="submit"
               size="lg"
-              className="absolute right-3 bottom-3 rounded-xl bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6 py-6 shadow-glow-accent"
+              className="absolute right-3 bottom-3 rounded-xl bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6 py-6 shadow-glow-accent transition-all duration-normal"
               disabled={!query.trim()}
             >
               <Send className="h-5 w-5" />
@@ -94,10 +94,10 @@ export default function HomeHero({ useVideo = true, imageUrl }: HomeHeroProps) {
 
   if (useVideo) {
     return (
-      <section className="relative min-h-[85vh] overflow-hidden flex items-center">
-        <VideoBackground overlayOpacity={0.5} className="absolute inset-0 min-h-[85vh]" />
+      <section className="full-bleed hero-section-light relative min-h-[85vh] overflow-hidden flex items-center pt-1">
+        <VideoBackground overlayOpacity={0.25} className="absolute inset-0 min-h-[85vh]" />
         <div className="relative z-10 w-full flex justify-center px-4">
-          <div className="backdrop-blur-xl bg-white/5 dark:bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12 max-w-4xl w-full">
+          <div className="hero-glass-panel rounded-3xl p-8 md:p-12 max-w-4xl w-full">
             {content}
           </div>
         </div>
@@ -106,18 +106,18 @@ export default function HomeHero({ useVideo = true, imageUrl }: HomeHeroProps) {
   }
 
   return (
-    <section className="relative min-h-[85vh] overflow-hidden flex items-center">
+    <section className="full-bleed hero-section-light relative min-h-[85vh] overflow-hidden flex items-center pt-1">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: imageUrl
-            ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url(${imageUrl})`
+            ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url(${imageUrl})`
             : undefined,
           backgroundColor: !imageUrl ? "hsl(222 47% 4%)" : undefined,
         }}
         aria-hidden
       />
-      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12 mx-4 md:mx-auto max-w-4xl w-full relative z-10">
+      <div className="hero-glass-panel rounded-3xl p-8 md:p-12 mx-4 md:mx-auto max-w-4xl w-full relative z-10">
         {content}
       </div>
     </section>

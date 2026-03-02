@@ -38,7 +38,7 @@ const InspireCard: React.FC<InspireCardProps> = ({
   return (
     <Link href={href} className="block h-full group">
       <motion.div
-        className="relative h-full overflow-hidden rounded-2xl premium-card-hover backdrop-blur-md bg-white/10 dark:bg-white/10 border border-white/20 dark:border-white/20"
+        className="relative h-full overflow-hidden rounded-2xl premium-card-hover backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}

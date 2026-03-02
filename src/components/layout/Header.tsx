@@ -77,7 +77,7 @@ const Header = ({ locale }: HeaderProps) => {
     <header
       className={`
         sticky w-full z-50 glass-panel
-        ${headerHeightClass} transition-all duration-300 ease-in-out
+        ${headerHeightClass} transition-all duration-normal ease-out
         ${isChatPage ? 'top-0' : (scrollDirection === 'down' ? hiddenHeaderClass : 'top-0')}
       `}
     >

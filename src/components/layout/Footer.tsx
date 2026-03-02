@@ -120,7 +120,7 @@ const Footer = ({ locale }: FooterProps): JSX.Element => {
               </Button>
             </form>
             {message && (
-              <p className={`text-xs mt-2 ${message === t('footer_subscribe_success') ? 'text-green-600' : 'text-destructive'}`}>
+              <p className={`text-caption mt-2 ${message === t('footer_subscribe_success') ? 'text-success' : 'text-destructive'}`}>
                 {message}
               </p>
             )}

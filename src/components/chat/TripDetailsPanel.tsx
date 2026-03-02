@@ -19,17 +19,17 @@ const TripDetailsPanel: React.FC<TripDetailsPanelProps> = ({ details }) => {
   if (!details || (!details.title && !details.itinerary?.length && !details.images?.length)) {
     // Prikazujemo nešto ako nema detalja, ili neki placeholder kao prije
     return (
-      <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center rounded-lg p-6 text-center">
-        <svg className="w-16 h-16 text-slate-400 dark:text-slate-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <p className="text-slate-500 dark:text-slate-400 text-lg">Your personalized trip details will appear here as SARA AI crafts your journey!</p>
-        <p className="text-sm text-slate-400 dark:text-slate-600 mt-2">Ask SARA AI to plan a trip to get started.</p>
+      <div className="w-full h-full bg-muted/50 dark:bg-card flex flex-col items-center justify-center rounded-xl p-6 text-center border border-border">
+        <svg className="w-16 h-16 text-muted-foreground mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <p className="text-muted-foreground text-body-lg">Your personalized trip details will appear here as SARA AI crafts your journey!</p>
+        <p className="text-caption mt-2">Ask SARA AI to plan a trip to get started.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-slate-600">
-      {details.title && <h2 className="text-2xl font-bold text-primary dark:text-sky-400 mb-4">{details.title}</h2>}
+    <div className="w-full h-full bg-card border border-border shadow-card rounded-xl p-6 overflow-y-auto">
+      {details.title && <h2 className="text-h2 text-foreground mb-4">{details.title}</h2>}
 
       {/* Prikaz slika ako postoje */}
       {details.images && details.images.length > 0 && (
@@ -43,11 +43,11 @@ const TripDetailsPanel: React.FC<TripDetailsPanelProps> = ({ details }) => {
       {/* Prikaz itinerera ako postoji */}
       {details.itinerary && details.itinerary.length > 0 && (
         <div>
-          <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mb-3">Itinerary:</h3>
+          <h3 className="text-h3 text-foreground mb-3">Itinerary:</h3>
           {details.itinerary.map((item, index) => (
-            <div key={index} className="mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
-              <h4 className="font-semibold text-md text-slate-600 dark:text-slate-400">{item.day}</h4>
-              <ul className="list-disc list-inside pl-2 mt-1 text-sm text-slate-500 dark:text-slate-400">
+            <div key={index} className="mb-4 pb-2 border-b border-border last:border-b-0">
+              <h4 className="font-semibold text-foreground">{item.day}</h4>
+              <ul className="list-disc list-inside pl-2 mt-1 text-sm text-muted-foreground">
                 {item.activities.map((activity, actIndex) => (
                   <li key={actIndex}>{activity}</li>
                 ))}

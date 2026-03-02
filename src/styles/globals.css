@@ -40,6 +40,28 @@
     --input: 0 0% 100%;
     --ring: 187 85% 43%;
 
+    /* Success (semantic) */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Elevation - light */
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 40px -10px hsl(187 85% 53% / 0.35), 0 0 80px -20px hsl(187 85% 53% / 0.2);
+
+    /* Motion */
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 400ms;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Radius scale */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.5rem;
+
     --radius: 0.75rem;
 
     /* Premium gradients */
@@ -85,6 +107,15 @@
     --ring: 187 85% 53%;
 
     --gradient-hero: linear-gradient(180deg, hsl(222 47% 4%) 0%, hsl(222 40% 8%) 100%);
+
+    /* Success - dark */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Elevation - dark (softer) */
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+    --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 40px -10px hsl(187 85% 53% / 0.4), 0 0 80px -20px hsl(187 85% 53% / 0.25);
   }
 
   body.chat-input-focused {
@@ -97,16 +128,24 @@
   background: var(--gradient-hero);
 }
 
+/* Hero section: light mode only – soft Adriatic gradient so the area under the header feels premium, not flat grey */
+.hero-section-light {
+  background: linear-gradient(180deg, hsl(210 30% 97%) 0%, hsl(210 25% 95%) 50%, hsl(212 28% 94%) 100%);
+}
+.dark .hero-section-light {
+  background: transparent;
+}
+
 .premium-chat-bg {
   background: linear-gradient(160deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--accent) / 0.05) 50%, transparent 100%);
 }
 
 .premium-card-hover {
-  @apply transition-all duration-500 ease-out;
+  transition: transform var(--duration-normal) var(--ease-out-expo), box-shadow var(--duration-normal) var(--ease-out-expo);
 }
 .premium-card-hover:hover {
-  @apply -translate-y-1 shadow-xl;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  @apply -translate-y-1;
+  box-shadow: var(--shadow-elevated);
 }
 
 /* Glass morphism - refined */
@@ -114,9 +153,39 @@
   @apply backdrop-blur-xl bg-white/70 dark:bg-card/70 border border-white/20 dark:border-white/5;
 }
 
+/* Hero chat panel - Apple liquid glass (iOS style) */
+.hero-glass-panel {
+  backdrop-filter: blur(80px) saturate(180%);
+  -webkit-backdrop-filter: blur(80px) saturate(180%);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.dark .hero-glass-panel {
+  background: rgba(15, 23, 42, 0.45);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Liquid glass input - nested glass effect */
+.hero-glass-input {
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dark .hero-glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
 /* AI badge glow - accent cyan/turquoise */
 .ai-glow {
-  box-shadow: 0 0 40px -10px hsl(var(--accent) / 0.5), 0 0 80px -20px hsl(var(--accent) / 0.3);
+  box-shadow: var(--shadow-glow);
 }
 
 /* Hero entrance animations */
@@ -145,6 +214,36 @@
   }
   .font-heading {
     font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  }
+  /* Typography scale */
+  .text-display {
+    @apply font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight;
+  }
+  .text-h1 {
+    @apply font-heading text-3xl md:text-4xl font-bold tracking-tight;
+  }
+  .text-h2 {
+    @apply font-heading text-2xl md:text-3xl font-bold tracking-tight;
+  }
+  .text-h3 {
+    @apply font-heading text-xl md:text-2xl font-semibold tracking-tight;
+  }
+  .text-body-lg {
+    @apply text-lg;
+  }
+  .text-body {
+    @apply text-base;
+  }
+  .text-caption {
+    @apply text-sm text-muted-foreground;
+  }
+  .section-title {
+    @apply font-heading text-2xl md:text-3xl font-bold text-foreground;
+  }
+  /* Full-bleed: break out of container to edge-to-edge */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
   }
 }
 

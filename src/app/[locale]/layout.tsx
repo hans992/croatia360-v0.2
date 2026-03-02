@@ -85,7 +85,7 @@ export default async function RootLayout(props: {
 
   return (
     <html lang={effectiveLocale} suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden`}>
         {/* Provides i18n context and resources to Client Components */}
         <TranslationsProvider
           locale={effectiveLocale}

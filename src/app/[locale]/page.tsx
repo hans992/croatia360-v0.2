@@ -91,16 +91,15 @@ export default async function HomePage(props: HomePageProps) {
       <HomeHero useVideo={true} imageUrl={heroImageUrl} />
 
       {/* Inspiration cards - below the fold */}
-      <section className="py-12 md:py-16" id="sara-ai-planner">
-        <div className="container mx-auto px-4">
-          <div className="mb-10 md:mb-14">
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-2">
-              {t('inspiration_title')}
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-xl">
-              {t('inspiration_subtitle')}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <section className="py-16 md:py-24 container mx-auto px-4" id="sara-ai-planner">
+        <div className="mb-16">
+          <h2 className="section-title mb-2">
+            {t('inspiration_title')}
+          </h2>
+          <p className="text-body-lg text-muted-foreground mb-6 max-w-xl">
+            {t('inspiration_subtitle')}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {inspirationItems.map((item, i) => (
                 <div
                   key={item.slug}
@@ -120,7 +119,6 @@ export default async function HomePage(props: HomePageProps) {
               ))}
             </div>
           </div>
-        </div>
       </section>
     </>
   );

@@ -40,10 +40,9 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation,
     const { t } = useTranslation(defaultNS);
 
     return (
-         // CORRECTED: Zamijenjen border-l-4 s border-b-4
         <Card
-            className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out bg-card text-card-foreground border-b-4 flex flex-col h-full" // Promijenjeno u border-b-4
-            style={{ borderBottomColor: regionColor }} // <<< DODANO: Primjena boje na donji obrub
+            className="group relative overflow-hidden rounded-xl shadow-card hover:shadow-elevated transition-all duration-normal bg-card text-card-foreground border-b-4 flex flex-col h-full border-border"
+            style={{ borderBottomColor: regionColor }}
         >
             <Link href={`/${locale}/recommendations/${recommendation.slug}`} className="flex flex-col h-full">
                 <CardHeader className="p-0">
@@ -54,7 +53,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation,
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             style={{ objectFit: 'cover' }}
-                            className="transition-transform duration-500 ease-in-out group-hover:scale-105"
+                            className="transition-transform duration-normal group-hover:scale-105"
                         />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70 group-hover:opacity-80 transition-opacity duration-300"></div>
                          {recommendation.priceCategory && (
@@ -69,7 +68,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({ recommendation,
                 </CardHeader>
                 <CardContent className="p-4 flex flex-col flex-grow">
                     <p className="text-xs uppercase text-primary font-semibold mb-1 tracking-wide">{t(recommendation.typeKey)}</p>
-                    <CardTitle className="text-lg font-bold mb-1 text-foreground group-hover:text-primary transition-colors duration-300">{t(recommendation.nameKey)}</CardTitle>
+                    <CardTitle className="text-lg font-bold mb-1 text-foreground group-hover:text-primary transition-colors duration-normal">{t(recommendation.nameKey)}</CardTitle>
                     <CardDescription className="text-sm text-muted-foreground mb-2">
                         {t(recommendation.locationKey)} - <span className="font-medium">{t(`region_${recommendation.regionKey}`)}</span> {/* Uklonjen inline stil za boju regije odavde */}
                     </CardDescription>

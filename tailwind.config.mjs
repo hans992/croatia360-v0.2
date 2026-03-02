@@ -63,19 +63,26 @@ const config = {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
   			},
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
+  		chart: {
+  			'1': 'hsl(var(--chart-1))',
+  			'2': 'hsl(var(--chart-2))',
+  			'3': 'hsl(var(--chart-3))',
+  			'4': 'hsl(var(--chart-4))',
+  			'5': 'hsl(var(--chart-5))'
   		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
+  		success: {
+  			DEFAULT: 'hsl(var(--success))',
+  			foreground: 'hsl(var(--success-foreground))'
+  		}
+  	},
+  	borderRadius: {
+  		sm: 'var(--radius-sm)',
+  		md: 'var(--radius-md)',
+  		lg: 'var(--radius-lg)',
+  		xl: 'var(--radius-xl)',
+  		'2xl': 'var(--radius-2xl)',
+  		DEFAULT: 'var(--radius)'
+  	},
   		fontFamily: {
   			sans: [
   				'var(--font-heading)',
@@ -92,11 +99,20 @@ const config = {
   				...defaultTheme.fontFamily.mono
   			]
   		},
-  		boxShadow: {
-  			card: '0 4px 10px rgba(0, 0, 0, 0.1)',
-  			button: '0 2px 5px rgba(0, 0, 0, 0.1)',
-  			'glow-accent': '0 0 40px -10px rgba(34, 211, 238, 0.5), 0 0 80px -20px rgba(34, 211, 238, 0.3)'
-  		},
+  	boxShadow: {
+  		card: 'var(--shadow-card)',
+  		elevated: 'var(--shadow-elevated)',
+  		'glow-accent': 'var(--shadow-glow)',
+  		button: '0 2px 5px rgba(0, 0, 0, 0.1)'
+  	},
+  	transitionDuration: {
+  		fast: 'var(--duration-fast)',
+  		normal: 'var(--duration-normal)',
+  		slow: 'var(--duration-slow)'
+  	},
+  	transitionTimingFunction: {
+  		'out-expo': 'var(--ease-out-expo)'
+  	},
   		keyframes: {
   			'accordion-down': {
   				from: {

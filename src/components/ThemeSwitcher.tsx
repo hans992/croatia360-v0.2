@@ -2,14 +2,14 @@
 "use client";
 
 import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultNS } from '@/lib/i18n/settings';
 
 const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
-  // Uklonjen 'theme' ako se ne koristi; 'resolvedTheme' je obično korisniji
-  const { setTheme, resolvedTheme } = useTheme(); 
+  const { setTheme, resolvedTheme } = useTheme();
   const { t } = useTranslation(defaultNS);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const ThemeSwitcher = () => {
   }, []);
 
   if (!mounted) {
-    return <div style={{ width: '100px', height: '36px' }} className="animate-pulse bg-muted rounded-md" />;
+    return <div style={{ width: 36, height: 36 }} className="animate-pulse bg-muted rounded-md" />;
   }
 
   const handleThemeChange = () => {
@@ -26,14 +26,15 @@ const ThemeSwitcher = () => {
 
   return (
     <button
+      type="button"
       aria-label={t('theme_switcher_aria_label')}
       onClick={handleThemeChange}
-      className="p-2 rounded-md bg-primary text-primary-foreground hover:opacity-80 transition-opacity text-sm" 
+      className="p-2 rounded-md hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
     >
       {resolvedTheme === 'dark' ? (
-        <span>{t('theme_switcher_light_label')}</span>
+        <Sun size={20} aria-hidden />
       ) : (
-        <span>{t('theme_switcher_dark_label')}</span>
+        <Moon size={20} aria-hidden />
       )}
     </button>
   );

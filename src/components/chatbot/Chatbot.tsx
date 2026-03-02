@@ -132,14 +132,14 @@ const Chatbot: React.FC<ChatbotProps> = ({
         onChange={(e) => setInput(e.target.value)}
         placeholder={t("chatbot_input_placeholder")}
         className="pr-12 py-5 rounded-full border-2 border-primary/20 bg-background dark:bg-card/30 
-                   placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20
-                   transition-all duration-200 disabled:opacity-50"
+                   placeholder:text-muted-foreground focus:border-accent focus:ring-2 focus:ring-accent/30
+                   transition-all duration-normal disabled:opacity-50"
         disabled={isLoading}
         aria-label={t("chatbot_input_aria_label")}
       />
       <Button
         type="submit"
-        className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50 shadow-lg"
+        className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50 shadow-card"
         size="icon"
         disabled={isLoading || !input.trim()}
         aria-label={t("chatbot_send_button_aria_label")}
@@ -187,7 +187,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
                 className={`max-w-[85%] p-4 rounded-2xl ${
                   message.role === "user"
                     ? "bg-primary text-primary-foreground rounded-br-md"
-                    : "bg-muted/60 dark:bg-card/50 text-foreground border border-border/60 dark:border-border/50 rounded-bl-md"
+                    : "bg-muted/60 dark:bg-card/50 text-foreground border border-border/60 dark:border-border/50 border-l-4 border-l-accent/60 rounded-bl-md"
                 }`}
               >
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
@@ -196,7 +196,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
           ))}
           {isLoading && messages.filter((m) => m.id !== "sara-initial-greeting").length > 0 && (
             <div className="flex justify-start">
-              <div className="max-w-[85%] p-4 rounded-2xl rounded-bl-md bg-muted/60 dark:bg-card/50 border border-border/60 dark:border-border/50 italic text-muted-foreground">
+              <div className="max-w-[85%] p-4 rounded-2xl rounded-bl-md bg-muted/60 dark:bg-card/50 border border-border/60 dark:border-border/50 border-l-4 border-l-accent/60 italic text-muted-foreground">
                 {t("chatbot_thinking")}
               </div>
             </div>

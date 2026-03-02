@@ -26,6 +26,8 @@ export default function RegionMap({
 
   const token = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const defaultView = getCroatiaDefault();
+  const initialCenter = center ?? defaultView.center;
+  const initialZoom = zoom ?? defaultView.zoom;
 
   useEffect(() => {
     if (!mapContainerRef.current || !token || initializedRef.current) return;
@@ -36,8 +38,12 @@ export default function RegionMap({
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: MAPBOX_DARK_STYLE,
-      center: defaultView.center,
-      zoom: defaultView.zoom,
+      center: initialCenter,
+      zoom: initialZoom,
+    });
+
+    map.on("load", () => {
+      map.jumpTo({ center: initialCenter, zoom: initialZoom });
     });
 
     mapRef.current = map;

@@ -90,10 +90,10 @@ export default function StickyChatbotSection() {
         ref={sectionWrapperRef}
         className={
           isSticky
-            ? `fixed left-0 right-0 will-change-transform transition-all duration-300 ease-in-out
-               ${stickyChatbotBarTopClass} z-40 glass-panel shadow-lg`
+            ? `fixed left-0 right-0 will-change-transform transition-all duration-normal ease-out
+               ${stickyChatbotBarTopClass} z-40 glass-panel shadow-card`
             : `relative container mx-auto px-4 my-8 md:my-12 py-8 md:py-10 
-               premium-chat-bg glass-panel rounded-2xl ai-glow`
+               premium-chat-bg glass-panel rounded-2xl ai-glow shadow-card`
         }
       >
         {/* When sticky, Chatbot renders compact version.

@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "recharts";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import { defaultNS, type Locale } from "@/lib/i18n/settings";
 import { getOrCreateTrip, setStoredTrip } from "@/lib/trip/storage";
 import type { Trip } from "@/lib/trip/types";
@@ -26,56 +27,30 @@ function HeroSection() {
 
   return (
     <header
+      className="relative bg-cover bg-center text-white text-center rounded-b-3xl overflow-hidden py-16 md:py-20"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.5)), url(${heroImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        color: "#fff",
-        padding: "64px 0 48px 0",
-        textAlign: "center",
-        borderRadius: "0 0 32px 32px",
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.5)), url(${heroImage})`,
       }}
     >
-      <h1 style={{ fontSize: "2.8rem", fontWeight: 800, marginBottom: 8 }}>
+      <h1 className="text-display text-white mb-2 drop-shadow-md">
         {t("my_trip_title")}
       </h1>
-      <p style={{ fontSize: "1.25rem", fontWeight: 400, marginBottom: 24 }}>
+      <p className="text-body-lg text-white/90 mb-6">
         {t("my_trip_tagline")}
       </p>
-      <a
-        href="#plan"
-        style={{
-          background: "#E94E35",
-          color: "#fff",
-          padding: "12px 32px",
-          borderRadius: 32,
-          fontWeight: 600,
-          fontSize: "1.1rem",
-          textDecoration: "none",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.12)",
-        }}
-      >
-        {t("my_trip_view_plan")}
-      </a>
+      <Button asChild size="lg" className="rounded-full font-semibold shadow-elevated">
+        <a href="#plan">{t("my_trip_view_plan")}</a>
+      </Button>
     </header>
   );
 }
 
 function QuickFacts({ trip }: { trip: Trip }) {
   const { t } = useTranslation(defaultNS);
-  const totalSpent = trip.items.reduce((s, i) => s + i.cost_cents, 0);
   const destinations = [...new Set(trip.items.map((i) => i.title.split(" ")[0]))].slice(0, 3);
 
   return (
-    <section
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: 40,
-        margin: "32px 0",
-        flexWrap: "wrap",
-      }}
-    >
+    <section className="flex flex-wrap justify-center gap-8 md:gap-10 my-12">
       <Fact icon="⏱️" label={t("my_trip_duration_label")} value={t("my_trip_duration_value")} />
       <Fact
         icon="💶"
@@ -101,10 +76,10 @@ function Fact({
   value: string;
 }) {
   return (
-    <div style={{ textAlign: "center" }}>
-      <div style={{ fontSize: 32 }}>{icon}</div>
-      <div style={{ fontWeight: 700 }}>{label}</div>
-      <div style={{ color: "#555", fontSize: 18 }}>{value}</div>
+    <div className="text-center">
+      <div className="text-3xl mb-1">{icon}</div>
+      <div className="font-heading font-bold text-foreground text-sm">{label}</div>
+      <div className="text-body-lg text-muted-foreground">{value}</div>
     </div>
   );
 }
@@ -125,22 +100,22 @@ function BudgetBreakdown({ trip }: { trip: Trip }) {
   });
 
   const budgetData = [
-    { name: t("my_trip_budget_accommodation"), value: byType.hotel, color: "#1E4B6D" },
-    { name: t("my_trip_budget_food"), value: byType.restaurant, color: "#E94E35" },
-    { name: t("my_trip_budget_activities"), value: byType.activity, color: "#F9A826" },
-    { name: t("my_trip_budget_transport"), value: byType.transport, color: "#4CAF50" },
-    { name: t("my_trip_budget_other"), value: byType.other, color: "#9C27B0" },
+    { name: t("my_trip_budget_accommodation"), value: byType.hotel, color: "#1e3a5f" },
+    { name: t("my_trip_budget_food"), value: byType.restaurant, color: "#dc2626" },
+    { name: t("my_trip_budget_activities"), value: byType.activity, color: "#ca8a04" },
+    { name: t("my_trip_budget_transport"), value: byType.transport, color: "#16a34a" },
+    { name: t("my_trip_budget_other"), value: byType.other, color: "#7c3aed" },
   ].filter((d) => d.value > 0);
 
   const totalSpent = trip.items.reduce((s, i) => s + i.cost_cents, 0);
   const budgetPercent = Math.min(100, (totalSpent / trip.budget_cents) * 100);
 
   return (
-    <section style={{ margin: "40px 0", textAlign: "center" }}>
-      <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: 16 }}>
+    <section className="my-16 text-center">
+      <h2 className="text-h3 text-foreground mb-6">
         {t("my_trip_budget_breakdown_title")}
       </h2>
-      <div style={{ width: "100%", maxWidth: 420, margin: "0 auto" }}>
+      <div className="w-full max-w-[420px] mx-auto">
         <ResponsiveContainer width="100%" height={260}>
           <PieChart>
             <Pie
@@ -163,9 +138,9 @@ function BudgetBreakdown({ trip }: { trip: Trip }) {
           </PieChart>
         </ResponsiveContainer>
       </div>
-      <div className="max-w-md mx-auto mt-4 space-y-2">
+      <div className="max-w-md mx-auto mt-6 space-y-2">
         <Progress value={budgetPercent} className="h-3" />
-        <div style={{ fontWeight: 600 }}>
+        <div className="font-semibold text-foreground">
           {t("my_trip_estimated_total")}: €{(totalSpent / 100).toFixed(0)} / €
           {(trip.budget_cents / 100).toFixed(0)}
         </div>
@@ -180,52 +155,23 @@ function CallToAction() {
   const locale = (params?.locale as Locale) || "en";
 
   return (
-    <section
-      style={{
-        background: "linear-gradient(90deg, #1E4B6D 60%, #E94E35 100%)",
-        color: "#fff",
-        borderRadius: 24,
-        padding: "40px 0",
-        margin: "56px 0 0 0",
-        textAlign: "center",
-      }}
-    >
-      <h2 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: 16 }}>
+    <section className="bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-2xl py-12 md:py-14 mt-20 text-center px-6">
+      <h2 className="text-h2 text-white mb-4">
         {t("my_trip_cta_title")}
       </h2>
-      <p style={{ fontSize: "1.2rem", marginBottom: 24 }}>{t("my_trip_cta_text")}</p>
-      <Link
-        href={`/${locale}/chat`}
-        style={{
-          background: "#fff",
-          color: "#E94E35",
-          padding: "14px 44px",
-          borderRadius: 32,
-          fontWeight: 700,
-          fontSize: "1.2rem",
-          textDecoration: "none",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-        }}
-      >
-        {t("my_trip_cta_button")}
-      </Link>
+      <p className="text-body-lg text-white/90 mb-6">{t("my_trip_cta_text")}</p>
+      <Button asChild size="lg" className="rounded-full font-bold bg-white text-primary hover:bg-white/90 shadow-elevated border-0">
+        <Link href={`/${locale}/chat`}>{t("my_trip_cta_button")}</Link>
+      </Button>
     </section>
   );
 }
 
-function Footer() {
+function MyTripFooter() {
   const { t } = useTranslation(defaultNS);
 
   return (
-    <footer
-      style={{
-        marginTop: 56,
-        padding: 24,
-        textAlign: "center",
-        color: "#888",
-        fontSize: 14,
-      }}
-    >
+    <footer className="mt-20 py-8 text-center text-caption border-t border-border">
       {t("my_trip_footer", { year: new Date().getFullYear() })}
     </footer>
   );
@@ -246,38 +192,25 @@ export default function MyTripPage() {
 
   if (!trip) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex min-h-[50vh] items-center justify-center bg-background">
         <div className="animate-pulse text-muted-foreground">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        fontFamily: "Inter, Arial, sans-serif",
-        background: "#f7f9fc",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="min-h-screen bg-background text-foreground container mx-auto px-4">
       <HeroSection />
       <QuickFacts trip={trip} />
       <BudgetBreakdown trip={trip} />
-      <section id="plan" style={{ margin: "56px 0 40px 0", padding: "0 1rem" }}>
-        <h2
-          style={{
-            fontSize: "2rem",
-            fontWeight: 800,
-            marginBottom: 24,
-            textAlign: "center",
-          }}
-        >
+      <section id="plan" className="my-16 md:my-20">
+        <h2 className="section-title text-center mb-8">
           {t("my_trip_itinerary_title")}
         </h2>
         <DraggableItinerary trip={trip} onTripChange={handleTripChange} />
       </section>
       <CallToAction />
-      <Footer />
+      <MyTripFooter />
     </div>
   );
 }
