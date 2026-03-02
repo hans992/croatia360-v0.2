@@ -5,6 +5,7 @@
 import RegionalCard from '@/components/RegionalCard';
 import PopularDestinationCard from '@/components/PopularDestinationCard';
 import RecommendationCard from '@/components/RecommendationCard';
+import StickyChatbotSection from '@/components/StickyChatbotSection';
 import { useParams, notFound } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { defaultNS, type Locale, locales as validLocalesArray } from '@/lib/i18n/settings';
@@ -134,6 +135,9 @@ export default function ExplorePage() {
   // --- Render Page ---
   return (
     <main className="container mx-auto px-4 py-8 animate-fadeIn">
+      {/* Sticky chatbot - right under the menu */}
+      <StickyChatbotSection />
+
       {/* Hero Section */}
       <section className="text-center py-12">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-primary dark:text-foreground">
