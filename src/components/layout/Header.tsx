@@ -60,8 +60,8 @@ const Header = ({ locale }: HeaderProps) => {
   }, [authChecked, user]);
 
   useEffect(() => {
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-  }, [pathname, isMobileMenuOpen]);
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   const headerHeightClass = 'h-16';
   const hiddenHeaderClass = '-top-16';
