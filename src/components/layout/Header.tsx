@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { User, Menu, X } from 'lucide-react';
 import React, { useState, useEffect } from 'react'; // React import
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -122,7 +122,17 @@ const Header = ({ locale }: HeaderProps) => {
           <LanguageSwitcher currentLocale={currentLocale} />
           <ThemeSwitcher />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild><Button variant="ghost" size="icon" className="text-foreground/80 hover:text-primary">{isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}<span className="sr-only">{isMobileMenuOpen ? t('header_close_menu') : t('header_open_menu')}</span></Button></SheetTrigger>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="text-foreground/80 hover:text-primary [touch-action:manipulation] min-w-[44px] min-h-[44px]"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-expanded={isMobileMenuOpen}
+              aria-label={isMobileMenuOpen ? t('header_close_menu') : t('header_open_menu')}
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
             <SheetContent side="right" className="w-[300px] sm:w-[320px] bg-background text-foreground p-0 flex flex-col">
                 <div className="flex justify-between items-center p-4 border-b border-border">
                   <Link href={`/${currentLocale}/`} className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}><Image src={logoUrl} alt={t('alt_croatia360_logo')} width={30} height={30} className="h-8 w-auto" /><span className="font-semibold text-lg text-primary">Croatia360</span></Link>

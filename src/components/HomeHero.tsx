@@ -48,7 +48,13 @@ export default function HomeHero({ useVideo = true, imageUrl }: HomeHeroProps) {
           {t("hero_headline")}
         </h1>
         <p
-          className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto animate-hero-fade-in animate-hero-delay-3 drop-shadow-md"
+          className="text-sm sm:text-base md:text-lg text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto animate-hero-fade-in animate-hero-delay-3 drop-shadow-md sm:hidden"
+          style={{ animationFillMode: "both" }}
+        >
+          {t("chatbot_hero_subtitle_short")}
+        </p>
+        <p
+          className="hidden sm:block text-sm sm:text-base md:text-lg text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto animate-hero-fade-in animate-hero-delay-3 drop-shadow-md"
           style={{ animationFillMode: "both" }}
         >
           {t("chatbot_hero_subtitle")}
