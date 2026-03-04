@@ -12,6 +12,7 @@ import Footer from '@/components/layout/Footer';
 import CookieConsentBanner from '@/components/layout/CookieConsentBanner';
 import SaraFloatingWidget from '@/components/SaraFloatingWidget';
 import { Toaster } from '@/components/ui/sonner';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -122,6 +123,7 @@ export default async function RootLayout(props: {
             {/* SARA Omnipresent Floating Widget */}
             <SaraFloatingWidget />
             <Toaster position="bottom-right" />
+            <Analytics />
           </ThemeProvider>
         </TranslationsProvider>
       </body>
