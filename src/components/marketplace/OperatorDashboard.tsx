@@ -123,12 +123,23 @@ export default function OperatorDashboard({ locale }: { locale: string }) {
   const experienceNames = useMemo(() => new Map(experiences.map((item) => [item.id, item.title])), [experiences]);
   const openCount = inquiries.filter((item) => item.status === 'new' || item.status === 'contacted').length;
 
-  async function updateInquiry(id: string, status: InquiryStatus) {
+  async function updateInquiry(id: string, status: 'accepted' | 'declined' | 'contacted') {
     setBusyId(id);
     setError(null);
-    const { error: updateError } = await supabase.from('booking_inquiries').update({ status, updated_at: new Date().toISOString() }).eq('id', id);
-    if (updateError) setError(updateError.message);
-    else setInquiries((items) => items.map((item) => item.id === id ? { ...item, status } : item));
+
+    const { error: decisionError } = await supabase.rpc('operator_decide_inquiry', {
+      p_inquiry_id: id,
+      p_decision: status,
+    });
+
+    if (decisionError) {
+      setError(decisionError.message);
+    } else if (status === 'accepted') {
+      await load();
+    } else {
+      setInquiries((items) => items.map((item) => item.id === id ? { ...item, status } : item));
+    }
+
     setBusyId(null);
   }
 
@@ -202,9 +213,9 @@ export default function OperatorDashboard({ locale }: { locale: string }) {
                 </div>
                 {inquiry.message && <p className="mt-4 rounded-xl bg-muted/60 p-3 text-sm text-muted-foreground">{inquiry.message}</p>}
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <button disabled={busyId === inquiry.id} onClick={() => void updateInquiry(inquiry.id, 'accepted')} className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"><Check className="h-4 w-4" /> Accept</button>
-                  <button disabled={busyId === inquiry.id} onClick={() => void updateInquiry(inquiry.id, 'declined')} className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold disabled:opacity-50"><X className="h-4 w-4" /> Decline</button>
-                  <button disabled={busyId === inquiry.id} onClick={() => void updateInquiry(inquiry.id, 'contacted')} className="rounded-xl border px-4 py-2 text-sm font-semibold disabled:opacity-50">Mark contacted</button>
+                  <button disabled={busyId === inquiry.id || inquiry.status === 'accepted'} onClick={() => void updateInquiry(inquiry.id, 'accepted')} className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"><Check className="h-4 w-4" /> Accept</button>
+                  <button disabled={busyId === inquiry.id || inquiry.status === 'declined'} onClick={() => void updateInquiry(inquiry.id, 'declined')} className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold disabled:opacity-50"><X className="h-4 w-4" /> Decline</button>
+                  <button disabled={busyId === inquiry.id || inquiry.status === 'contacted'} onClick={() => void updateInquiry(inquiry.id, 'contacted')} className="rounded-xl border px-4 py-2 text-sm font-semibold disabled:opacity-50">Mark contacted</button>
                 </div>
               </article>
             )) : <div className="rounded-2xl border border-dashed p-8 text-center text-muted-foreground">No booking requests yet.</div>}
