@@ -1,6 +1,9 @@
+import { createClient } from '@supabase/supabase-js';
+
 export type ExperienceType = 'private' | 'shared' | 'rental';
 
 export interface MarketplaceExperience {
+  id?: string;
   slug: string;
   operatorSlug: string;
   operatorName: string;
@@ -26,7 +29,40 @@ export interface MarketplaceExperience {
   instantBooking: boolean;
 }
 
-export const experiences: MarketplaceExperience[] = [
+type MarketplaceRow = {
+  id: string;
+  slug: string;
+  title: string;
+  city: string;
+  region: string | null;
+  category: string;
+  experience_type: ExperienceType;
+  duration_minutes: number | null;
+  max_guests: number | null;
+  base_price_cents: number | null;
+  currency: string;
+  pricing_unit: MarketplaceExperience['pricingUnit'];
+  short_description: string | null;
+  description: string | null;
+  included: unknown;
+  important_info: unknown;
+  meeting_point: string | null;
+  instant_booking: boolean;
+  operators: {
+    name: string;
+    slug: string;
+    email: string | null;
+    phone: string | null;
+  } | null;
+  experience_images: Array<{
+    url: string;
+    alt_text: string | null;
+    sort_order: number;
+    is_cover: boolean;
+  }> | null;
+};
+
+const staticExperiences: MarketplaceExperience[] = [
   {
     slug: 'san-luca-magno-kornati-telascica-private-tour',
     operatorSlug: 'san-luca-magno',
@@ -83,6 +119,96 @@ export const experiences: MarketplaceExperience[] = [
   },
 ];
 
-export function getExperienceBySlug(slug: string) {
-  return experiences.find((experience) => experience.slug === slug);
+export function getStaticExperienceBySlug(slug: string) {
+  return staticExperiences.find((experience) => experience.slug === slug);
+}
+
+export async function getMarketplaceExperienceBySlug(slug: string): Promise<MarketplaceExperience | undefined> {
+  const fallback = getStaticExperienceBySlug(slug);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) return fallback;
+
+  try {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+
+    const { data, error } = await supabase
+      .from('experiences')
+      .select(`
+        id,
+        slug,
+        title,
+        city,
+        region,
+        category,
+        experience_type,
+        duration_minutes,
+        max_guests,
+        base_price_cents,
+        currency,
+        pricing_unit,
+        short_description,
+        description,
+        included,
+        important_info,
+        meeting_point,
+        instant_booking,
+        operators!experiences_operator_id_fkey(name, slug, email, phone),
+        experience_images(url, alt_text, sort_order, is_cover)
+      `)
+      .eq('slug', slug)
+      .eq('status', 'active')
+      .maybeSingle();
+
+    if (error || !data) return fallback;
+
+    return mapMarketplaceRow(data as unknown as MarketplaceRow, fallback);
+  } catch {
+    return fallback;
+  }
+}
+
+function mapMarketplaceRow(row: MarketplaceRow, fallback?: MarketplaceExperience): MarketplaceExperience {
+  const images = [...(row.experience_images ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+  const cover = images.find((image) => image.is_cover) ?? images[0];
+  const description = row.description
+    ? row.description.split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean)
+    : fallback?.description ?? [];
+
+  return {
+    id: row.id,
+    slug: row.slug,
+    operatorSlug: row.operators?.slug ?? fallback?.operatorSlug ?? 'operator',
+    operatorName: row.operators?.name ?? fallback?.operatorName ?? 'Croatia360 partner',
+    title: row.title,
+    city: row.city,
+    region: row.region ?? fallback?.region ?? '',
+    category: row.category,
+    experienceType: row.experience_type,
+    durationMinutes: row.duration_minutes ?? fallback?.durationMinutes ?? 0,
+    maxGuests: row.max_guests ?? fallback?.maxGuests ?? 1,
+    basePriceCents: row.base_price_cents ?? undefined,
+    currency: row.currency === 'EUR' ? 'EUR' : fallback?.currency ?? 'EUR',
+    pricingUnit: row.pricing_unit,
+    heroImage: cover?.url ?? fallback?.heroImage ?? '',
+    gallery: images.length
+      ? images.map((image) => ({ url: image.url, alt: image.alt_text ?? row.title }))
+      : fallback?.gallery ?? [],
+    shortDescription: row.short_description ?? fallback?.shortDescription ?? '',
+    description,
+    included: toStringArray(row.included, fallback?.included),
+    importantInfo: toStringArray(row.important_info, fallback?.importantInfo),
+    meetingPoint: row.meeting_point ?? fallback?.meetingPoint ?? row.city,
+    contactEmail: row.operators?.email ?? fallback?.contactEmail ?? '',
+    contactPhone: row.operators?.phone ?? fallback?.contactPhone,
+    instantBooking: row.instant_booking,
+  };
+}
+
+function toStringArray(value: unknown, fallback: string[] = []): string[] {
+  if (!Array.isArray(value)) return fallback;
+  return value.filter((item): item is string => typeof item === 'string');
 }
