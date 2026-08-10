@@ -1,4 +1,5 @@
 import OperatorDashboard from '@/components/marketplace/OperatorDashboard';
+import OperatorBookingsPanel from '@/components/marketplace/OperatorBookingsPanel';
 
 interface OperatorPageProps {
   params: Promise<{ locale: string }>;
@@ -6,5 +7,11 @@ interface OperatorPageProps {
 
 export default async function OperatorPage({ params }: OperatorPageProps) {
   const { locale } = await params;
-  return <OperatorDashboard locale={locale} />;
+
+  return (
+    <>
+      <OperatorDashboard locale={locale} />
+      <OperatorBookingsPanel />
+    </>
+  );
 }
