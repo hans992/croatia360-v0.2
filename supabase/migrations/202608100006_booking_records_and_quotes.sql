@@ -19,6 +19,44 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_bookings_reference_unique
 
 DROP POLICY IF EXISTS "Operators update own bookings" ON bookings;
 
+-- Preserve accepted requests created before this migration by materializing them as bookings.
+INSERT INTO bookings (
+  inquiry_id,
+  experience_id,
+  user_id,
+  customer_name,
+  customer_email,
+  customer_phone,
+  service_date,
+  guests,
+  total_cents,
+  currency,
+  status,
+  payment_status,
+  booking_reference,
+  quote_status
+)
+SELECT
+  bi.id,
+  bi.experience_id,
+  bi.user_id,
+  bi.customer_name,
+  bi.customer_email,
+  bi.customer_phone,
+  bi.requested_date,
+  bi.guests,
+  e.base_price_cents,
+  COALESCE(e.currency, 'EUR'),
+  'pending',
+  'unpaid',
+  'C360-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10)),
+  CASE WHEN e.base_price_cents IS NULL THEN 'pending' ELSE 'quoted' END
+FROM booking_inquiries bi
+JOIN experiences e ON e.id = bi.experience_id
+WHERE bi.status = 'accepted'
+  AND NOT EXISTS (SELECT 1 FROM bookings b WHERE b.inquiry_id = bi.id)
+ON CONFLICT DO NOTHING;
+
 CREATE OR REPLACE FUNCTION operator_decide_inquiry(
   p_inquiry_id UUID,
   p_decision TEXT
