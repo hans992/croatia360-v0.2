@@ -6,9 +6,16 @@ import { Loader2 } from 'lucide-react';
 interface RequestBookingFormProps {
   experienceSlug: string;
   maxGuests: number;
+  initialDate?: string;
+  initialGuests?: number;
 }
 
-export default function RequestBookingForm({ experienceSlug, maxGuests }: RequestBookingFormProps) {
+export default function RequestBookingForm({
+  experienceSlug,
+  maxGuests,
+  initialDate,
+  initialGuests,
+}: RequestBookingFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -55,13 +62,17 @@ export default function RequestBookingForm({ experienceSlug, maxGuests }: Reques
     }
   }
 
+  const today = new Date().toISOString().slice(0, 10);
+  const safeDate = initialDate && initialDate >= today ? initialDate : undefined;
+  const safeGuests = initialGuests && initialGuests >= 1 && initialGuests <= maxGuests ? initialGuests : 2;
+
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
         <Field label="Ime i prezime" name="customerName" type="text" required />
         <Field label="Email" name="customerEmail" type="email" required />
         <Field label="Telefon" name="customerPhone" type="tel" />
-        <Field label="Željeni datum" name="requestedDate" type="date" required min={new Date().toISOString().slice(0, 10)} />
+        <Field label="Željeni datum" name="requestedDate" type="date" required min={today} defaultValue={safeDate} />
       </div>
 
       <label className="block text-sm font-medium">
@@ -71,7 +82,7 @@ export default function RequestBookingForm({ experienceSlug, maxGuests }: Reques
           type="number"
           min={1}
           max={maxGuests}
-          defaultValue={2}
+          defaultValue={safeGuests}
           required
           className="mt-1 w-full rounded-xl border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-primary/30"
         />
@@ -117,12 +128,14 @@ function Field({
   type,
   required = false,
   min,
+  defaultValue,
 }: {
   label: string;
   name: string;
   type: string;
   required?: boolean;
   min?: string;
+  defaultValue?: string;
 }) {
   return (
     <label className="block text-sm font-medium">
@@ -132,6 +145,7 @@ function Field({
         type={type}
         required={required}
         min={min}
+        defaultValue={defaultValue}
         className="mt-1 w-full rounded-xl border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-primary/30"
       />
     </label>
