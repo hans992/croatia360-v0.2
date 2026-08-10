@@ -1,4 +1,6 @@
 // src/app/[locale]/page.tsx
+import Link from 'next/link';
+import { ArrowRight, Sailboat } from 'lucide-react';
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 import InspireCard from '@/components/InspireCard';
@@ -87,10 +89,32 @@ export default async function HomePage(props: HomePageProps) {
 
   return (
     <>
-      {/* Hero with massive AI input + video background */}
       <HomeHero useVideo={true} imageUrl={heroImageUrl} />
 
-      {/* Inspiration cards - below the fold */}
+      <section className="container mx-auto px-4 pt-10 md:pt-14">
+        <div className="overflow-hidden rounded-3xl border bg-gradient-to-r from-sky-50 via-background to-cyan-50 p-6 shadow-sm dark:from-sky-950/30 dark:via-background dark:to-cyan-950/20 md:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-2xl">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-3 py-1 text-sm font-medium text-sky-700 dark:text-sky-300">
+                <Sailboat className="h-4 w-4" />
+                Croatia360 Experiences
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Boat tours & private charters in Zadar</h2>
+              <p className="mt-3 text-muted-foreground">
+                Browse real local operators, filter by date and group size, and request a booking directly through Croatia360.
+              </p>
+            </div>
+            <Link
+              href={`/${effectiveLocale}/zadar/boat-tours`}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90"
+            >
+              Explore Zadar boat tours
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 md:py-24 container mx-auto px-4" id="sara-ai-planner">
         <div className="mb-16">
           <h2 className="section-title mb-2">
