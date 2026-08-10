@@ -88,7 +88,20 @@ export async function listMarketplaceExperiences(filters: MarketplaceDiscoveryFi
     if (error || !data) return getFallbackListings(filters);
 
     const rows = data as unknown as DiscoveryRow[];
-    const blockedIds = filters.date ? await getBlockedExperienceIds(supabase, rows.map((row) => row.id), filters.date) : new Set<string>();
+    let blockedIds = new Set<string>();
+
+    if (filters.date && rows.length) {
+      const { data: blockedRows, error: availabilityError } = await supabase
+        .from('availability')
+        .select('experience_id,status')
+        .in('experience_id', rows.map((row) => row.id))
+        .eq('service_date', filters.date)
+        .in('status', ['sold_out', 'blocked']);
+
+      if (!availabilityError && blockedRows) {
+        blockedIds = new Set(blockedRows.map((item) => item.experience_id as string));
+      }
+    }
 
     return rows
       .filter((row) => !blockedIds.has(row.id))
@@ -105,7 +118,7 @@ export async function listMarketplaceExperiences(filters: MarketplaceDiscoveryFi
           durationMinutes: row.duration_minutes ?? 0,
           maxGuests: row.max_guests ?? 1,
           basePriceCents: row.base_price_cents ?? undefined,
-          currency: row.currency === 'EUR' ? 'EUR' : 'EUR',
+          currency: 'EUR' as const,
           pricingUnit: row.pricing_unit,
           heroImage: cover?.url ?? '',
           shortDescription: row.short_description ?? '',
@@ -115,24 +128,6 @@ export async function listMarketplaceExperiences(filters: MarketplaceDiscoveryFi
   } catch {
     return getFallbackListings(filters);
   }
-}
-
-async function getBlockedExperienceIds(
-  supabase: ReturnType<typeof createClient>,
-  experienceIds: string[],
-  date: string,
-): Promise<Set<string>> {
-  if (!experienceIds.length) return new Set();
-
-  const { data, error } = await supabase
-    .from('availability')
-    .select('experience_id,status')
-    .in('experience_id', experienceIds)
-    .eq('service_date', date)
-    .in('status', ['sold_out', 'blocked']);
-
-  if (error || !data) return new Set();
-  return new Set(data.map((item) => item.experience_id as string));
 }
 
 function getFallbackListings(filters: MarketplaceDiscoveryFilters): MarketplaceListing[] {
