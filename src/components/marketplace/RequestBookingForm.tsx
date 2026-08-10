@@ -2,10 +2,12 @@
 
 import { FormEvent, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { getMarketplaceCopy } from '@/lib/marketplace/copy';
 
 interface RequestBookingFormProps {
   experienceSlug: string;
   maxGuests: number;
+  locale: string;
   initialDate?: string;
   initialGuests?: number;
 }
@@ -13,9 +15,11 @@ interface RequestBookingFormProps {
 export default function RequestBookingForm({
   experienceSlug,
   maxGuests,
+  locale,
   initialDate,
   initialGuests,
 }: RequestBookingFormProps) {
+  const copy = getMarketplaceCopy(locale);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -49,14 +53,14 @@ export default function RequestBookingForm({
       const result = await response.json();
 
       if (!response.ok) {
-        setError(result.error ?? 'Upit nije moguće poslati. Pokušajte ponovno.');
+        setError(result.error ?? copy.genericError);
         return;
       }
 
-      setSuccess('Upit je zaprimljen. Operator sada može potvrditi dostupnost i konačnu cijenu.');
+      setSuccess(copy.success);
       form.reset();
     } catch {
-      setError('Došlo je do mrežne greške. Pokušajte ponovno.');
+      setError(copy.networkError);
     } finally {
       setSubmitting(false);
     }
@@ -69,14 +73,14 @@ export default function RequestBookingForm({
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-        <Field label="Ime i prezime" name="customerName" type="text" required />
-        <Field label="Email" name="customerEmail" type="email" required />
-        <Field label="Telefon" name="customerPhone" type="tel" />
-        <Field label="Željeni datum" name="requestedDate" type="date" required min={today} defaultValue={safeDate} />
+        <Field label={copy.name} name="customerName" type="text" required />
+        <Field label={copy.email} name="customerEmail" type="email" required />
+        <Field label={copy.phone} name="customerPhone" type="tel" />
+        <Field label={copy.desiredDate} name="requestedDate" type="date" required min={today} defaultValue={safeDate} />
       </div>
 
       <label className="block text-sm font-medium">
-        Broj gostiju
+        {copy.guestCount}
         <input
           name="guests"
           type="number"
@@ -89,12 +93,12 @@ export default function RequestBookingForm({
       </label>
 
       <label className="block text-sm font-medium">
-        Poruka operatoru
+        {copy.operatorMessage}
         <textarea
           name="message"
           rows={3}
           maxLength={2000}
-          placeholder="Posebne želje, vrijeme polaska ili pitanje..."
+          placeholder={copy.operatorMessagePlaceholder}
           className="mt-1 w-full resize-none rounded-xl border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-primary/30"
         />
       </label>
@@ -115,9 +119,9 @@ export default function RequestBookingForm({
         className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        {submitting ? 'Šaljem upit…' : 'Zatraži rezervaciju'}
+        {submitting ? copy.sending : copy.requestBooking}
       </button>
-      <p className="text-xs text-muted-foreground">Nema naplate dok operator ne potvrdi termin i konačnu cijenu.</p>
+      <p className="text-xs text-muted-foreground">{copy.noCharge}</p>
     </form>
   );
 }
