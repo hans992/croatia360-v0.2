@@ -2,7 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Anchor, CheckCircle2, Clock3, MapPin, Users } from 'lucide-react';
-import { getExperienceBySlug } from '@/lib/marketplace/experiences';
+import { getMarketplaceExperienceBySlug } from '@/lib/marketplace/experiences';
+import RequestBookingForm from '@/components/marketplace/RequestBookingForm';
 
 interface ExperiencePageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -10,11 +11,14 @@ interface ExperiencePageProps {
 
 export default async function ExperiencePage({ params }: ExperiencePageProps) {
   const { locale, slug } = await params;
-  const experience = getExperienceBySlug(slug);
+  const experience = await getMarketplaceExperienceBySlug(slug);
 
   if (!experience) notFound();
 
   const durationHours = Math.round((experience.durationMinutes / 60) * 10) / 10;
+  const formattedPrice = experience.basePriceCents
+    ? new Intl.NumberFormat(locale, { style: 'currency', currency: experience.currency }).format(experience.basePriceCents / 100)
+    : null;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -40,7 +44,7 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
+      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_380px] lg:px-8">
         <div className="space-y-12">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Fact icon={<Clock3 className="h-5 w-5" />} label={`${durationHours} h`} />
@@ -68,6 +72,15 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
             </ul>
           </div>
 
+          {experience.importantInfo.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-semibold">Važne informacije</h2>
+              <ul className="mt-4 space-y-3 text-muted-foreground">
+                {experience.importantInfo.map((item) => <li key={item}>• {item}</li>)}
+              </ul>
+            </div>
+          )}
+
           <div>
             <h2 className="text-2xl font-semibold">Galerija</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -82,23 +95,22 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
-            <p className="text-sm font-medium text-muted-foreground">Rezervacija</p>
+            <p className="text-sm font-medium text-muted-foreground">Request to book</p>
             <h2 className="mt-1 text-2xl font-semibold">Provjeri dostupnost</h2>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Ovaj proizvod koristi request-to-book model dok operator ne potvrdi datum i konačnu cijenu.
-            </p>
+            {formattedPrice ? (
+              <p className="mt-2 text-lg font-semibold">Od {formattedPrice} <span className="text-sm font-normal text-muted-foreground">/ {experience.pricingUnit}</span></p>
+            ) : (
+              <p className="mt-2 text-sm text-muted-foreground">Cijenu potvrđuje operator zajedno s dostupnošću.</p>
+            )}
             <dl className="mt-6 space-y-3 text-sm">
               <div className="flex justify-between gap-4"><dt>Polazak</dt><dd className="text-right font-medium">{experience.meetingPoint}</dd></div>
               <div className="flex justify-between gap-4"><dt>Kapacitet</dt><dd className="font-medium">{experience.maxGuests}</dd></div>
               <div className="flex justify-between gap-4"><dt>Trajanje</dt><dd className="font-medium">{durationHours} h</dd></div>
             </dl>
-            <a
-              href={`mailto:${experience.contactEmail}?subject=${encodeURIComponent(`Croatia360 upit: ${experience.title}`)}`}
-              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90"
-            >
-              Pošalji upit
-            </a>
-            <Link href={`/${locale}/explore`} className="mt-3 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">
+
+            <RequestBookingForm experienceSlug={experience.slug} maxGuests={experience.maxGuests} />
+
+            <Link href={`/${locale}/explore`} className="mt-4 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">
               Nastavi istraživati Hrvatsku
             </Link>
           </div>
