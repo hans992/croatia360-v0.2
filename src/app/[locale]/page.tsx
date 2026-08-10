@@ -1,8 +1,11 @@
 // src/app/[locale]/page.tsx
+import Link from 'next/link';
+import { ArrowRight, Sailboat } from 'lucide-react';
 import { getServerTranslations } from '@/lib/i18n/server';
 import { locales as appLocalesStringArray, defaultNS, fallbackLng, type Locale } from '@/lib/i18n/settings';
 import InspireCard from '@/components/InspireCard';
 import HomeHero from '@/components/HomeHero';
+import { getMarketplaceCopy } from '@/lib/marketplace/copy';
 
 interface PageParams {
   locale: string;
@@ -21,42 +24,10 @@ const gcsBaseUrl = "https://storage.googleapis.com/croatiasara2026/images/";
 const heroImageUrl = `${gcsBaseUrl}regions/dalmacija/Dubrovnik_wall_tour.jpg`;
 
 const inspirationItems = [
-  {
-    titleKey: 'inspiration_beaches_title',
-    descriptionKey: 'inspiration_beaches_description',
-    imageUrl: `${gcsBaseUrl}inspiring_beach.jpg`,
-    color1: '#0c4a6e',
-    color2: '#0369a1',
-    slug: 'beaches',
-    chatQuery: 'I want beaches'
-  },
-  {
-    titleKey: 'inspiration_culture_title',
-    descriptionKey: 'inspiration_culture_description',
-    imageUrl: `${gcsBaseUrl}inspiring_culture.jpg`,
-    color1: '#4c1d95',
-    color2: '#6d28d9',
-    slug: 'culture',
-    chatQuery: 'Culture and history'
-  },
-  {
-    titleKey: 'inspiration_nature_title',
-    descriptionKey: 'inspiration_nature_description',
-    imageUrl: `${gcsBaseUrl}inspiring_nature.jpg`,
-    color1: '#14532d',
-    color2: '#15803d',
-    slug: 'nature',
-    chatQuery: 'Best natural beauties'
-  },
-  {
-    titleKey: 'inspiration_food_title',
-    descriptionKey: 'inspiration_food_description',
-    imageUrl: `${gcsBaseUrl}inspiring_food.jpg`,
-    color1: '#9a3412',
-    color2: '#c2410c',
-    slug: 'food',
-    chatQuery: 'Gastronomy and wine'
-  }
+  { titleKey: 'inspiration_beaches_title', descriptionKey: 'inspiration_beaches_description', imageUrl: `${gcsBaseUrl}inspiring_beach.jpg`, color1: '#0c4a6e', color2: '#0369a1', slug: 'beaches', chatQuery: 'I want beaches' },
+  { titleKey: 'inspiration_culture_title', descriptionKey: 'inspiration_culture_description', imageUrl: `${gcsBaseUrl}inspiring_culture.jpg`, color1: '#4c1d95', color2: '#6d28d9', slug: 'culture', chatQuery: 'Culture and history' },
+  { titleKey: 'inspiration_nature_title', descriptionKey: 'inspiration_nature_description', imageUrl: `${gcsBaseUrl}inspiring_nature.jpg`, color1: '#14532d', color2: '#15803d', slug: 'nature', chatQuery: 'Best natural beauties' },
+  { titleKey: 'inspiration_food_title', descriptionKey: 'inspiration_food_description', imageUrl: `${gcsBaseUrl}inspiring_food.jpg`, color1: '#9a3412', color2: '#c2410c', slug: 'food', chatQuery: 'Gastronomy and wine' }
 ];
 
 export default async function HomePage(props: HomePageProps) {
@@ -73,13 +44,13 @@ export default async function HomePage(props: HomePageProps) {
   }
 
   const { t } = await getServerTranslations(effectiveLocale, defaultNS);
+  const marketplaceCopy = getMarketplaceCopy(effectiveLocale);
 
   if (!isLocaleFromParamsValid) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <p className="text-red-600 bg-red-100 border border-red-400 p-4 rounded-md">
-          {t('error_invalid_locale_message', { requestedLocale: resolvedParams?.locale, fallbackLocale: effectiveLocale }) ||
-            `Traženi jezik '${resolvedParams?.locale}' nije podržan. Prikazuje se ${effectiveLocale}.`}
+          {t('error_invalid_locale_message', { requestedLocale: resolvedParams?.locale, fallbackLocale: effectiveLocale }) || `Traženi jezik '${resolvedParams?.locale}' nije podržan. Prikazuje se ${effectiveLocale}.`}
         </p>
       </div>
     );
@@ -87,38 +58,37 @@ export default async function HomePage(props: HomePageProps) {
 
   return (
     <>
-      {/* Hero with massive AI input + video background */}
       <HomeHero useVideo={true} imageUrl={heroImageUrl} />
 
-      {/* Inspiration cards - below the fold */}
+      <section className="container mx-auto px-4 pt-10 md:pt-14">
+        <div className="overflow-hidden rounded-3xl border bg-gradient-to-r from-sky-50 via-background to-cyan-50 p-6 shadow-sm dark:from-sky-950/30 dark:via-background dark:to-cyan-950/20 md:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-2xl">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-3 py-1 text-sm font-medium text-sky-700 dark:text-sky-300">
+                <Sailboat className="h-4 w-4" /> {marketplaceCopy.homeEyebrow}
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">{marketplaceCopy.homeTitle}</h2>
+              <p className="mt-3 text-muted-foreground">{marketplaceCopy.homeDescription}</p>
+            </div>
+            <Link href={`/${effectiveLocale}/zadar/boat-tours`} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90">
+              {marketplaceCopy.homeCta}<ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 md:py-24 container mx-auto px-4" id="sara-ai-planner">
         <div className="mb-16">
-          <h2 className="section-title mb-2">
-            {t('inspiration_title')}
-          </h2>
-          <p className="text-body-lg text-muted-foreground mb-6 max-w-xl">
-            {t('inspiration_subtitle')}
-          </p>
+          <h2 className="section-title mb-2">{t('inspiration_title')}</h2>
+          <p className="text-body-lg text-muted-foreground mb-6 max-w-xl">{t('inspiration_subtitle')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {inspirationItems.map((item, i) => (
-                <div
-                  key={item.slug}
-                  className="animate-hero-slide-up"
-                  style={{ animationDelay: `${0.1 + i * 0.05}s`, animationFillMode: 'backwards' }}
-                >
-                  <InspireCard
-                    titleKey={item.titleKey}
-                    descriptionKey={item.descriptionKey}
-                    imageUrl={item.imageUrl}
-                    color1={item.color1}
-                    color2={item.color2}
-                    slug={item.slug}
-                    chatQuery={item.chatQuery}
-                  />
-                </div>
-              ))}
-            </div>
+            {inspirationItems.map((item, i) => (
+              <div key={item.slug} className="animate-hero-slide-up" style={{ animationDelay: `${0.1 + i * 0.05}s`, animationFillMode: 'backwards' }}>
+                <InspireCard titleKey={item.titleKey} descriptionKey={item.descriptionKey} imageUrl={item.imageUrl} color1={item.color1} color2={item.color2} slug={item.slug} chatQuery={item.chatQuery} />
+              </div>
+            ))}
           </div>
+        </div>
       </section>
     </>
   );
