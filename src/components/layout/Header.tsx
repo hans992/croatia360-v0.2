@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { User, Menu, X } from 'lucide-react';
-import React, { useState, useEffect } from 'react'; // React import
+import React, { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetClose } from '@/components/ui/sheet';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { supabase } from '@/lib/supabaseClient';
@@ -23,7 +23,8 @@ type SupabaseUser = {
 
 interface NavLinkItem {
   href: string;
-  labelKey: string;
+  labelKey?: string;
+  label?: string;
   isPrimary?: boolean;
 }
 
@@ -69,9 +70,11 @@ const Header = ({ locale }: HeaderProps) => {
 
   const navLinks: NavLinkItem[] = [
     { href: '/explore', labelKey: 'header_explore' },
+    { href: '/zadar/boat-tours', label: 'Boat tours' },
     { href: '/', labelKey: 'header_sara_ai', isPrimary: true },
   ];
   const userNavLinks: NavLinkItem[] = user ? [{ href: '/my-trip', labelKey: 'header_my_trip' }] : [];
+  const resolveLabel = (link: NavLinkItem) => link.label ?? (link.labelKey ? t(link.labelKey) : '');
 
   return (
     <header
@@ -87,13 +90,13 @@ const Header = ({ locale }: HeaderProps) => {
         </Link>
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link key={link.labelKey} href={`/${currentLocale}${link.href}`} className={`transition-all duration-200 ${link.isPrimary ? 'text-primary font-semibold hover:text-primary/90' : 'text-foreground/70 hover:text-foreground'}`}>
-              {t(link.labelKey)}
+            <Link key={link.href} href={`/${currentLocale}${link.href}`} className={`transition-all duration-200 ${link.isPrimary ? 'text-primary font-semibold hover:text-primary/90' : 'text-foreground/70 hover:text-foreground'}`}>
+              {resolveLabel(link)}
             </Link>
           ))}
           {userNavLinks.map((link) => (
-             <Link key={link.labelKey} href={`/${currentLocale}${link.href}`} className="transition-colors hover:text-primary text-foreground/80">
-              {t(link.labelKey)}
+             <Link key={link.href} href={`/${currentLocale}${link.href}`} className="transition-colors hover:text-primary text-foreground/80">
+              {resolveLabel(link)}
             </Link>
           ))}
         </nav>
@@ -106,11 +109,7 @@ const Header = ({ locale }: HeaderProps) => {
               <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary/10" onClick={async () => { await supabase.auth.signOut(); setUser(null); }}>{t('header_logout')}</Button>
             </div>
           ) : (
-            <Button
-              asChild
-              variant="default"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
+            <Button asChild variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <Link href={`/${currentLocale}/login`}>
                 <User className="h-5 w-5 mr-2" />
                 {t('header_login')}
@@ -122,15 +121,7 @@ const Header = ({ locale }: HeaderProps) => {
           <LanguageSwitcher currentLocale={currentLocale} />
           <ThemeSwitcher />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="text-foreground/80 hover:text-primary [touch-action:manipulation] min-w-[44px] min-h-[44px]"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? t('header_close_menu') : t('header_open_menu')}
-            >
+            <Button type="button" variant="ghost" size="icon" className="text-foreground/80 hover:text-primary [touch-action:manipulation] min-w-[44px] min-h-[44px]" onClick={() => setIsMobileMenuOpen((prev) => !prev)} aria-expanded={isMobileMenuOpen} aria-label={isMobileMenuOpen ? t('header_close_menu') : t('header_open_menu')}>
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
             <SheetContent side="right" className="w-[300px] sm:w-[320px] bg-background text-foreground p-0 flex flex-col">
@@ -139,8 +130,8 @@ const Header = ({ locale }: HeaderProps) => {
                   <SheetClose asChild><Button variant="ghost" size="icon" className="text-muted-foreground"><X className="h-6 w-6" /><span className="sr-only">{t('header_close_menu')}</span></Button></SheetClose>
                 </div>
                 <nav className="flex-grow flex flex-col space-y-1 p-4 text-base">
-                   {navLinks.map((link) => (<SheetClose key={link.labelKey} asChild><Link href={`/${currentLocale}${link.href}`} className={`block px-3 py-2 rounded-md hover:bg-muted transition-colors ${link.isPrimary ? 'text-primary font-semibold' : 'text-foreground/90'}`}>{t(link.labelKey)}</Link></SheetClose>))}
-                   {userNavLinks.map((link) => (<SheetClose key={link.labelKey} asChild><Link href={`/${currentLocale}${link.href}`} className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90">{t(link.labelKey)}</Link></SheetClose>))}
+                   {navLinks.map((link) => (<SheetClose key={link.href} asChild><Link href={`/${currentLocale}${link.href}`} className={`block px-3 py-2 rounded-md hover:bg-muted transition-colors ${link.isPrimary ? 'text-primary font-semibold' : 'text-foreground/90'}`}>{resolveLabel(link)}</Link></SheetClose>))}
+                   {userNavLinks.map((link) => (<SheetClose key={link.href} asChild><Link href={`/${currentLocale}${link.href}`} className="block px-3 py-2 rounded-md hover:bg-muted transition-colors text-foreground/90">{resolveLabel(link)}</Link></SheetClose>))}
                 </nav>
                 <div className="p-4 border-t border-border">
                   {!authChecked ? (<div className="h-8 w-full animate-pulse bg-muted rounded-md mb-2"></div>) : user ? (
@@ -150,11 +141,7 @@ const Header = ({ locale }: HeaderProps) => {
                       </div>
                   ) : (
                     <SheetClose asChild>
-                      <Button
-                        asChild
-                        variant="default"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                      >
+                      <Button asChild variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                         <Link href={`/${currentLocale}/login`} className="w-full">
                           <User className="h-5 w-5 mr-2" />
                           {t('login_register_button') || "Prijava / Registracija"}
