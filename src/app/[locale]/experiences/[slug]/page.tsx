@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Anchor, CheckCircle2, Clock3, MapPin, Users } from 'lucide-react';
 import { getMarketplaceExperienceBySlug } from '@/lib/marketplace/experiences';
 import RequestBookingForm from '@/components/marketplace/RequestBookingForm';
+import { getMarketplaceCopy } from '@/lib/marketplace/copy';
 
 interface ExperiencePageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -12,6 +13,7 @@ interface ExperiencePageProps {
 
 export default async function ExperiencePage({ params, searchParams }: ExperiencePageProps) {
   const { locale, slug } = await params;
+  const copy = getMarketplaceCopy(locale);
   const query = await searchParams;
   const experience = await getMarketplaceExperienceBySlug(slug);
 
@@ -28,13 +30,7 @@ export default async function ExperiencePage({ params, searchParams }: Experienc
   return (
     <main className="min-h-screen bg-background text-foreground">
       <section className="relative min-h-[62vh] overflow-hidden">
-        <Image
-          src={experience.heroImage}
-          alt={experience.title}
-          fill
-          priority
-          className="object-cover"
-        />
+        <Image src={experience.heroImage} alt={experience.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10" />
         <div className="relative z-10 mx-auto flex min-h-[62vh] max-w-6xl items-end px-4 pb-12 sm:px-6 lg:px-8">
           <div className="max-w-4xl text-white">
@@ -53,76 +49,49 @@ export default async function ExperiencePage({ params, searchParams }: Experienc
         <div className="space-y-12">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Fact icon={<Clock3 className="h-5 w-5" />} label={`${durationHours} h`} />
-            <Fact icon={<Users className="h-5 w-5" />} label={`Do ${experience.maxGuests} gostiju`} />
+            <Fact icon={<Users className="h-5 w-5" />} label={`${copy.upTo} ${experience.maxGuests}`} />
             <Fact icon={<MapPin className="h-5 w-5" />} label={experience.city} />
-            <Fact icon={<Anchor className="h-5 w-5" />} label="Privatno iskustvo" />
+            <Fact icon={<Anchor className="h-5 w-5" />} label={experience.experienceType === 'private' ? copy.privateTour : experience.experienceType === 'shared' ? copy.sharedTour : copy.boatRental} />
           </div>
 
           <div>
             <h2 className="text-2xl font-semibold">O iskustvu</h2>
-            <div className="mt-4 space-y-4 text-muted-foreground">
-              {experience.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
+            <div className="mt-4 space-y-4 text-muted-foreground">{experience.description.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           </div>
 
           <div>
             <h2 className="text-2xl font-semibold">Što je uključeno</h2>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-              {experience.included.map((item) => (
-                <li key={item} className="flex gap-3 rounded-xl border p-4">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
-                  <span>{item}</span>
-                </li>
-              ))}
+              {experience.included.map((item) => <li key={item} className="flex gap-3 rounded-xl border p-4"><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" /><span>{item}</span></li>)}
             </ul>
           </div>
 
-          {experience.importantInfo.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-semibold">Važne informacije</h2>
-              <ul className="mt-4 space-y-3 text-muted-foreground">
-                {experience.importantInfo.map((item) => <li key={item}>• {item}</li>)}
-              </ul>
-            </div>
-          )}
+          {experience.importantInfo.length > 0 && <div><h2 className="text-2xl font-semibold">Važne informacije</h2><ul className="mt-4 space-y-3 text-muted-foreground">{experience.importantInfo.map((item) => <li key={item}>• {item}</li>)}</ul></div>}
 
           <div>
             <h2 className="text-2xl font-semibold">Galerija</h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {experience.gallery.map((image) => (
-                <div key={image.url} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <Image src={image.url} alt={image.alt} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">{experience.gallery.map((image) => <div key={image.url} className="relative aspect-[4/3] overflow-hidden rounded-2xl"><Image src={image.url} alt={image.alt} fill className="object-cover" /></div>)}</div>
           </div>
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
-            <p className="text-sm font-medium text-muted-foreground">Request to book</p>
-            <h2 className="mt-1 text-2xl font-semibold">Provjeri dostupnost</h2>
+            <p className="text-sm font-medium text-muted-foreground">{copy.requestToBook}</p>
+            <h2 className="mt-1 text-2xl font-semibold">{copy.checkAvailability}</h2>
             {formattedPrice ? (
-              <p className="mt-2 text-lg font-semibold">Od {formattedPrice} <span className="text-sm font-normal text-muted-foreground">/ {experience.pricingUnit}</span></p>
+              <p className="mt-2 text-lg font-semibold">{copy.from} {formattedPrice} <span className="text-sm font-normal text-muted-foreground">/ {experience.pricingUnit}</span></p>
             ) : (
-              <p className="mt-2 text-sm text-muted-foreground">Cijenu potvrđuje operator zajedno s dostupnošću.</p>
+              <p className="mt-2 text-sm text-muted-foreground">{copy.operatorConfirmsPrice}</p>
             )}
             <dl className="mt-6 space-y-3 text-sm">
-              <div className="flex justify-between gap-4"><dt>Polazak</dt><dd className="text-right font-medium">{experience.meetingPoint}</dd></div>
-              <div className="flex justify-between gap-4"><dt>Kapacitet</dt><dd className="font-medium">{experience.maxGuests}</dd></div>
-              <div className="flex justify-between gap-4"><dt>Trajanje</dt><dd className="font-medium">{durationHours} h</dd></div>
+              <div className="flex justify-between gap-4"><dt>{copy.departure}</dt><dd className="text-right font-medium">{experience.meetingPoint}</dd></div>
+              <div className="flex justify-between gap-4"><dt>{copy.capacity}</dt><dd className="font-medium">{experience.maxGuests}</dd></div>
+              <div className="flex justify-between gap-4"><dt>{copy.duration}</dt><dd className="font-medium">{durationHours} h</dd></div>
             </dl>
 
-            <RequestBookingForm
-              experienceSlug={experience.slug}
-              maxGuests={experience.maxGuests}
-              initialDate={initialDate}
-              initialGuests={initialGuests}
-            />
+            <RequestBookingForm experienceSlug={experience.slug} maxGuests={experience.maxGuests} locale={locale} initialDate={initialDate} initialGuests={initialGuests} />
 
-            <Link href={`/${locale}/zadar/boat-tours`} className="mt-4 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">
-              Natrag na Zadar boat tours
-            </Link>
+            <Link href={`/${locale}/zadar/boat-tours`} className="mt-4 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">{copy.backToBoats}</Link>
           </div>
         </aside>
       </section>
@@ -131,10 +100,5 @@ export default async function ExperiencePage({ params, searchParams }: Experienc
 }
 
 function Fact({ icon, label }: { icon: React.ReactNode; label: string }) {
-  return (
-    <div className="flex items-center gap-2 rounded-xl border bg-card p-4 text-sm font-medium">
-      {icon}
-      <span>{label}</span>
-    </div>
-  );
+  return <div className="flex items-center gap-2 rounded-xl border bg-card p-4 text-sm font-medium">{icon}<span>{label}</span></div>;
 }
