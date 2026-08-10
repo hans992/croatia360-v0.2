@@ -1,5 +1,5 @@
 -- Atomically accept/decline an inquiry as its owning operator.
--- Accepting a private request also blocks that experience/date from further discovery.
+-- Accepting a request also blocks that experience/date from further discovery.
 
 CREATE OR REPLACE FUNCTION operator_decide_inquiry(
   p_inquiry_id UUID,
@@ -18,20 +18,25 @@ BEGIN
     RAISE EXCEPTION 'Unsupported inquiry decision';
   END IF;
 
-  SELECT bi.*,
-         EXISTS (
-           SELECT 1
-           FROM experiences e
-           JOIN operators o ON o.id = e.operator_id
-           WHERE e.id = bi.experience_id
-             AND o.owner_user_id = auth.uid()
-         )
-    INTO v_inquiry, v_operator_owned
+  SELECT bi.*
+  INTO v_inquiry
   FROM booking_inquiries bi
   WHERE bi.id = p_inquiry_id
   FOR UPDATE;
 
-  IF v_inquiry.id IS NULL OR NOT v_operator_owned THEN
+  IF v_inquiry.id IS NULL THEN
+    RAISE EXCEPTION 'Inquiry not found or access denied';
+  END IF;
+
+  SELECT EXISTS (
+    SELECT 1
+    FROM experiences e
+    JOIN operators o ON o.id = e.operator_id
+    WHERE e.id = v_inquiry.experience_id
+      AND o.owner_user_id = auth.uid()
+  ) INTO v_operator_owned;
+
+  IF NOT v_operator_owned THEN
     RAISE EXCEPTION 'Inquiry not found or access denied';
   END IF;
 
