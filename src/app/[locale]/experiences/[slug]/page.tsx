@@ -7,10 +7,12 @@ import RequestBookingForm from '@/components/marketplace/RequestBookingForm';
 
 interface ExperiencePageProps {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ date?: string; guests?: string }>;
 }
 
-export default async function ExperiencePage({ params }: ExperiencePageProps) {
+export default async function ExperiencePage({ params, searchParams }: ExperiencePageProps) {
   const { locale, slug } = await params;
+  const query = await searchParams;
   const experience = await getMarketplaceExperienceBySlug(slug);
 
   if (!experience) notFound();
@@ -19,6 +21,9 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
   const formattedPrice = experience.basePriceCents
     ? new Intl.NumberFormat(locale, { style: 'currency', currency: experience.currency }).format(experience.basePriceCents / 100)
     : null;
+  const initialDate = query.date && /^\d{4}-\d{2}-\d{2}$/.test(query.date) ? query.date : undefined;
+  const parsedGuests = query.guests ? Number.parseInt(query.guests, 10) : undefined;
+  const initialGuests = parsedGuests && parsedGuests > 0 && parsedGuests <= experience.maxGuests ? parsedGuests : undefined;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -108,10 +113,15 @@ export default async function ExperiencePage({ params }: ExperiencePageProps) {
               <div className="flex justify-between gap-4"><dt>Trajanje</dt><dd className="font-medium">{durationHours} h</dd></div>
             </dl>
 
-            <RequestBookingForm experienceSlug={experience.slug} maxGuests={experience.maxGuests} />
+            <RequestBookingForm
+              experienceSlug={experience.slug}
+              maxGuests={experience.maxGuests}
+              initialDate={initialDate}
+              initialGuests={initialGuests}
+            />
 
-            <Link href={`/${locale}/explore`} className="mt-4 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">
-              Nastavi istraživati Hrvatsku
+            <Link href={`/${locale}/zadar/boat-tours`} className="mt-4 inline-flex w-full justify-center text-sm font-medium text-muted-foreground hover:text-foreground">
+              Natrag na Zadar boat tours
             </Link>
           </div>
         </aside>
