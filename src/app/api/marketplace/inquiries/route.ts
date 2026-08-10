@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
+import { sendOperatorNewInquiryEmail } from '@/lib/marketplace/notifications';
 
 const inquirySchema = z.object({
   experienceSlug: z.string().min(1).max(180),
@@ -13,6 +14,14 @@ const inquirySchema = z.object({
   website: z.string().max(0).optional(),
 });
 
+type ExperienceContext = {
+  id: string;
+  title: string;
+  max_guests: number | null;
+  status: string;
+  operators: { name: string; email: string | null } | null;
+};
+
 export async function POST(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -22,7 +31,6 @@ export async function POST(request: NextRequest) {
   }
 
   let parsed: z.infer<typeof inquirySchema>;
-
   try {
     parsed = inquirySchema.parse(await request.json());
   } catch (error) {
@@ -32,9 +40,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
   }
 
-  if (parsed.website) {
-    return NextResponse.json({ ok: true }, { status: 202 });
-  }
+  if (parsed.website) return NextResponse.json({ ok: true }, { status: 202 });
 
   const requested = new Date(`${parsed.requestedDate}T00:00:00Z`);
   const today = new Date();
@@ -47,9 +53,9 @@ export async function POST(request: NextRequest) {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  const { data: experience, error: experienceError } = await supabase
+  const { data: experienceData, error: experienceError } = await supabase
     .from('experiences')
-    .select('id, max_guests, status')
+    .select('id,title,max_guests,status,operators!experiences_operator_id_fkey(name,email)')
     .eq('slug', parsed.experienceSlug)
     .eq('status', 'active')
     .maybeSingle();
@@ -59,15 +65,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Could not verify this experience.' }, { status: 500 });
   }
 
-  if (!experience) {
+  if (!experienceData) {
     return NextResponse.json({ error: 'This experience is not currently available.' }, { status: 404 });
   }
 
+  const experience = experienceData as unknown as ExperienceContext;
   if (experience.max_guests && parsed.guests > experience.max_guests) {
-    return NextResponse.json(
-      { error: `This experience supports up to ${experience.max_guests} guests.` },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: `This experience supports up to ${experience.max_guests} guests.` }, { status: 400 });
   }
 
   const { data: inquiry, error: insertError } = await supabase
@@ -82,7 +86,7 @@ export async function POST(request: NextRequest) {
       message: parsed.message || null,
       status: 'new',
     })
-    .select('id, status, created_at')
+    .select('id,status,created_at')
     .single();
 
   if (insertError) {
@@ -90,13 +94,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Could not save your booking request.' }, { status: 500 });
   }
 
-  return NextResponse.json(
-    {
-      ok: true,
-      inquiryId: inquiry.id,
-      status: inquiry.status,
-      message: 'Your request was received. The operator can now confirm availability and price.',
-    },
-    { status: 201 },
-  );
+  let operatorNotified = false;
+  if (experience.operators?.email) {
+    try {
+      const result = await sendOperatorNewInquiryEmail({
+        to: experience.operators.email,
+        operatorName: experience.operators.name,
+        experienceTitle: experience.title,
+        customerName: parsed.customerName,
+        customerEmail: parsed.customerEmail.toLowerCase(),
+        customerPhone: parsed.customerPhone || null,
+        requestedDate: parsed.requestedDate,
+        guests: parsed.guests,
+        message: parsed.message || null,
+      });
+      operatorNotified = result.sent;
+    } catch (error) {
+      console.error('[marketplace/inquiries] operator notification failed', error);
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    inquiryId: inquiry.id,
+    status: inquiry.status,
+    operatorNotified,
+    message: 'Your request was received. The operator can now confirm availability and price.',
+  }, { status: 201 });
 }
