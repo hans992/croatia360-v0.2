@@ -1,6 +1,7 @@
 // app/api/chat/route.ts
 import { generateText, type ModelMessage } from 'ai';
 import { google } from '@ai-sdk/google';
+import { BRAND } from '@/lib/brand';
 
 function getErrorMessage(error: unknown): string {
   if (error == null) return 'Unknown error';
@@ -8,15 +9,11 @@ function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     const msg = error.message;
     if (msg.includes('exceeded your current quota') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('429')) {
-      return 'The AI service is temporarily unavailable due to usage limits. Please try again in a minute, or check your API quota at https://ai.dev/rate-limit';
+      return 'The AI service is temporarily unavailable due to usage limits. Please try again in a minute.';
     }
     return msg;
   }
-  try {
-    return JSON.stringify(error);
-  } catch {
-    return 'Could not stringify error object';
-  }
+  try { return JSON.stringify(error); } catch { return 'Could not stringify error object'; }
 }
 
 export const runtime = 'edge';
@@ -32,38 +29,31 @@ const localeToLanguage: Record<string, string> = {
   hu: 'Hungarian (magyar)',
 };
 
-const baseSystemPrompt = `Ti si SARA AI, prijateljski i izuzetno koristan asistent za planiranje 
-putovanja specijaliziran isključivo za Hrvatsku. Tvoj zadatak je kreirati detaljne i 
-personalizirane planove puta (itinerare) za korisnike i dati korisnicima tražene informacije. Analiziraj pažljivo korisnikove poruke 
-kako bi prikupila sve relevantne informacije: destinacija unutar Hrvatske, datumi putovanja, 
-broj putnika, budžet, interesi i preferencije (npr. plaže, povijest, gastronomija, avantura), 
-stil putovanja, ako nakon tri pokušaja ne dobiješ dovoljno odgovora, predloži plan prema dobivenim
-informacijama. Na temelju prikupljenih informacija, generiraj jasan i koristan plan puta, 
-dan po dan, predlažući specifične aktivnosti, lokacije i znamenitosti. Formatiraj odgovor 
-koristeći Markdown (naslovi za dane, liste za aktivnosti).
+const baseSystemPrompt = `Ti si SARA AI, concierge za ${BRAND.name}, marketplace za izlete brodom, privatne chartere i najam brodova na Jadranu.
 
-VAŽNO – Kada je poruka nejasna ili dvosmislena, UVIJEK pitaj za pojašnjenje prije nego što odgovoriš:
-- Ako je poruka vrlo kratka (npr. "hi", "help", "pomoć", "što?", "tell me more"), ljubazno pozdravi i pitaj što točno korisnik želi znati ili planirati u Hrvatskoj.
-- Ako poruka može imati više značenja ili nije jasno što korisnik traži, postavi 1–2 konkretna pitanja koja će ti pomoći razumjeti (npr. "Želiš li preporuke za plaže, smještaj ili aktivnosti?").
-- Ako ključne informacije nedostaju, postavi ljubazna i jasna pitanja, ali se potrudi razgovor održati prirodnim. Ne trebaš odmah ispitivati sva pitanja odjedanput kako ne bi korisnik stekao dojam da si prenapadna.
-- Nikad ne pretpostavljaj – bolje pitati nego dati odgovor na krivo pitanje.
+Tvoj primarni zadatak je pomoći korisniku odabrati vrstu iskustva na moru prema polazištu, datumu, broju gostiju, budžetu, željenom trajanju i interesima poput kupanja, skrivenih uvala, Kornata, Telašćice, snorkelanja, obiteljskog izleta ili privatnog chartera. ${BRAND.name} trenutno je posebno fokusiran na ponudu iz Zadra.
 
-Fokusiraj se isključivo na Hrvatsku. Budi entuzijastična i inspirativna! Kao takav model, nemoj odgovarati na poruke koje nisu vezane uz putovanja, posebno poruke koje se tiču politike i nacionalizma – u tim slučajevima ljubazno preusmjeri razgovor na putovanja u Hrvatsku. I nemoj boldati tekst.`;
+KLJUČNA PRAVILA ZA MARKETPLACE:
+- Nikada ne izmišljaj dostupnost, cijene, operatora, brod ili potvrđenu rezervaciju.
+- Ako nemaš stvarne podatke o dostupnosti ili cijeni, reci da ih treba provjeriti kroz aktualnu ponudu i potvrdu operatora.
+- Za konkretne Zadar boat upite usmjeri korisnika na /zadar/boat-tours kao mjesto gdje može vidjeti stvarne marketplace ponude i poslati request-to-book.
+- Objasni da slanje zahtjeva nije naplata. Operator prvo potvrđuje termin i konačnu cijenu, a eventualni depozit ide kroz siguran payment flow.
+- Ne tvrdi da je booking potvrđen samo zato što je request poslan.
+
+Sekundarno možeš pomagati s putovanjem po Hrvatskoj i obalnim destinacijama: itinerari, plaže, gastronomija, prijevoz, otoci i praktični savjeti. Kod planiranja prikupi samo informacije koje su potrebne i vodi razgovor prirodno.
+
+Kada je poruka nejasna ili vrlo kratka, postavi jedno kratko pitanje za pojašnjenje. Ako je zahtjev dovoljno jasan, odgovori direktno bez nepotrebnog ispitivanja. Fokus ostaje na Hrvatskoj i Jadranu. Ne odgovaraj na političke ili nacionalističke rasprave; ljubazno preusmjeri na putovanje. Nemoj koristiti bold tekst.`;
 
 function buildSystemPrompt(locale: string): string {
   const lang = localeToLanguage[locale] || localeToLanguage.en;
-  const languageInstruction = `KRITIČNO – Odgovaraj UVIJEK isključivo na jeziku: ${lang}. Korisnik pregleda stranicu na tom jeziku, pa sve tvoje odgovore piši na tom jeziku.\n\n`;
-  return languageInstruction + baseSystemPrompt;
+  return `KRITIČNO – Odgovaraj UVIJEK isključivo na jeziku: ${lang}.\n\n` + baseSystemPrompt;
 }
 
 export async function POST(req: Request) {
   let body: { messages?: { role?: string; content?: string }[]; locale?: string } = {};
   try {
     if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
-      return Response.json(
-        { error: 'Missing GOOGLE_GENERATIVE_AI_API_KEY in environment variables.' },
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      return Response.json({ error: 'Missing GOOGLE_GENERATIVE_AI_API_KEY in environment variables.' }, { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
 
     body = await req.json();
@@ -78,7 +68,7 @@ export async function POST(req: Request) {
       model: google('gemini-2.5-flash'),
       messages: modelMessages as ModelMessage[],
       system: buildSystemPrompt(locale),
-      maxRetries: 0, // Don't retry on 429 quota errors - each retry consumes more quota
+      maxRetries: 0,
     });
 
     return Response.json({ message: text });
@@ -93,26 +83,19 @@ export async function POST(req: Request) {
       errorStack: error instanceof Error ? error.stack : undefined,
     });
 
-    // When quota is exhausted, return a demo response so the chat UI still works for testing
     if (isQuotaError && process.env.CHAT_DEMO_MODE_ON_QUOTA === 'true') {
       const lastUserMsg = (Array.isArray(body?.messages) ? body.messages : []).filter((m: { role?: string }) => m.role === 'user').pop();
       const query = lastUserMsg?.content?.toLowerCase().trim() ?? '';
       const isUnclear = query.length < 15 || /^(hi|hello|hey|bok|zdravo|help|pomoć|što\??|what\??|tell me|reci mi|more|više)$/i.test(query);
-      const demoResponse =
-        isUnclear
-          ? "Hi! I'd love to help you plan your Croatian adventure. Could you tell me a bit more? For example: which region interests you, your travel dates, or what you enjoy (beaches, culture, nature, food)?\n\n*[Demo mode – API quota exceeded.]*"
-          : query.includes('beach') || query.includes('plaž') || query.includes('sea')
-            ? "Croatia has stunning beaches! Here are some top picks:\n\n**1. Zlatni Rat (Brač)** – Iconic golden horn beach\n**2. Dubrovnik beaches** – Banje, Lapad\n**3. Hvar** – Dubovica, Pokonji Dol\n**4. Korčula** – Lumbarda, Vela Pržina\n\n*[Demo mode – API quota exceeded. Add billing or wait for reset to get real AI responses.]*"
-            : query.includes('wine') || query.includes('vino')
-              ? "Croatian wine regions to explore:\n\n**1. Istria** – Malvazija, Teran\n**2. Dalmatia** – Plavac Mali, Pošip\n**3. Slavonia** – Graševina\n**4. Pelješac** – Dingač, Postup\n\n*[Demo mode – API quota exceeded.]*"
-              : "I'd love to help plan your Croatian trip! Tell me more: which region interests you, your travel dates, and what you enjoy (beaches, culture, nature, food).\n\n*[Demo mode – API quota exceeded. Enable billing at https://ai.google.dev or wait for quota reset for real AI responses.]*";
+      const demoResponse = isUnclear
+        ? `Hi! I can help you choose a boat trip or private charter from Zadar. Tell me your group size and what kind of day on the water you want.\n\n*[${BRAND.name} demo mode – AI quota exceeded.]*`
+        : query.includes('boat') || query.includes('brod') || query.includes('kornat') || query.includes('island')
+          ? `For real Zadar boat options, open the Boat tours section and compare the current marketplace experiences. I can still help you decide between a private tour, shared trip or rental based on your group and plans.\n\n*[${BRAND.name} demo mode – AI quota exceeded.]*`
+          : `I can help plan the coastal part of your Croatia trip and narrow down boat experiences. Tell me where you are staying, your dates and what you enjoy.\n\n*[${BRAND.name} demo mode – AI quota exceeded.]*`;
 
       return Response.json({ message: demoResponse });
     }
 
-    return Response.json(
-      { error: errMsg },
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return Response.json({ error: errMsg }, { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
