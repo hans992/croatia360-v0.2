@@ -3,6 +3,7 @@ import { createInstance } from 'i18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next/initReactI18next';
 import { getOptions, defaultNS, locales as appLocales, fallbackLng } from './settings';
+import { rebrandTranslationResource } from './rebrand';
 
 const initI18next = async (lng: string, ns: string | string[]) => {
   const i18nInstance = createInstance();
@@ -10,8 +11,8 @@ const initI18next = async (lng: string, ns: string | string[]) => {
     .use(initReactI18next)
     .use(resourcesToBackend(async (language: string, namespace: string) => {
       try {
-        // Path for Vercel build (assuming src is at root of build path0)
-        return await import(`../../../public/locales/${language}/${namespace}.json`);
+        const loaded = await import(`../../../public/locales/${language}/${namespace}.json`);
+        return rebrandTranslationResource(loaded.default ?? loaded);
       } catch (error) {
         console.error(`Greška pri učitavanju prijevoda za ${language}/${namespace} na serveru:`, error);
         return {};
@@ -21,7 +22,6 @@ const initI18next = async (lng: string, ns: string | string[]) => {
   return i18nInstance;
 };
 
-// RENAMED from useTranslation to getServerTranslations
 export async function getServerTranslations(
   lng: string,
   ns: string | string[] = defaultNS,

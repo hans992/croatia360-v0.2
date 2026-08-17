@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CalendarDays, Check, Loader2, ShipWheel, X } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
+import { BRAND } from '@/lib/brand';
 
 type Operator = { id: string; name: string; slug: string; status: string };
 type Experience = { id: string; title: string; slug: string; max_guests: number | null; status: string };
@@ -178,12 +179,28 @@ export default function OperatorDashboard({ locale }: { locale: string }) {
   if (loading) return <div className="mx-auto flex min-h-[60vh] max-w-6xl items-center justify-center px-4"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
 
   if (!operator) {
-    return <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6"><div className="rounded-3xl border bg-card p-8 text-center shadow-sm"><ShipWheel className="mx-auto h-10 w-10 text-primary" /><h1 className="mt-4 text-3xl font-bold">Operator portal</h1><p className="mx-auto mt-3 max-w-xl text-muted-foreground">Sign in with the account linked to your Croatia360 operator profile. Operator access is granted only after your Supabase user is assigned to an approved operator record.</p><Link href={`/${locale}/login`} className="mt-6 inline-flex rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">Sign in</Link></div></main>;
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+        <div className="rounded-3xl border bg-card p-8 text-center shadow-sm">
+          <ShipWheel className="mx-auto h-10 w-10 text-primary" />
+          <h1 className="mt-4 text-3xl font-bold">{BRAND.name} operator portal</h1>
+          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">Sign in with the account linked to your {BRAND.name} operator profile. Access is granted only after your account is assigned to an approved operator.</p>
+          <Link href={`/${locale}/login`} className="mt-6 inline-flex rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">Sign in</Link>
+        </div>
+      </main>
+    );
   }
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-4 border-b pb-8 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-sm font-medium text-primary">Croatia360 operator portal</p><h1 className="mt-1 text-3xl font-bold tracking-tight">{operator.name}</h1><p className="mt-2 text-muted-foreground">Manage incoming booking requests and the dates customers can discover.</p></div><div className="rounded-2xl border bg-card px-5 py-3 text-sm"><span className="font-semibold">{openCount}</span> open requests</div></div>
+      <div className="flex flex-col gap-4 border-b pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-medium text-primary">{BRAND.name} operator portal</p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight">{operator.name}</h1>
+          <p className="mt-2 text-muted-foreground">Manage incoming booking requests, availability and customer decisions.</p>
+        </div>
+        <div className="rounded-2xl border bg-card px-5 py-3 text-sm"><span className="font-semibold">{openCount}</span> open requests</div>
+      </div>
 
       {error && <div className="mt-6 rounded-xl bg-destructive/10 p-4 text-sm text-destructive">{error}</div>}
       {notice && <div className="mt-6 rounded-xl bg-emerald-500/10 p-4 text-sm text-emerald-700 dark:text-emerald-400">{notice}</div>}

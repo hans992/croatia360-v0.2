@@ -1,117 +1,93 @@
-# Croatia360
+# AdriaticByBoat
 
-**Premium AI-powered travel guide for Croatia.** Your personalized assistant for discovering the wonders of Croatia—sophisticated, elegant, unforgettable.
+**Boat trips, private tours and rentals from trusted local operators on the Adriatic.**
 
-![Croatia360](https://storage.googleapis.com/croatiasara2026/images/regions/dalmacija/Dubrovnik_wall_tour.jpg)
+AdriaticByBoat is a request-to-book marketplace starting in Zadar. Travelers can discover real boat experiences, request a date, receive operator confirmation and a final quote, and pay a secure deposit through Stripe when required. SARA AI remains available as a concierge for choosing the right experience and planning the coastal part of a Croatia trip.
 
-## Features
+Production domain: `https://adriaticbyboat.com`
 
-- **SARA AI Chatbot** – AI travel assistant that creates personalized itineraries for Croatia. Ask about beaches, wine, culture, nature, or budget—SARA responds in your language.
-- **Multi-language support** – Croatian, English, German, Italian, French, Czech, Polish, and Hungarian.
-- **Inspiration cards** – Beaches, culture, nature, and gastronomy—each links to the chatbot with pre-filled queries.
-- **Explore destinations** – Browse regions (Dalmatia, Istria, Kvarner, etc.) with accommodation, restaurants, and activities.
-- **My Trip** – Save and manage your travel plans.
-- **Dark/Light theme** – Toggle between themes for comfortable browsing.
+## Core product
 
-## Tech Stack
+- **Zadar boat discovery** – Filter boat tours, private charters and rentals by date, group size and experience type.
+- **Request-to-book** – Customers submit a request without being charged upfront.
+- **Operator portal** – Local operators manage incoming requests and availability, accept/decline inquiries and prepare final quotes.
+- **Booking records** – Accepted requests become durable booking records with human-readable references.
+- **Stripe deposits** – Operators can send secure hosted Stripe Checkout links after the final quote is set. Payment state changes only from verified Stripe webhooks.
+- **Transactional email** – Operators receive new-request notifications; customers receive decision and payment emails.
+- **SARA AI concierge** – Helps users narrow down boat experiences without inventing availability or prices.
+- **Multi-language UI** – Croatian, English, German, Italian, French, Czech, Polish and Hungarian.
 
-- **Framework:** Next.js 16 (App Router)
-- **AI:** Vercel AI SDK + Google Gemini
-- **Styling:** Tailwind CSS
-- **i18n:** react-i18next
-- **Database:** Supabase (optional)
-- **UI:** Radix UI, shadcn/ui patterns
+## Tech stack
 
-## Prerequisites
+- Next.js 16 / React 19 / TypeScript
+- Tailwind CSS + Radix/shadcn patterns
+- Supabase Auth + Postgres + RLS
+- Stripe Checkout + verified webhooks
+- Vercel AI SDK + Google Gemini
+- react-i18next
+- Nodemailer / SMTP
+- Vercel Analytics
 
-- Node.js 18+
-- npm or pnpm
+## Environment
 
-## Getting Started
+```env
+# AI
+GOOGLE_GENERATIVE_AI_API_KEY=
 
-### 1. Clone the repository
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 
-```bash
-git clone https://github.com/hans992/croatia360-v0.2.git
-cd croatia360-v0.2
+# Transactional email
+SMTP_HOST=
+SMTP_PORT=465
+SMTP_SECURE=true
+EMAIL_USER=
+EMAIL_PASS=
+
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_DEPOSIT_PERCENT=20
 ```
 
-### 2. Install dependencies
+`STRIPE_DEPOSIT_PERCENT` must be explicitly configured between 1 and 100. The application intentionally does not choose a hidden default deposit percentage.
+
+Stripe webhook endpoint:
+
+```text
+https://adriaticbyboat.com/api/stripe/webhook
+```
+
+Subscribe at minimum to:
+
+- `checkout.session.completed`
+- `checkout.session.async_payment_succeeded`
+
+## Development
 
 ```bash
 npm install
-```
-
-### 3. Environment variables
-
-Create a `.env.local` file in the project root:
-
-```env
-# Required for SARA AI chatbot
-GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_api_key
-
-# Optional: Demo mode when API quota is exceeded
-# CHAT_DEMO_MODE_ON_QUOTA=true
-
-# Optional: Supabase (for auth, database)
-# NEXT_PUBLIC_SUPABASE_URL=
-# NEXT_PUBLIC_SUPABASE_ANON_KEY=
-```
-
-Get a Gemini API key at [Google AI Studio](https://ai.google.dev/).
-
-### 4. Run the development server
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The app defaults to Croatian; switch language via the header.
+Production build:
 
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-
-## Deployment (Vercel)
-
-1. Push to GitHub and connect the repo to [Vercel](https://vercel.com).
-2. Add environment variables in the Vercel dashboard.
-3. Deploy. Vercel will auto-detect Next.js and run `next build`.
-
-## Project Structure
-
+```bash
+npm run build
 ```
-src/
-├── app/
-│   ├── [locale]/           # Locale-based routes
-│   │   ├── page.tsx        # Home (hero, inspiration, chatbot)
-│   │   ├── chat/           # Full chat experience
-│   │   ├── explore/        # Destinations
-│   │   ├── regions/        # Region pages
-│   │   └── ...
-│   └── api/
-│       └── chat/           # SARA AI API route
-├── components/
-│   ├── chatbot/            # Chatbot UI
-│   ├── HomeHero.tsx        # Hero with background image
-│   ├── InspireCard.tsx      # Inspiration category cards
-│   └── ...
-├── lib/
-│   └── i18n/               # i18n configuration
-└── styles/
-public/
-└── locales/                # Translation JSON files
-```
+
+## Database migrations
+
+Marketplace schema and workflow changes live under `supabase/migrations/`. Apply migrations in order before enabling the corresponding UI in production.
+
+The AdriaticByBoat rebrand preserves historical `C360-*` booking references. New bookings use `ABB-*` references after the rebrand migration is applied.
+
+## Repository note
+
+The repository is still named `croatia360-v0.2` for continuity with its project history. The public product and canonical domain are AdriaticByBoat / `adriaticbyboat.com`.
 
 ## License
 
 Private project. All rights reserved.
-
----
-
-Built with ❤️ for Croatia

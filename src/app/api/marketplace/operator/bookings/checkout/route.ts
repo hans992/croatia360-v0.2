@@ -3,8 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { getDepositPercent, getStripeClient } from '@/lib/marketplace/stripe';
 import { sendCustomerPaymentLinkEmail } from '@/lib/marketplace/notifications';
+import { BRAND, absoluteUrl } from '@/lib/brand';
 
-const schema = z.object({ bookingId: z.string().uuid() });
+const schema = z.object({ bookingId: z.string().uuid(), locale: z.string().min(2).max(8).optional() });
 
 type BookingRow = {
   id: string;
@@ -58,7 +59,8 @@ export async function POST(request: NextRequest) {
   catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : 'Deposit configuration is invalid.' }, { status: 503 }); }
 
   const depositCents = Math.max(1, Math.round((booking.total_cents * depositPercent) / 100));
-  const bookingReference = booking.booking_reference ?? `C360-${booking.id.slice(0, 8).toUpperCase()}`;
+  const bookingReference = booking.booking_reference ?? `${BRAND.bookingReferencePrefix}-${booking.id.slice(0, 8).toUpperCase()}`;
+  const locale = payload.locale && /^[a-z]{2}(?:-[A-Z]{2})?$/.test(payload.locale) ? payload.locale : 'en';
 
   try {
     const stripe = getStripeClient();
@@ -70,13 +72,16 @@ export async function POST(request: NextRequest) {
         price_data: {
           currency: booking.currency.toLowerCase(),
           unit_amount: depositCents,
-          product_data: { name: `Deposit — ${booking.experiences?.title ?? 'Croatia360 booking'}`, description: `Booking ${bookingReference} · ${booking.service_date}` },
+          product_data: {
+            name: `Deposit — ${booking.experiences?.title ?? `${BRAND.name} booking`}`,
+            description: `${BRAND.name} booking ${bookingReference} · ${booking.service_date}`,
+          },
         },
       }],
-      metadata: { booking_id: booking.id, booking_reference: bookingReference, deposit_cents: String(depositCents) },
-      payment_intent_data: { metadata: { booking_id: booking.id, booking_reference: bookingReference } },
-      success_url: `${request.nextUrl.origin}/en/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${request.nextUrl.origin}/en/payment/cancelled?booking=${encodeURIComponent(bookingReference)}`,
+      metadata: { booking_id: booking.id, booking_reference: bookingReference, deposit_cents: String(depositCents), brand: BRAND.name },
+      payment_intent_data: { metadata: { booking_id: booking.id, booking_reference: bookingReference, brand: BRAND.name } },
+      success_url: `${absoluteUrl(`/${locale}/payment/success`)}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${absoluteUrl(`/${locale}/payment/cancelled`)}?booking=${encodeURIComponent(bookingReference)}`,
     });
 
     if (!session.url) return NextResponse.json({ error: 'Stripe did not return a checkout URL.' }, { status: 502 });
@@ -98,7 +103,7 @@ export async function POST(request: NextRequest) {
       const result = await sendCustomerPaymentLinkEmail({
         to: booking.customer_email,
         customerName: booking.customer_name,
-        experienceTitle: booking.experiences?.title ?? 'Croatia360 experience',
+        experienceTitle: booking.experiences?.title ?? `${BRAND.name} experience`,
         bookingReference,
         serviceDate: booking.service_date,
         depositCents,
