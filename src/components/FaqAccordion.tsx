@@ -21,12 +21,12 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
   return (
     <Accordion type="single" collapsible className="w-full">
       {items.map((item, index) => (
-        <AccordionItem key={item.questionKey} value={`faq-${index}`}>
+        <AccordionItem key={item.questionKey ?? item.question ?? index} value={`faq-${index}`}>
           <AccordionTrigger className="text-left">
-            {t(item.questionKey)}
+            {item.question ?? t(item.questionKey ?? '')}
           </AccordionTrigger>
           <AccordionContent className="text-muted-foreground">
-            {t(item.answerKey)}
+            {item.answer ?? t(item.answerKey ?? '')}
           </AccordionContent>
         </AccordionItem>
       ))}
