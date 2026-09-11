@@ -110,7 +110,9 @@ public/
 
 ## License
 
-Private project. All rights reserved.
+Copyright © 2025–2026 Damir Andrijanić. All rights reserved.
+
+The source is publicly viewable for portfolio and evaluation purposes only. No permission is granted to copy, modify, distribute, sublicense, deploy, host, or use it commercially without prior written permission. See [LICENSE](./LICENSE).
 
 ---
 
